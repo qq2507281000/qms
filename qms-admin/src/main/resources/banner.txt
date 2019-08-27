@@ -1,0 +1,19 @@
+Application Version: ${qcloud.version}
+Spring Boot Version: ${spring-boot.version}
+${AnsiColor.MAGENTA}
+ _______  _______  _        _______           ______
+(  ___  )(  ____ \( \      (  ___  )|\     /|(  __  \
+| (   ) || (    \/| (      | (   ) || )   ( || (  \  )
+| |   | || |      | |      | |   | || |   | || |   ) |
+| |   | || |      | |      | |   | || |   | || |   | |
+| | /\| || |      | |      | |   | || |   | || |   ) |
+| (_\ \ || (____/\| (____/\| (___) || (___) || (__/  )
+(____\/_)(_______/(_______/(_______)(_______)(______/
+
+                 www.qcloud.com
+
+        Qcloud Microservice Architecture
+
+${AnsiColor.BLACK}
+
+
