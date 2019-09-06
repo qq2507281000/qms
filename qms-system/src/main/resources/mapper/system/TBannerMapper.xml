@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TBannerMapper">
+    
+    <resultMap type="TBanner" id="TBannerResult">
+        <result property="id"    column="id"    />
+        <result property="img"    column="img"    />
+        <result property="url"    column="url"    />
+        <result property="targetType"    column="target_type"    />
+        <result property="available"    column="available"    />
+        <result property="sortKey"    column="sort_key"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTBannerVo">
+        select id, img, url, target_type, available, sort_key, flag, create_time, create_by, update_time, update_by from t_banner
+    </sql>
+
+    <select id="selectTBannerList" parameterType="TBanner" resultMap="TBannerResult">
+        <include refid="selectTBannerVo"/>
+        <where>  
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="targetType != null  and targetType != ''"> and target_type = #{targetType}</if>
+            <if test="available != null "> and available = #{available}</if>
+            <if test="sortKey != null "> and sort_key = #{sortKey}</if>
+            <if test="flag != null "> and flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectTBannerById" parameterType="String" resultMap="TBannerResult">
+        <include refid="selectTBannerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTBanner" parameterType="TBanner">
+        insert into t_banner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="img != null  and img != ''">img,</if>
+            <if test="url != null  and url != ''">url,</if>
+            <if test="targetType != null  and targetType != ''">target_type,</if>
+            <if test="available != null ">available,</if>
+            <if test="sortKey != null ">sort_key,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="img != null  and img != ''">#{img},</if>
+            <if test="url != null  and url != ''">#{url},</if>
+            <if test="targetType != null  and targetType != ''">#{targetType},</if>
+            <if test="available != null ">#{available},</if>
+            <if test="sortKey != null ">#{sortKey},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTBanner" parameterType="TBanner">
+        update t_banner
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="img != null  and img != ''">img = #{img},</if>
+            <if test="url != null  and url != ''">url = #{url},</if>
+            <if test="targetType != null  and targetType != ''">target_type = #{targetType},</if>
+            <if test="available != null ">available = #{available},</if>
+            <if test="sortKey != null ">sort_key = #{sortKey},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTBannerById" parameterType="String">
+        delete from t_banner where id = #{id}
+    </delete>
+
+    <delete id="deleteTBannerByIds" parameterType="String">
+        delete from t_banner where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

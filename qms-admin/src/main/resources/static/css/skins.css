@@ -191,7 +191,7 @@
 
 /** 绿色主题 skin-green **/
 .skin-green .navbar {
-	background-color: #00a65a;
+	background-color: #52cfa6;
 }
 
 .skin-green .navbar-default .nav>li.selected>a,
@@ -233,7 +233,7 @@
 }
 
 .skin-green .navbar .sidebar-toggle:hover {
-	background-color: #008d4c
+	background-color: #40c5a4
 }
 
 @media ( max-width :767px) {
@@ -244,12 +244,12 @@
 		color: #fff
 	}
 	.skin-green .navbar .dropdown-menu li a:hover {
-		background: #008d4c
+		background: #40c5a4
 	}
 }
 
 .skin-green .logo {
-	background-color: #008d4c;
+	background-color: #40c5a4;
 	color: #fff;
 	border-bottom: 0 solid transparent
 }
@@ -259,7 +259,7 @@
 }
 
 .skin-green li.user-header {
-	background-color: #00a65a
+	background-color: #52cfa6
 }
 
 .skin-green .content-header {
@@ -285,7 +285,7 @@
 .skin-green .nav>li.active {
 	color: #fff;
 	background: #293846;
-	border-left: 3px solid #00a65a;
+	border-left: 3px solid #52cfa6;
 }
 
 .skin-green .nav>li.active>ul li.active {

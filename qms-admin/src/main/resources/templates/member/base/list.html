@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('会员基本信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="openId"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="wxName"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="mobile"/>
+                            </li>
+                            <li class="select-time">
+                                <p>积分：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRegTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRegTime]"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="star"/>
+                            </li>
+                            <li>
+                                <p>账户状态：</p>
+                                <select name="status">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>账户状态：</p>
+                                <input type="text" name="flag"/>
+                            </li>
+                            <li>
+                                <p>账户状态：</p>
+                                <input type="text" name="realName"/>
+                            </li>
+                            <li>
+                                <p>账户级别：</p>
+                                <input type="text" name="accountLevel"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="score"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="createUser"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="updateUser"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:member:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:member:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:member:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:member:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:member:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:member:remove')}]];
+        var prefix = ctx + "system/member";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "会员基本信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '积分',
+                    visible: false
+                },
+                {
+                    field : 'openId', 
+                    title : '积分'
+                },
+                {
+                    field : 'wxName', 
+                    title : '积分'
+                },
+                {
+                    field : 'mobile', 
+                    title : '积分'
+                },
+                {
+                    field : 'regTime', 
+                    title : '积分'
+                },
+                {
+                    field : 'star', 
+                    title : '积分'
+                },
+                {
+                    field : 'status', 
+                    title : '账户状态'
+                },
+                {
+                    field : 'flag', 
+                    title : '账户状态'
+                },
+                {
+                    field : 'realName', 
+                    title : '账户状态'
+                },
+                {
+                    field : 'accountLevel', 
+                    title : '账户级别'
+                },
+                {
+                    field : 'score', 
+                    title : '积分'
+                },
+                {
+                    field : 'createUser', 
+                    title : '积分'
+                },
+                {
+                    field : 'updateUser', 
+                    title : '积分'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

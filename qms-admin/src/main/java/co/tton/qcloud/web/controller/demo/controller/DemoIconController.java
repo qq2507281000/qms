@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/demo/icon")
+@RequestMapping("/admin/demo/icon")
 public class DemoIconController
 {
     private String prefix = "demo/icon";

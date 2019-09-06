@@ -14,7 +14,7 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/demo/form")
+@RequestMapping("/admin/demo/form")
 public class DemoFormController
 {
     private String prefix = "demo/form";

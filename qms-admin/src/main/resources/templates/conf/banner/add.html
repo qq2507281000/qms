@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增首页滚动广告')" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+</head>
+<body class="white-bg">
+    <div class="container-div">
+        <form id="form-banner-add" class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="form-group">
+                        <label class="control-label"><h5>广告图片</h5></label>
+                        <div class="file-loading">
+                            <input name="img" class="file" type="file" multiple data-min-file-count="1" data-theme="fas">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>跳转地址：</label>
+                        <div class="col-sm-8">
+                            <input name="url" placeholder="请输入跳转地址" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>跳转类型：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+                                <select name="targetType" class="form-control m-b" th:with="type=${@dict.getType('redirect_type')}">
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>排序键值：</label>
+                        <div class="col-sm-8">
+                            <input name="sortKey" placeholder="请输入排序键值" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>是否可用：</label>
+                        <div class="col-sm-8">
+                            <label class="toggle-switch switch-solid">
+                                <input type="checkbox" name="params[availableText]" checked>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <script type="text/javascript">
+        var prefix = "/conf/banner";
+        $("#form-banner-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-banner-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

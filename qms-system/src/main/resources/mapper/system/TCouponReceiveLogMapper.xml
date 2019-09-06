@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TCouponReceiveLogMapper">
+    
+    <resultMap type="TCouponReceiveLog" id="TCouponReceiveLogResult">
+        <result property="id"    column="id"    />
+        <result property="couponId"    column="coupon_id"    />
+        <result property="sno"    column="sno"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="faceValue"    column="face_value"    />
+        <result property="avaBeginTime"    column="ava_begin_time"    />
+        <result property="avaEndTime"    column="ava_end_time"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTCouponReceiveLogVo">
+        select id, coupon_id, sno, member_id, received_time, face_value, ava_begin_time, ava_end_time, flag, create_time, create_by, update_time, update_by from t_coupon_receive_log
+    </sql>
+
+    <select id="selectTCouponReceiveLogList" parameterType="TCouponReceiveLog" resultMap="TCouponReceiveLogResult">
+        <include refid="selectTCouponReceiveLogVo"/>
+        <where>  
+            <if test="couponId != null  and couponId != ''"> and coupon_id = #{couponId}</if>
+            <if test="sno != null  and sno != ''"> and sno = #{sno}</if>
+            <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="faceValue != null  and faceValue != ''"> and face_value = #{faceValue}</if>
+            <if test="avaBeginTime != null "> and ava_begin_time = #{avaBeginTime}</if>
+            <if test="avaEndTime != null "> and ava_end_time = #{avaEndTime}</if>
+            <if test="flag != null "> and flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectTCouponReceiveLogById" parameterType="String" resultMap="TCouponReceiveLogResult">
+        <include refid="selectTCouponReceiveLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTCouponReceiveLog" parameterType="TCouponReceiveLog">
+        insert into t_coupon_receive_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="couponId != null  and couponId != ''">coupon_id,</if>
+            <if test="sno != null  and sno != ''">sno,</if>
+            <if test="memberId != null  and memberId != ''">member_id,</if>
+            <if test="receivedTime != null ">received_time,</if>
+            <if test="faceValue != null  and faceValue != ''">face_value,</if>
+            <if test="avaBeginTime != null ">ava_begin_time,</if>
+            <if test="avaEndTime != null ">ava_end_time,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="couponId != null  and couponId != ''">#{couponId},</if>
+            <if test="sno != null  and sno != ''">#{sno},</if>
+            <if test="memberId != null  and memberId != ''">#{memberId},</if>
+            <if test="receivedTime != null ">#{receivedTime},</if>
+            <if test="faceValue != null  and faceValue != ''">#{faceValue},</if>
+            <if test="avaBeginTime != null ">#{avaBeginTime},</if>
+            <if test="avaEndTime != null ">#{avaEndTime},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTCouponReceiveLog" parameterType="TCouponReceiveLog">
+        update t_coupon_receive_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="couponId != null  and couponId != ''">coupon_id = #{couponId},</if>
+            <if test="sno != null  and sno != ''">sno = #{sno},</if>
+            <if test="memberId != null  and memberId != ''">member_id = #{memberId},</if>
+            <if test="receivedTime != null ">received_time = #{receivedTime},</if>
+            <if test="faceValue != null  and faceValue != ''">face_value = #{faceValue},</if>
+            <if test="avaBeginTime != null ">ava_begin_time = #{avaBeginTime},</if>
+            <if test="avaEndTime != null ">ava_end_time = #{avaEndTime},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTCouponReceiveLogById" parameterType="String">
+        delete from t_coupon_receive_log where id = #{id}
+    </delete>
+
+    <delete id="deleteTCouponReceiveLogByIds" parameterType="String">
+        delete from t_coupon_receive_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

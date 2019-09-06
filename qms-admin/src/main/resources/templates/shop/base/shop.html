@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('商家信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>商家名称：</p>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <p>商家副标题：</p>
+                                <input type="text" name="subject"/>
+                            </li>
+                            <li>
+                                <p>区域名称：</p>
+                                <input type="text" name="regionName"/>
+                            </li>
+                            <li>
+                                <p>封面图片：</p>
+                                <input type="text" name="coverImg"/>
+                            </li>
+                            <li>
+                                <p>是否推荐：</p>
+                                <input type="text" name="suggest"/>
+                            </li>
+                            <li>
+                                <p>排序键值：</p>
+                                <input type="text" name="sortKey"/>
+                            </li>
+                            <li>
+                                <p>排序权重：</p>
+                                <input type="text" name="sortWeight"/>
+                            </li>
+                            <li>
+                                <p>开始营业时间：</p>
+                                <input type="text" name="shopHoursBegin"/>
+                            </li>
+                            <li>
+                                <p>结束营业时间：</p>
+                                <input type="text" name="shopHoursEnd"/>
+                            </li>
+                            <li>
+                                <p>商家级别：</p>
+                                <input type="text" name="level"/>
+                            </li>
+                            <li>
+                                <p>商家星级：</p>
+                                <input type="text" name="stars"/>
+                            </li>
+                            <li>
+                                <p>商家座机：</p>
+                                <input type="text" name="telephone"/>
+                            </li>
+                            <li>
+                                <p>商家手机：</p>
+                                <input type="text" name="mobile"/>
+                            </li>
+                            <li>
+                                <p>联系人姓名：</p>
+                                <input type="text" name="contractName"/>
+                            </li>
+                            <li>
+                                <p>微信号：</p>
+                                <input type="text" name="wechatNo"/>
+                            </li>
+                            <li>
+                                <p>微信公众平台：</p>
+                                <input type="text" name="wechatPlatform"/>
+                            </li>
+                            <li>
+                                <p>个人二维码图片：</p>
+                                <input type="text" name="wechatNoImg"/>
+                            </li>
+                            <li>
+                                <p>微信公众号图片：</p>
+                                <input type="text" name="wechatPlatformImg"/>
+                            </li>
+                            <li>
+                                <p>是否显示微信信息：</p>
+                                <input type="text" name="wechatShow"/>
+                            </li>
+                            <li>
+                                <p>是否可用：</p>
+                                <input type="text" name="available"/>
+                            </li>
+                            <li>
+                                <p>是否可用：</p>
+                                <input type="text" name="flag"/>
+                            </li>
+                            <li>
+                                <p>是否可用：</p>
+                                <input type="text" name="createUser"/>
+                            </li>
+                            <li>
+                                <p>是否可用：</p>
+                                <input type="text" name="updateUser"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:shop:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:shop:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:shop:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:shop:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:base:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:base:remove')}]];
+        var prefix = ctx + "system/shop";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "商家信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '是否可用',
+                    visible: false
+                },
+                {
+                    field : 'name', 
+                    title : '商家名称'
+                },
+                {
+                    field : 'subject', 
+                    title : '商家副标题'
+                },
+                {
+                    field : 'summary', 
+                    title : '商家描述'
+                },
+                {
+                    field : 'regionName', 
+                    title : '区域名称'
+                },
+                {
+                    field : 'coverImg', 
+                    title : '封面图片'
+                },
+                {
+                    field : 'suggest', 
+                    title : '是否推荐'
+                },
+                {
+                    field : 'sortKey', 
+                    title : '排序键值'
+                },
+                {
+                    field : 'sortWeight', 
+                    title : '排序权重'
+                },
+                {
+                    field : 'address', 
+                    title : '地理位置'
+                },
+                {
+                    field : 'shopHoursBegin', 
+                    title : '开始营业时间'
+                },
+                {
+                    field : 'shopHoursEnd', 
+                    title : '结束营业时间'
+                },
+                {
+                    field : 'level', 
+                    title : '商家级别'
+                },
+                {
+                    field : 'stars', 
+                    title : '商家星级'
+                },
+                {
+                    field : 'htmlContent', 
+                    title : 'HTML描述'
+                },
+                {
+                    field : 'telephone', 
+                    title : '商家座机'
+                },
+                {
+                    field : 'mobile', 
+                    title : '商家手机'
+                },
+                {
+                    field : 'contractName', 
+                    title : '联系人姓名'
+                },
+                {
+                    field : 'wechatNo', 
+                    title : '微信号'
+                },
+                {
+                    field : 'wechatPlatform', 
+                    title : '微信公众平台'
+                },
+                {
+                    field : 'wechatNoImg', 
+                    title : '个人二维码图片'
+                },
+                {
+                    field : 'wechatPlatformImg', 
+                    title : '微信公众号图片'
+                },
+                {
+                    field : 'wechatShow', 
+                    title : '是否显示微信信息'
+                },
+                {
+                    field : 'available', 
+                    title : '是否可用'
+                },
+                {
+                    field : 'flag', 
+                    title : '是否可用'
+                },
+                {
+                    field : 'createUser', 
+                    title : '是否可用'
+                },
+                {
+                    field : 'updateUser', 
+                    title : '是否可用'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

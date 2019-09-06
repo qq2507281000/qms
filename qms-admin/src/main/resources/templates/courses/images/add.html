@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增课程图片 建议使用minio')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-images-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商家Id：</label>
+                <div class="col-sm-8">
+                    <input name="shopId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">课程Id：</label>
+                <div class="col-sm-8">
+                    <input name="coursesId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">课程图片地址：</label>
+                <div class="col-sm-8">
+                    <textarea name="imageUrl" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">排序键值：</label>
+                <div class="col-sm-8">
+                    <input name="sortKey" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">排序键值：</label>
+                <div class="col-sm-8">
+                    <input name="flag" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">排序键值：</label>
+                <div class="col-sm-8">
+                    <input name="createUser" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">排序键值：</label>
+                <div class="col-sm-8">
+                    <input name="updateUser" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/images"
+        $("#form-images-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-images-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

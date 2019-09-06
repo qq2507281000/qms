@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/demo/report")
+@RequestMapping("/admin/demo/report")
 public class DemoReportController
 {
     private String prefix = "demo/report";
