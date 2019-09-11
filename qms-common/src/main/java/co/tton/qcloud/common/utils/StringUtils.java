@@ -2,6 +2,8 @@ package co.tton.qcloud.common.utils;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
+
 import co.tton.qcloud.common.core.text.StrFormatter;
 
 /**
@@ -394,5 +396,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             }
         }
         return sb.toString();
+    }
+
+    public static String genericId(){
+        String uuid = UUID.randomUUID().toString();
+        return StringUtils.replace(uuid,"-","");
     }
 }
