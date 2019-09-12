@@ -27,7 +27,7 @@ import co.tton.qcloud.system.service.ITShopCoursesService;
  * @date 2019-09-05
  */
 @Controller
-@RequestMapping("/shop/courses")
+@RequestMapping("/shop/courses/basic")
 public class TShopCoursesController extends BaseController
 {
     private String prefix = "shop/courses";
@@ -35,17 +35,17 @@ public class TShopCoursesController extends BaseController
     @Autowired
     private ITShopCoursesService tShopCoursesService;
 
-    @RequiresPermissions("shop:courses:view")
+    @RequiresPermissions("shop:courses:basic:view")
     @GetMapping()
     public String courses()
     {
-        return prefix + "/list";
+        return prefix + "/basic";
     }
 
     /**
      * 查询课程基本信息列表
      */
-    @RequiresPermissions("shop:courses:list")
+    @RequiresPermissions("shop:courses:basic:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(TShopCourses tShopCourses)
@@ -58,7 +58,7 @@ public class TShopCoursesController extends BaseController
     /**
      * 导出课程基本信息列表
      */
-    @RequiresPermissions("shop:courses:export")
+    @RequiresPermissions("shop:courses:basic:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(TShopCourses tShopCourses)
@@ -80,7 +80,7 @@ public class TShopCoursesController extends BaseController
     /**
      * 新增保存课程基本信息
      */
-    @RequiresPermissions("shop:courses:add")
+    @RequiresPermissions("shop:courses:basic:add")
     @Log(title = "课程基本信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -103,7 +103,7 @@ public class TShopCoursesController extends BaseController
     /**
      * 修改保存课程基本信息
      */
-    @RequiresPermissions("shop:courses:edit")
+    @RequiresPermissions("shop:courses:basic:edit")
     @Log(title = "课程基本信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -115,7 +115,7 @@ public class TShopCoursesController extends BaseController
     /**
      * 删除课程基本信息
      */
-    @RequiresPermissions("shop:courses:remove")
+    @RequiresPermissions("shop:courses:basic:remove")
     @Log(title = "课程基本信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
