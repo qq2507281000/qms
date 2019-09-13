@@ -27,10 +27,10 @@ import co.tton.qcloud.system.service.ITShopCoursesPriceService;
  * @date 2019-09-05
  */
 @Controller
-@RequestMapping("/courses/price")
+@RequestMapping("/courses")
 public class TShopCoursesPriceController extends BaseController
 {
-    private String prefix = "/courses/price";
+    private String prefix = "courses/price";
 
     @Autowired
     private ITShopCoursesPriceService tShopCoursesPriceService;
@@ -40,7 +40,7 @@ public class TShopCoursesPriceController extends BaseController
     public String price()
     {
         System.out.println("============>>>>>");
-        return prefix + "/list";
+        return prefix + "/courses";
     }
 
     /**
@@ -59,7 +59,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 导出课程价格列表
      */
-    @RequiresPermissions("shop:courses:price:export")
+    @RequiresPermissions("courses:price:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(TShopCoursesPrice tShopCoursesPrice)
@@ -81,7 +81,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 新增保存课程价格
      */
-    @RequiresPermissions("shop:courses:price:add")
+    @RequiresPermissions("courses:price:add")
     @Log(title = "课程价格", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -104,7 +104,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 修改保存课程价格
      */
-    @RequiresPermissions("shop:courses:price:edit")
+    @RequiresPermissions("courses:price:edit")
     @Log(title = "课程价格", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -116,7 +116,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 删除课程价格
      */
-    @RequiresPermissions("shop:courses:price:remove")
+    @RequiresPermissions("courses:price:remove")
     @Log(title = "课程价格", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
