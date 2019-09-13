@@ -134,7 +134,8 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:base:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:base:remove')}]];
-        var prefix = ctx + "system/shop";
+        // var prefix = ctx + "system/shop";
+        var prefix = "/shop";
 
         $(function() {
             var options = {
