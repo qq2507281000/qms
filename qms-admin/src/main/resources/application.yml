@@ -9,7 +9,9 @@ qcloud:
   # 实例演示开关
   demoEnabled: true
   # 文件路径 示例（ Windows配置D:/qcloud/uploadPath，Linux配置 /home/qcloud/uploadPath）
-  profile: /users/rain/qcloud/uploadPath
+#  profile: /users/rain/qcloud/uploadPath
+  profile: D:/
+
   # 获取ip地址开关
   addressEnabled: true
 

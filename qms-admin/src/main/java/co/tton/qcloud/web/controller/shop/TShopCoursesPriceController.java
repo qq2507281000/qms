@@ -23,29 +23,30 @@ import co.tton.qcloud.system.service.ITShopCoursesPriceService;
 /**
  * 课程价格Controller
  * 
- * @author qcloud
+ * @author qcloudF
  * @date 2019-09-05
  */
 @Controller
-@RequestMapping("/shop/courses/price")
+@RequestMapping("/courses/price")
 public class TShopCoursesPriceController extends BaseController
 {
-    private String prefix = "shop/price";
+    private String prefix = "/courses/price";
 
     @Autowired
     private ITShopCoursesPriceService tShopCoursesPriceService;
 
-    @RequiresPermissions("shop:courses:price:view")
+    @RequiresPermissions("courses:price:view")
     @GetMapping()
     public String price()
     {
+        System.out.println("============>>>>>");
         return prefix + "/list";
     }
 
     /**
      * 查询课程价格列表
      */
-    @RequiresPermissions("shop:courses:price:list")
+    @RequiresPermissions("courses:price:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(TShopCoursesPrice tShopCoursesPrice)
