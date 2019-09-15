@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TCouponMapper">
+    
+    <resultMap type="TCoupon" id="TCouponResult">
+        <result property="id"    column="id"    />
+        <result property="categoryLib"    column="category_lib"    />
+        <result property="sno"    column="sno"    />
+        <result property="shopLevel"    column="shop_level"    />
+        <result property="faceValue"    column="face_value"    />
+        <result property="avaBeginTime"    column="ava_begin_time"    />
+        <result property="avaEndTime"    column="ava_end_time"    />
+        <result property="useStatus"    column="use_status"    />
+        <result property="receiveStatus"    column="receive_status"    />
+        <result property="status"    column="status"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="batchNo"    column="batch_no"    />
+    </resultMap>
+
+    <sql id="selectTCouponVo">
+        select id, category_lib, sno, shop_level, face_value, ava_begin_time, ava_end_time, use_status, receive_status, status, flag, create_time, create_by, update_time, update_by, batch_no from t_coupon
+    </sql>
+
+    <select id="selectTCouponList" parameterType="TCoupon" resultMap="TCouponResult">
+        <include refid="selectTCouponVo"/>
+        <where>  
+            <if test="categoryLib != null  and categoryLib != ''"> and category_lib = #{categoryLib}</if>
+            <if test="sno != null  and sno != ''"> and sno = #{sno}</if>
+            <if test="shopLevel != null "> and shop_level = #{shopLevel}</if>
+            <if test="faceValue != null "> and face_value = #{faceValue}</if>
+            <if test="avaBeginTime != null "> and ava_begin_time = #{avaBeginTime}</if>
+            <if test="avaEndTime != null "> and ava_end_time = #{avaEndTime}</if>
+            <if test="useStatus != null  and useStatus != ''"> and use_status = #{useStatus}</if>
+            <if test="receiveStatus != null  and receiveStatus != ''"> and receive_status = #{receiveStatus}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="flag != null "> and flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="batchNo != null  and batchNo != ''"> and batch_no = #{batchNo}</if>
+        </where>
+    </select>
+    
+    <select id="selectTCouponById" parameterType="String" resultMap="TCouponResult">
+        <include refid="selectTCouponVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTCoupon" parameterType="TCoupon">
+        insert into t_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="categoryLib != null  and categoryLib != ''">category_lib,</if>
+            <if test="sno != null  and sno != ''">sno,</if>
+            <if test="shopLevel != null ">shop_level,</if>
+            <if test="faceValue != null ">face_value,</if>
+            <if test="avaBeginTime != null ">ava_begin_time,</if>
+            <if test="avaEndTime != null ">ava_end_time,</if>
+            <if test="useStatus != null  and useStatus != ''">use_status,</if>
+            <if test="receiveStatus != null  and receiveStatus != ''">receive_status,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="batchNo != null  and batchNo != ''">batch_no,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="categoryLib != null  and categoryLib != ''">#{categoryLib},</if>
+            <if test="sno != null  and sno != ''">#{sno},</if>
+            <if test="shopLevel != null ">#{shopLevel},</if>
+            <if test="faceValue != null ">#{faceValue},</if>
+            <if test="avaBeginTime != null ">#{avaBeginTime},</if>
+            <if test="avaEndTime != null ">#{avaEndTime},</if>
+            <if test="useStatus != null  and useStatus != ''">#{useStatus},</if>
+            <if test="receiveStatus != null  and receiveStatus != ''">#{receiveStatus},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="batchNo != null  and batchNo != ''">#{batchNo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTCoupon" parameterType="TCoupon">
+        update t_coupon
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryLib != null  and categoryLib != ''">category_lib = #{categoryLib},</if>
+            <if test="sno != null  and sno != ''">sno = #{sno},</if>
+            <if test="shopLevel != null ">shop_level = #{shopLevel},</if>
+            <if test="faceValue != null ">face_value = #{faceValue},</if>
+            <if test="avaBeginTime != null ">ava_begin_time = #{avaBeginTime},</if>
+            <if test="avaEndTime != null ">ava_end_time = #{avaEndTime},</if>
+            <if test="useStatus != null  and useStatus != ''">use_status = #{useStatus},</if>
+            <if test="receiveStatus != null  and receiveStatus != ''">receive_status = #{receiveStatus},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="batchNo != null  and batchNo != ''">batch_no = #{batchNo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTCouponById" parameterType="String">
+        delete from t_coupon where id = #{id}
+    </delete>
+
+    <delete id="deleteTCouponByIds" parameterType="String">
+        delete from t_coupon where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

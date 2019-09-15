@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TShopCoursesMapper">
+    
+    <resultMap type="TShopCourses" id="TShopCoursesResult">
+        <result property="id"    column="id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="title"    column="title"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="contentHtml"    column="content_html"    />
+        <result property="suggest"    column="suggest"    />
+        <result property="salesCount"    column="sales_count"    />
+        <result property="avaiable"    column="avaiable"    />
+        <result property="sortKey"    column="sort_key"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="sku"    column="sku"    />
+        <result property="useDiscount"    column="use_discount"    />
+    </resultMap>
+
+    <sql id="selectTShopCoursesVo">
+        select id, shop_id, title, sub_title, content_html, suggest, sales_count, avaiable, sort_key, flag, create_time, create_by, update_time, update_by, sku, use_discount from t_shop_courses
+    </sql>
+
+    <select id="selectTShopCoursesList" parameterType="TShopCourses" resultMap="TShopCoursesResult">
+        <include refid="selectTShopCoursesVo"/>
+        <where>  
+            <if test="shopId != null  and shopId != ''"> and shop_id = #{shopId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="subTitle != null  and subTitle != ''"> and sub_title = #{subTitle}</if>
+            <if test="contentHtml != null  and contentHtml != ''"> and content_html = #{contentHtml}</if>
+            <if test="suggest != null "> and suggest = #{suggest}</if>
+            <if test="salesCount != null "> and sales_count = #{salesCount}</if>
+            <if test="avaiable != null "> and avaiable = #{avaiable}</if>
+            <if test="sortKey != null "> and sort_key = #{sortKey}</if>
+            <if test="flag != null "> and flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="sku != null  and sku != ''"> and sku = #{sku}</if>
+            <if test="useDiscount != null "> and use_discount = #{useDiscount}</if>
+        </where>
+    </select>
+    
+    <select id="selectTShopCoursesById" parameterType="String" resultMap="TShopCoursesResult">
+        <include refid="selectTShopCoursesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTShopCourses" parameterType="TShopCourses">
+        insert into t_shop_courses
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="shopId != null  and shopId != ''">shop_id,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="subTitle != null  and subTitle != ''">sub_title,</if>
+            <if test="contentHtml != null ">content_html,</if>
+            <if test="suggest != null ">suggest,</if>
+            <if test="salesCount != null ">sales_count,</if>
+            <if test="avaiable != null ">avaiable,</if>
+            <if test="sortKey != null ">sort_key,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="sku != null  and sku != ''">sku,</if>
+            <if test="useDiscount != null ">use_discount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="shopId != null  and shopId != ''">#{shopId},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="subTitle != null  and subTitle != ''">#{subTitle},</if>
+            <if test="contentHtml != null ">#{contentHtml},</if>
+            <if test="suggest != null ">#{suggest},</if>
+            <if test="salesCount != null ">#{salesCount},</if>
+            <if test="avaiable != null ">#{avaiable},</if>
+            <if test="sortKey != null ">#{sortKey},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="sku != null  and sku != ''">#{sku},</if>
+            <if test="useDiscount != null ">#{useDiscount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTShopCourses" parameterType="TShopCourses">
+        update t_shop_courses
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''">shop_id = #{shopId},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="subTitle != null  and subTitle != ''">sub_title = #{subTitle},</if>
+            <if test="contentHtml != null ">content_html = #{contentHtml},</if>
+            <if test="suggest != null ">suggest = #{suggest},</if>
+            <if test="salesCount != null ">sales_count = #{salesCount},</if>
+            <if test="avaiable != null ">avaiable = #{avaiable},</if>
+            <if test="sortKey != null ">sort_key = #{sortKey},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="sku != null  and sku != ''">sku = #{sku},</if>
+            <if test="useDiscount != null ">use_discount = #{useDiscount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTShopCoursesById" parameterType="String">
+        delete from t_shop_courses where id = #{id}
+    </delete>
+
+    <delete id="deleteTShopCoursesByIds" parameterType="String">
+        delete from t_shop_courses where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

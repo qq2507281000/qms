@@ -11,39 +11,31 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>商家Id：</p>
-                                <input type="text" name="shopId"/>
+                                <p>${comment}：</p>
+                                <input type="text" name="orderId"/>
                             </li>
                             <li>
-                                <p>课程id：</p>
-                                <input type="text" name="coursesId"/>
+                                <p>${comment}：</p>
+                                <input type="text" name="paymentChannel"/>
                             </li>
                             <li>
-                                <p>星期：</p>
-                                <input type="text" name="wkNo"/>
+                                <p>${comment}：</p>
+                                <input type="text" name="serialNo"/>
                             </li>
                             <li>
-                                <p>上午下午(0,1)：</p>
-                                <input type="text" name="amFm"/>
+                                <p>${comment}：</p>
+                                <input type="text" name="remoteInfo"/>
                             </li>
                             <li>
-                                <p>开始时间(0700)：</p>
-                                <input type="text" name="bTime"/>
-                            </li>
-                            <li>
-                                <p>结束时间(1200)：</p>
-                                <input type="text" name="eTime"/>
-                            </li>
-                            <li>
-                                <p>结束时间(1200)：</p>
+                                <p>${comment}：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>${comment}：</p>
                                 <input type="text" name="createUser"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>${comment}：</p>
                                 <input type="text" name="updateUser"/>
                             </li>
                             <li>
@@ -56,16 +48,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:time:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:payment:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:time:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:payment:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:time:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:payment:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:time:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:payment:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -76,9 +68,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:time:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:time:remove')}]];
-        var prefix = "/shop/courses/time";
+        var editFlag = [[${@permission.hasPermi('system:payment:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:payment:remove')}]];
+        var prefix = ctx + "system/payment";
 
         $(function() {
             var options = {
@@ -93,44 +85,36 @@
                 },
                 {
                     field : 'id', 
-                    title : '结束时间(1200)',
+                    title : '${comment}',
                     visible: false
                 },
                 {
-                    field : 'shopId', 
-                    title : '商家Id'
+                    field : 'orderId', 
+                    title : '${comment}'
                 },
                 {
-                    field : 'coursesId', 
-                    title : '课程id'
+                    field : 'paymentChannel', 
+                    title : '${comment}'
                 },
                 {
-                    field : 'wkNo', 
-                    title : '星期'
+                    field : 'serialNo', 
+                    title : '${comment}'
                 },
                 {
-                    field : 'amFm', 
-                    title : '上午下午(0,1)'
-                },
-                {
-                    field : 'bTime', 
-                    title : '开始时间(0700)'
-                },
-                {
-                    field : 'eTime', 
-                    title : '结束时间(1200)'
+                    field : 'remoteInfo', 
+                    title : '${comment}'
                 },
                 {
                     field : 'flag', 
-                    title : '结束时间(1200)'
+                    title : '${comment}'
                 },
                 {
                     field : 'createUser', 
-                    title : '结束时间(1200)'
+                    title : '${comment}'
                 },
                 {
                     field : 'updateUser', 
-                    title : '结束时间(1200)'
+                    title : '${comment}'
                 },
                 {
                     title: '操作',

@@ -11,39 +11,41 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>商家Id：</p>
-                                <input type="text" name="shopId"/>
+                                <p>使用状态：</p>
+                                <input type="text" name="orderId"/>
                             </li>
                             <li>
-                                <p>课程id：</p>
+                                <p>使用状态：</p>
                                 <input type="text" name="coursesId"/>
                             </li>
                             <li>
-                                <p>星期：</p>
-                                <input type="text" name="wkNo"/>
+                                <p>使用状态：</p>
+                                <input type="text" name="timeId"/>
                             </li>
                             <li>
-                                <p>上午下午(0,1)：</p>
-                                <input type="text" name="amFm"/>
+                                <p>使用状态：</p>
+                                <input type="text" name="priceId"/>
                             </li>
                             <li>
-                                <p>开始时间(0700)：</p>
-                                <input type="text" name="bTime"/>
+                                <p>使用状态：</p>
+                                <input type="text" name="preRealPrice"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
-                                <input type="text" name="eTime"/>
+                                <p>使用状态：</p>
+                                <select name="useStatus">
+                                    <option value="">所有</option>
+                                </select>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>使用状态：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>使用状态：</p>
                                 <input type="text" name="createUser"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>使用状态：</p>
                                 <input type="text" name="updateUser"/>
                             </li>
                             <li>
@@ -56,16 +58,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:time:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:detail:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:time:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:detail:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:time:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:detail:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:time:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:detail:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -76,9 +78,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:time:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:time:remove')}]];
-        var prefix = "/shop/courses/time";
+        var editFlag = [[${@permission.hasPermi('system:detail:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:detail:remove')}]];
+        var prefix = ctx + "system/detail";
 
         $(function() {
             var options = {
@@ -93,44 +95,44 @@
                 },
                 {
                     field : 'id', 
-                    title : '结束时间(1200)',
+                    title : '使用状态',
                     visible: false
                 },
                 {
-                    field : 'shopId', 
-                    title : '商家Id'
+                    field : 'orderId', 
+                    title : '使用状态'
                 },
                 {
                     field : 'coursesId', 
-                    title : '课程id'
+                    title : '使用状态'
                 },
                 {
-                    field : 'wkNo', 
-                    title : '星期'
+                    field : 'timeId', 
+                    title : '使用状态'
                 },
                 {
-                    field : 'amFm', 
-                    title : '上午下午(0,1)'
+                    field : 'priceId', 
+                    title : '使用状态'
                 },
                 {
-                    field : 'bTime', 
-                    title : '开始时间(0700)'
+                    field : 'preRealPrice', 
+                    title : '使用状态'
                 },
                 {
-                    field : 'eTime', 
-                    title : '结束时间(1200)'
+                    field : 'useStatus', 
+                    title : '使用状态'
                 },
                 {
                     field : 'flag', 
-                    title : '结束时间(1200)'
+                    title : '使用状态'
                 },
                 {
                     field : 'createUser', 
-                    title : '结束时间(1200)'
+                    title : '使用状态'
                 },
                 {
                     field : 'updateUser', 
-                    title : '结束时间(1200)'
+                    title : '使用状态'
                 },
                 {
                     title: '操作',

@@ -78,7 +78,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:time:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:time:remove')}]];
-        var prefix = "/shop/courses/time";
+        var prefix = ctx + "system/time";
 
         $(function() {
             var options = {

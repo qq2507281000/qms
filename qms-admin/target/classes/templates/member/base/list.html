@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+    <th:block th:include="include :: header('会员基本信息列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,39 +11,55 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>商家Id：</p>
-                                <input type="text" name="shopId"/>
+                                <p>积分：</p>
+                                <input type="text" name="openId"/>
                             </li>
                             <li>
-                                <p>课程id：</p>
-                                <input type="text" name="coursesId"/>
+                                <p>积分：</p>
+                                <input type="text" name="wxName"/>
                             </li>
                             <li>
-                                <p>星期：</p>
-                                <input type="text" name="wkNo"/>
+                                <p>积分：</p>
+                                <input type="text" name="mobile"/>
+                            </li>
+                            <li class="select-time">
+                                <p>积分：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginRegTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRegTime]"/>
                             </li>
                             <li>
-                                <p>上午下午(0,1)：</p>
-                                <input type="text" name="amFm"/>
+                                <p>积分：</p>
+                                <input type="text" name="star"/>
                             </li>
                             <li>
-                                <p>开始时间(0700)：</p>
-                                <input type="text" name="bTime"/>
+                                <p>账户状态：</p>
+                                <select name="status">
+                                    <option value="">所有</option>
+                                </select>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
-                                <input type="text" name="eTime"/>
-                            </li>
-                            <li>
-                                <p>结束时间(1200)：</p>
+                                <p>账户状态：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>账户状态：</p>
+                                <input type="text" name="realName"/>
+                            </li>
+                            <li>
+                                <p>账户级别：</p>
+                                <input type="text" name="accountLevel"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
+                                <input type="text" name="score"/>
+                            </li>
+                            <li>
+                                <p>积分：</p>
                                 <input type="text" name="createUser"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>积分：</p>
                                 <input type="text" name="updateUser"/>
                             </li>
                             <li>
@@ -56,16 +72,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:time:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:member:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:time:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:member:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:time:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:member:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:time:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:member:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -76,9 +92,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:time:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:time:remove')}]];
-        var prefix = "/shop/courses/time";
+        var editFlag = [[${@permission.hasPermi('system:member:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:member:remove')}]];
+        var prefix = ctx + "system/member";
 
         $(function() {
             var options = {
@@ -87,50 +103,62 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "【请填写功能名称】",
+                modalName: "会员基本信息",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field : 'id', 
-                    title : '结束时间(1200)',
+                    title : '积分',
                     visible: false
                 },
                 {
-                    field : 'shopId', 
-                    title : '商家Id'
+                    field : 'openId', 
+                    title : '积分'
                 },
                 {
-                    field : 'coursesId', 
-                    title : '课程id'
+                    field : 'wxName', 
+                    title : '积分'
                 },
                 {
-                    field : 'wkNo', 
-                    title : '星期'
+                    field : 'mobile', 
+                    title : '积分'
                 },
                 {
-                    field : 'amFm', 
-                    title : '上午下午(0,1)'
+                    field : 'regTime', 
+                    title : '积分'
                 },
                 {
-                    field : 'bTime', 
-                    title : '开始时间(0700)'
+                    field : 'star', 
+                    title : '积分'
                 },
                 {
-                    field : 'eTime', 
-                    title : '结束时间(1200)'
+                    field : 'status', 
+                    title : '账户状态'
                 },
                 {
                     field : 'flag', 
-                    title : '结束时间(1200)'
+                    title : '账户状态'
+                },
+                {
+                    field : 'realName', 
+                    title : '账户状态'
+                },
+                {
+                    field : 'accountLevel', 
+                    title : '账户级别'
+                },
+                {
+                    field : 'score', 
+                    title : '积分'
                 },
                 {
                     field : 'createUser', 
-                    title : '结束时间(1200)'
+                    title : '积分'
                 },
                 {
                     field : 'updateUser', 
-                    title : '结束时间(1200)'
+                    title : '积分'
                 },
                 {
                     title: '操作',

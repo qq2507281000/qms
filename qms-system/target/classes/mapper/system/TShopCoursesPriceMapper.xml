@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TShopCoursesPriceMapper">
+    
+    <resultMap type="TShopCoursesPrice" id="TShopCoursesPriceResult">
+        <result property="id"    column="id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="coursesId"    column="courses_id"    />
+        <result property="price"    column="price"    />
+        <result property="l1Price"    column="l1_price"    />
+        <result property="l2Price"    column="l2_price"    />
+        <result property="l3Price"    column="l3_price"    />
+        <result property="l4Price"    column="l4_price"    />
+        <result property="l5Price"    column="l5_price"    />
+        <result property="l6Price"    column="l6_price"    />
+        <result property="l7Price"    column="l7_price"    />
+        <result property="l8Price"    column="l8_price"    />
+        <result property="l9Price"    column="l9_price"    />
+        <result property="specialPriceLevel"    column="special_price_level"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="perLimitBuy"    column="per_limit_buy"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTShopCoursesPriceVo">
+        select id, shop_id, courses_id, price, l1_price, l2_price, l3_price, l4_price, l5_price, l6_price, l7_price, l8_price, l9_price, special_price_level, sub_title, per_limit_buy, flag, create_time, create_by, update_time, update_by from t_shop_courses_price
+    </sql>
+
+    <select id="selectTShopCoursesPriceList" parameterType="TShopCoursesPrice" resultMap="TShopCoursesPriceResult">
+        <include refid="selectTShopCoursesPriceVo"/>
+        <where>  
+            <if test="shopId != null  and shopId != ''"> and shop_id = #{shopId}</if>
+            <if test="coursesId != null  and coursesId != ''"> and courses_id = #{coursesId}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="l1Price != null "> and l1_price = #{l1Price}</if>
+            <if test="l2Price != null "> and l2_price = #{l2Price}</if>
+            <if test="l3Price != null "> and l3_price = #{l3Price}</if>
+            <if test="l4Price != null "> and l4_price = #{l4Price}</if>
+            <if test="l5Price != null "> and l5_price = #{l5Price}</if>
+            <if test="l6Price != null "> and l6_price = #{l6Price}</if>
+            <if test="l7Price != null "> and l7_price = #{l7Price}</if>
+            <if test="l8Price != null "> and l8_price = #{l8Price}</if>
+            <if test="l9Price != null "> and l9_price = #{l9Price}</if>
+            <if test="specialPriceLevel != null "> and special_price_level = #{specialPriceLevel}</if>
+            <if test="subTitle != null "> and sub_title = #{subTitle}</if>
+            <if test="perLimitBuy != null "> and per_limit_buy = #{perLimitBuy}</if>
+            <if test="flag != null "> and flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectTShopCoursesPriceById" parameterType="String" resultMap="TShopCoursesPriceResult">
+        <include refid="selectTShopCoursesPriceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTShopCoursesPrice" parameterType="TShopCoursesPrice">
+        insert into t_shop_courses_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="shopId != null  and shopId != ''">shop_id,</if>
+            <if test="coursesId != null  and coursesId != ''">courses_id,</if>
+            <if test="price != null ">price,</if>
+            <if test="l1Price != null ">l1_price,</if>
+            <if test="l2Price != null ">l2_price,</if>
+            <if test="l3Price != null ">l3_price,</if>
+            <if test="l4Price != null ">l4_price,</if>
+            <if test="l5Price != null ">l5_price,</if>
+            <if test="l6Price != null ">l6_price,</if>
+            <if test="l7Price != null ">l7_price,</if>
+            <if test="l8Price != null ">l8_price,</if>
+            <if test="l9Price != null ">l9_price,</if>
+            <if test="specialPriceLevel != null ">special_price_level,</if>
+            <if test="subTitle != null ">sub_title,</if>
+            <if test="perLimitBuy != null ">per_limit_buy,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="shopId != null  and shopId != ''">#{shopId},</if>
+            <if test="coursesId != null  and coursesId != ''">#{coursesId},</if>
+            <if test="price != null ">#{price},</if>
+            <if test="l1Price != null ">#{l1Price},</if>
+            <if test="l2Price != null ">#{l2Price},</if>
+            <if test="l3Price != null ">#{l3Price},</if>
+            <if test="l4Price != null ">#{l4Price},</if>
+            <if test="l5Price != null ">#{l5Price},</if>
+            <if test="l6Price != null ">#{l6Price},</if>
+            <if test="l7Price != null ">#{l7Price},</if>
+            <if test="l8Price != null ">#{l8Price},</if>
+            <if test="l9Price != null ">#{l9Price},</if>
+            <if test="specialPriceLevel != null ">#{specialPriceLevel},</if>
+            <if test="subTitle != null ">#{subTitle},</if>
+            <if test="perLimitBuy != null ">#{perLimitBuy},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTShopCoursesPrice" parameterType="TShopCoursesPrice">
+        update t_shop_courses_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''">shop_id = #{shopId},</if>
+            <if test="coursesId != null  and coursesId != ''">courses_id = #{coursesId},</if>
+            <if test="price != null ">price = #{price},</if>
+            <if test="l1Price != null ">l1_price = #{l1Price},</if>
+            <if test="l2Price != null ">l2_price = #{l2Price},</if>
+            <if test="l3Price != null ">l3_price = #{l3Price},</if>
+            <if test="l4Price != null ">l4_price = #{l4Price},</if>
+            <if test="l5Price != null ">l5_price = #{l5Price},</if>
+            <if test="l6Price != null ">l6_price = #{l6Price},</if>
+            <if test="l7Price != null ">l7_price = #{l7Price},</if>
+            <if test="l8Price != null ">l8_price = #{l8Price},</if>
+            <if test="l9Price != null ">l9_price = #{l9Price},</if>
+            <if test="specialPriceLevel != null ">special_price_level = #{specialPriceLevel},</if>
+            <if test="subTitle != null ">sub_title = #{subTitle},</if>
+            <if test="perLimitBuy != null ">per_limit_buy = #{perLimitBuy},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTShopCoursesPriceById" parameterType="String">
+        delete from t_shop_courses_price where id = #{id}
+    </delete>
+
+    <delete id="deleteTShopCoursesPriceByIds" parameterType="String">
+        delete from t_shop_courses_price where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

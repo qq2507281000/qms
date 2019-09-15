@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TCouponUseLogMapper">
+    
+    <resultMap type="TCouponUseLog" id="TCouponUseLogResult">
+        <result property="id"    column="id"    />
+        <result property="couponId"    column="coupon_id"    />
+        <result property="sno"    column="sno"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="useTime"    column="use_time"    />
+        <result property="faceValue"    column="face_value"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="realPayPrice"    column="real_pay_price"    />
+        <result property="discountPrice"    column="discount_price"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTCouponUseLogVo">
+        select id, coupon_id, sno, member_id, use_time, face_value, order_id, total_price, real_pay_price, discount_price, flag, create_time, create_by, update_time, update_by from t_coupon_use_log
+    </sql>
+
+    <select id="selectTCouponUseLogList" parameterType="TCouponUseLog" resultMap="TCouponUseLogResult">
+        <include refid="selectTCouponUseLogVo"/>
+        <where>  
+            <if test="couponId != null  and couponId != ''"> and coupon_id = #{couponId}</if>
+            <if test="sno != null  and sno != ''"> and sno = #{sno}</if>
+            <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
+            <if test="useTime != null "> and use_time = #{useTime}</if>
+            <if test="faceValue != null "> and face_value = #{faceValue}</if>
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="realPayPrice != null "> and real_pay_price = #{realPayPrice}</if>
+            <if test="discountPrice != null "> and discount_price = #{discountPrice}</if>
+            <if test="flag != null "> and flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectTCouponUseLogById" parameterType="String" resultMap="TCouponUseLogResult">
+        <include refid="selectTCouponUseLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTCouponUseLog" parameterType="TCouponUseLog">
+        insert into t_coupon_use_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="couponId != null  and couponId != ''">coupon_id,</if>
+            <if test="sno != null  and sno != ''">sno,</if>
+            <if test="memberId != null  and memberId != ''">member_id,</if>
+            <if test="useTime != null ">use_time,</if>
+            <if test="faceValue != null ">face_value,</if>
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="totalPrice != null ">total_price,</if>
+            <if test="realPayPrice != null ">real_pay_price,</if>
+            <if test="discountPrice != null ">discount_price,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="couponId != null  and couponId != ''">#{couponId},</if>
+            <if test="sno != null  and sno != ''">#{sno},</if>
+            <if test="memberId != null  and memberId != ''">#{memberId},</if>
+            <if test="useTime != null ">#{useTime},</if>
+            <if test="faceValue != null ">#{faceValue},</if>
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="totalPrice != null ">#{totalPrice},</if>
+            <if test="realPayPrice != null ">#{realPayPrice},</if>
+            <if test="discountPrice != null ">#{discountPrice},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTCouponUseLog" parameterType="TCouponUseLog">
+        update t_coupon_use_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="couponId != null  and couponId != ''">coupon_id = #{couponId},</if>
+            <if test="sno != null  and sno != ''">sno = #{sno},</if>
+            <if test="memberId != null  and memberId != ''">member_id = #{memberId},</if>
+            <if test="useTime != null ">use_time = #{useTime},</if>
+            <if test="faceValue != null ">face_value = #{faceValue},</if>
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="totalPrice != null ">total_price = #{totalPrice},</if>
+            <if test="realPayPrice != null ">real_pay_price = #{realPayPrice},</if>
+            <if test="discountPrice != null ">discount_price = #{discountPrice},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTCouponUseLogById" parameterType="String">
+        delete from t_coupon_use_log where id = #{id}
+    </delete>
+
+    <delete id="deleteTCouponUseLogByIds" parameterType="String">
+        delete from t_coupon_use_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

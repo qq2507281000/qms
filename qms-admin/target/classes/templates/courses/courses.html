@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+    <th:block th:include="include :: header('课程基本信息列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -15,36 +15,48 @@
                                 <input type="text" name="shopId"/>
                             </li>
                             <li>
-                                <p>课程id：</p>
-                                <input type="text" name="coursesId"/>
+                                <p>课程标题：</p>
+                                <input type="text" name="title"/>
                             </li>
                             <li>
-                                <p>星期：</p>
-                                <input type="text" name="wkNo"/>
+                                <p>副标题：</p>
+                                <input type="text" name="subTitle"/>
                             </li>
                             <li>
-                                <p>上午下午(0,1)：</p>
-                                <input type="text" name="amFm"/>
+                                <p>是否推荐：</p>
+                                <input type="text" name="suggest"/>
                             </li>
                             <li>
-                                <p>开始时间(0700)：</p>
-                                <input type="text" name="bTime"/>
+                                <p>库存数量：</p>
+                                <input type="text" name="salesCount"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
-                                <input type="text" name="eTime"/>
+                                <p>是否可用：</p>
+                                <input type="text" name="avaiable"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>排序：</p>
+                                <input type="text" name="sortKey"/>
+                            </li>
+                            <li>
+                                <p>排序：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>排序：</p>
                                 <input type="text" name="createUser"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>排序：</p>
                                 <input type="text" name="updateUser"/>
+                            </li>
+                            <li>
+                                <p>SKU保留字段：</p>
+                                <input type="text" name="sku"/>
+                            </li>
+                            <li>
+                                <p>是否允许使用优惠券：</p>
+                                <input type="text" name="useDiscount"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -56,16 +68,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:time:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:courses:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:time:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:courses:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:time:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:courses:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:time:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:courses:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -76,9 +88,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:time:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:time:remove')}]];
-        var prefix = "/shop/courses/time";
+        var editFlag = [[${@permission.hasPermi('system:courses:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:courses:remove')}]];
+        var prefix = ctx + "system/courses";
 
         $(function() {
             var options = {
@@ -87,13 +99,13 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "【请填写功能名称】",
+                modalName: "课程基本信息",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field : 'id', 
-                    title : '结束时间(1200)',
+                    title : '是否允许使用优惠券',
                     visible: false
                 },
                 {
@@ -101,36 +113,52 @@
                     title : '商家Id'
                 },
                 {
-                    field : 'coursesId', 
-                    title : '课程id'
+                    field : 'title', 
+                    title : '课程标题'
                 },
                 {
-                    field : 'wkNo', 
-                    title : '星期'
+                    field : 'subTitle', 
+                    title : '副标题'
                 },
                 {
-                    field : 'amFm', 
-                    title : '上午下午(0,1)'
+                    field : 'contentHtml', 
+                    title : '内容HTML'
                 },
                 {
-                    field : 'bTime', 
-                    title : '开始时间(0700)'
+                    field : 'suggest', 
+                    title : '是否推荐'
                 },
                 {
-                    field : 'eTime', 
-                    title : '结束时间(1200)'
+                    field : 'salesCount', 
+                    title : '库存数量'
+                },
+                {
+                    field : 'avaiable', 
+                    title : '是否可用'
+                },
+                {
+                    field : 'sortKey', 
+                    title : '排序'
                 },
                 {
                     field : 'flag', 
-                    title : '结束时间(1200)'
+                    title : '排序'
                 },
                 {
                     field : 'createUser', 
-                    title : '结束时间(1200)'
+                    title : '排序'
                 },
                 {
                     field : 'updateUser', 
-                    title : '结束时间(1200)'
+                    title : '排序'
+                },
+                {
+                    field : 'sku', 
+                    title : 'SKU保留字段'
+                },
+                {
+                    field : 'useDiscount', 
+                    title : '是否允许使用优惠券'
                 },
                 {
                     title: '操作',
