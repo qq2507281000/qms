@@ -90,7 +90,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:courses:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:courses:remove')}]];
-        var prefix = "/shop/courses/basic";
+        var prefix = "/shop/courses";
 
         $(function() {
             var options = {

@@ -27,7 +27,7 @@ import co.tton.qcloud.system.service.ITShopCoursesImagesService;
  * @date 2019-09-05
  */
 @Controller
-@RequestMapping("/shop/courses/images")
+@RequestMapping("/shop/images")
 public class TShopCoursesImagesController extends BaseController
 {
     private String prefix = "shop/images";
@@ -35,7 +35,7 @@ public class TShopCoursesImagesController extends BaseController
     @Autowired
     private ITShopCoursesImagesService tShopCoursesImagesService;
 
-    @RequiresPermissions("shop:courses:images:view")
+    @RequiresPermissions("shop:images:view")
     @GetMapping()
     public String images()
     {
@@ -45,7 +45,7 @@ public class TShopCoursesImagesController extends BaseController
     /**
      * 查询课程图片列表
      */
-    @RequiresPermissions("shop:courses:images:list")
+    @RequiresPermissions("shop:images:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(TShopCoursesImages tShopCoursesImages)
@@ -58,7 +58,7 @@ public class TShopCoursesImagesController extends BaseController
     /**
      * 导出课程图片列表
      */
-    @RequiresPermissions("shop:courses:images:export")
+    @RequiresPermissions("shop:images:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(TShopCoursesImages tShopCoursesImages)
@@ -80,7 +80,7 @@ public class TShopCoursesImagesController extends BaseController
     /**
      * 新增保存课程图片
      */
-    @RequiresPermissions("shop:courses:images:add")
+    @RequiresPermissions("shop:images:add")
     @Log(title = "课程图片", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -103,7 +103,7 @@ public class TShopCoursesImagesController extends BaseController
     /**
      * 修改保存课程图片
      */
-    @RequiresPermissions("shop:courses:images:edit")
+    @RequiresPermissions("shop:images:edit")
     @Log(title = "课程图片", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -115,7 +115,7 @@ public class TShopCoursesImagesController extends BaseController
     /**
      * 删除课程图片
      */
-    @RequiresPermissions("shop:courses:images:remove")
+    @RequiresPermissions("shop:images:remove")
     @Log(title = "课程图片", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
