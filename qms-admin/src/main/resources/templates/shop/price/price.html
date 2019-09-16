@@ -110,7 +110,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:price:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:price:remove')}]];
-        var prefix = "/courses";
+        var prefix = "/shop/courses/price";
 
         $(function() {
             var options = {

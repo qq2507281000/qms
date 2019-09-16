@@ -30,7 +30,7 @@ import co.tton.qcloud.system.service.ITShopCoursesService;
 @RequestMapping("/shop/courses/basic")
 public class TShopCoursesController extends BaseController
 {
-    private String prefix = "shop/courses";
+    private String prefix = "shop/basic";
 
     @Autowired
     private ITShopCoursesService tShopCoursesService;

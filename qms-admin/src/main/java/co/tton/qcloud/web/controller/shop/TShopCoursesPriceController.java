@@ -27,26 +27,25 @@ import co.tton.qcloud.system.service.ITShopCoursesPriceService;
  * @date 2019-09-05
  */
 @Controller
-@RequestMapping("/courses")
+@RequestMapping("/shop/courses/price")
 public class TShopCoursesPriceController extends BaseController
 {
-    private String prefix = "courses/price";
+    private String prefix = "shop/price";
 
     @Autowired
     private ITShopCoursesPriceService tShopCoursesPriceService;
 
-    @RequiresPermissions("courses:price:view")
+    @RequiresPermissions("shop:courses:price:view")
     @GetMapping()
     public String price()
     {
-        System.out.println("============>>>>>");
-        return prefix + "/courses";
+        return prefix + "/price";
     }
 
     /**
      * 查询课程价格列表
      */
-    @RequiresPermissions("courses:price:list")
+    @RequiresPermissions("shop:courses:price:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(TShopCoursesPrice tShopCoursesPrice)
@@ -59,7 +58,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 导出课程价格列表
      */
-    @RequiresPermissions("courses:price:export")
+    @RequiresPermissions("shop:courses:price:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(TShopCoursesPrice tShopCoursesPrice)
@@ -81,7 +80,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 新增保存课程价格
      */
-    @RequiresPermissions("courses:price:add")
+    @RequiresPermissions("shop:courses:price:add")
     @Log(title = "课程价格", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -104,7 +103,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 修改保存课程价格
      */
-    @RequiresPermissions("courses:price:edit")
+    @RequiresPermissions("shop:courses:price:edit")
     @Log(title = "课程价格", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -116,7 +115,7 @@ public class TShopCoursesPriceController extends BaseController
     /**
      * 删除课程价格
      */
-    @RequiresPermissions("courses:price:remove")
+    @RequiresPermissions("shop:courses:price:remove")
     @Log(title = "课程价格", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
