@@ -221,6 +221,7 @@
 		<module>qms-quartz</module>
 		<module>qms-generator</module>
         <module>qms-common</module>
+		<module>qms-minio</module>
     </modules>
     <packaging>pom</packaging>
 
