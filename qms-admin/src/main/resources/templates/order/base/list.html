@@ -15,90 +15,56 @@
                                 <input type="text" name="orderNo"/>
                             </li>
                             <li>
-                                <p>订单标题：</p>
-                                <input type="text" name="subject"/>
-                            </li>
-                            <li>
-                                <p>授课地址：</p>
-                                <input type="text" name="address"/>
-                            </li>
-                            <li>
-                                <p>授课地址：</p>
-                                <input type="text" name="shopId"/>
-                            </li>
-                            <li>
-                                <p>实际应收价格：</p>
-                                <input type="text" name="preRealPrice"/>
-                            </li>
-                            <li>
-                                <p>实收价格：</p>
-                                <input type="text" name="payPrice"/>
-                            </li>
-                            <li>
-                                <p>支付通道：</p>
-                                <input type="text" name="paymentChannel"/>
-                            </li>
-                            <li>
-                                <p>支付通道流水单号：</p>
-                                <input type="text" name="serialNo"/>
-                            </li>
-                            <li>
-                                <p>是否使用抵值券：</p>
-                                <input type="text" name="haveDiscount"/>
+                                <p>商家名称：</p>
+                                <input type="text" name="shop"/>
                             </li>
                             <li class="select-time">
                                 <p>下单时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginBookingTime]"/>
+                                <input type="text" class="time-input" id="bstartTime" placeholder="开始时间" name="params[beginBookingTime]"/>
                                 <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endBookingTime]"/>
+                                <input type="text" class="time-input" id="bendTime" placeholder="结束时间" name="params[endBookingTime]"/>
                             </li>
                             <li class="select-time">
                                 <p>支付时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginPayTime]"/>
+                                <input type="text" class="time-input" id="pstartTime" placeholder="开始时间" name="params[beginPayTime]"/>
                                 <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endPayTime]"/>
+                                <input type="text" class="time-input" id="pendTime" placeholder="结束时间" name="params[endPayTime]"/>
                             </li>
                             <li>
-                                <p>支付状态、未支付(UNPAY)、已支付(PAID)：</p>
+                                <p>支付状态：</p>
                                 <select name="payStatus">
                                     <option value="">所有</option>
+                                    <option value="1">已支付</option>
+                                    <option value="0">未支付</option>
                                 </select>
                             </li>
                             <li>
-                                <p>使用状态(未使用、已使用、已过期）：</p>
+                                <p>使用状态：</p>
                                 <select name="useStatus">
                                     <option value="">所有</option>
+                                    <option value="0">未使用</option>
+                                    <option value="1">已使用</option>
+                                    <option value="2">已过期</option>
                                 </select>
                             </li>
                             <li>
                                 <p>订单状态：</p>
                                 <select name="billStatus">
                                     <option value="">所有</option>
+                                    <option value="">未开始</option>
+                                    <option value="">已完结</option>
                                 </select>
                             </li>
                             <li>
                                 <p>核销状态：</p>
                                 <select name="verifyStatus">
                                     <option value="">所有</option>
+                                    <option value="">未核销</option>
+                                    <option value="">部分核销</option>
+                                    <option value="">已核销</option>
                                 </select>
                             </li>
-                            <li>
-                                <p>核销状态：</p>
-                                <input type="text" name="flag"/>
-                            </li>
-                            <li>
-                                <p>核销状态：</p>
-                                <input type="text" name="createUser"/>
-                            </li>
-                            <li>
-                                <p>核销状态：</p>
-                                <input type="text" name="updateUser"/>
-                            </li>
-                            <li>
-                                <p>核销状态：</p>
-                                <input type="text" name="memberId"/>
-                            </li>
-                            <li>
+                            <li style="float:right; padding-right:40px;padding-top:10px;">
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -108,18 +74,21 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:order:add">
-                    <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:order:edit">
+                <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:order:add">-->
+                    <!--<i class="fa fa-plus"></i> 添加-->
+                <!--</a>-->
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="order:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:order:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="order:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:order:export">
-                    <i class="fa fa-download"></i> 导出
-                 </a>
+                <a class="btn btn-warning multiple disabled" onclick="$.operate.view()" shiro:hasPermission="order:detail">
+                    <i class="fa fa-eye-slash"></i> 查看
+                </a>
+                <!--<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:order:export">-->
+                    <!--<i class="fa fa-download"></i> 导出-->
+                 <!--</a>-->
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -128,9 +97,11 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:order:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:order:remove')}]];
-        var prefix = ctx + "system/order";
+        var editFlag = [[${@permission.hasPermi('order:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('order:remove')}]];
+        var viewFlag = [[${@permission.hasPermi('order:detail')}]];
+        //var prefix = ctx + "system/order";
+        var prefix = "/order";
 
         $(function() {
             var options = {
@@ -139,50 +110,65 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
+                viewUrl: prefix + "/view",
                 modalName: "【请填写功能名称】",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field : 'id', 
-                    title : '核销状态',
+                    title : 'id',
                     visible: false
                 },
                 {
                     field : 'orderNo', 
-                    title : '订单编号'
+                    title : '订单编号',
+                    formatter: function(value, row, index) {
+                        return '<span class="span-code" title="'+value+'">'+value+'</span>';
+                    }
                 },
                 {
                     field : 'subject', 
                     title : '订单标题'
                 },
                 {
-                    field : 'address', 
-                    title : '授课地址'
-                },
-                {
-                    field : 'shopId', 
-                    title : '授课地址'
+                    field : 'shopName',
+                    title : '商家名称'
                 },
                 {
                     field : 'preRealPrice', 
-                    title : '实际应收价格'
+                    title : '应收金额'
+                    // formatter: function(value, row, index) {
+                    //     var num = number_format(value,2);
+                    //     return '<span class="span-numeric">'+num+'</span>';
+                    // }
                 },
                 {
                     field : 'payPrice', 
-                    title : '实收价格'
-                },
-                {
-                    field : 'paymentChannel', 
-                    title : '支付通道'
+                    title : '实收金额'
+                    // formatter: function(value, row, index) {
+                    //     var num = number_format(value,2);
+                    //     return '<span class="span-numeric">'+num+'</span>';
+                    // }
                 },
                 {
                     field : 'serialNo', 
-                    title : '支付通道流水单号'
+                    title : '支付流水'
                 },
                 {
                     field : 'haveDiscount', 
-                    title : '是否使用抵值券'
+                    title : '抵值券',
+                    formatter: function(value, row, index) {
+                        if(value==1){
+                            return '<span class="label label-success">已使用</span>';
+                        }
+                        else if(value == 0){
+                            return '<span class="label label-danger">未使用</span>';
+                        }
+                        else{
+                            return '<span class="label label-white">未定义</span>';
+                        }
+                    }
                 },
                 {
                     field : 'bookingTime', 
@@ -194,35 +180,63 @@
                 },
                 {
                     field : 'payStatus', 
-                    title : '支付状态、未支付(UNPAY)、已支付(PAID)'
+                    title : '支付状态',
+                    formatter: function(value, row, index) {
+                        if(value==1){
+                            return '<span class="label label-success">已支付</span>';
+                        }
+                        else if(value == 0){
+                            return '<span class="label label-danger">未支付</span>';
+                        }
+                        else{
+                            return '<span class="label label-white">未定义</span>';
+                        }
+                    }
                 },
                 {
                     field : 'useStatus', 
-                    title : '使用状态(未使用、已使用、已过期）'
+                    title : '使用状态',
+                    formatter: function(value, row, index) {
+                        if(value==1){
+                            return '<span class="label label-success">已使用</span>';
+                        }
+                        else if(value == 0){
+                            return '<span class="label label-danger">未使用</span>';
+                        }
+                        else{
+                            return '<span class="label label-white">未定义</span>';
+                        }
+                    }
                 },
                 {
                     field : 'billStatus', 
-                    title : '订单状态'
+                    title : '订单状态',
+                    formatter: function(value, row, index) {
+                        if(value==1){
+                            return '<span class="label label-success">已完结</span>';
+                        }
+                        else if(value == 0){
+                            return '<span class="label label-danger">未完结</span>';
+                        }
+                        else{
+                            return '<span class="label label-white">未定义</span>';
+                        }
+                    }
                 },
                 {
                     field : 'verifyStatus', 
-                    title : '核销状态'
-                },
-                {
-                    field : 'flag', 
-                    title : '核销状态'
-                },
-                {
-                    field : 'createUser', 
-                    title : '核销状态'
-                },
-                {
-                    field : 'updateUser', 
-                    title : '核销状态'
-                },
-                {
-                    field : 'memberId', 
-                    title : '核销状态'
+                    title : '核销状态',
+                    formatter: function(value, row, index) {
+                        if(value==1){
+                            return '<span class="label label-success">已核销</span>';
+                        }
+                        else if(value == 0){
+                            return '<span class="label label-danger">未核销</span>';
+                        }
+                        else{
+                            return '<span class="label label-white">未定义</span>';
+                        }
+                    }
                 },
                 {
                     title: '操作',
@@ -230,6 +244,7 @@
                     formatter: function(value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>查看</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }

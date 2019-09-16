@@ -27,10 +27,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="memberId"    column="member_id"    />
+        <result property="shopName"    column="shop_name"/>
     </resultMap>
 
     <sql id="selectTOrderVo">
-        select id, order_no, subject, address, shop_id, pre_real_price, pay_price, payment_channel, serial_no, have_discount, booking_time, pay_time, pay_status, use_status, bill_status, verify_status, flag, create_time, create_by, update_time, update_by, member_id from t_order
+        select id, order_no, subject, address, shop_id, pre_real_price, pay_price, payment_channel, serial_no, have_discount, booking_time, pay_time, pay_status, use_status, bill_status, verify_status, flag, create_time, create_by, update_time, update_by, member_id,
+        (select name from t_shop where id = o.shop_id) as shop_name
+        from t_order o
     </sql>
 
     <select id="selectTOrderList" parameterType="TOrder" resultMap="TOrderResult">
@@ -144,7 +147,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteTOrderById" parameterType="String">
-        delete from t_order where id = #{id}
+        <!--delete from t_order where id = #{id}-->
+        update t_order set flag = 1 where id = #{id}
     </delete>
 
     <delete id="deleteTOrderByIds" parameterType="String">

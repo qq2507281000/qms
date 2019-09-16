@@ -92,6 +92,8 @@ public class TOrder extends BaseEntity
     @Excel(name = "会员Id", readConverterExp = "$column.readConverterExp()")
     private String memberId;
 
+    private String shopName;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
