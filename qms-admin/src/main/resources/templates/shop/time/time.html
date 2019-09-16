@@ -35,16 +35,16 @@
                                 <input type="text" name="eTime"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
+                                <p>状态：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
-                                <input type="text" name="createUser"/>
+                                <p>创建者：</p>
+                                <input type="text" name="createBy"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
-                                <input type="text" name="updateUser"/>
+                                <p>修改者：</p>
+                                <input type="text" name="updateBy"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -56,16 +56,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:time:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="shop:time:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:time:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:time:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:time:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:time:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:time:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shop:time:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -76,9 +76,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:time:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:time:remove')}]];
-        var prefix = "/shop/courses/time";
+        var editFlag = [[${@permission.hasPermi('shop:time:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('shop:time:remove')}]];
+        var prefix = "/shop/time";
 
         $(function() {
             var options = {
@@ -87,7 +87,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "【请填写功能名称】",
+                modalName: "课程时间信息",
                 columns: [{
                     checkbox: true
                 },
@@ -122,15 +122,15 @@
                 },
                 {
                     field : 'flag', 
-                    title : '结束时间(1200)'
+                    title : '状态'
                 },
                 {
-                    field : 'createUser', 
-                    title : '结束时间(1200)'
+                    field : 'createBy',
+                    title : '创建者'
                 },
                 {
-                    field : 'updateUser', 
-                    title : '结束时间(1200)'
+                    field : 'updateBy',
+                    title : '修改者'
                 },
                 {
                     title: '操作',

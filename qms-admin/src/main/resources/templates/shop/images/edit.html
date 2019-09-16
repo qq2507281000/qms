@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">排序键值：</label>
+                <label class="col-sm-3 control-label">状态：</label>
                 <div class="col-sm-8">
                     <input name="flag" th:field="*{flag}" class="form-control" type="text">
                 </div>
@@ -40,20 +40,20 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">排序键值：</label>
                 <div class="col-sm-8">
-                    <input name="createUser" th:field="*{createUser}" class="form-control" type="text">
+                    <input name="createBy" th:field="*{createBy}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">排序键值：</label>
                 <div class="col-sm-8">
-                    <input name="updateUser" th:field="*{updateUser}" class="form-control" type="text">
+                    <input name="updateBy" th:field="*{updateBy}" class="form-control" type="text">
                 </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <script type="text/javascript">
-        var prefix = ctx + "system/images";
+        var prefix = "/shop/images";
         $("#form-images-edit").validate({
             focusCleanup: true
         });

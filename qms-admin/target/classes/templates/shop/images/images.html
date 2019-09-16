@@ -23,16 +23,16 @@
                                 <input type="text" name="sortKey"/>
                             </li>
                             <li>
-                                <p>排序键值：</p>
+                                <p>状态：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>排序键值：</p>
-                                <input type="text" name="createUser"/>
+                                <p>创建者：</p>
+                                <input type="text" name="createBy"/>
                             </li>
                             <li>
-                                <p>排序键值：</p>
-                                <input type="text" name="updateUser"/>
+                                <p>修改者：</p>
+                                <input type="text" name="updateBy"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -44,16 +44,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:images:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="shop:images:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:images:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:images:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:images:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:images:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:images:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shop:images:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -64,9 +64,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:images:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:images:remove')}]];
-        var prefix = "/shop/courses/images";
+        var editFlag = [[${@permission.hasPermi('shop:images:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('shop:images:remove')}]];
+        var prefix = "/shop/images";
 
         $(function() {
             var options = {
@@ -102,15 +102,15 @@
                 },
                 {
                     field : 'flag', 
-                    title : '排序键值'
+                    title : '状态'
                 },
                 {
-                    field : 'createUser', 
-                    title : '排序键值'
+                    field : 'createBy',
+                    title : '创建者'
                 },
                 {
-                    field : 'updateUser', 
-                    title : '排序键值'
+                    field : 'updateBy',
+                    title : '修改者'
                 },
                 {
                     title: '操作',

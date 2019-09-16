@@ -27,7 +27,7 @@ import co.tton.qcloud.system.service.ITShopCoursesTimeService;
  * @date 2019-09-05
  */
 @Controller
-@RequestMapping("/shop/courses/time")
+@RequestMapping("/shop/time")
 public class TShopCoursesTimeController extends BaseController
 {
     private String prefix = "shop/time";
@@ -35,7 +35,7 @@ public class TShopCoursesTimeController extends BaseController
     @Autowired
     private ITShopCoursesTimeService tShopCoursesTimeService;
 
-    @RequiresPermissions("shop:courses:time:view")
+    @RequiresPermissions("shop:time:view")
     @GetMapping()
     public String time()
     {
@@ -45,7 +45,7 @@ public class TShopCoursesTimeController extends BaseController
     /**
      * 查询课程时间列表
      */
-    @RequiresPermissions("shop:courses:time:list")
+    @RequiresPermissions("shop:time:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(TShopCoursesTime tShopCoursesTime)
@@ -58,7 +58,7 @@ public class TShopCoursesTimeController extends BaseController
     /**
      * 导出课程时间列表
      */
-    @RequiresPermissions("shop:courses:time:export")
+    @RequiresPermissions("shop:time:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(TShopCoursesTime tShopCoursesTime)
@@ -80,7 +80,7 @@ public class TShopCoursesTimeController extends BaseController
     /**
      * 新增保存课程时间
      */
-    @RequiresPermissions("shop:courses:time:add")
+    @RequiresPermissions("shop:time:add")
     @Log(title = "课程价格", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -103,7 +103,7 @@ public class TShopCoursesTimeController extends BaseController
     /**
      * 修改保存课程时间
      */
-    @RequiresPermissions("shop:courses:time:edit")
+    @RequiresPermissions("shop:time:edit")
     @Log(title = "课程价格", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -115,7 +115,7 @@ public class TShopCoursesTimeController extends BaseController
     /**
      * 删除课程时间
      */
-    @RequiresPermissions("shop:courses:time:remove")
+    @RequiresPermissions("shop:time:remove")
     @Log(title = "课程价格", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
