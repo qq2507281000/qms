@@ -9,6 +9,8 @@ import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import co.tton.qcloud.system.service.ITShopService;
  * @author qcloud
  * @date 2019-09-05
  */
+@Api("商家信息")
 @Controller
 @RequestMapping("/shop")
 public class TShopController extends BaseController
@@ -46,6 +49,7 @@ public class TShopController extends BaseController
     /**
      * 查询商家信息列表
      */
+    @ApiOperation("获取商家列表")
     @RequiresPermissions("shop:list")
     @PostMapping("/list")
     @ResponseBody
@@ -54,19 +58,6 @@ public class TShopController extends BaseController
         startPage();
         List<TShop> list = tShopService.selectTShopList(tShop);
         return getDataTable(list);
-    }
-
-    /**
-     * 导出商家信息列表
-     */
-    @RequiresPermissions("shop:export")
-    @PostMapping("/export")
-    @ResponseBody
-    public AjaxResult export(TShop tShop)
-    {
-        List<TShop> list = tShopService.selectTShopList(tShop);
-        ExcelUtil<TShop> util = new ExcelUtil<TShop>(TShop.class);
-        return util.exportExcel(list, "base");
     }
 
     /**
@@ -81,13 +72,13 @@ public class TShopController extends BaseController
     /**
      * 新增保存商家信息
      */
+    @ApiOperation("新增商家信息")
     @RequiresPermissions("shop:add")
     @Log(title = "商家信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(TShop tShop)
     {
-        //TODO:需要对前端传入的参数进行校验，把NULL值补全。
         tShop.setId(StringUtils.genericId());
         return toAjax(tShopService.insertTShop(tShop));
     }
@@ -95,6 +86,7 @@ public class TShopController extends BaseController
     /**
      * 修改商家信息
      */
+    @ApiOperation("获取商家详细")
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
@@ -106,6 +98,7 @@ public class TShopController extends BaseController
     /**
      * 修改保存商家信息
      */
+    @ApiOperation("更新商家信息")
     @RequiresPermissions("shop:edit")
     @Log(title = "商家信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
@@ -118,6 +111,7 @@ public class TShopController extends BaseController
     /**
      * 删除商家信息
      */
+    @ApiOperation("删除商家详细")
     @RequiresPermissions("shop:remove")
     @Log(title = "商家信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
