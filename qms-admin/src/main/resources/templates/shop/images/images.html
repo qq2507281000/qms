@@ -66,7 +66,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:images:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:images:remove')}]];
-        var prefix = ctx + "system/images";
+        var prefix = "/shop/courses/images";
 
         $(function() {
             var options = {
