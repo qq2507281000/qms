@@ -35,7 +35,7 @@ public class TShopCoursesController extends BaseController
     @Autowired
     private ITShopCoursesService tShopCoursesService;
 
-    @RequiresPermissions("shop:courses:view")
+    @RequiresPermissions("shop:basic:view")
     @GetMapping()
     public String courses()
     {
@@ -103,7 +103,7 @@ public class TShopCoursesController extends BaseController
     /**
      * 修改保存课程基本信息
      */
-        @RequiresPermissions("shop:courses:edit")
+    @RequiresPermissions("shop:courses:edit")
     @Log(title = "课程基本信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody

@@ -3,6 +3,7 @@ package co.tton.qcloud.system.service.impl;
 import java.util.List;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TCategoryMapper;
@@ -54,6 +55,7 @@ public class TCategoryServiceImpl implements ITCategoryService
     @Override
     public int insertTCategory(TCategory tCategory)
     {
+        tCategory.setId(StringUtils.genericId());
         tCategory.setCreateTime(DateUtils.getNowDate());
         return tCategoryMapper.insertTCategory(tCategory);
     }
