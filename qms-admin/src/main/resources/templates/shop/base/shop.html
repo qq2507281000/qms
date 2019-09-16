@@ -28,7 +28,11 @@
                             </li>
                             <li>
                                 <p>是否推荐：</p>
-                                <input type="text" name="suggest"/>
+                                <select type="text" name="suggest">
+                                    <option value =""></option>
+                                    <option value ="1">是</option>
+                                    <option value ="2">否</option>
+                                </select>
                             </li>
                             <li>
                                 <p>排序键值：</p>
@@ -84,26 +88,28 @@
                             </li>
                             <li>
                                 <p>是否显示微信信息：</p>
-                                <input type="text" name="wechatShow"/>
+                                <select type="text" name="wechatShow">
+                                    <option value =""></option>
+                                    <option value ="1">是</option>
+                                    <option value ="2">否</option>
+                                </select>
                             </li>
                             <li>
                                 <p>是否可用：</p>
-                                <input type="text" name="available"/>
+                                <select type="text" name="available">
+                                    <option value =""></option>
+                                    <option value ="1">是</option>
+                                    <option value ="2">否</option>
+                                </select>
                             </li>
                             <li>
-                                <!--9/16席国政-->
-                                <!--<p>是否可用：</p>-->
                                 <p>数据状态：</p>
-                                <input type="text" name="flag"/>
+                                <select type="text" name="flag">
+                                    <option value =""></option>
+                                    <option value ="1">是</option>
+                                    <option value ="2">否</option>
+                                </select>
                             </li>
-                            <!--<li>-->
-                                <!--<p>是否可用：</p>-->
-                                <!--<input type="text" name="createUser"/>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<p>是否可用：</p>-->
-                                <!--<input type="text" name="updateUser"/>-->
-                            <!--</li>-->
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -136,7 +142,6 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:base:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:base:remove')}]];
-        // var prefix = ctx + "system/shop";
         var prefix = "/shop";
 
         $(function() {
@@ -151,32 +156,32 @@
                     checkbox: true
                 },
                 {
-                    field : 'id', 
+                    field : 'id',
                     title : '是否可用',
                     visible: false
                 },
                 {
-                    field : 'name', 
+                    field : 'name',
                     title : '商家名称'
                 },
                 {
-                    field : 'subject', 
+                    field : 'subject',
                     title : '商家副标题'
                 },
                 {
-                    field : 'summary', 
+                    field : 'summary',
                     title : '商家描述'
                 },
                 {
-                    field : 'regionName', 
+                    field : 'regionName',
                     title : '区域名称'
                 },
                 {
-                    field : 'coverImg', 
+                    field : 'coverImg',
                     title : '封面图片'
                 },
                 {
-                    field : 'suggest', 
+                    field : 'suggest',
                     title : '是否推荐',
                     formatter: function(value) {
                         if(value==1){
@@ -191,67 +196,67 @@
                     }
                 },
                 {
-                    field : 'sortKey', 
+                    field : 'sortKey',
                     title : '排序键值'
                 },
                 {
-                    field : 'sortWeight', 
+                    field : 'sortWeight',
                     title : '排序权重'
                 },
                 {
-                    field : 'address', 
+                    field : 'address',
                     title : '地理位置'
                 },
                 {
-                    field : 'shopHoursBegin', 
+                    field : 'shopHoursBegin',
                     title : '开始营业时间'
                 },
                 {
-                    field : 'shopHoursEnd', 
+                    field : 'shopHoursEnd',
                     title : '结束营业时间'
                 },
                 {
-                    field : 'level', 
+                    field : 'level',
                     title : '商家级别'
                 },
                 {
-                    field : 'stars', 
+                    field : 'stars',
                     title : '商家星级'
                 },
                 {
-                    field : 'htmlContent', 
+                    field : 'htmlContent',
                     title : 'HTML描述'
                 },
                 {
-                    field : 'telephone', 
+                    field : 'telephone',
                     title : '商家座机'
                 },
                 {
-                    field : 'mobile', 
+                    field : 'mobile',
                     title : '商家手机'
                 },
                 {
-                    field : 'contractName', 
+                    field : 'contractName',
                     title : '联系人姓名'
                 },
                 {
-                    field : 'wechatNo', 
+                    field : 'wechatNo',
                     title : '微信号'
                 },
                 {
-                    field : 'wechatPlatform', 
+                    field : 'wechatPlatform',
                     title : '微信公众平台'
                 },
                 {
-                    field : 'wechatNoImg', 
+                    field : 'wechatNoImg',
                     title : '个人二维码图片'
                 },
                 {
-                    field : 'wechatPlatformImg', 
+                    field : 'wechatPlatformImg',
                     title : '微信公众号图片'
                 },
                 {
-                    field : 'wechatShow', 
+                    field : 'wechatShow',
                     title : '是否显示微信信息',
                     formatter: function(value) {
                         if(value==1){
@@ -282,29 +287,19 @@
                 },
                 {
                     field : 'flag',
-                    //9/16席国政
-                    // title : '是否可用'
                     title : '数据状态',
                     formatter: function(value) {
                         if(value==1){
-                            return '<span class="label label-success">锁定</span>';
+                            return '<span class="label label-success">可用</span>';
                         }
                         else if(value == 0){
-                            return '<span class="label label-danger">不锁定</span>';
+                            return '<span class="label label-danger">不可用</span>';
                         }
                         else{
                             return '<span class="label label-white">未知</span>';
                         }
                     }
                 },
-                // {
-                //     field : 'createUser',
-                //     title : '是否可用'
-                // },
-                // {
-                //     field : 'updateUser',
-                //     title : '是否可用'
-                // },
                 {
                     title: '操作',
                     align: 'center',

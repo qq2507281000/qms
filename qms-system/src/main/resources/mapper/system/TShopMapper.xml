@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.tton.qcloud.system.mapper.TShopMapper">
-    
+
     <resultMap type="TShop" id="TShopResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
@@ -42,7 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTShopList" parameterType="TShop" resultMap="TShopResult">
         <include refid="selectTShopVo"/>
-        <where>  
+        <where>
+            <if test="flag == null "> and flag != 0</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
