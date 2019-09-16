@@ -38,43 +38,43 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">特殊价格_第二级别：</label>
+                <label class="col-sm-3 control-label">特殊价格_第三级别：</label>
                 <div class="col-sm-8">
                     <input name="l3Price" th:field="*{l3Price}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">特殊价格_第二级别：</label>
+                <label class="col-sm-3 control-label">特殊价格_第四级别：</label>
                 <div class="col-sm-8">
                     <input name="l4Price" th:field="*{l4Price}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">特殊价格_第二级别：</label>
+                <label class="col-sm-3 control-label">特殊价格_第五级别：</label>
                 <div class="col-sm-8">
                     <input name="l5Price" th:field="*{l5Price}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">特殊价格_第二级别：</label>
+                <label class="col-sm-3 control-label">特殊价格_第六级别：</label>
                 <div class="col-sm-8">
                     <input name="l6Price" th:field="*{l6Price}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">特殊价格_第二级别：</label>
+                <label class="col-sm-3 control-label">特殊价格_第七级别：</label>
                 <div class="col-sm-8">
                     <input name="l7Price" th:field="*{l7Price}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">特殊价格_第二级别：</label>
+                <label class="col-sm-3 control-label">特殊价格_第八级别：</label>
                 <div class="col-sm-8">
                     <input name="l8Price" th:field="*{l8Price}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">特殊价格_第二级别：</label>
+                <label class="col-sm-3 control-label">特殊价格_第九级别：</label>
                 <div class="col-sm-8">
                     <input name="l9Price" th:field="*{l9Price}" class="form-control" type="text">
                 </div>
@@ -85,6 +85,12 @@
                     <input name="specialPriceLevel" th:field="*{specialPriceLevel}" class="form-control" type="text">
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">副标题：</label>
+                <div class="col-sm-8">
+                    <input name="perLimitBuy" th:field="*{subTitle}" class="form-control" type="text">
+                </div>
+            </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">限制每人购买数量，-1为不限制。：</label>
                 <div class="col-sm-8">
@@ -92,28 +98,28 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">限制每人购买数量，-1为不限制。：</label>
+                <label class="col-sm-3 control-label">副标题：</label>
                 <div class="col-sm-8">
                     <input name="flag" th:field="*{flag}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">限制每人购买数量，-1为不限制。：</label>
+                <label class="col-sm-3 control-label">创建人：</label>
                 <div class="col-sm-8">
-                    <input name="createUser" th:field="*{createUser}" class="form-control" type="text">
+                    <input name="createUser" th:field="*{createBy}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">限制每人购买数量，-1为不限制。：</label>
+                <label class="col-sm-3 control-label">修改人：</label>
                 <div class="col-sm-8">
-                    <input name="updateUser" th:field="*{updateUser}" class="form-control" type="text">
+                    <input name="updateUser" th:field="*{updateBy}" class="form-control" type="text">
                 </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <script type="text/javascript">
-        var prefix = ctx + "system/price";
+        var prefix = "/shop/price";
         $("#form-price-edit").validate({
             focusCleanup: true
         });

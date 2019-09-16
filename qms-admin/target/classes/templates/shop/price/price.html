@@ -31,31 +31,31 @@
                                 <input type="text" name="l2Price"/>
                             </li>
                             <li>
-                                <p>特殊价格_第二级别：</p>
+                                <p>特殊价格_第三级别：</p>
                                 <input type="text" name="l3Price"/>
                             </li>
                             <li>
-                                <p>特殊价格_第二级别：</p>
+                                <p>特殊价格_第四级别：</p>
                                 <input type="text" name="l4Price"/>
                             </li>
                             <li>
-                                <p>特殊价格_第二级别：</p>
+                                <p>特殊价格_第五级别：</p>
                                 <input type="text" name="l5Price"/>
                             </li>
                             <li>
-                                <p>特殊价格_第二级别：</p>
+                                <p>特殊价格_第六级别：</p>
                                 <input type="text" name="l6Price"/>
                             </li>
                             <li>
-                                <p>特殊价格_第二级别：</p>
+                                <p>特殊价格_第七级别：</p>
                                 <input type="text" name="l7Price"/>
                             </li>
                             <li>
-                                <p>特殊价格_第二级别：</p>
+                                <p>特殊价格_第八级别：</p>
                                 <input type="text" name="l8Price"/>
                             </li>
                             <li>
-                                <p>特殊价格_第二级别：</p>
+                                <p>特殊价格_第九级别：</p>
                                 <input type="text" name="l9Price"/>
                             </li>
                             <li>
@@ -67,16 +67,16 @@
                                 <input type="text" name="perLimitBuy"/>
                             </li>
                             <li>
-                                <p>限制每人购买数量，-1为不限制。：</p>
+                                <p>状态：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>限制每人购买数量，-1为不限制。：</p>
-                                <input type="text" name="createUser"/>
+                                <p>创建人：</p>
+                                <input type="text" name="createBy"/>
                             </li>
                             <li>
-                                <p>限制每人购买数量，-1为不限制。：</p>
-                                <input type="text" name="updateUser"/>
+                                <p>修改人：</p>
+                                <input type="text" name="updateBy"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -88,16 +88,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:price:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="shop:price:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:price:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:price:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:price:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:price:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:price:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shop:price:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -108,9 +108,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:price:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:price:remove')}]];
-        var prefix = "/shop/courses/price";
+        var editFlag = [[${@permission.hasPermi('shop:price:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('shop:price:remove')}]];
+        var prefix = "/shop/price";
 
         $(function() {
             var options = {
@@ -150,31 +150,31 @@
                 },
                 {
                     field : 'l3Price', 
-                    title : '特殊价格_第二级别'
+                    title : '特殊价格_第三级别'
                 },
                 {
                     field : 'l4Price', 
-                    title : '特殊价格_第二级别'
+                    title : '特殊价格_第四级别'
                 },
                 {
                     field : 'l5Price', 
-                    title : '特殊价格_第二级别'
+                    title : '特殊价格_第五级别'
                 },
                 {
                     field : 'l6Price', 
-                    title : '特殊价格_第二级别'
+                    title : '特殊价格_第六级别'
                 },
                 {
                     field : 'l7Price', 
-                    title : '特殊价格_第二级别'
+                    title : '特殊价格_第七级别'
                 },
                 {
                     field : 'l8Price', 
-                    title : '特殊价格_第二级别'
+                    title : '特殊价格_第八级别'
                 },
                 {
                     field : 'l9Price', 
-                    title : '特殊价格_第二级别'
+                    title : '特殊价格_第九级别'
                 },
                 {
                     field : 'specialPriceLevel', 
@@ -190,15 +190,15 @@
                 },
                 {
                     field : 'flag', 
-                    title : '限制每人购买数量，-1为不限制。'
+                    title : '状态'
                 },
                 {
-                    field : 'createUser', 
-                    title : '限制每人购买数量，-1为不限制。'
+                    field : 'createBy',
+                    title : '创建人'
                 },
                 {
-                    field : 'updateUser', 
-                    title : '限制每人购买数量，-1为不限制。'
+                    field : 'updateBy',
+                    title : '修改人。'
                 },
                 {
                     title: '操作',

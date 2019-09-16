@@ -4,6 +4,7 @@ import java.util.List;
 
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TShopCoursesPriceMapper;
@@ -55,6 +56,7 @@ public class TShopCoursesPriceServiceImpl implements ITShopCoursesPriceService
     @Override
     public int insertTShopCoursesPrice(TShopCoursesPrice tShopCoursesPrice)
     {
+        tShopCoursesPrice.setId(StringUtils.genericId());
         tShopCoursesPrice.setCreateTime(DateUtils.getNowDate());
         return tShopCoursesPriceMapper.insertTShopCoursesPrice(tShopCoursesPrice);
     }
