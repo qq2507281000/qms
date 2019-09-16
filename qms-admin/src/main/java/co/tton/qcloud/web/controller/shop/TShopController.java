@@ -7,6 +7,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,8 @@ public class TShopController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TShop tShop)
     {
+        //TODO:需要对前端传入的参数进行校验，把NULL值补全。
+        tShop.setId(StringUtils.genericId());
         return toAjax(tShopService.insertTShop(tShop));
     }
 

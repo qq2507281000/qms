@@ -37,7 +37,7 @@ public class CommonController
      * @param fileName 文件名称
      * @param delete 是否删除
      */
-    @GetMapping("/common/download")
+    @GetMapping("/admin/common/download")
     public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request)
     {
         try
