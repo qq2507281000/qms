@@ -843,7 +843,7 @@
             	}
                 return url;
             },
-			openShopTab:function(url,shopId){
+			openShopTab: function(url, title, shopId){
 				var targetUrl = "/404.html";
 				if($.common.isNotEmpty(shopId)){
 					targetUrl = url + "?shop-id=" + shopId;
@@ -858,6 +858,7 @@
 						targetUrl = url + "?shop-id="+shopId;
 					}
 				}
+				$.modal.openTab(title, targetUrl);
 			},
             // 删除信息
             remove: function(id) {

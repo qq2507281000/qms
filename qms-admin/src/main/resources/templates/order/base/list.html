@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
-                    <input id="shopId" name="shopId" th:field="${shopId}" type="hidden">
+                    <input id="shopId" name="shopId" th:value="${shopId}" type="hidden">
                     <div class="select-list">
                         <ul>
                             <li>
@@ -99,9 +99,17 @@
         var order_status = [[${@dict.getType('thd_order_status')}]];
         var confirm_status = [[${@dict.getType('thd_confirm_status')}]];
 
+        var shopId = $('#shopId').val();
+
+        var listUrl = prefix + "/list";
+
+        if($.common.isNotEmpty(shopId)){
+            listUrl = listUrl + "?shop-id=" + shopId;
+        }
+
         $(function() {
             var options = {
-                url: prefix + "/list",
+                url: listUrl,
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",

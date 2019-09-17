@@ -42,10 +42,11 @@ public class TOrderController extends BaseController
 
     @RequiresPermissions("order:view")
     @GetMapping()
-    public String order(@RequestParam("shop-id") String shopId, ModelMap mmap)
+    public String order(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
+        mmap.put("shopId", "");
         if(StringUtils.isNotEmpty(shopId)){
-            mmap.put("shopId",shopId);
+            mmap.put("shopId", shopId);
         }
         return prefix + "/list";
     }
@@ -57,9 +58,12 @@ public class TOrderController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("获取订单列表")
-    public TableDataInfo list(@ApiParam("订单实体对象") TOrder tOrder)
+    public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId, @ApiParam("订单实体对象") TOrder tOrder)
     {
         startPage();
+        if(StringUtils.isNotEmpty(shopId)){
+            tOrder.setShopId(shopId);
+        }
         List<TOrder> list = tOrderService.selectTOrderList(tOrder);
         return getDataTable(list);
     }
