@@ -7,6 +7,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import co.tton.qcloud.system.domain.TOrderModel;
 import io.swagger.annotations.Api;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.service.ITOrderService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 订单信息Controller
@@ -41,9 +45,12 @@ public class TOrderController extends BaseController
     private ITOrderService tOrderService;
 
     @RequiresPermissions("order:view")
-    @GetMapping()
-    public String order()
+    @GetMapping("/{id}")
+    public String order(@PathVariable("id")String shopId, ModelMap mmap)
     {
+        if(StringUtils.isNotEmpty(shopId)){
+            mmap.put("shopId",shopId);
+        }
         return prefix + "/list";
     }
 
