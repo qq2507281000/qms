@@ -15,18 +15,6 @@
                                 <input type="text" name="name"/>
                             </li>
                             <li>
-                                <p>商家副标题：</p>
-                                <input type="text" name="subject"/>
-                            </li>
-                            <li>
-                                <p>区域名称：</p>
-                                <input type="text" name="regionName"/>
-                            </li>
-                            <li>
-                                <p>封面图片：</p>
-                                <input type="text" name="coverImg"/>
-                            </li>
-                            <li>
                                 <p>是否推荐：</p>
                                 <select type="text" name="suggest">
                                     <option value =""></option>
@@ -35,84 +23,17 @@
                                 </select>
                             </li>
                             <li>
-                                <p>排序键值：</p>
-                                <input type="text" name="sortKey"/>
-                            </li>
-                            <li>
-                                <p>排序权重：</p>
-                                <input type="text" name="sortWeight"/>
-                            </li>
-                            <li>
-                                <p>开始营业时间：</p>
-                                <input type="text" name="shopHoursBegin"/>
-                            </li>
-                            <li>
-                                <p>结束营业时间：</p>
-                                <input type="text" name="shopHoursEnd"/>
-                            </li>
-                            <li>
-                                <p>商家级别：</p>
-                                <input type="text" name="level"/>
-                            </li>
-                            <li>
-                                <p>商家星级：</p>
-                                <input type="text" name="stars"/>
-                            </li>
-                            <li>
                                 <p>商家座机：</p>
                                 <input type="text" name="telephone"/>
-                            </li>
-                            <li>
-                                <p>商家手机：</p>
-                                <input type="text" name="mobile"/>
-                            </li>
-                            <li>
-                                <p>联系人姓名：</p>
-                                <input type="text" name="contractName"/>
                             </li>
                             <li>
                                 <p>微信号：</p>
                                 <input type="text" name="wechatNo"/>
                             </li>
                             <li>
-                                <p>微信公众平台：</p>
-                                <input type="text" name="wechatPlatform"/>
-                            </li>
-                            <li>
-                                <p>个人二维码图片：</p>
-                                <input type="text" name="wechatNoImg"/>
-                            </li>
-                            <li>
-                                <p>微信公众号图片：</p>
-                                <input type="text" name="wechatPlatformImg"/>
-                            </li>
-                            <li>
-                                <p>是否显示微信信息：</p>
-                                <select type="text" name="wechatShow">
-                                    <option value =""></option>
-                                    <option value ="1">是</option>
-                                    <option value ="2">否</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>是否可用：</p>
-                                <select type="text" name="available">
-                                    <option value =""></option>
-                                    <option value ="1">是</option>
-                                    <option value ="2">否</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>数据状态：</p>
-                                <select type="text" name="flag">
-                                    <option value =""></option>
-                                    <option value ="1">是</option>
-                                    <option value ="2">否</option>
-                                </select>
-                            </li>
-                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+
                             </li>
                         </ul>
                     </div>
@@ -129,9 +50,6 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:shop:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:shop:export">
-                    <i class="fa fa-download"></i> 导出
-                 </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -165,22 +83,6 @@
                     title : '商家名称'
                 },
                 {
-                    field : 'subject',
-                    title : '商家副标题'
-                },
-                {
-                    field : 'summary',
-                    title : '商家描述'
-                },
-                {
-                    field : 'regionName',
-                    title : '区域名称'
-                },
-                {
-                    field : 'coverImg',
-                    title : '封面图片'
-                },
-                {
                     field : 'suggest',
                     title : '是否推荐',
                     formatter: function(value) {
@@ -194,18 +96,6 @@
                             return '<span class="label label-white">未知</span>';
                         }
                     }
-                },
-                {
-                    field : 'sortKey',
-                    title : '排序键值'
-                },
-                {
-                    field : 'sortWeight',
-                    title : '排序权重'
-                },
-                {
-                    field : 'address',
-                    title : '地理位置'
                 },
                 {
                     field : 'shopHoursBegin',
@@ -224,20 +114,8 @@
                     title : '商家星级'
                 },
                 {
-                    field : 'htmlContent',
-                    title : 'HTML描述'
-                },
-                {
                     field : 'telephone',
                     title : '商家座机'
-                },
-                {
-                    field : 'mobile',
-                    title : '商家手机'
-                },
-                {
-                    field : 'contractName',
-                    title : '联系人姓名'
                 },
                 {
                     field : 'wechatNo',
@@ -246,29 +124,6 @@
                 {
                     field : 'wechatPlatform',
                     title : '微信公众平台'
-                },
-                {
-                    field : 'wechatNoImg',
-                    title : '个人二维码图片'
-                },
-                {
-                    field : 'wechatPlatformImg',
-                    title : '微信公众号图片'
-                },
-                {
-                    field : 'wechatShow',
-                    title : '是否显示微信信息',
-                    formatter: function(value) {
-                        if(value==1){
-                            return '<span class="label label-success">显示</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">不显示</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未知</span>';
-                        }
-                    }
                 },
                 {
                     field : 'available',

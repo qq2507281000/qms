@@ -9,6 +9,8 @@ import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import co.tton.qcloud.system.service.ITBannerService;
  * @author qcloud
  * @date 2019-09-05
  */
+@ApiOperation("首页滚动广告")
 @Controller
 @RequestMapping("/conf/banner")
 public class TBannerController extends BaseController
@@ -49,6 +52,7 @@ public class TBannerController extends BaseController
     /**
      * 查询首页滚动广告列表
      */
+    @ApiOperation("获取滚动广告列表")
     @RequiresPermissions("conf:banner:list")
     @PostMapping("/list")
     @ResponseBody
@@ -57,19 +61,6 @@ public class TBannerController extends BaseController
         startPage();
         List<TBanner> list = tBannerService.selectTBannerList(tBanner);
         return getDataTable(list);
-    }
-
-    /**
-     * 导出首页滚动广告列表
-     */
-    @RequiresPermissions("conf:banner:export")
-    @PostMapping("/export")
-    @ResponseBody
-    public AjaxResult export(TBanner tBanner)
-    {
-        List<TBanner> list = tBannerService.selectTBannerList(tBanner);
-        ExcelUtil<TBanner> util = new ExcelUtil<TBanner>(TBanner.class);
-        return util.exportExcel(list, "banner");
     }
 
     /**
@@ -84,6 +75,7 @@ public class TBannerController extends BaseController
     /**
      * 新增保存首页滚动广告
      */
+    @ApiOperation("新增滚动广告")
     @RequiresPermissions("conf:banner:add")
     @Log(title = "首页滚动广告", businessType = BusinessType.INSERT)
     @PostMapping("/add")
@@ -92,15 +84,13 @@ public class TBannerController extends BaseController
     {
         //TODO:需要对前端传入的参数进行校验，把NULL值补全。
         tBanner.setId(StringUtils.genericId());
-
-
-
         return toAjax(tBannerService.insertTBanner(tBanner));
     }
 
     /**
      * 修改首页滚动广告
      */
+    @ApiOperation("获取滚动广告详情")
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
@@ -112,6 +102,7 @@ public class TBannerController extends BaseController
     /**
      * 修改保存首页滚动广告
      */
+    @ApiOperation("更新滚动广告")
     @RequiresPermissions("conf:banner:edit")
     @Log(title = "首页滚动广告", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
@@ -124,6 +115,7 @@ public class TBannerController extends BaseController
     /**
      * 删除首页滚动广告
      */
+    @ApiOperation("删除滚动广告")
     @RequiresPermissions("conf:banner:remove")
     @Log(title = "首页滚动广告", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
