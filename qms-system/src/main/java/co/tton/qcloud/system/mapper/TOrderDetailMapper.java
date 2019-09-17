@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TOrderDetail;
+import co.tton.qcloud.system.domain.TOrderDetailModel;
+
 import java.util.List;
 
 /**
@@ -26,6 +28,14 @@ public interface TOrderDetailMapper
      * @return 【请填写功能名称】集合
      */
     public List<TOrderDetail> selectTOrderDetailList(TOrderDetail tOrderDetail);
+
+
+    /***
+     * 获取订单详情列表
+     * @param orderId 订单Id
+     * @return
+     */
+    public List<TOrderDetailModel> selectTOrderDetailModelList(String orderId);
 
     /**
      * 新增【请填写功能名称】

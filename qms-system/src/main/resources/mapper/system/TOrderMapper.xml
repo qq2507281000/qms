@@ -30,6 +30,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shopName"    column="shop_name"/>
     </resultMap>
 
+    <resultMap type="TOrderModel" id="TOrderModelResult">
+        <result property="id"    column="id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="subject"    column="subject"    />
+        <result property="address"    column="address"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="preRealPrice"    column="pre_real_price"    />
+        <result property="payPrice"    column="pay_price"    />
+        <result property="paymentChannel"    column="payment_channel"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="haveDiscount"    column="have_discount"    />
+        <result property="bookingTime"    column="booking_time"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="useStatus"    column="use_status"    />
+        <result property="billStatus"    column="bill_status"    />
+        <result property="verifyStatus"    column="verify_status"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="shopName"    column="shop_name"/>
+        <result property="realName" column="real_name"/>
+        <result property="wxName" column="wx_name"/>
+        <result property="regTime" column="reg_time"/>
+        <result property="account_level" column="accountLevel"/>
+        <result property="avatar" column="avatar"/>
+        <result property="openId" column="open_id"/>
+        <result property="serialNo" column="serial_no"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="paymentChannel" column="payment_channel"/>
+        <result property="couponId" column="coupon_id"/>
+        <result property="couponNo" column="coupon_no"/>
+        <result property="faceValue" column="face_value"/>
+        <result property="avaBeginTime" column="ava_begin_time"/>
+        <result property="avaEndTime" column="ava_end_time"/>
+        <result property="useStatus" column="use_status"/>
+    </resultMap>
+
     <sql id="selectTOrderVo">
         select id, order_no, subject, address, shop_id, pre_real_price, pay_price, payment_channel, serial_no, have_discount, booking_time, pay_time, pay_status, use_status, bill_status, verify_status, flag, create_time, create_by, update_time, update_by, member_id,
         (select name from t_shop where id = o.shop_id) as shop_name
@@ -64,6 +105,75 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTOrderById" parameterType="String" resultMap="TOrderResult">
         <include refid="selectTOrderVo"/>
         where id = #{id}
+    </select>
+
+    <select id="selectFullOrderById" parameterType="String" resultMap="TOrderModelResult">
+        SELECT
+        o.id,
+        o.order_no,
+        o.`subject`,
+        o.address,
+        o.shop_id,
+        o.pre_real_price,
+        o.pay_price,
+        o.payment_channel,
+        o.serial_no,
+        o.have_discount,
+        o.booking_time,
+        o.pay_time,
+        o.pay_status,
+        o.use_status,
+        o.bill_status,
+        o.verify_status,
+        o.flag,
+        o.create_time,
+        o.create_by,
+        o.update_time,
+        o.update_by,
+        o.member_id,
+        s.`name` AS shop_name,
+        m.real_name,
+        m.open_id,
+        m.wx_name,
+        m.reg_time,
+        m.mobile,
+        m.account_level,
+        m.avatar,
+        p.remote_info,
+        full_coupon.coupon_id,
+        full_coupon.use_time,
+        full_coupon.sno as coupon_no,
+        full_coupon.face_value,
+        full_coupon.ava_begin_time,
+        full_coupon.ava_end_time,
+        full_coupon.use_status as coupon_use_status,
+        full_coupon.received_member_id,
+        full_coupon.receive_status as received_status
+        FROM
+        t_order o
+        LEFT JOIN t_shop s ON o.shop_id = s.id
+        LEFT JOIN t_member m ON o.member_id = m.id
+        LEFT JOIN t_order_payment p ON p.order_id = o.id
+        LEFT JOIN (
+        SELECT
+            oc.id,
+            oc.order_id,
+            oc.use_time,
+            c.id AS coupon_id,
+            c.sno,
+            c.face_value,
+            c.ava_begin_time,
+            c.ava_end_time,
+            c.use_status,
+            c.receive_status,
+            crl.received_time,
+            crl.member_id AS received_member_id
+        FROM
+            t_order_coupon oc
+            LEFT JOIN t_coupon c ON oc.coupon_id = c.id
+        LEFT JOIN t_coupon_receive_log crl ON oc.coupon_id = crl.coupon_id
+        ) AS full_coupon ON full_coupon.order_id = o.id
+        WHERE o.id = #{id}
     </select>
         
     <insert id="insertTOrder" parameterType="TOrder">

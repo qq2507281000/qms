@@ -8,6 +8,7 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.system.domain.TOrderDetailModel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +53,20 @@ public class TOrderDetailController extends BaseController
     {
         startPage();
         List<TOrderDetail> list = tOrderDetailService.selectTOrderDetailList(tOrderDetail);
+        return getDataTable(list);
+    }
+
+    /***
+     * 查询订单详细列表
+     * @param orderId
+     * @return
+     */
+    @RequiresPermissions("order:detail")
+    @PostMapping("/{order-id}")
+    @ResponseBody
+    public TableDataInfo details(@PathVariable("order-id") String orderId){
+        startPage();
+        List<TOrderDetailModel> list = tOrderDetailService.selectTOrderDetailModelList(orderId);
         return getDataTable(list);
     }
 

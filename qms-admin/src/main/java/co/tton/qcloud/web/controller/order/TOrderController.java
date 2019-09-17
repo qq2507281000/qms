@@ -8,6 +8,7 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.system.domain.TOrderModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -102,8 +103,11 @@ public class TOrderController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
-        TOrder tOrder = tOrderService.selectTOrderById(id);
-        mmap.put("tOrder", tOrder);
+//        TOrder tOrder = tOrderService.selectTOrderById(id);
+//        mmap.put("tOrder", tOrder);
+//        return prefix + "/edit";
+        TOrderModel orderModel = tOrderService.selectFullOrderById(id);
+        mmap.put("order",orderModel);
         return prefix + "/edit";
     }
 

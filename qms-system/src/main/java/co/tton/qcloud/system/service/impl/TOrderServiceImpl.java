@@ -4,6 +4,9 @@ import java.util.List;
 
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.system.domain.TOrderDetailModel;
+import co.tton.qcloud.system.domain.TOrderModel;
+import co.tton.qcloud.system.service.ITOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TOrderMapper;
@@ -21,6 +24,9 @@ public class TOrderServiceImpl implements ITOrderService
 {
     @Autowired
     private TOrderMapper tOrderMapper;
+
+    @Autowired
+    private ITOrderDetailService detailService;
 
     /**
      * 查询【请填写功能名称】
@@ -93,5 +99,19 @@ public class TOrderServiceImpl implements ITOrderService
     public int deleteTOrderById(String id)
     {
         return tOrderMapper.deleteTOrderById(id);
+    }
+
+
+    /***
+     * 获取完整订单信息
+     * @param id 订单Id
+     * @return
+     */
+    @Override
+    public TOrderModel selectFullOrderById(String id) {
+        TOrderModel orderModel = tOrderMapper.selectFullOrderById(id);
+        List<TOrderDetailModel> details = detailService.selectTOrderDetailModelList(id);
+        orderModel.setDetails(details);
+        return orderModel;
     }
 }

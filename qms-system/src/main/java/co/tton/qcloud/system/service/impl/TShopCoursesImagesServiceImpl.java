@@ -1,6 +1,7 @@
 package co.tton.qcloud.system.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
@@ -95,5 +96,18 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
     public int deleteTShopCoursesImagesById(String id)
     {
         return tShopCoursesImagesMapper.deleteTShopCoursesImagesById(id);
+    }
+
+    @Override
+    public List<String> getCoursesImages(String courses_id){
+        TShopCoursesImages coursesImages = new TShopCoursesImages();
+        coursesImages.setCoursesId(courses_id);
+        List<TShopCoursesImages> list = tShopCoursesImagesMapper.selectTShopCoursesImagesList(coursesImages);
+        if(list != null){
+            return list.stream().map(d->{
+                return d.getImageUrl();
+            }).collect(Collectors.toList());
+        }
+        return null;
     }
 }

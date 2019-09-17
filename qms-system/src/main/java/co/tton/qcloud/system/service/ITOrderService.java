@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.service;
 
 import co.tton.qcloud.system.domain.TOrder;
+import co.tton.qcloud.system.domain.TOrderModel;
+
 import java.util.List;
 
 /**
@@ -18,6 +20,13 @@ public interface ITOrderService
      * @return 【请填写功能名称】
      */
     public TOrder selectTOrderById(String id);
+
+    /***
+     * 获取完整订单信息
+     * @param id 订单Id
+     * @return
+     */
+    public TOrderModel selectFullOrderById(String id);
 
     /**
      * 查询【请填写功能名称】列表

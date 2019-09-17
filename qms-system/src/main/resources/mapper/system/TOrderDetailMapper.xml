@@ -19,6 +19,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
+    <resultMap type="TOrderDetailModel" id="TOrderDetailModelResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="coursesId"    column="courses_id"    />
+        <result property="timeId"    column="time_id"    />
+        <result property="priceId"    column="price_id"    />
+        <result property="preRealPrice"    column="pre_real_price"    />
+        <result property="useStatus"    column="use_status"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="title" column="title"/>
+        <result property="subTitle" column="sub_title"/>
+        <result property="isSuggest" column="is_suggest"/>
+        <result property="price" column="price"/>
+        <result property="priceL1" column="l1_price"/>
+        <result property="priceL2" column="l2_price"/>
+        <result property="priceL3" column="l3_price"/>
+        <result property="priceL4" column="l4_price"/>
+        <result property="priceL5" column="l5_price"/>
+        <result property="priceL6" column="l6_price"/>
+        <result property="priceL7" column="l7_price"/>
+        <result property="priceL8" column="l8_price"/>
+        <result property="priceL9" column="l9_price"/>
+        <result property="wkNo" column="wk_no"/>
+        <result property="apm" column="am_pm"/>
+        <result property="beginTime" column="b_time"/>
+        <result property="endTime" column="e_time"/>
+    </resultMap>
+
+
     <sql id="selectTOrderDetailVo">
         select id, order_id, courses_id, time_id, price_id, pre_real_price, use_status, flag, create_time, create_by, update_time, update_by from t_order_detail
     </sql>
@@ -37,7 +70,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
         </where>
     </select>
-    
+
+    <select id="selectTOrderDetailModelList" parameterType="String" resultMap="TOrderDetailModelResult">
+        SELECT
+        d.id,
+        d.order_id,
+        d.courses_id,
+        d.time_id,
+        d.price_id,
+        d.count,
+        d.pre_real_price AS total_price,
+        d.use_status,
+        d.flag,
+        d.create_time,
+        d.create_by,
+        d.update_time,
+        d.update_by,
+        c.title,
+        c.sub_title,
+        c.suggest AS is_suggest,
+        cp.price,
+        cp.l1_price,
+        cp.l2_price,
+        cp.l3_price,
+        cp.l4_price,
+        cp.l5_price,
+        cp.l6_price,
+        cp.l7_price,
+        cp.l8_price,
+        cp.l9_price,
+        ct.wk_no,
+        ct.am_fm,
+        ct.b_time,
+        ct.e_time,
+        d.lession_time
+        FROM
+        t_order_detail d
+        LEFT JOIN t_shop_courses c ON d.courses_id = c.id
+        LEFT JOIN t_shop_courses_time ct ON ct.id = d.time_id
+        LEFT JOIN t_shop_courses_price cp ON cp.id = d.price_id
+        WHERE d.order_id = #{order_id}
+    </select>
     <select id="selectTOrderDetailById" parameterType="String" resultMap="TOrderDetailResult">
         <include refid="selectTOrderDetailVo"/>
         where id = #{id}

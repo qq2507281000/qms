@@ -58,4 +58,11 @@ public interface ITShopCoursesImagesService
      * @return 结果
      */
     public int deleteTShopCoursesImagesById(String id);
+
+    /***
+     * 根据课程Id获取课程图片地址
+     * @param courses_id
+     * @return
+     */
+    public List<String> getCoursesImages(String courses_id);
 }

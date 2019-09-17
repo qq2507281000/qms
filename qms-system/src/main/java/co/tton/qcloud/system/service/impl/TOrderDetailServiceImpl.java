@@ -1,9 +1,12 @@
 package co.tton.qcloud.system.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.system.domain.TOrderDetailModel;
+import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TOrderDetailMapper;
@@ -21,6 +24,9 @@ public class TOrderDetailServiceImpl implements ITOrderDetailService
 {
     @Autowired
     private TOrderDetailMapper tOrderDetailMapper;
+
+//    @Autowired
+//    private ITShopCoursesImagesService coursesImagesService;
 
     /**
      * 查询【请填写功能名称】
@@ -93,5 +99,23 @@ public class TOrderDetailServiceImpl implements ITOrderDetailService
     public int deleteTOrderDetailById(String id)
     {
         return tOrderDetailMapper.deleteTOrderDetailById(id);
+    }
+
+    /***
+     * 获取订单详情列表
+     * @param orderId 订单Id
+     * @return
+     */
+    @Override
+    public List<TOrderDetailModel> selectTOrderDetailModelList(String orderId){
+//        return tOrderDetailMapper.selectTOrderDetailModelList(orderId).stream()
+//                .map(d->{
+//                    TOrderDetailModel model = d;
+//                    String coursesId = d.getCoursesId();
+//                    List<String> images = coursesImagesService.getCoursesImages(coursesId);
+//                    model.setImages(images);
+//                    return model;
+//                }).collect(Collectors.toList());
+        return tOrderDetailMapper.selectTOrderDetailModelList(orderId);
     }
 }

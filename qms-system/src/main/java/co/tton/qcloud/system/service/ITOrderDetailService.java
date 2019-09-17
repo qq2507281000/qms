@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.service;
 
 import co.tton.qcloud.system.domain.TOrderDetail;
+import co.tton.qcloud.system.domain.TOrderDetailModel;
+
 import java.util.List;
 
 /**
@@ -58,4 +60,12 @@ public interface ITOrderDetailService
      * @return 结果
      */
     public int deleteTOrderDetailById(String id);
+
+
+    /***
+     * 获取订单详情列表
+     * @param orderId 订单Id
+     * @return
+     */
+    public List<TOrderDetailModel> selectTOrderDetailModelList(String orderId);
 }
