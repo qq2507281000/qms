@@ -35,7 +35,7 @@ public class TShopCoursesController extends BaseController
     @Autowired
     private ITShopCoursesService tShopCoursesService;
 
-    @RequiresPermissions("shop:basic:view")
+    @RequiresPermissions("shop:courses:view")
     @GetMapping()
     public String courses()
     {

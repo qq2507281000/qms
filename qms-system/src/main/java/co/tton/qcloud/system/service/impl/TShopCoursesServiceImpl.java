@@ -3,6 +3,7 @@ package co.tton.qcloud.system.service.impl;
 import java.util.List;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TShopCoursesMapper;
@@ -42,6 +43,7 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService
     @Override
     public List<TShopCourses> selectTShopCoursesList(TShopCourses tShopCourses)
     {
+        tShopCourses.setFlag(1);
         return tShopCoursesMapper.selectTShopCoursesList(tShopCourses);
     }
 
@@ -54,6 +56,7 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService
     @Override
     public int insertTShopCourses(TShopCourses tShopCourses)
     {
+        tShopCourses.setId(StringUtils.genericId());
         tShopCourses.setCreateTime(DateUtils.getNowDate());
         return tShopCoursesMapper.insertTShopCourses(tShopCourses);
     }
@@ -80,7 +83,10 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService
     @Override
     public int deleteTShopCoursesByIds(String ids)
     {
-        return tShopCoursesMapper.deleteTShopCoursesByIds(Convert.toStrArray(ids));
+        TShopCourses tShopCourses = new TShopCourses();
+        tShopCourses.setFlag(2);
+        tShopCourses.setId(ids);
+        return tShopCoursesMapper.deleteTShopCoursesByIds(tShopCourses);
     }
 
     /**
