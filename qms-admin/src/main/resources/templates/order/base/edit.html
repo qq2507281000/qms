@@ -1,12 +1,260 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('修改【请填写功能名称】')" />
+    <th:block th:include="include :: header('修改订单信息')" />
     <th:block th:include="include :: datetimepicker-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-order-edit" th:object="${tOrder}">
+            <!--=== Content Part ===-->
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="container content">
+                <!--Invoice Header-->
+                <div class="row invoice-header">
+                    <div class="col-xs-4">
+                        <img class="img-circle" src="https://placehold.it/80x80&text=LOGO" alt="微信头像">
+                        <!-- You also can use a title instead of image
+                        <h2 class="pull-left">Product Invoice</h2>-->
+                    </div>
+                    <div class="col-xs-8 invoice-numb">
+                        <label class="badge badge-info" th:text="*{orderNo}"></label>
+                        <label>&nbsp;/&nbsp;</label>
+                        <label th:text="${#dates.format(tOrder.bookingTime, 'yyyy-MM-dd HH:mm:ss')}"></label>
+                        <span th:text="*{subject}"></span>
+                    </div>
+                </div>
+                <!--End Invoice Header-->
+
+                <!--Invoice Detials-->
+                <div class="row invoice-info">
+                    <div class="col-xs-6">
+                        <div class="tag-box tag-box-v3">
+                            <h2>客户信息:</h2>
+                            <ul class="list-unstyled">
+                                <li><strong>姓名:</strong> MR.JOHN</li>
+                                <li><strong>微信名称:</strong> NILSON</li>
+                                <li><strong>注册时间:</strong> CANADA</li>
+                                <li><strong>客户级别:</strong> YYYY/MM/DD</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="tag-box tag-box-v3">
+                            <h2>支付信息:</h2>
+                            <ul class="list-unstyled">
+                                <li><strong>支付通道:</strong> 123456789012</li>
+                                <li><strong>流水号:</strong> 123456789012</li>
+                                <li><strong>支付时间:</strong> 123DEMO45DEMO</li>
+                                <li><strong>支付金额:</strong> 678DEMO45545</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Invoice Detials-->
+
+                <!--Invoice Table-->
+                <div class="panel panel-default margin-bottom-40">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">订单详情</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p></p>
+                    </div>
+                    <table class="table table-striped invoice-table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>课程SKU</th>
+                            <th>课程名称</th>
+                            <th class="hidden-sm">上课时间</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>小计</th>
+                            <th>使用状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Keyboard</td>
+                            <td>Keyboard</td>
+                            <td class="hidden-sm">At vero eos et accusamus etofficia mollitia</td>
+                            <td>252</td>
+                            <td>$52</td>
+                            <td>$18476</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Keyboard</td>
+                            <td>Displays</td>
+                            <td class="hidden-sm">Verode eoset accusamus etofficia deserunt</td>
+                            <td>78</td>
+                            <td>$128</td>
+                            <td>$12047</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Keyboard</td>
+                            <td>Phones</td>
+                            <td class="hidden-sm">Etquas molestias deexcepturi dasint</td>
+                            <td>16</td>
+                            <td>$450</td>
+                            <td>$7968</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Keyboard</td>
+                            <td>Software</td>
+                            <td class="hidden-sm">Atofficia droeos etofficia taccusamus</td>
+                            <td>191</td>
+                            <td>$24</td>
+                            <td>$4099</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Keyboard</td>
+                            <td>Speakers</td>
+                            <td class="hidden-sm">Dacusamus deserunt veroeoset vero eos</td>
+                            <td>65</td>
+                            <td>$119</td>
+                            <td>$9456</td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--End Invoice Table-->
+
+                <!--Invoice Footer-->
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="tag-box tag-box-v3 no-margin-bottom">
+                            <h2>优惠券信息:</h2>
+                            <ul class="list-unstyled">
+                                <li><strong>是否使用:</strong> MR.JOHN</li>
+                                <li><strong>券编码:</strong> NILSON</li>
+                                <li><strong>发放时间:</strong> CANADA</li>
+                                <li><strong>领用时间:</strong> YYYY/MM/DD</li>
+                            </ul>
+                            <!--<address class="no-margin-bottom">-->
+                                <!--<br>-->
+                                <!--California, US <br>-->
+                                <!--Phone: 800 123 3456 <br>-->
+                                <!--Fax: 800 123 3456 <br>-->
+                                <!--Email: <a href="mailto:info@example.com">info@example.com</a>-->
+                            <!--</address>-->
+                        </div>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <h2>付款信息:</h2>
+                        <ul class="list-unstyled invoice-total-info">
+                            <li><strong>合计金额:</strong> <span th:text="*{preRealPrice}"></span></li>
+                            <li><strong>优惠券抵扣:</strong> 14.8%</li>
+                            <li><strong>实际支付:</strong> 14.8%</li>
+                            <!--<li>-->
+                                <!--<div class="form-group" style="border:1px solid red;">-->
+                                    <!--<label class="col-sm-3 control-label"><strong>实际支付:</strong></label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<input name="payPrice" th:field="*{payPrice}" class="form-control" type="text">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">应付金额：</label>
+                            <div class="col-sm-10">
+                                <input name="preRealPrice" th:field="*{preRealPrice}" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">支付状态：</label>
+                            <div class="col-sm-10">
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
+                                </div>
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">使用状态：</label>
+                            <div class="col-sm-10">
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
+                                </div>
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">订单状态：</label>
+                            <div class="col-sm-10">
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
+                                </div>
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">核验状态：</label>
+                            <div class="col-sm-10">
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
+                                </div>
+                                <div class="radio check-box">
+                                    <label>
+                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="row text-right" style="padding:15px;">
+                    <button class="btn btn-default btn-xl"><i class="fa fa-circle-o-notch"></i> 取消</button>
+                    <button class="btn btn-primary btn-xl"><i class="fa fa-save"></i> 确认修改</button>
+                    <button class="btn btn-danger btn-xl"><i class="fa fa-close"></i> 订单作废</button>
+                </div>
+                <!--End Invoice Footer-->
+            </div><!--/container-->
+            <!--=== End Content Part ===-->
+
+
             <input name="id" th:field="*{id}" type="hidden">
             <div class="form-group">    
                 <label class="col-sm-3 control-label">订单编号：</label>
@@ -129,13 +377,13 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">核销状态：</label>
                 <div class="col-sm-8">
-                    <input name="createUser" th:field="*{createUser}" class="form-control" type="text">
+                    <input name="createUser" th:field="*{createBy}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">核销状态：</label>
                 <div class="col-sm-8">
-                    <input name="updateUser" th:field="*{updateUser}" class="form-control" type="text">
+                    <input name="updateUser" th:field="*{updateBy}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    

@@ -39,7 +39,7 @@ public class TShopCoursesController extends BaseController
     @GetMapping()
     public String courses()
     {
-        return prefix + "/courses";
+        return prefix + "/list";
     }
 
     /**

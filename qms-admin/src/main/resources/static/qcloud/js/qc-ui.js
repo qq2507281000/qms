@@ -244,6 +244,41 @@
 					return $.common.nullToStr(value);
 				}
 			},
+			numeric: function(value, decimals){
+            	if($.common.isEmpty(value)){
+            		return "0.00";
+				}
+            	var thousands_sep = ",";
+            	var dec_point = ".";
+				value = (value + '').replace(/[^0-9+-Ee.]/g, '');
+				var n = !isFinite(+value) ? 0 : +value,
+					prec = !isFinite(+decimals) ? 2 : Math.abs(decimals),
+					sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+					dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+					s = '',
+					toFixedFix = function(n, prec) {
+						var k = Math.pow(10, prec);
+						return '' + Math.ceil(n * k) / k;
+					};
+
+				s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+				var re = /(-?\d+)(\d{3})/;
+				while(re.test(s[0])) {
+					s[0] = s[0].replace(re, "$1" + sep + "$2");
+				}
+
+				if((s[1] || '').length < prec) {
+					s[1] = s[1] || '';
+					s[1] += new Array(prec - s[1].length + 1).join('0');
+				}
+				return s.join(dec);
+			},
+			datetime:function(value, pattern){
+				if($.common.isEmpty(value)){
+					return "-";
+				}
+				return value;
+			},
             // 搜索-默认第一个form
             search: function(formId, data) {
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
@@ -873,10 +908,26 @@
             	    $.modal.open("修改" + $.table._option.modalName, $.operate.editUrl(id));
             	}
             },
+			view: function(id) {
+				if($.common.isEmpty(id) && $.table._option.type == table_type.bootstrapTreeTable) {
+					var row = $.bttTable.bootstrapTreeTable('getSelections')[0];
+					if ($.common.isEmpty(row)) {
+						$.modal.alertWarning("请至少选择一条记录");
+						return;
+					}
+					var url = $.table._option.viewUrl.replace("{id}", row[$.table._option.uniqueId]);
+					$.modal.open("查看" + $.table._option.modalName, url);
+				} else {
+					$.modal.open("查看" + $.table._option.modalName, $.operate.viewUrl(id));
+				}
+			},
             // 修改信息，以tab页展现
             editTab: function(id) {
             	$.modal.openTab("修改" + $.table._option.modalName, $.operate.editUrl(id));
             },
+			viewTab:function(id){
+				$.modal.openTab("查看" + $.table._option.modalName, $.operate.viewUrl(id));
+			},
             // 修改信息 全屏
             editFull: function(id) {
             	var url = "/404.html";
@@ -903,6 +954,21 @@
             	}
                 return url;
             },
+			// 修改查看地址
+			viewUrl: function(id) {
+				var url = "/404.html";
+				if ($.common.isNotEmpty(id)) {
+					url = $.table._option.viewUrl.replace("{id}", id);
+				} else {
+					var id = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+					if (id.length == 0) {
+						$.modal.alertWarning("请至少选择一条记录");
+						return;
+					}
+					url = $.table._option.viewUrl.replace("{id}", id);
+				}
+				return url;
+			},
             // 保存信息 刷新表格
             save: function(url, data, callback) {
             	var config = {

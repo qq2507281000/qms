@@ -8,6 +8,9 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,7 @@ import co.tton.qcloud.system.service.ITOrderService;
  * @author qcloud
  * @date 2019-09-05
  */
+@Api(value="订单管理",tags = "订单管理")
 @Controller
 @RequestMapping("/order")
 public class TOrderController extends BaseController
@@ -48,7 +52,8 @@ public class TOrderController extends BaseController
     @RequiresPermissions("order:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(TOrder tOrder)
+    @ApiOperation("获取订单列表")
+    public TableDataInfo list(@ApiParam("订单实体对象") TOrder tOrder)
     {
         startPage();
         List<TOrder> list = tOrderService.selectTOrderList(tOrder);
@@ -61,7 +66,8 @@ public class TOrderController extends BaseController
     @RequiresPermissions("order:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(TOrder tOrder)
+    @ApiOperation("导出订单信息列表")
+    public AjaxResult export(@ApiParam("订单实体对象") TOrder tOrder)
     {
         List<TOrder> list = tOrderService.selectTOrderList(tOrder);
         ExcelUtil<TOrder> util = new ExcelUtil<TOrder>(TOrder.class);
@@ -84,7 +90,8 @@ public class TOrderController extends BaseController
     @Log(title = "订单信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(TOrder tOrder)
+    @ApiOperation("保存订单信息")
+    public AjaxResult addSave(@ApiParam("订单实体对象") TOrder tOrder)
     {
         return toAjax(tOrderService.insertTOrder(tOrder));
     }
@@ -107,7 +114,8 @@ public class TOrderController extends BaseController
     @Log(title = "订单信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(TOrder tOrder)
+    @ApiOperation("编辑订单信息")
+    public AjaxResult editSave(@ApiParam("订单实体对象") TOrder tOrder)
     {
         return toAjax(tOrderService.updateTOrder(tOrder));
     }
@@ -119,6 +127,7 @@ public class TOrderController extends BaseController
     @Log(title = "订单信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除订单信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tOrderService.deleteTOrderByIds(ids));

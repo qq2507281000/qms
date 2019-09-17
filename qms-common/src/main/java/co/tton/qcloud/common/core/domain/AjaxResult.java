@@ -3,12 +3,15 @@ package co.tton.qcloud.common.core.domain;
 import java.util.HashMap;
 
 import co.tton.qcloud.common.utils.StringUtils;
+import io.swagger.annotations.ApiModel;
 
 /**
  * 操作消息提醒
  * 
  * @author Qcloud
  */
+
+@ApiModel("AJAX返回结果集")
 public class AjaxResult extends HashMap<String, Object>
 {
     private static final long serialVersionUID = 1L;

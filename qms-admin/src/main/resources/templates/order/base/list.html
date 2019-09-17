@@ -32,36 +32,31 @@
                             </li>
                             <li>
                                 <p>支付状态：</p>
-                                <select name="payStatus">
+
+                                <select name="payStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_paid_status')}">
                                     <option value="">所有</option>
-                                    <option value="1">已支付</option>
-                                    <option value="0">未支付</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
                                 <p>使用状态：</p>
-                                <select name="useStatus">
+                                <select name="useStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_use_status')}">
                                     <option value="">所有</option>
-                                    <option value="0">未使用</option>
-                                    <option value="1">已使用</option>
-                                    <option value="2">已过期</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
                                 <p>订单状态：</p>
-                                <select name="billStatus">
+                                <select name="orderStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_order_status')}">
                                     <option value="">所有</option>
-                                    <option value="">未开始</option>
-                                    <option value="">已完结</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
                                 <p>核销状态：</p>
-                                <select name="verifyStatus">
+                                <select name="confirmStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_confirm_status')}">
                                     <option value="">所有</option>
-                                    <option value="">未核销</option>
-                                    <option value="">部分核销</option>
-                                    <option value="">已核销</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li style="float:right; padding-right:40px;padding-top:10px;">
@@ -74,21 +69,15 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:order:add">-->
-                    <!--<i class="fa fa-plus"></i> 添加-->
-                <!--</a>-->
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="order:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="order:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="order:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning multiple disabled" onclick="$.operate.view()" shiro:hasPermission="order:detail">
+                <a class="btn btn-warning multiple disabled" onclick="$.operate.viewTab()" shiro:hasPermission="order:detail">
                     <i class="fa fa-eye-slash"></i> 查看
                 </a>
-                <!--<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:order:export">-->
-                    <!--<i class="fa fa-download"></i> 导出-->
-                 <!--</a>-->
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -103,6 +92,12 @@
         //var prefix = ctx + "system/order";
         var prefix = "/order";
 
+        var coupon_status = [[${@dict.getType('thd_coupon_status')}]];
+        var pay_status = [[${@dict.getType('thd_paid_status')}]];
+        var use_status = [[${@dict.getType('thd_use_status')}]];
+        var order_status = [[${@dict.getType('thd_order_status')}]];
+        var confirm_status = [[${@dict.getType('thd_confirm_status')}]];
+
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -110,8 +105,8 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                viewUrl: prefix + "/view",
-                modalName: "【请填写功能名称】",
+                viewUrl: prefix + "/view/{id}",
+                modalName: "订单信息",
                 columns: [{
                     checkbox: true
                 },
@@ -124,7 +119,7 @@
                     field : 'orderNo', 
                     title : '订单编号',
                     formatter: function(value, row, index) {
-                        return '<span class="span-code" title="'+value+'">'+value+'</span>';
+                        return $.table.tooltip(value,8);
                     }
                 },
                 {
@@ -137,19 +132,19 @@
                 },
                 {
                     field : 'preRealPrice', 
-                    title : '应收金额'
-                    // formatter: function(value, row, index) {
-                    //     var num = number_format(value,2);
-                    //     return '<span class="span-numeric">'+num+'</span>';
-                    // }
+                    title : '应收金额',
+                    align : 'right',
+                    formatter: function(value, row, index) {
+                        return $.table.numeric(value,2);
+                    }
                 },
                 {
                     field : 'payPrice', 
-                    title : '实收金额'
-                    // formatter: function(value, row, index) {
-                    //     var num = number_format(value,2);
-                    //     return '<span class="span-numeric">'+num+'</span>';
-                    // }
+                    title : '实收金额',
+                    align : 'right',
+                    formatter: function(value, row, index) {
+                        return $.table.numeric(value,2);
+                    }
                 },
                 {
                     field : 'serialNo', 
@@ -158,16 +153,9 @@
                 {
                     field : 'haveDiscount', 
                     title : '抵值券',
+                    align: 'center',
                     formatter: function(value, row, index) {
-                        if(value==1){
-                            return '<span class="label label-success">已使用</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">未使用</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未定义</span>';
-                        }
+                        return $.table.selectDictLabel(coupon_status, value);
                     }
                 },
                 {
@@ -182,60 +170,28 @@
                     field : 'payStatus', 
                     title : '支付状态',
                     formatter: function(value, row, index) {
-                        if(value==1){
-                            return '<span class="label label-success">已支付</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">未支付</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未定义</span>';
-                        }
+                        return $.table.selectDictLabel(pay_status, value);
                     }
                 },
                 {
                     field : 'useStatus', 
                     title : '使用状态',
                     formatter: function(value, row, index) {
-                        if(value==1){
-                            return '<span class="label label-success">已使用</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">未使用</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未定义</span>';
-                        }
+                        return $.table.selectDictLabel(use_status, value);
                     }
                 },
                 {
                     field : 'billStatus', 
                     title : '订单状态',
                     formatter: function(value, row, index) {
-                        if(value==1){
-                            return '<span class="label label-success">已完结</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">未完结</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未定义</span>';
-                        }
+                        return $.table.selectDictLabel(order_status, value);
                     }
                 },
                 {
                     field : 'verifyStatus', 
                     title : '核销状态',
                     formatter: function(value, row, index) {
-                        if(value==1){
-                            return '<span class="label label-success">已核销</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">未核销</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未定义</span>';
-                        }
+                        return $.table.selectDictLabel(confirm_status, value);
                     }
                 },
                 {
@@ -243,8 +199,8 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>查看</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.viewTab(\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>查看</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
