@@ -39,16 +39,16 @@
                                 <input type="text" name="sortKey"/>
                             </li>
                             <li>
-                                <p>排序：</p>
+                                <p>状态：</p>
                                 <input type="text" name="flag"/>
                             </li>
                             <li>
-                                <p>排序：</p>
-                                <input type="text" name="createUser"/>
+                                <p>创建人：</p>
+                                <input type="text" name="createBy"/>
                             </li>
                             <li>
-                                <p>排序：</p>
-                                <input type="text" name="updateUser"/>
+                                <p>修改人：</p>
+                                <input type="text" name="updateBy"/>
                             </li>
                             <li>
                                 <p>SKU保留字段：</p>
@@ -68,18 +68,18 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="courses:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="shop:courses:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="courses:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:courses:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="courses:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:courses:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="courses:export">
-                    <i class="fa fa-download"></i> 导出
-                 </a>
+<!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="courses:export">-->
+<!--                    <i class="fa fa-download"></i> 导出-->
+<!--                 </a>-->
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -88,8 +88,8 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('courses:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('courses:remove')}]];
+        var editFlag = [[${@permission.hasPermi('shop:courses:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
         var prefix = "/shop/courses";
 
         $(function() {
