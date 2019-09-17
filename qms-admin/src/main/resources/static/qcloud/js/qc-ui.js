@@ -843,6 +843,22 @@
             	}
                 return url;
             },
+			openShopTab:function(url,shopId){
+				var targetUrl = "/404.html";
+				if($.common.isNotEmpty(shopId)){
+					targetUrl = url + "?shop-id=" + shopId;
+				}
+				else{
+					var id = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+					if(id.length == 0){
+						$.modal.alertWarning("请至少选择一条记录");
+						return;
+					}
+					else{
+						targetUrl = url + "?shop-id="+shopId;
+					}
+				}
+			},
             // 删除信息
             remove: function(id) {
             	$.modal.confirm("确定删除该条" + $.table._option.modalName + "信息吗？", function() {

@@ -17,11 +17,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.service.ITOrderService;
 
@@ -45,8 +41,8 @@ public class TOrderController extends BaseController
     private ITOrderService tOrderService;
 
     @RequiresPermissions("order:view")
-    @GetMapping("/{id}")
-    public String order(@PathVariable("id")String shopId, ModelMap mmap)
+    @GetMapping()
+    public String order(@RequestParam("shop-id") String shopId, ModelMap mmap)
     {
         if(StringUtils.isNotEmpty(shopId)){
             mmap.put("shopId",shopId);
