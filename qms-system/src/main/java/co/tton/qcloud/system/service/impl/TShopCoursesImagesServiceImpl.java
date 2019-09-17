@@ -44,6 +44,7 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
     @Override
     public List<TShopCoursesImages> selectTShopCoursesImagesList(TShopCoursesImages tShopCoursesImages)
     {
+        tShopCoursesImages.setFlag(1);
         return tShopCoursesImagesMapper.selectTShopCoursesImagesList(tShopCoursesImages);
     }
 
@@ -83,7 +84,10 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
     @Override
     public int deleteTShopCoursesImagesByIds(String ids)
     {
-        return tShopCoursesImagesMapper.deleteTShopCoursesImagesByIds(Convert.toStrArray(ids));
+        TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
+        tShopCoursesImages.setId(ids);
+        tShopCoursesImages.setFlag(2);
+        return tShopCoursesImagesMapper.deleteTShopCoursesImagesByIds(tShopCoursesImages);
     }
 
     /**

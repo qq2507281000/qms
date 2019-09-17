@@ -44,6 +44,7 @@ public class TShopCoursesTimeServiceImpl implements ITShopCoursesTimeService
     @Override
     public List<TShopCoursesTime> selectTShopCoursesTimeList(TShopCoursesTime tShopCoursesTime)
     {
+        tShopCoursesTime.setFlag(1);
         return tShopCoursesTimeMapper.selectTShopCoursesTimeList(tShopCoursesTime);
     }
 
@@ -83,7 +84,10 @@ public class TShopCoursesTimeServiceImpl implements ITShopCoursesTimeService
     @Override
     public int deleteTShopCoursesTimeByIds(String ids)
     {
-        return tShopCoursesTimeMapper.deleteTShopCoursesTimeByIds(Convert.toStrArray(ids));
+        TShopCoursesTime tShopCoursesTime = new TShopCoursesTime();
+        tShopCoursesTime.setId(ids);
+        tShopCoursesTime.setFlag(2);
+        return tShopCoursesTimeMapper.deleteTShopCoursesTimeByIds(tShopCoursesTime);
     }
 
     /**

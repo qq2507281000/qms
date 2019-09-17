@@ -44,6 +44,7 @@ public class TShopCoursesPriceServiceImpl implements ITShopCoursesPriceService
     @Override
     public List<TShopCoursesPrice> selectTShopCoursesPriceList(TShopCoursesPrice tShopCoursesPrice)
     {
+        tShopCoursesPrice.setFlag(1);
         return tShopCoursesPriceMapper.selectTShopCoursesPriceList(tShopCoursesPrice);
     }
 
@@ -83,7 +84,10 @@ public class TShopCoursesPriceServiceImpl implements ITShopCoursesPriceService
     @Override
     public int deleteTShopCoursesPriceByIds(String ids)
     {
-        return tShopCoursesPriceMapper.deleteTShopCoursesPriceByIds(Convert.toStrArray(ids));
+        TShopCoursesPrice tShopCoursesPrice = new TShopCoursesPrice();
+        tShopCoursesPrice.setId(ids);
+        tShopCoursesPrice.setFlag(2);
+        return tShopCoursesPriceMapper.deleteTShopCoursesPriceByIds(tShopCoursesPrice);
     }
 
     /**

@@ -142,11 +142,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from t_shop_courses_price where id = #{id}
     </delete>
 
-    <delete id="deleteTShopCoursesPriceByIds" parameterType="String">
-        delete from t_shop_courses_price where id in 
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+    <update id="deleteTShopCoursesPriceByIds" parameterType="TShopCoursesPrice">
+        update t_shop_courses_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flag != null ">flag = #{flag}</if>
+        </trim>
+        where id = #{id}
+    </update>
     
 </mapper>
