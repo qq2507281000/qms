@@ -8,48 +8,49 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
+                    <input id="shopId" name="shopId" th:value="${shopId}" type="hidden">
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>商家Id：</p>
-                                <input type="text" name="shopId"/>
+<!--                                <p>商家Id：</p>-->
+                                <input type="hidden" name="shopId"/>
                             </li>
                             <li>
-                                <p>课程id：</p>
-                                <input type="text" name="coursesId"/>
+<!--                                <p>课程id：</p>-->
+                                <input type="hidden" name="coursesId"/>
                             </li>
                             <li>
-                                <p>星期：</p>
-                                <input type="text" name="wkNo"/>
+<!--                                <p>星期：</p>-->
+                                <input type="hidden" name="wkNo"/>
                             </li>
                             <li>
-                                <p>上午下午(0,1)：</p>
-                                <input type="text" name="amFm"/>
+<!--                                <p>上午下午(0,1)：</p>-->
+                                <input type="hidden" name="amFm"/>
                             </li>
                             <li>
-                                <p>开始时间(0700)：</p>
-                                <input type="text" name="bTime"/>
+<!--                                <p>开始时间(0700)：</p>-->
+                                <input type="hidden" name="bTime"/>
                             </li>
                             <li>
-                                <p>结束时间(1200)：</p>
-                                <input type="text" name="eTime"/>
+<!--                                <p>结束时间(1200)：</p>-->
+                                <input type="hidden" name="eTime"/>
                             </li>
 <!--                            <li>-->
 <!--                                <p>状态：</p>-->
-<!--                                <input type="text" name="flag"/>-->
+<!--                                <input type="hidden" name="flag"/>-->
 <!--                            </li>-->
 <!--                            <li>-->
 <!--                                <p>创建者：</p>-->
-<!--                                <input type="text" name="createBy"/>-->
+<!--                                <input type="hidden" name="createBy"/>-->
 <!--                            </li>-->
 <!--                            <li>-->
 <!--                                <p>修改者：</p>-->
-<!--                                <input type="text" name="updateBy"/>-->
+<!--                                <input type="hidden" name="updateBy"/>-->
 <!--                            </li>-->
-                            <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
+<!--                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                 </form>
@@ -79,10 +80,15 @@
         var editFlag = [[${@permission.hasPermi('shop:time:edit')}]];
         var removeFlag = [[${@permission.hasPermi('shop:time:remove')}]];
         var prefix = "/shop/time";
+        var shopId = $('#shopId').val();
+        var listUrl = prefix + "/list";
+        if($.common.isNotEmpty(shopId)){
+            listUrl = listUrl + "?shop-id=" + shopId;
+        }
 
         $(function() {
             var options = {
-                url: prefix + "/list",
+                url: listUrl,
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",

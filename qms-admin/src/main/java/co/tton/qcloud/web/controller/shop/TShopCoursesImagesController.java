@@ -7,6 +7,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,11 +15,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCoursesImages;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 
@@ -40,8 +37,12 @@ public class TShopCoursesImagesController extends BaseController
 
     @RequiresPermissions("shop:images:view")
     @GetMapping()
-    public String images()
+    public String images(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
+        mmap.put("shopId", "");
+        if(StringUtils.isNotEmpty(shopId)) {
+            mmap.put("shopId", shopId);
+        }
         return prefix + "/images";
     }
 
@@ -52,9 +53,12 @@ public class TShopCoursesImagesController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("查询课程图片信息")
-    public TableDataInfo list(TShopCoursesImages tShopCoursesImages)
+    public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId,TShopCoursesImages tShopCoursesImages)
     {
         startPage();
+        if(StringUtils.isNotEmpty(shopId)){
+            tShopCoursesImages.setShopId(shopId);
+        }
         List<TShopCoursesImages> list = tShopCoursesImagesService.selectTShopCoursesImagesList(tShopCoursesImages);
         return getDataTable(list);
     }

@@ -8,19 +8,20 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
+                    <input id="shopId" name="shopId" th:value="${shopId}" type="hidden">
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>商家id：</p>
-                                <input type="text" name="shopId"/>
+<!--                                <p>商家id：</p>-->
+                                <input type="hidden" name="shopId"/>
                             </li>
                             <li>
-                                <p>商家id：</p>
-                                <input type="text" name="coursesId"/>
+<!--                                <p>商家id：</p>-->
+                                <input type="hidden" name="coursesId"/>
                             </li>
                             <li>
-                                <p>默认基准价格：</p>
-                                <input type="text" name="price"/>
+<!--                                <p>默认基准价格：</p>-->
+                                <input type="hidden" name="price"/>
                             </li>
 <!--                            <li>-->
 <!--                                <p>特殊价格_第一级别：</p>-->
@@ -78,10 +79,10 @@
 <!--                                <p>修改人：</p>-->
 <!--                                <input type="text" name="updateBy"/>-->
 <!--                            </li>-->
-                            <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
+<!--                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                 </form>
@@ -111,15 +112,20 @@
         var editFlag = [[${@permission.hasPermi('shop:price:edit')}]];
         var removeFlag = [[${@permission.hasPermi('shop:price:remove')}]];
         var prefix = "/shop/price";
+        var shopId = $('#shopId').val();
+        var listUrl = prefix + "/list";
+        if($.common.isNotEmpty(shopId)){
+            listUrl = listUrl + "?shop-id=" + shopId;
+        }
 
         $(function() {
             var options = {
-                url: prefix + "/list",
+                url: listUrl,
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "课程价格",
+                modalName: "课程价格信息",
                 columns: [{
                     checkbox: true
                 },

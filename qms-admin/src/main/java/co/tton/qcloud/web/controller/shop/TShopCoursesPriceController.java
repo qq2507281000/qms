@@ -7,6 +7,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,11 +15,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCoursesPrice;
 import co.tton.qcloud.system.service.ITShopCoursesPriceService;
 
@@ -40,8 +37,12 @@ public class TShopCoursesPriceController extends BaseController
 
     @RequiresPermissions("shop:price:view")
     @GetMapping()
-    public String price()
+    public String price(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
+        mmap.put("shopId", "");
+        if(StringUtils.isNotEmpty(shopId)) {
+            mmap.put("shopId", shopId);
+        }
         return prefix + "/price";
     }
 
@@ -52,9 +53,12 @@ public class TShopCoursesPriceController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("查询课程价格信息")
-    public TableDataInfo list(TShopCoursesPrice tShopCoursesPrice)
+    public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId,TShopCoursesPrice tShopCoursesPrice)
     {
         startPage();
+        if(StringUtils.isNotEmpty(shopId)){
+            tShopCoursesPrice.setShopId(shopId);
+        }
         List<TShopCoursesPrice> list = tShopCoursesPriceService.selectTShopCoursesPriceList(tShopCoursesPrice);
         return getDataTable(list);
     }
