@@ -7,16 +7,15 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCoursesTime;
 import co.tton.qcloud.system.service.ITShopCoursesTimeService;
 
@@ -28,6 +27,7 @@ import co.tton.qcloud.system.service.ITShopCoursesTimeService;
  */
 @Controller
 @RequestMapping("/shop/time")
+@Api(tags = "课程时间信息")
 public class TShopCoursesTimeController extends BaseController
 {
     private String prefix = "shop/time";
@@ -37,8 +37,12 @@ public class TShopCoursesTimeController extends BaseController
 
     @RequiresPermissions("shop:time:view")
     @GetMapping()
-    public String time()
+    public String time(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
+        mmap.put("shopId", "");
+        if(StringUtils.isNotEmpty(shopId)) {
+            mmap.put("shopId", shopId);
+        }
         return prefix + "/time";
     }
 
@@ -48,9 +52,13 @@ public class TShopCoursesTimeController extends BaseController
     @RequiresPermissions("shop:time:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(TShopCoursesTime tShopCoursesTime)
+    @ApiOperation("查询课程时间信息")
+    public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId,TShopCoursesTime tShopCoursesTime)
     {
         startPage();
+        if(StringUtils.isNotEmpty(shopId)){
+            tShopCoursesTime.setShopId(shopId);
+        }
         List<TShopCoursesTime> list = tShopCoursesTimeService.selectTShopCoursesTimeList(tShopCoursesTime);
         return getDataTable(list);
     }
@@ -84,6 +92,7 @@ public class TShopCoursesTimeController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @ApiOperation("新增课程时间信息")
     public AjaxResult addSave(TShopCoursesTime tShopCoursesTime)
     {
         return toAjax(tShopCoursesTimeService.insertTShopCoursesTime(tShopCoursesTime));
@@ -107,6 +116,7 @@ public class TShopCoursesTimeController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @ApiOperation("修改课程时间信息")
     public AjaxResult editSave(TShopCoursesTime tShopCoursesTime)
     {
         return toAjax(tShopCoursesTimeService.updateTShopCoursesTime(tShopCoursesTime));
@@ -119,6 +129,7 @@ public class TShopCoursesTimeController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除课程时间信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesTimeService.deleteTShopCoursesTimeByIds(ids));

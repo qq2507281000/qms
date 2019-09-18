@@ -43,7 +43,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTShopList" parameterType="TShop" resultMap="TShopResult">
         <include refid="selectTShopVo"/>
         <where>
-            <if test="available == null "> and available != 2</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
@@ -183,8 +182,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from t_shop where id = #{id}
     </delete>
 
+    <!--<delete id="deleteTShopByIds" parameterType="String">-->
+        <!--delete from t_shop where id in -->
+        <!--<foreach item="id" collection="array" open="(" separator="," close=")">-->
+            <!--#{id}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+
+    <!--逻辑删除-->
     <delete id="deleteTShopByIds" parameterType="String">
-        delete from t_shop where id in 
+        update t_shop
+        <trim prefix="SET" suffixOverrides=",">
+            flag = 2
+        </trim>
+        where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

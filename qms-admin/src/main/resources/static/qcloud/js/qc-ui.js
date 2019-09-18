@@ -945,6 +945,10 @@
 			viewTab:function(id){
 				$.modal.openTab("查看" + $.table._option.modalName, $.operate.viewUrl(id));
 			},
+			//课程基本信息 修改保存课程时间信息
+			editTime:function(id){
+				$.modal.openTab("修改保存" + $.table._option.modalName, $.operate.timeViewUrl(id));
+			},
             // 修改信息 全屏
             editFull: function(id) {
             	var url = "/404.html";
@@ -985,6 +989,57 @@
 					url = $.table._option.viewUrl.replace("{id}", id);
 				}
 				return url;
+			},
+			//条状课程时间页面并传参
+			timeViewUrl: function(url,title,shopId) {
+				var targetUrl = "/404.html";
+				if ($.common.isNotEmpty(shopId)) {
+					targetUrl = url + "?shop-id=" + shopId;
+				} else {
+					var id = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+					if (id.length == 0) {
+						$.modal.alertWarning("请至少选择一条记录");
+						return;
+					}else {
+						targetUrl = url + "?shop-id=" + shopId;
+					}
+
+				}
+				$.modal.openTab(title,targetUrl);
+			},
+			//跳转课程价格页面并传参
+			priceViewUrl: function(url,title,shopId) {
+				var targetUrl = "/404.html";
+				if ($.common.isNotEmpty(shopId)) {
+					targetUrl = url + "?shop-id=" + shopId;
+				} else {
+					var id = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+					if (id.length == 0) {
+						$.modal.alertWarning("请至少选择一条记录");
+						return;
+					}else {
+						targetUrl = url + "?shop-id=" + shopId;
+					}
+
+				}
+				$.modal.openTab(title,targetUrl);
+			},
+			//跳转课程图片页面并传参
+			imageViewUrl: function(url,title,shopId) {
+				var targetUrl = "/404.html";
+				if ($.common.isNotEmpty(shopId)) {
+					targetUrl = url + "?shop-id=" + shopId;
+				} else {
+					var id = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+					if (id.length == 0) {
+						$.modal.alertWarning("请至少选择一条记录");
+						return;
+					}else {
+						targetUrl = url + "?shop-id=" + shopId;
+					}
+
+				}
+				$.modal.openTab(title,targetUrl);
 			},
             // 保存信息 刷新表格
             save: function(url, data, callback) {

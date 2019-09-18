@@ -8,6 +8,9 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,7 @@ import co.tton.qcloud.system.service.ITCategoryService;
  */
 @Controller
 @RequestMapping("/conf/category")
+@Api(tags = "课程分类信息")
 public class TCategoryController extends BaseController
 {
     /***
@@ -51,6 +55,7 @@ public class TCategoryController extends BaseController
     @RequiresPermissions("conf:category:list")
     @PostMapping("/list")
     @ResponseBody
+    @ApiOperation("查询课程分类信息")
     public TableDataInfo list(TCategory tCategory)
     {
         startPage();
@@ -87,6 +92,7 @@ public class TCategoryController extends BaseController
     @Log(title = "分类基础", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @ApiOperation("新增课程分类信息")
     public AjaxResult addSave(TCategory tCategory)
     {
         return toAjax(tCategoryService.insertTCategory(tCategory));
@@ -110,6 +116,7 @@ public class TCategoryController extends BaseController
     @Log(title = "分类基础", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @ApiOperation("修改课程分类信息")
     public AjaxResult editSave(TCategory tCategory)
     {
         return toAjax(tCategoryService.updateTCategory(tCategory));
@@ -122,6 +129,7 @@ public class TCategoryController extends BaseController
     @Log(title = "分类基础", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除课程分类信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tCategoryService.deleteTCategoryByIds(ids));

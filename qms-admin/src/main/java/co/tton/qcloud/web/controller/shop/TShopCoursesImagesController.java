@@ -7,16 +7,15 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCoursesImages;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 
@@ -28,6 +27,7 @@ import co.tton.qcloud.system.service.ITShopCoursesImagesService;
  */
 @Controller
 @RequestMapping("/shop/images")
+@Api(tags = "课程图片信息")
 public class TShopCoursesImagesController extends BaseController
 {
     private String prefix = "shop/images";
@@ -37,8 +37,12 @@ public class TShopCoursesImagesController extends BaseController
 
     @RequiresPermissions("shop:images:view")
     @GetMapping()
-    public String images()
+    public String images(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
+        mmap.put("shopId", "");
+        if(StringUtils.isNotEmpty(shopId)) {
+            mmap.put("shopId", shopId);
+        }
         return prefix + "/images";
     }
 
@@ -48,9 +52,13 @@ public class TShopCoursesImagesController extends BaseController
     @RequiresPermissions("shop:images:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(TShopCoursesImages tShopCoursesImages)
+    @ApiOperation("查询课程图片信息")
+    public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId,TShopCoursesImages tShopCoursesImages)
     {
         startPage();
+        if(StringUtils.isNotEmpty(shopId)){
+            tShopCoursesImages.setShopId(shopId);
+        }
         List<TShopCoursesImages> list = tShopCoursesImagesService.selectTShopCoursesImagesList(tShopCoursesImages);
         return getDataTable(list);
     }
@@ -84,6 +92,7 @@ public class TShopCoursesImagesController extends BaseController
     @Log(title = "课程图片", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @ApiOperation("新增课程图片信息")
     public AjaxResult addSave(TShopCoursesImages tShopCoursesImages)
     {
         return toAjax(tShopCoursesImagesService.insertTShopCoursesImages(tShopCoursesImages));
@@ -107,6 +116,7 @@ public class TShopCoursesImagesController extends BaseController
     @Log(title = "课程图片", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @ApiOperation("修改课程图片信息")
     public AjaxResult editSave(TShopCoursesImages tShopCoursesImages)
     {
         return toAjax(tShopCoursesImagesService.updateTShopCoursesImages(tShopCoursesImages));
@@ -119,6 +129,7 @@ public class TShopCoursesImagesController extends BaseController
     @Log(title = "课程图片", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除课程图片信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesImagesService.deleteTShopCoursesImagesByIds(ids));
