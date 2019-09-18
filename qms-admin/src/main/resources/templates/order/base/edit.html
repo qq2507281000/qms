@@ -54,14 +54,18 @@
                 <!--End Invoice Detials-->
 
                 <!--Invoice Table-->
-                <div class="panel panel-default margin-bottom-40">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">订单详情</h3>
                     </div>
-                    <div class="panel-body">
-                        <p></p>
+                    <!--<div class="panel-body">-->
+                        <!--<p></p>-->
+                    <!--</div>-->
+                    <div style="padding:20px">
+                        <div class="select-table table-striped">
+                            <table id="bootstrap-table"></table>
+                        </div>
                     </div>
-                    <table id="bootstrap-table" class="table table-striped invoice-table"></table>
                 </div>
                 <!--End Invoice Table-->
                 <!--Invoice Footer-->
@@ -119,14 +123,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">支付状态：</label>
                             <div class="col-sm-10">
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
-                                </div>
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
-                                </div>
+                                <div id="pay-status" style="padding-top:4px;padding-right:4px;"></div>
                             </div>
                         </div>
                     </div>
@@ -134,14 +131,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">使用状态：</label>
                             <div class="col-sm-10">
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
-                                </div>
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
-                                </div>
+                                <div id="use-status" style="padding-top:4px;padding-right:4px;"></div>
                             </div>
                         </div>
                     </div>
@@ -151,14 +141,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">订单状态：</label>
                             <div class="col-sm-10">
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
-                                </div>
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
-                                </div>
+                                <div id="order-status" style="padding-top:4px;padding-right:4px;"></div>
                             </div>
                         </div>
                     </div>
@@ -166,14 +149,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">核验状态：</label>
                             <div class="col-sm-10">
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" value="option1" name="a"> <i></i> 已支付</label>
-                                </div>
-                                <div class="radio check-box">
-                                    <label>
-                                        <input type="radio" checked="" value="option2" name="a"> <i></i> 未支付</label>
-                                </div>
+                                <div id="confirm-status" style="padding-top:4px;padding-right:4px;"></div>
                             </div>
                         </div>
                     </div>
@@ -191,8 +167,14 @@
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
-    <script type="text/javascript">
+    <script th:inline="javascript">
         var prefix = ctx + "system/order";
+        var editFlag = [[${@permission.hasPermi('order:detail:edit')}]];
+        var pay_status_lib = [[${@dict.getType('thd_paid_status')}]];
+        var use_status_lib = [[${@dict.getType('thd_use_status')}]];
+        var order_status_lib = [[${@dict.getType('thd_order_status')}]];
+        var confirm_status_lib = [[${@dict.getType('thd_confirm_status')}]];
+
         $("#form-order-edit").validate({
             focusCleanup: true
         });
@@ -209,11 +191,14 @@
             autoclose: true
         });
 
-
         $(function() {
             var options = {
-                url: "/order/detail/"+$('#id').value(),
+                url: "/order/detail/"+$('#id').val(),
                 modalName: "订单详情",
+                showSearch:false,
+                showRefresh: false,
+                showColumns: false,
+                showToggle: false,
                 columns: [
                     {
                         field : 'id',
@@ -241,10 +226,11 @@
                     },
                     {
                         field : 'count',
-                        title : '数量'
+                        title : '数量',
+                        align : 'center'
                     },
                     {
-                        field : '小计',
+                        field : 'totalPrice',
                         title : '实收金额',
                         align : 'right',
                         formatter: function(value, row, index) {
@@ -252,13 +238,13 @@
                         }
                     },
                     {
-                        field : '上课时间',
-                        title : '支付流水',
+                        title : '上课时间',
+                        align : 'center',
                         formatter:function(value,row,index){
-                            var apm = row.apm;
+                            var apm = $.common.isEmpty(row.apm)?"":row.apm;
                             var beginTime = row.beginTime;
                             var endTime = row.endTime;
-                            return '<span>'+apm + ' ' + beginTime + '~' + endTime+'</span>';
+                            return '<span>'+apm + ' ' + beginTime + ' ~ ' + endTime+'</span>';
                         }
                     },
                     {
@@ -274,13 +260,51 @@
                         align: 'center',
                         formatter: function(value, row, index) {
                             var actions = [];
-                            //actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>无货</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="ajaxPostInfo(\'' + row.id + '\')"><i class="fa fa-battery-0"></i> 无货</a> ');
                             return actions.join('');
                         }
                     }]
             };
             $.table.init(options);
+
+            var pay_status = [[${order.payStatus}]];
+            $('#pay-status').html($.common.selectDictLabel(pay_status_lib,pay_status));
+
+            var use_status = [[${order.useStatus}]];
+            $('#use-status').html($.common.selectDictLabel(use_status_lib,use_status));
+
+            var order_status = [[${order.billStatus}]];
+            $('#order-status').html($.common.selectDictLabel(order_status_lib,order_status));
+
+            var confirm_status = [[${order.verifyStatus}]];
+            $('#confirm-status').html($.common.selectDictLabel(confirm_status_lib,confirm_status));
+
         });
+
+        function ajaxPostInfo(id){
+            $.modal.alertWarning("hello");
+        }
+
+        /***
+         * 取消按钮单击事件
+         */
+        function onCancel_click(){
+
+        }
+
+        /***
+         * 保存按钮单击事件
+         */
+        function onSave_click(){
+
+        }
+
+        /***
+         * 订单作废按钮单击事件
+         */
+        function onDistroy_click(){
+
+        }
 
     </script>
 </body>
