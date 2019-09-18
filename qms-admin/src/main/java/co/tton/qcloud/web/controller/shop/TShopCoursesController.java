@@ -8,6 +8,8 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ import co.tton.qcloud.system.service.ITShopCoursesService;
  */
 @Controller
 @RequestMapping("/shop/courses")
+@Api(tags = "课程基本信息")
 public class TShopCoursesController extends BaseController
 {
     private String prefix = "shop/courses";
@@ -48,6 +51,7 @@ public class TShopCoursesController extends BaseController
     @RequiresPermissions("shop:courses:list")
     @PostMapping("/list")
     @ResponseBody
+    @ApiOperation("获取课程基本信息")
     public TableDataInfo list(TShopCourses tShopCourses)
     {
         startPage();
@@ -84,6 +88,7 @@ public class TShopCoursesController extends BaseController
     @Log(title = "课程基本信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @ApiOperation("新增课程基本信息")
     public AjaxResult addSave(TShopCourses tShopCourses)
     {
         return toAjax(tShopCoursesService.insertTShopCourses(tShopCourses));
@@ -107,6 +112,7 @@ public class TShopCoursesController extends BaseController
     @Log(title = "课程基本信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @ApiOperation("修改课程基本信息")
     public AjaxResult editSave(TShopCourses tShopCourses)
     {
         return toAjax(tShopCoursesService.updateTShopCourses(tShopCourses));
@@ -119,6 +125,7 @@ public class TShopCoursesController extends BaseController
     @Log(title = "课程基本信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除课程基本信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesService.deleteTShopCoursesByIds(ids));

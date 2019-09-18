@@ -8,6 +8,8 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ import co.tton.qcloud.system.service.ITShopCoursesTimeService;
  */
 @Controller
 @RequestMapping("/shop/time")
+@Api(tags = "课程时间信息")
 public class TShopCoursesTimeController extends BaseController
 {
     private String prefix = "shop/time";
@@ -48,6 +51,7 @@ public class TShopCoursesTimeController extends BaseController
     @RequiresPermissions("shop:time:list")
     @PostMapping("/list")
     @ResponseBody
+    @ApiOperation("查询课程时间信息")
     public TableDataInfo list(TShopCoursesTime tShopCoursesTime)
     {
         startPage();
@@ -84,6 +88,7 @@ public class TShopCoursesTimeController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @ApiOperation("新增课程时间信息")
     public AjaxResult addSave(TShopCoursesTime tShopCoursesTime)
     {
         return toAjax(tShopCoursesTimeService.insertTShopCoursesTime(tShopCoursesTime));
@@ -107,6 +112,7 @@ public class TShopCoursesTimeController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @ApiOperation("修改课程时间信息")
     public AjaxResult editSave(TShopCoursesTime tShopCoursesTime)
     {
         return toAjax(tShopCoursesTimeService.updateTShopCoursesTime(tShopCoursesTime));
@@ -119,6 +125,7 @@ public class TShopCoursesTimeController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除课程时间信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesTimeService.deleteTShopCoursesTimeByIds(ids));

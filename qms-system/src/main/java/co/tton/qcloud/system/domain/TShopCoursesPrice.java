@@ -2,6 +2,7 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -21,70 +22,87 @@ public class TShopCoursesPrice extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
+    @ApiModelProperty("主键")
     private String id;
 
     /** 商家id */
     @Excel(name = "商家id")
+    @ApiModelProperty("商家id")
     private String shopId;
 
     /** $column.columnComment */
-    @Excel(name = "商家id")
+    @Excel(name = "课程id")
+    @ApiModelProperty("课程id")
     private String coursesId;
 
     /** 默认基准价格 */
     @Excel(name = "默认基准价格")
+    @ApiModelProperty("默认基准价格")
     private Double price;
 
     /** 特殊价格_第一级别 */
     @Excel(name = "特殊价格_第一级别")
+    @ApiModelProperty("特殊价格_第一级别")
     private Double l1Price;
 
     /** 特殊价格_第二级别（保留） */
     @Excel(name = "特殊价格_第二级别", readConverterExp = "保留")
+    @ApiModelProperty("特殊价格_第二级别")
     private Double l2Price;
 
     /** $column.columnComment */
     @Excel(name = "特殊价格_第三级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第三级别")
     private Double l3Price;
 
     /** $column.columnComment */
     @Excel(name = "特殊价格_第四级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第四级别")
     private Double l4Price;
 
     /** $column.columnComment */
     @Excel(name = "特殊价格_第五级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第五级别")
     private Double l5Price;
 
     /** $column.columnComment */
     @Excel(name = "特殊价格_第六级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第六级别")
     private Double l6Price;
 
     /** $column.columnComment */
     @Excel(name = "特殊价格_第七级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第七级别")
     private Double l7Price;
 
     /** $column.columnComment */
     @Excel(name = "特殊价格_第八级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第八级别")
     private Double l8Price;
 
     /** $column.columnComment */
     @Excel(name = "特殊价格_第九级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第九级别")
     private Double l9Price;
 
     /** 特殊价格级别，默认为0，没有特殊价格。 */
     @Excel(name = "特殊价格级别，默认为0，没有特殊价格。")
+    @ApiModelProperty("特殊价格级别，默认为0，没有特殊价格。")
     private Integer specialPriceLevel;
 
     /** 价格描述副标题 */
     @Excel(name = "价格描述副标题")
+    @ApiModelProperty("价格描述副标题")
     private String subTitle;
 
     /** 限制每人购买数量，-1为不限制。 */
     @Excel(name = "限制每人购买数量，-1为不限制。")
+    @ApiModelProperty("限制每人购买数量，-1为不限制。")
     private Integer perLimitBuy;
 
     /** $column.columnComment */
     @Excel(name = "数据状态")
+    @ApiModelProperty("数据状态")
     private Integer flag;
 
 

@@ -8,6 +8,8 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ import co.tton.qcloud.system.service.ITShopCoursesImagesService;
  */
 @Controller
 @RequestMapping("/shop/images")
+@Api(tags = "课程图片信息")
 public class TShopCoursesImagesController extends BaseController
 {
     private String prefix = "shop/images";
@@ -48,6 +51,7 @@ public class TShopCoursesImagesController extends BaseController
     @RequiresPermissions("shop:images:list")
     @PostMapping("/list")
     @ResponseBody
+    @ApiOperation("查询课程图片信息")
     public TableDataInfo list(TShopCoursesImages tShopCoursesImages)
     {
         startPage();
@@ -84,6 +88,7 @@ public class TShopCoursesImagesController extends BaseController
     @Log(title = "课程图片", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @ApiOperation("新增课程图片信息")
     public AjaxResult addSave(TShopCoursesImages tShopCoursesImages)
     {
         return toAjax(tShopCoursesImagesService.insertTShopCoursesImages(tShopCoursesImages));
@@ -107,6 +112,7 @@ public class TShopCoursesImagesController extends BaseController
     @Log(title = "课程图片", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @ApiOperation("修改课程图片信息")
     public AjaxResult editSave(TShopCoursesImages tShopCoursesImages)
     {
         return toAjax(tShopCoursesImagesService.updateTShopCoursesImages(tShopCoursesImages));
@@ -119,6 +125,7 @@ public class TShopCoursesImagesController extends BaseController
     @Log(title = "课程图片", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除课程图片信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesImagesService.deleteTShopCoursesImagesByIds(ids));

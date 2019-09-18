@@ -8,6 +8,8 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ import co.tton.qcloud.system.service.ITShopCoursesPriceService;
  */
 @Controller
 @RequestMapping("/shop/price")
+@Api(tags = "课程价格信息")
 public class TShopCoursesPriceController extends BaseController
 {
     private String prefix = "shop/price";
@@ -48,6 +51,7 @@ public class TShopCoursesPriceController extends BaseController
     @RequiresPermissions("shop:price:list")
     @PostMapping("/list")
     @ResponseBody
+    @ApiOperation("查询课程价格信息")
     public TableDataInfo list(TShopCoursesPrice tShopCoursesPrice)
     {
         startPage();
@@ -84,6 +88,7 @@ public class TShopCoursesPriceController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @ApiOperation("新增课程价格信息")
     public AjaxResult addSave(TShopCoursesPrice tShopCoursesPrice)
     {
         return toAjax(tShopCoursesPriceService.insertTShopCoursesPrice(tShopCoursesPrice));
@@ -107,6 +112,7 @@ public class TShopCoursesPriceController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @ApiOperation("修改课程价格信息")
     public AjaxResult editSave(TShopCoursesPrice tShopCoursesPrice)
     {
         return toAjax(tShopCoursesPriceService.updateTShopCoursesPrice(tShopCoursesPrice));
@@ -119,6 +125,7 @@ public class TShopCoursesPriceController extends BaseController
     @Log(title = "课程价格", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @ApiOperation("删除课程价格信息")
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesPriceService.deleteTShopCoursesPriceByIds(ids));

@@ -2,6 +2,8 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,39 +18,48 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ApiModel("课程时间信息对象")
 public class TShopCoursesTime extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
+    @ApiModelProperty("主键")
     private String id;
 
     /** 商家Id */
     @Excel(name = "商家Id")
+    @ApiModelProperty("商家Id")
     private String shopId;
 
     /** 课程id */
     @Excel(name = "课程id")
+    @ApiModelProperty("课程id")
     private String coursesId;
 
     /** 星期（1~7） */
     @Excel(name = "星期", readConverterExp = "1~7")
+    @ApiModelProperty("星期")
     private Integer wkNo;
 
     /** 上午下午(0,1) */
     @Excel(name = "上午下午(0,1)")
+    @ApiModelProperty("上午下午(0,1)")
     private Integer amFm;
 
     /** 开始时间(0700) */
     @Excel(name = "开始时间(0700)")
+    @ApiModelProperty("开始时间(0700)")
     private String bTime;
 
     /** 结束时间(1200) */
     @Excel(name = "结束时间(1200)")
+    @ApiModelProperty("结束时间(1200)")
     private String eTime;
 
     /** $column.columnComment */
     @Excel(name = "结束时间(1200)")
+    @ApiModelProperty("结束时间(1200)")
     private Integer flag;
 
     @Override
