@@ -8,6 +8,7 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
+                    <input id="shopId" name="shopId" th:value="${shopId}" type="hidden">
                     <div class="select-list">
                         <ul>
                             <li>
@@ -95,11 +96,15 @@
         var imageFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
         var prefix = "/shop/courses";
         var timeFix = "/shop/time";
-
+        var shopId = $('#shopId').val();
+        var listUrl = prefix + "/list";
+        if($.common.isNotEmpty(shopId)){
+            listUrl = listUrl + "?shop-id=" + shopId;
+        }
 
         $(function() {
             var options = {
-                url: prefix + "/list",
+                url: listUrl,
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
