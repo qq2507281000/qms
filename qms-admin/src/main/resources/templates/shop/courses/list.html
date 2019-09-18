@@ -95,7 +95,6 @@
         var priceFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
         var imageFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
         var prefix = "/shop/courses";
-        var timeFix = "/shop/time";
         var shopId = $('#shopId').val();
         var listUrl = prefix + "/list";
         if($.common.isNotEmpty(shopId)){
@@ -109,8 +108,6 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                timeUpdateUrl: timeFix + "/edit/{id}",
-                timeCreateUrl: timeFix + "/add",
                 modalName: "课程基本信息",
                 columns: [{
                     checkbox: true
@@ -178,9 +175,9 @@
                     formatter: function(value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + timeFlag + '" href="javascript:void(0)" onclick="$.operate.editTime(\'' + row.id + '\')"><i class="fa fa-remove"></i>时间</a>');
-                        actions.push('<a class="btn btn-warning btn-xs ' + priceFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-remove"></i>价格</a>');
-                        actions.push('<a class="btn btn-warning btn-xs ' + imageFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-remove"></i>图片</a>');
+                        actions.push('<a class="btn btn-warning btn-xs ' + timeFlag + '" href="javascript:void(0)" onclick="$.operate.timeViewUrl(\'/shop/time\',\'课程时间\',\'' + row.id + '\')"><i class="fa fa-remove"></i>时间</a>');
+                        actions.push('<a class="btn btn-warning btn-xs ' + priceFlag + '" href="javascript:void(0)" onclick="$.operate.priceViewUrl(\'/shop/price\',\'课程价格\',\'' + row.id + '\')"><i class="fa fa-remove"></i>价格</a>');
+                        actions.push('<a class="btn btn-warning btn-xs ' + imageFlag + '" href="javascript:void(0)" onclick="$.operate.imageViewUrl(\'/shop/images\',\'课程图片\',\'' + row.id + '\')"><i class="fa fa-remove"></i>图片</a>');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
