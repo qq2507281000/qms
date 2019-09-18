@@ -97,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <!--<foreach item="id" collection="array" open="(" separator="," close=")">-->
             <!--#{id}-->
         <!--</foreach>-->
-    <!--</delete>
+    <!--</delete>-->
 
     <!--逻辑删除-->
     <delete id="deleteTBannerByIds" parameterType="String">
