@@ -7,8 +7,6 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
-import co.tton.qcloud.common.utils.StringUtils;
-import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -79,7 +77,6 @@ public class TShopController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TShop tShop)
     {
-        tShop.setId(StringUtils.genericId());
         return toAjax(tShopService.insertTShop(tShop));
     }
 
@@ -111,7 +108,7 @@ public class TShopController extends BaseController
     /**
      * 删除商家信息
      */
-    @ApiOperation("删除商家详细")
+    @ApiOperation("删除商家信息")
     @RequiresPermissions("shop:remove")
     @Log(title = "商家信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")

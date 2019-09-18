@@ -92,8 +92,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from t_banner where id = #{id}
     </delete>
 
+    <!--<delete id="deleteTBannerByIds" parameterType="String">-->
+        <!--delete from t_banner where id in -->
+        <!--<foreach item="id" collection="array" open="(" separator="," close=")">-->
+            <!--#{id}-->
+        <!--</foreach>-->
+    <!--</delete>
+
+    <!--逻辑删除-->
     <delete id="deleteTBannerByIds" parameterType="String">
-        delete from t_banner where id in 
+        update t_banner
+        <trim prefix="SET" suffixOverrides=",">
+            flag = 2
+        </trim>
+        where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

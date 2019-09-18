@@ -4,6 +4,7 @@ import java.util.List;
 
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TShopMapper;
@@ -43,6 +44,7 @@ public class TShopServiceImpl implements ITShopService
     @Override
     public List<TShop> selectTShopList(TShop tShop)
     {
+        tShop.setFlag(1);
         return tShopMapper.selectTShopList(tShop);
     }
 
@@ -55,6 +57,7 @@ public class TShopServiceImpl implements ITShopService
     @Override
     public int insertTShop(TShop tShop)
     {
+        tShop.setId(StringUtils.genericId());
         tShop.setCreateTime(DateUtils.getNowDate());
         return tShopMapper.insertTShop(tShop);
     }
