@@ -27,16 +27,21 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">封面图片：</label>
                 <div class="col-sm-8">
-                    <input name="coverImg" class="form-control" type="text">
+                    <!--<input name="coverImg" class="form-control" type="text">-->
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">是否推荐：</label>
                 <div class="col-sm-8">
-                    <select name="suggest" class="form-control" type="text">
-                        <option value ="1">是</option>sss
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="suggest" class="form-control" type="text">-->
+                    <!--<option value ="1">是</option>sss-->
+                    <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" id="suggest" onclick="openClick(this)" checked>
+                        <input type="hidden" name="suggest" value="1" id="suggestH" checked>
+                        <span></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">
@@ -57,18 +62,22 @@
                     <textarea name="address" class="form-control"></textarea>
                 </div>
             </div>
+
             <div class="form-group">    
                 <label class="col-sm-3 control-label">开始营业时间：</label>
                 <div class="col-sm-8">
-                    <input name="shopHoursBegin" class="form-control" type="text">
+                    <!--<input name="shopHoursBegin" class="form-control" type="text">-->
+                    <input type="text" class="time-input" id="pstartTime" name="shopHoursBegin"value=""/>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">结束营业时间：</label>
                 <div class="col-sm-8">
-                    <input name="shopHoursEnd" class="form-control" type="text">
+                    <!--<input name="shopHoursEnd" class="form-control" type="text">-->
+                    <input type="text" class="time-input" id="pendTime" name="params[shopHoursEnd]"/>
                 </div>
             </div>
+
             <div class="form-group">    
                 <label class="col-sm-3 control-label">商家级别：</label>
                 <div class="col-sm-8">
@@ -114,7 +123,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">个人二维码图片：</label>
                 <div class="col-sm-8">
-                    <input name="wechatNoImg" class="form-control" type="text">
+                    <!--<input name="wechatNoImg" class="form-control" type="text">-->
                 </div>
             </div>
             <div class="form-group">    
@@ -126,28 +135,43 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">是否显示微信信息：</label>
                 <div class="col-sm-8">
-                    <select name="wechatShow" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="wechatShow" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" onclick="openClick(this)" checked>
+                        <input type="hidden" name="wechatShow" value="1" >
+                        <span></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">是否可用：</label>
                 <div class="col-sm-8">
-                    <select name="available" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="available" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" onclick="openClick(this)" checked>
+                        <input type="hidden" name="available" value="1" >
+                        <span></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">数据状态：</label>
                 <div class="col-sm-8">
-                    <select name="flag" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="flag" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                    <input type="checkbox" onclick="openClick(this)" checked>
+                    <input type="hidden" name="flag" value="1" >
+                    <span></span>
+                    </label>
                 </div>
             </div>
         </form>
@@ -162,6 +186,16 @@
         function submitHandler() {
             if ($.validate.form()) {
                 $.operate.save(prefix + "/add", $('#form-shop-add').serialize());
+            }
+        }
+
+        function openClick(that){
+            if($(that).attr('checked')){
+                $(that).removeAttrs('checked');
+                $(that).parent().find('input').eq(1).val(0);
+            }else {
+                $(that).attr('checked','checked');
+                $(that).parent().find('input').eq(1).val(1);
             }
         }
     </script>
