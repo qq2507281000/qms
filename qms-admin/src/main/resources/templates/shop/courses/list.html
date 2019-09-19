@@ -24,7 +24,7 @@
                                 <input type="text" name="subTitle"/>
                             </li>
                             <li>
-                                <p>是否推荐：</p>
+                                <p>是否可用：</p>
                                 <input type="text" name="suggest"/>
                             </li>
                             <li>
@@ -101,6 +101,7 @@
             listUrl = listUrl + "?shop-id=" + shopId;
         }
 
+
         $(function() {
             var options = {
                 url: listUrl,
@@ -161,10 +162,10 @@
                     field : 'updateBy',
                     title : '修改人'
                 },
-                {
-                    field : 'sku', 
-                    title : 'SKU保留字段'
-                },
+                // {
+                //     field : 'sku',
+                //     title : 'SKU保留字段'
+                // },
                 // {
                 //     field : 'useDiscount',
                 //     title : '是否允许使用优惠券'
