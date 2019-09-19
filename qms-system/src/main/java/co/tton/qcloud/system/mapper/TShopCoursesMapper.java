@@ -57,5 +57,5 @@ public interface TShopCoursesMapper
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteTShopCoursesByIds(TShopCourses tShopCourses);
+    public int deleteTShopCoursesByIds(String[] ids);
 }

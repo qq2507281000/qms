@@ -193,8 +193,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteTShopByIds" parameterType="String">
         update t_shop
         <trim prefix="SET" suffixOverrides=",">
-            flag = 2
-        </trim>
+        flag = 2
+    </trim>
         where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
