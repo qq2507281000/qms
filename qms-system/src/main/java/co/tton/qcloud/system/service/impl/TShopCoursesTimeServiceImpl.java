@@ -84,10 +84,7 @@ public class TShopCoursesTimeServiceImpl implements ITShopCoursesTimeService
     @Override
     public int deleteTShopCoursesTimeByIds(String ids)
     {
-        TShopCoursesTime tShopCoursesTime = new TShopCoursesTime();
-        tShopCoursesTime.setId(ids);
-        tShopCoursesTime.setFlag(2);
-        return tShopCoursesTimeMapper.deleteTShopCoursesTimeByIds(tShopCoursesTime);
+        return tShopCoursesTimeMapper.deleteTShopCoursesTimeByIds(Convert.toStrArray(ids));
     }
 
     /**
