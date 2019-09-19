@@ -42,6 +42,7 @@ public class TBannerServiceImpl implements ITBannerService
     @Override
     public List<TBanner> selectTBannerList(TBanner tBanner)
     {
+        tBanner.setFlag(1);
         return tBannerMapper.selectTBannerList(tBanner);
     }
 

@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('修改商家信息')" />
+    <link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -52,8 +53,88 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">地理位置：</label>
                 <div class="col-sm-8">
-                    <textarea name="address" class="form-control">[[*{address}]]</textarea>
+                    <input name="address" autocomplete="off" type="text" value="请选择/输入城市名称"
+                           class="form-control city_input inputFocus proCityQueryAll proCitySelAll">
                 </div>
+                <div class="provinceCityAll">
+                    <div class="tabs clearfix">
+                        <ul>
+                            <li>
+                                <a href="javascript:" class="current" tb="hotCityAll">热门城市</a>
+                            </li>
+                            <li>
+                                <a href="javascript:" tb="provinceAll">省份</a>
+                            </li>
+                            <li>
+                                <a href="javascript:" tb="cityAll" id="cityAll">城市</a>
+                            </li>
+                            <li>
+                                <a href="javascript:" tb="countyAll" id="countyAll">区县</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="con">
+                        <div class="hotCityAll invis" style="display: none;">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="provinceAll invis">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="cityAll invis">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="countyAll invis">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script th:src="@{/js/city/jquery-1.6.2.min.js}"></script>
+                <script th:src="@{/js/city/public.js}"></script>
+                <div id="dimCityQuery"><ul></ul></div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">开始营业时间：</label>
