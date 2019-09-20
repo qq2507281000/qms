@@ -34,9 +34,14 @@
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">是否推荐：</label>
-                <div class="col-sm-8">
-                    <input name="suggest" th:field="*{suggest}" class="form-control" type="text">
-                </div>
+                <!--<div class="col-sm-8">-->
+                    <!--<input name="suggest" th:field="*{suggest}" class="form-control" type="text">-->
+                <!--</div>-->
+                <label class="toggle-switch switch-solid">
+                    <input type="checkbox" onclick="openClick(this)" checked>
+                    <input type="hidden" name="suggest" value="1" >
+                    <span></span>
+                </label>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">排序键值：</label>
@@ -205,19 +210,29 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">是否显示微信信息：</label>
                 <div class="col-sm-8">
-                    <select name="wechatShow" th:field="*{wechatShow}" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="wechatShow" th:field="*{wechatShow}" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="0">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" onclick="openClick(this)" checked>
+                        <input type="hidden" name="wechatShow" value="1" >
+                        <span></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">是否可用：</label>
                 <div class="col-sm-8">
-                    <select name="available" th:field="*{available}" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="available" th:field="*{available}" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="0">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" onclick="openClick(this)" checked>
+                        <input type="hidden" name="available" value="1" >
+                        <span></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">
@@ -225,8 +240,13 @@
                 <div class="col-sm-8">
                     <select name="flag" th:field="*{flag}" class="form-control" type="text">
                         <option value ="1">是</option>
-                        <option value ="2">否</option>
+                        <option value ="0">否</option>
                     </select>
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" onclick="openClick(this)" checked>
+                        <input type="hidden" name="flag" value="1" >
+                        <span></span>
+                    </label>
                 </div>
             </div>
         </form>

@@ -18,7 +18,7 @@
                                 <p>是否推荐：</p>
                                 <select type="text" name="suggest">
                                     <option value ="1">是</option>
-                                    <option value ="2">否</option>
+                                    <option value ="0">否</option>
                                 </select>
                             </li>
                             <!--<li>-->
@@ -89,7 +89,7 @@
                         if(value==1){
                             return '<span class="label label-success">推荐</span>';
                         }
-                        else if(value == 2){
+                        else if(value == 0){
                             return '<span class="label label-danger">不推荐</span>';
                         }
                         else{
@@ -132,7 +132,7 @@
                         if(value==1){
                             return '<span class="label label-success">可用</span>';
                         }
-                        else if(value == 2){
+                        else if(value == 0){
                             return '<span class="label label-danger">不可用</span>';
                         }
                         else{
@@ -147,7 +147,7 @@
                         if(value==1){
                             return '<span class="label label-success">可用</span>';
                         }
-                        else if(value == 2){
+                        else if(value == 0){
                             return '<span class="label label-danger">不可用</span>';
                         }
                         else{
