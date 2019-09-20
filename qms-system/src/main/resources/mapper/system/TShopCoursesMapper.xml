@@ -50,6 +50,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTShopCoursesVo"/>
         where id = #{id}
     </select>
+
+    <select id="selectTShopCoursesByShopId" parameterType="String" resultMap="TShopCoursesResult">
+        <include refid="selectTShopCoursesVo"/>
+        where shop_id = #{shopId}
+    </select>
         
     <insert id="insertTShopCourses" parameterType="TShopCourses">
         insert into t_shop_courses

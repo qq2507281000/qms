@@ -9,6 +9,8 @@ import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.system.domain.TShopCourses;
+import co.tton.qcloud.system.service.ITShopCoursesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,6 +36,9 @@ public class TShopCoursesImagesController extends BaseController
 
     @Autowired
     private ITShopCoursesImagesService tShopCoursesImagesService;
+
+    @Autowired
+    private ITShopCoursesService tShopCoursesService;
 
     @RequiresPermissions("shop:images:view")
     @GetMapping()
@@ -79,9 +84,14 @@ public class TShopCoursesImagesController extends BaseController
     /**
      * 新增课程图片
      */
-    @GetMapping("/add")
-    public String add()
+    @GetMapping("/add/{id}")
+    public String add(@PathVariable("id") String id, ModelMap mmap)
     {
+        TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesByShopId(id);
+        TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
+        tShopCoursesImages.setId(tShopCourses.getId());
+        tShopCoursesImages.setShopId(id);
+        mmap.put("tShopCoursesImages", tShopCoursesImages);
         return prefix + "/add";
     }
 
