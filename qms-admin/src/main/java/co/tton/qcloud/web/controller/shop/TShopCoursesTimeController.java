@@ -62,7 +62,7 @@ public class TShopCoursesTimeController extends BaseController
     {
         startPage();
         if(StringUtils.isNotEmpty(shopId)){
-            tShopCoursesTime.setShopId(shopId);
+            tShopCoursesTime.setCoursesId(shopId);
         }
         List<TShopCoursesTime> list = tShopCoursesTimeService.selectTShopCoursesTimeList(tShopCoursesTime);
         return getDataTable(list);

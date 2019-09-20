@@ -40,6 +40,7 @@ public class TShopCoursesImagesController extends BaseController
     @Autowired
     private ITShopCoursesService tShopCoursesService;
 
+
     @RequiresPermissions("shop:images:view")
     @GetMapping()
     public String images(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
@@ -62,7 +63,7 @@ public class TShopCoursesImagesController extends BaseController
     {
         startPage();
         if(StringUtils.isNotEmpty(shopId)){
-            tShopCoursesImages.setShopId(shopId);
+            tShopCoursesImages.setCoursesId(shopId);
         }
         List<TShopCoursesImages> list = tShopCoursesImagesService.selectTShopCoursesImagesList(tShopCoursesImages);
         return getDataTable(list);
@@ -105,6 +106,7 @@ public class TShopCoursesImagesController extends BaseController
     @ApiOperation("新增课程图片信息")
     public AjaxResult addSave(TShopCoursesImages tShopCoursesImages)
     {
+
         return toAjax(tShopCoursesImagesService.insertTShopCoursesImages(tShopCoursesImages));
     }
 

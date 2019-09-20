@@ -63,7 +63,7 @@ public class TShopCoursesPriceController extends BaseController
     {
         startPage();
         if(StringUtils.isNotEmpty(shopId)){
-            tShopCoursesPrice.setShopId(shopId);
+            tShopCoursesPrice.setCoursesId(shopId);
         }
         List<TShopCoursesPrice> list = tShopCoursesPriceService.selectTShopCoursesPriceList(tShopCoursesPrice);
         return getDataTable(list);
@@ -88,10 +88,10 @@ public class TShopCoursesPriceController extends BaseController
     @GetMapping("/add/{id}")
     public String add(@PathVariable("id") String id, ModelMap mmap)
     {
-        TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesByShopId(id);
+        TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesById(id);
         TShopCoursesPrice tShopCoursesPrice = new TShopCoursesPrice();
-        tShopCoursesPrice.setShopId(id);
-        tShopCoursesPrice.setId(tShopCourses.getId());
+        tShopCoursesPrice.setCoursesId(id);
+        tShopCoursesPrice.setShopId(tShopCourses.getShopId());
         mmap.put("tShopCoursesPrice", tShopCoursesPrice);
         return prefix + "/add";
     }
