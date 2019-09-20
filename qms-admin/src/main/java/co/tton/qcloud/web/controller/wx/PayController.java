@@ -14,5 +14,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1.0/pay")
 public class PayController {
 
-
 }
