@@ -37,4 +37,9 @@ public class MemberController extends BaseController {
         return null;
     }
 
+
+    public AjaxResult autoLogin(){
+        return null;
+    }
+
 }
