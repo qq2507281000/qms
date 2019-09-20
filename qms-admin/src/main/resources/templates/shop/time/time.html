@@ -57,7 +57,7 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="shop:time:add">
+                <a class="btn btn-success" onclick="$.operate.add(shopId)" shiro:hasPermission="shop:time:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
                 <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:time:edit">
@@ -89,7 +89,7 @@
         $(function() {
             var options = {
                 url: listUrl,
-                createUrl: prefix + "/add",
+                createUrl: prefix + "/add/{id}",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",

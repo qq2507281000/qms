@@ -20,6 +20,14 @@ public interface ITShopCoursesService
     public TShopCourses selectTShopCoursesById(String id);
 
     /**
+     * 查询课程基本信息
+     *
+     * @param id 课程基本信息SHOPID
+     * @return 课程基本信息
+     */
+    public TShopCourses selectTShopCoursesByShopId(String id);
+
+    /**
      * 查询课程基本信息列表
      * 
      * @param tShopCourses 课程基本信息

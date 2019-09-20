@@ -35,6 +35,18 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService
     }
 
     /**
+     * 查询课程基本信息
+     *
+     * @param id 课程基本信息SHOPID
+     * @return 课程基本信息
+     */
+    @Override
+    public TShopCourses selectTShopCoursesByShopId(String id)
+    {
+        return tShopCoursesMapper.selectTShopCoursesByShopId(id);
+    }
+
+    /**
      * 查询课程基本信息列表
      * 
      * @param tShopCourses 课程基本信息
