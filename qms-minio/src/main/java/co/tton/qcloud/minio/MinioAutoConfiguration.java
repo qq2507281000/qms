@@ -11,10 +11,25 @@ import lombok.AllArgsConstructor;
  */
 
 @AllArgsConstructor
-//@EnableConfigurationProperties({MinioProperties.class})
+@EnableConfigurationProperties({MinioProperties.class})
 public class MinioAutoConfiguration {
 
     private final MinioProperties properties;
+    @Autowired lateinit var minioProperties: MinioProperties;
 
+    @Bean
+    @ConditionalOnMissingBean(MinioTemplate::class)
+    @ConditionalOnProperty(name = arrayOf("minio.url"))
+    open fun minioTemplate():MinioTemplate {
+        return MinioTemplate(minioProperties.url,
+            minioProperties.accessKey,
+            minioProperties.secretKey)
+    }
+    MinioTemplate template() {
+        return new MinioTemplate(this.properties.getUrl(), this.properties.getAccessKey(), this.properties.getSecretKey());
+    }
 
+    public MinioAutoConfiguration(MinioProperties properties) {
+        this.properties = properties;
+    }
 }

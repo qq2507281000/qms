@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Data
-//@Configuration
-//@ConfigurationProperties(prefix = "minio")
+@Configuration
+@ConfigurationProperties(prefix = "minio")
 public class MinioProperties {
 
     /***
@@ -25,6 +25,39 @@ public class MinioProperties {
      * 授权账户
      */
     private String accessKey;
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "MinioProperties{" +
+            "url='" + url + '\'' +
+            ", accessKey='" + accessKey + '\'' +
+            ", secretKey='" + secretKey + '\'' +
+            '}';
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
 
     /***
      * 授权秘钥

@@ -1,5 +1,6 @@
 package co.tton.qcloud.web.controller.common;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import co.tton.qcloud.common.config.Global;
@@ -17,6 +19,9 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.file.FileUploadUtils;
 import co.tton.qcloud.common.utils.file.FileUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 通用请求处理
@@ -109,4 +114,21 @@ public class CommonController
                 "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, downloadName));
         FileUtils.writeBytes(downloadPath, response.getOutputStream());
     }
+
+//    @Resource
+//    private MinioTemplate minioTemplate;
+//
+//    public String upload(@RequestParam("file") MultipartFile file) {
+//        String fileName  = file.getOriginalFilename();
+//        Map<String, String> resultMap = new HashMap<>(4);
+//        resultMap.put("bucketName", "bucketName");
+//        resultMap.put("fileName", fileName);
+//        try {
+//            minioTemplate.putObject("bucketName", fileName, file.getInputStream());
+//
+//    } catch (Exception e) {
+//            return "上传失败";
+//        }
+//        return "上传成功";
+//    }
 }

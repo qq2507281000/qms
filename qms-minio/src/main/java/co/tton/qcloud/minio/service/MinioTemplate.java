@@ -28,13 +28,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MinioTemplate implements InitializingBean {
 
-    @Value("${minio.url}")
+//    @Value("${minio.url}")
     private final String endpoint;
 
-    @Value("${minio.access-key}")
+//    @Value("${minio.access-key}")
     private final String accessKey;
 
-    @Value("${minio.secret-key}")
+//    @Value("${minio.secret-key}")
     private final String secretKey;
 
     private MinioClient client;
