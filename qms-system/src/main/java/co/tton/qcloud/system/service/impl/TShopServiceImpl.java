@@ -45,6 +45,7 @@ public class TShopServiceImpl implements ITShopService
     public List<TShop> selectTShopList(TShop tShop)
     {
         tShop.setFlag(1);
+        tShop.setAvailable(1);
         return tShopMapper.selectTShopList(tShop);
     }
 

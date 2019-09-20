@@ -2,11 +2,12 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('新增商家信息')" />
+    <link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-shop-add">
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">商家名称：</label>
                 <div class="col-sm-8">
                     <input name="name" class="form-control" type="text">
@@ -27,16 +28,21 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">封面图片：</label>
                 <div class="col-sm-8">
-                    <input name="coverImg" class="form-control" type="text">
+                    <!--<input name="coverImg" class="form-control" type="text">-->
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">是否推荐：</label>
                 <div class="col-sm-8">
-                    <select name="suggest" class="form-control" type="text">
-                        <option value ="1">是</option>sss
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="suggest" class="form-control" type="text">-->
+                    <!--<option value ="1">是</option>sss-->
+                    <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" id="suggest" onclick="openClick(this)" checked>
+                        <input type="hidden" name="suggest" value="1" id="suggestH" checked>
+                        <span></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">
@@ -54,100 +60,195 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">地理位置：</label>
                 <div class="col-sm-8">
-                    <textarea name="address" class="form-control"></textarea>
+                    <input name="address" autocomplete="off" type="text" value="请选择/输入城市名称"
+                           class="form-control city_input inputFocus proCityQueryAll proCitySelAll" ov="请选择/输入城市名称">
                 </div>
+                    <div class="provinceCityAll">
+                    <div class="tabs clearfix">
+                        <ul>
+                            <li>
+                                <a href="javascript:" class="current" tb="hotCityAll">热门城市</a>
+                            </li>
+                            <li>
+                                <a href="javascript:" tb="provinceAll">省份</a>
+                            </li>
+                            <li>
+                                <a href="javascript:" tb="cityAll" id="cityAll">城市</a>
+                            </li>
+                            <li>
+                                <a href="javascript:" tb="countyAll" id="countyAll">区县</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="con">
+                        <div class="hotCityAll invis" style="display: none;">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="provinceAll invis">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="cityAll invis">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="countyAll invis">
+                            <div class="pre">
+                                <a>
+                                </a>
+                            </div>
+                            <div class="list">
+                                <ul>
+                                </ul>
+                            </div>
+                            <div class="next">
+                                <a class="can">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <script th:src="@{/js/city/jquery-1.6.2.min.js}"></script>
+                    <script th:src="@{/js/city/public.js}"></script>
+                 <div id="dimCityQuery"><ul></ul></div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">开始营业时间：</label>
                 <div class="col-sm-8">
                     <input name="shopHoursBegin" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">结束营业时间：</label>
                 <div class="col-sm-8">
                     <input name="shopHoursEnd" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">商家级别：</label>
                 <div class="col-sm-8">
                     <input name="level" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">商家星级：</label>
                 <div class="col-sm-8">
                     <input name="stars" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">商家座机：</label>
                 <div class="col-sm-8">
                     <input name="telephone" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">商家手机：</label>
                 <div class="col-sm-8">
                     <input name="mobile" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">联系人姓名：</label>
                 <div class="col-sm-8">
                     <input name="contractName" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">微信号：</label>
                 <div class="col-sm-8">
                     <input name="wechatNo" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">微信公众平台：</label>
                 <div class="col-sm-8">
                     <input name="wechatPlatform" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">个人二维码图片：</label>
                 <div class="col-sm-8">
-                    <input name="wechatNoImg" class="form-control" type="text">
+                    <!--<input name="wechatNoImg" class="form-control" type="text">-->
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">微信公众号图片：</label>
                 <div class="col-sm-8">
                     <input name="wechatPlatformImg" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">是否显示微信信息：</label>
                 <div class="col-sm-8">
-                    <select name="wechatShow" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="wechatShow" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" onclick="openClick(this)" checked>
+                        <input type="hidden" name="wechatShow" value="1" >
+                        <span></span>
+                    </label>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">是否可用：</label>
                 <div class="col-sm-8">
-                    <select name="available" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="available" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" onclick="openClick(this)" checked>
+                        <input type="hidden" name="available" value="1" >
+                        <span></span>
+                    </label>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">数据状态：</label>
                 <div class="col-sm-8">
-                    <select name="flag" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
+                    <!--<select name="flag" class="form-control" type="text">-->
+                        <!--<option value ="1">是</option>-->
+                        <!--<option value ="2">否</option>-->
+                    <!--</select>-->
+                    <label class="toggle-switch switch-solid">
+                    <input type="checkbox" onclick="openClick(this)" checked>
+                    <input type="hidden" name="flag" value="1" >
+                    <span></span>
+                    </label>
                 </div>
             </div>
         </form>
@@ -162,6 +263,16 @@
         function submitHandler() {
             if ($.validate.form()) {
                 $.operate.save(prefix + "/add", $('#form-shop-add').serialize());
+            }
+        }
+
+        function openClick(that){
+            if($(that).attr('checked')){
+                $(that).removeAttrs('checked');
+                $(that).parent().find('input').eq(1).val(0);
+            }else {
+                $(that).attr('checked','checked');
+                $(that).parent().find('input').eq(1).val(1);
             }
         }
     </script>

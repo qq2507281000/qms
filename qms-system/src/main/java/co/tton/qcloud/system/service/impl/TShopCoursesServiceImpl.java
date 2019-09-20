@@ -83,10 +83,7 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService
     @Override
     public int deleteTShopCoursesByIds(String ids)
     {
-        TShopCourses tShopCourses = new TShopCourses();
-        tShopCourses.setFlag(2);
-        tShopCourses.setId(ids);
-        return tShopCoursesMapper.deleteTShopCoursesByIds(tShopCourses);
+        return tShopCoursesMapper.deleteTShopCoursesByIds(Convert.toStrArray(ids));
     }
 
     /**
