@@ -9,7 +9,6 @@ import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
-import co.tton.qcloud.minio.service.MinioTemplate;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.service.ITShopCoursesService;
 import io.swagger.annotations.Api;
@@ -34,7 +33,6 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/shop/images")
 @Api(tags = "课程图片信息")
-@Repository
 public class TShopCoursesImagesController extends BaseController
 {
     private String prefix = "shop/images";
@@ -44,9 +42,6 @@ public class TShopCoursesImagesController extends BaseController
 
     @Autowired
     private ITShopCoursesService tShopCoursesService;
-
-    @Resource
-    private MinioTemplate minioTemplate;
 
 
     @RequiresPermissions("shop:images:view")
