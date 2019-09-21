@@ -87,7 +87,7 @@ public class TShopCoursesTimeController extends BaseController
     @GetMapping("/add/{id}")
     public String add(@PathVariable("id") String id, ModelMap mmap)
     {
-        TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesByShopId(id);
+        TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesById(id);
         TShopCoursesTime tShopCoursesTime = new TShopCoursesTime();
         tShopCoursesTime.setCoursesId(id);
         tShopCoursesTime.setShopId(tShopCourses.getShopId());

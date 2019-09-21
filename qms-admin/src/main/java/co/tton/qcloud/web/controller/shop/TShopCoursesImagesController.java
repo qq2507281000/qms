@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCoursesImages;
@@ -91,7 +90,7 @@ public class TShopCoursesImagesController extends BaseController
     @GetMapping("/add/{id}")
     public String add(@PathVariable("id") String id, ModelMap mmap)
     {
-        TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesByShopId(id);
+        TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesById(id);
         TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
         tShopCoursesImages.setCoursesId(id);
         tShopCoursesImages.setShopId(tShopCourses.getShopId());
