@@ -89,8 +89,8 @@ public class TShopCoursesTimeController extends BaseController
     {
         TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesByShopId(id);
         TShopCoursesTime tShopCoursesTime = new TShopCoursesTime();
-        tShopCoursesTime.setId(tShopCourses.getId());
-        tShopCoursesTime.setShopId(id);
+        tShopCoursesTime.setCoursesId(id);
+        tShopCoursesTime.setShopId(tShopCourses.getShopId());
         mmap.put("tShopCoursesTime", tShopCoursesTime);
         return prefix + "/add";
     }

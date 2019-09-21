@@ -9,6 +9,7 @@ import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.minio.service.MinioTemplate;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.service.ITShopCoursesService;
 import io.swagger.annotations.Api;
@@ -16,10 +17,13 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCoursesImages;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
+
+import javax.annotation.Resource;
 
 /**
  * 课程图片Controller
@@ -30,6 +34,7 @@ import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 @Controller
 @RequestMapping("/shop/images")
 @Api(tags = "课程图片信息")
+@Repository
 public class TShopCoursesImagesController extends BaseController
 {
     private String prefix = "shop/images";
@@ -39,6 +44,9 @@ public class TShopCoursesImagesController extends BaseController
 
     @Autowired
     private ITShopCoursesService tShopCoursesService;
+
+    @Resource
+    private MinioTemplate minioTemplate;
 
 
     @RequiresPermissions("shop:images:view")
@@ -90,8 +98,8 @@ public class TShopCoursesImagesController extends BaseController
     {
         TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesByShopId(id);
         TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
-        tShopCoursesImages.setId(tShopCourses.getId());
-        tShopCoursesImages.setShopId(id);
+        tShopCoursesImages.setCoursesId(id);
+        tShopCoursesImages.setShopId(tShopCourses.getShopId());
         mmap.put("tShopCoursesImages", tShopCoursesImages);
         return prefix + "/add";
     }
@@ -106,7 +114,6 @@ public class TShopCoursesImagesController extends BaseController
     @ApiOperation("新增课程图片信息")
     public AjaxResult addSave(TShopCoursesImages tShopCoursesImages)
     {
-
         return toAjax(tShopCoursesImagesService.insertTShopCoursesImages(tShopCoursesImages));
     }
 
