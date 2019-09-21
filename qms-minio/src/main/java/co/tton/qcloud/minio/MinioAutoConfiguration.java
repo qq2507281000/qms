@@ -1,7 +1,12 @@
 package co.tton.qcloud.minio;
 
+import co.tton.qcloud.minio.service.MinioTemplate;
 import lombok.AllArgsConstructor;
-//import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @program: qms
@@ -10,21 +15,16 @@ import lombok.AllArgsConstructor;
  * @create: 2019-09-13 17:04
  */
 
-@AllArgsConstructor
 @EnableConfigurationProperties({MinioProperties.class})
 public class MinioAutoConfiguration {
 
     private final MinioProperties properties;
-    @Autowired lateinit var minioProperties: MinioProperties;
 
     @Bean
-    @ConditionalOnMissingBean(MinioTemplate::class)
-    @ConditionalOnProperty(name = arrayOf("minio.url"))
-    open fun minioTemplate():MinioTemplate {
-        return MinioTemplate(minioProperties.url,
-            minioProperties.accessKey,
-            minioProperties.secretKey)
-    }
+    @ConditionalOnMissingBean({MinioTemplate.class})
+    @ConditionalOnProperty(
+            name = {"minio.url"}
+    )
     MinioTemplate template() {
         return new MinioTemplate(this.properties.getUrl(), this.properties.getAccessKey(), this.properties.getSecretKey());
     }

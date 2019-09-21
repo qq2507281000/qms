@@ -22,7 +22,10 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">课程图片地址：</label>
                 <div class="col-sm-8">
-                    <textarea name="imageUrl" class="form-control"></textarea>
+                    <div id="editor">
+                        <p>初始化的内容</p>
+                    </div>
+<!--                    <textarea  name="imageUrl" class="form-control"></textarea>-->
                 </div>
             </div>
             <div class="form-group">    
@@ -52,6 +55,16 @@
         </form>
     </div>
     <th:block th:include="include :: footer" />
+
+    <script th:src="@{/js/wangEditor/wangEditor.js}"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        // 或者 var editor = new E( document.getElementById('editor') )
+        editor.create()
+    </script>
+
+
     <script type="text/javascript">
         var prefix = "/shop/images"
         $("#form-images-add").validate({
