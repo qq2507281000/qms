@@ -27,10 +27,12 @@
 var cropper;
 $(window).load(function() {
 	var avatar = '[[${user.avatar}]]';
+	console.log(avatar);
     var options = {
         thumbBox: '.thumbBox',
         spinner: '.spinner',
-        imgSrc: $.common.isEmpty(avatar) ? ctx + 'img/profile.jpg' : ctx + avatar.substr(1)
+        //imgSrc: $.common.isEmpty(avatar) ? ctx + 'img/profile.jpg' : ctx + avatar.substr(1)
+		imgSrc: $.common.isEmpty(avatar) ? ctx + 'img/profile.jpg' : '/admin/system/user/profile/avatar/' + avatar
     }
     cropper = $('.imageBox').cropbox(options);
     $('#avatar').on('change', function() {

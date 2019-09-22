@@ -1061,6 +1061,40 @@
         	    };
         	    $.ajax(config)
             },
+			saveAndUpload: function(url,form,callback){
+        		var data = $(form).serialize();
+
+        		var file = $("input[name='file']")[0].files[0];
+				var formData = new FormData();
+				formData.append("params[file]", file);
+				data.split('&').forEach(function(item){
+					var is = item.split('=');
+					var name = decodeURIComponent(is[0]);
+					var val = decodeURIComponent(is[1]);
+					formData.append(name,val);
+				});
+
+				console.log("formData-->"+JSON.stringify(formData));
+
+				$.ajax({
+					url: url,
+					data: formData,
+					cache: false,
+					contentType: false,
+					processData: false,
+					type: 'POST',
+					beforeSend: function(){
+						$.modal.loading("正在处理中，请稍后...");
+						$.modal.disable();
+					},
+					success: function (result) {
+						if (typeof callback == "function") {
+							callback(result);
+						}
+						$.operate.successCallback(result);
+					}
+				});
+			},
             // 保存信息 弹出提示框
             saveModal: function(url, data, callback) {
             	var config = {

@@ -1,6 +1,7 @@
 package co.tton.qcloud.minio;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 //import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -26,6 +27,16 @@ public class MinioProperties {
      */
     private String accessKey;
 
+    /***
+     * 授权秘钥
+     */
+    private String secretKey;
+
+    /***
+     * 文件上传根目录
+     */
+    private String bucketName;
+
     @java.lang.Override
     public java.lang.String toString() {
         return "MinioProperties{" +
@@ -35,33 +46,33 @@ public class MinioProperties {
             '}';
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    /***
-     * 授权秘钥
-     */
-    private String secretKey;
+//    public String getUrl() {
+//        return url;
+//    }
+//
+//    public void setUrl(String url) {
+//        this.url = url;
+//    }
+//
+//    public String getAccessKey() {
+//        return accessKey;
+//    }
+//
+//    public void setAccessKey(String accessKey) {
+//        this.accessKey = accessKey;
+//    }
+//
+//    public String getSecretKey() {
+//        return secretKey;
+//    }
+//
+//    public void setSecretKey(String secretKey) {
+//        this.secretKey = secretKey;
+//    }
+//
+//    /***
+//     * 授权秘钥
+//     */
+//    private String secretKey;
 
 }

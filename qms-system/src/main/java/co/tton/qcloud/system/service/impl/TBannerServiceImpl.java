@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.service.impl;
 
 import java.util.List;
+
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,7 @@ public class TBannerServiceImpl implements ITBannerService
     @Override
     public List<TBanner> selectTBannerList(TBanner tBanner)
     {
-        tBanner.setFlag(1);
+        tBanner.setFlag(Constants.DATA_NORMAL);
         return tBannerMapper.selectTBannerList(tBanner);
     }
 

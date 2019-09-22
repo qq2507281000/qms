@@ -1,27 +1,33 @@
 package co.tton.qcloud.web.controller.conf;
 
+import java.io.File;
 import java.util.List;
 
+import cn.hutool.core.date.DateUtil;
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
-import co.tton.qcloud.common.utils.poi.ExcelUtil;
-import io.swagger.annotations.ApiModelProperty;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.bouncycastle.pqc.math.linearalgebra.IntUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TBanner;
 import co.tton.qcloud.system.service.ITBannerService;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 首页滚动广告Controller
@@ -41,6 +47,9 @@ public class TBannerController extends BaseController
 
     @Autowired
     private ITBannerService tBannerService;
+
+    @Autowired
+    private MinioFileService minioFileService;
 
     @RequiresPermissions("conf:banner:view")
     @GetMapping()
@@ -82,9 +91,45 @@ public class TBannerController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TBanner tBanner)
     {
-        //TODO:需要对前端传入的参数进行校验，把NULL值补全。
-        tBanner.setId(StringUtils.genericId());
-        return toAjax(tBannerService.insertTBanner(tBanner));
+        try {
+
+            SysUser currentUser = ShiroUtils.getSysUser();
+
+            String id = StringUtils.genericId();
+            tBanner.setId(id);
+
+            if(tBanner.getParams().containsKey("file")){
+                //有新文件上传
+                MultipartFile file = (MultipartFile)tBanner.getParams().get("file");
+                if(file != null){
+                    String fileName = minioFileService.upload(file);
+                    tBanner.setImg(fileName);
+
+                    //是否可用
+                    if(tBanner.getParams().containsKey("availableText)")){
+                        String avaiableText = tBanner.getParams().get("availableText").toString();
+                        int avaiable = Integer.parseInt(avaiableText);
+                        tBanner.setAvailable(avaiable);
+                    }
+                    tBanner.setFlag(Constants.DATA_NORMAL);
+                    tBanner.setCreateBy(currentUser.getUserId().toString());
+                    tBanner.setCreateTime(DateUtil.date());
+                    tBannerService.insertTBanner(tBanner);
+                    return AjaxResult.success("数据保存成功。");
+                }
+                else{
+                    return AjaxResult.error("未能获取上传文件内容。");
+                }
+            }
+            else{
+                return AjaxResult.error("请选择图片上传。");
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("保存滚动广告图片时发生异常。",ex);
+            return AjaxResult.error("保存滚动广告图片时发生异常。");
+        }
     }
 
     /**
@@ -123,5 +168,27 @@ public class TBannerController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(tBannerService.deleteTBannerByIds(ids));
+    }
+
+
+    /***
+     * 文件上传
+     * @param file 文件地址
+     * @return
+     */
+    @ApiOperation("滚动广告图片上传")
+    @PostMapping("/img/upload")
+    @Log(title = "滚动广告图片上传", businessType=BusinessType.IMPORT)
+    public AjaxResult upload(@RequestParam("file") MultipartFile file){
+        try{
+//            String fileName = MinioFileService.upload(file);
+//            return AjaxResult.success(fileName);
+            return AjaxResult.success();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("文件上传发生异常。",ex);
+            return AjaxResult.error("文件上传发生异常。");
+        }
     }
 }

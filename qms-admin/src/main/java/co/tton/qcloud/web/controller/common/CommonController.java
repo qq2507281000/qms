@@ -3,14 +3,15 @@ package co.tton.qcloud.web.controller.common;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import co.tton.qcloud.web.minio.MinioFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import co.tton.qcloud.common.config.Global;
 import co.tton.qcloud.common.config.ServerConfig;
@@ -20,6 +21,7 @@ import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.file.FileUploadUtils;
 import co.tton.qcloud.common.utils.file.FileUtils;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +37,9 @@ public class CommonController
 
     @Autowired
     private ServerConfig serverConfig;
+
+    @Autowired
+    private MinioFileService minioFileService;
 
     /**
      * 通用下载请求
@@ -113,6 +118,25 @@ public class CommonController
         response.setHeader("Content-Disposition",
                 "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, downloadName));
         FileUtils.writeBytes(downloadPath, response.getOutputStream());
+    }
+
+    /***
+     * 资源显示
+     * @param file
+     * @param response
+     */
+    @GetMapping("/resource-file/{file}")
+    public void showImage(@PathVariable("file")String file, HttpServletResponse response){
+        if(StrUtil.isNotEmpty(file)){
+            try(InputStream stream = minioFileService.show(file)){
+                response.setContentType("application/octet-stream; charset=UTF-8");
+                IoUtil.copy(stream, response.getOutputStream());
+            }
+            catch(Exception ex){
+                ex.printStackTrace();
+                log.error("读取图片出错。",ex);
+            }
+        }
     }
 
 //    @Resource

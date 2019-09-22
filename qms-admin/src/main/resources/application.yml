@@ -150,10 +150,19 @@ wx:
     subMchId: #服务商模式下的子商户号
     keyPath: # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
 
-  minio:
-    url: http://192.168.1.133:9000
-    accessKey: admin
-    secretKey: admin123456
-    endpoint:
-      enable: true
+#minio:
+#  url: http://192.168.1.133:9000
+#  accessKey: admin
+#  secretKey: admin123456
+#  endpoint:
+#    enable: true
 
+# 文件系统 (提供测试环境，不要乱传)
+minio:
+  url: http://119.3.244.42:9001
+  accessKey: tton
+  secretKey: tton.co123
+  bucket: teamhdpi
+  endpoint:
+    name: teamhdpi
+    enable: true

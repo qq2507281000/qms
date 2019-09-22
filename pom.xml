@@ -222,7 +222,6 @@
 		<module>qms-generator</module>
         <module>qms-common</module>
 		<module>qms-minio</module>
-        <module>qms-wx</module>
     </modules>
     <packaging>pom</packaging>
 

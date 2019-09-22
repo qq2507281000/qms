@@ -49,7 +49,8 @@
                     title : '广告图片',
                     formatter: function(value, row, index) {
                         //return '<a href="javascript:void(0)" onclick="detail(\'' + row.dictId + '\')">' + value + '</a>';
-                        return '<img src="'+value+'" class="banner-image"></img>';
+                        ///resource-file/{file}
+                        return '<img src="/resource-file/'+value+'" class="banner-image"></img>';
                     }
                 },
                 {

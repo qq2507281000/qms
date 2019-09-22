@@ -66,4 +66,14 @@ public class Constants
      * 资源映射路径 前缀
      */
     public static final String RESOURCE_PREFIX = "/profile";
+
+    /***
+     * 数据库数据正常
+     */
+    public static final int DATA_NORMAL = 0;
+
+    /***
+     * 数据库数据已删除
+     */
+    public static final int DATA_DELETED = 1;
 }

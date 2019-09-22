@@ -1,27 +1,27 @@
 package co.tton.qcloud.web.controller.system;
 
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import co.tton.qcloud.web.minio.MinioFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import co.tton.qcloud.common.annotation.Log;
-import co.tton.qcloud.common.config.Global;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
-import co.tton.qcloud.common.utils.file.FileUploadUtils;
 import co.tton.qcloud.framework.shiro.service.SysPasswordService;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.SysUser;
 import co.tton.qcloud.system.service.ISysUserService;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 
 /**
  * 个人信息 业务处理
@@ -41,6 +41,9 @@ public class SysProfileController extends BaseController
     
     @Autowired
     private SysPasswordService passwordService;
+
+    @Autowired
+    private MinioFileService minioFileService;
 
     /**
      * 个人信息
@@ -120,12 +123,31 @@ public class SysProfileController extends BaseController
         return prefix + "/avatar";
     }
 
-    /**
+    /***
+     * 获取头像
+     * @param file
+     * @param response
+     */
+    @GetMapping("/avatar/{file}")
+    public void getAvatar(@PathVariable("file")String file, HttpServletResponse response){
+        if(StrUtil.isNotEmpty(file)){
+            try(InputStream stream = minioFileService.show(file)){
+                response.setContentType("application/octet-stream; charset=UTF-8");
+                IoUtil.copy(stream, response.getOutputStream());
+            }
+            catch(Exception ex){
+                ex.printStackTrace();
+                log.error("读取头像图片出错。",ex);
+            }
+        }
+    }
+
+                          /**
      * 修改用户
      */
-    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
-    @PostMapping("/update")
-    @ResponseBody
+                          @Log(title = "个人信息", businessType = BusinessType.UPDATE)
+                          @PostMapping("/update")
+                          @ResponseBody
     public AjaxResult update(SysUser user)
     {
         SysUser currentUser = ShiroUtils.getSysUser();
@@ -154,13 +176,21 @@ public class SysProfileController extends BaseController
         {
             if (!file.isEmpty())
             {
-                String avatar = FileUploadUtils.upload(Global.getAvatarPath(), file);
-                currentUser.setAvatar(avatar);
-                if (userService.updateUserInfo(currentUser) > 0)
-                {
+                //String fileName = MinioFileService.upload(file);
+                String fileName = minioFileService.upload(file);
+                currentUser.setAvatar(fileName);
+                if(userService.updateUserInfo(currentUser) > 0){
                     ShiroUtils.setSysUser(userService.selectUserById(currentUser.getUserId()));
                     return success();
                 }
+
+//                String avatar = FileUploadUtils.upload(Global.getAvatarPath(), file);
+//                currentUser.setAvatar(avatar);
+//                if (userService.updateUserInfo(currentUser) > 0)
+//                {
+//                    ShiroUtils.setSysUser(userService.selectUserById(currentUser.getUserId()));
+//                    return success();
+//                }
             }
             return error();
         }
