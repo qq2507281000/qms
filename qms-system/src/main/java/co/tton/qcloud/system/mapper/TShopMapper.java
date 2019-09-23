@@ -58,4 +58,21 @@ public interface TShopMapper
      * @return 结果
      */
     public int deleteTShopByIds(String[] ids);
+
+    /**
+     * 首页推荐商家查询
+     *
+     * @param
+     * @return 获取推荐商家信息成功。
+     */
+    public List<TShop> getSuggestShop(TShop tShop);
+
+    /**
+     * 查询商家详情
+     *
+     * @param
+     * @return 获取商家详情成功。
+     */
+    public TShop getShopDetail(TShop tShop);
+
 }

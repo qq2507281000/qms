@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.List;
+
 /**
  * 商家信息对象 t_shop
  * 
@@ -26,6 +28,11 @@ public class TShop extends BaseEntity
     /** $column.columnComment */
     @ApiModelProperty("ID")
     private String id;
+
+    /** 商家分类 */
+    @ApiModelProperty("商家分类")
+    @Excel(name = "商家分类")
+    private String categoryId;
 
     /** 商家名称 */
     @ApiModelProperty("商家名称")
@@ -147,10 +154,14 @@ public class TShop extends BaseEntity
     @Excel(name = "数据状态")
     private Integer flag;
 
+    @ApiModelProperty("关联订单")
+    private List<TCategory> tCategoryList;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
+            .append("categoryId", getCategoryId())
             .append("name", getName())
             .append("subject", getSubject())
             .append("summary", getSummary())

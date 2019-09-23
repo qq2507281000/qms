@@ -34,15 +34,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
+        <result property="categoryId"    column="category_id"    />
+    </resultMap>
+    <resultMap id="TShopAll" type="co.tton.qcloud.system.domain.TShop" extends="TShopResult">
+        <collection property="tCategoryList" ofType="co.tton.qcloud.system.domain.TCategory">
+            <id property="id"    column="id"    />
+        </collection>
     </resultMap>
 
     <sql id="selectTShopVo">
-        select id, name, subject, summary, region_name, cover_img, suggest, sort_key, sort_weight, address, shop_hours_begin, shop_hours_end, level, stars, html_content, telephone, mobile, contract_name, wechat_no, wechat_platform, wechat_no_img, wechat_platform_img, wechat_show, available, flag, create_time, create_by, update_time, update_by from t_shop
+        select category_id,id, name, subject, summary, region_name, cover_img, suggest, sort_key, sort_weight, address, shop_hours_begin, shop_hours_end, level, stars, html_content, telephone, mobile, contract_name, wechat_no, wechat_platform, wechat_no_img, wechat_platform_img, wechat_show, available, flag, create_time, create_by, update_time, update_by from t_shop
     </sql>
 
     <select id="selectTShopList" parameterType="TShop" resultMap="TShopResult">
         <include refid="selectTShopVo"/>
         <where>
+            <if test="categoryId != null  and categoryId != ''">category_id = #{categoryId},</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
@@ -80,6 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertTShop" parameterType="TShop">
         insert into t_shop
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null  and categoryId != ''"> category_id = #{categoryId},</if>
             <if test="id != null  and id != ''">id,</if>
             <if test="name != null  and name != ''">name,</if>
             <if test="subject != null  and subject != ''">subject,</if>
@@ -111,6 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null  and categoryId != ''"> category_id = #{categoryId},</if>
             <if test="id != null  and id != ''">#{id},</if>
             <if test="name != null  and name != ''">#{name},</if>
             <if test="subject != null  and subject != ''">#{subject},</if>
@@ -146,6 +155,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateTShop" parameterType="TShop">
         update t_shop
         <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null  and categoryId != ''">category_id = #{categoryId},</if>
             <if test="name != null  and name != ''">name = #{name},</if>
             <if test="subject != null  and subject != ''">subject = #{subject},</if>
             <if test="summary != null ">summary = #{summary},</if>
@@ -200,5 +210,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+    <select id="getSuggestShop" parameterType="TShop" resultMap="TShopAll">
+        select sh.id, sh.name, sh.suggest, sh.cover_img ,sh.region_name,sh.category_id,ca.id
+        from t_shop sh
+        left join t_category ca on sh.category_id = ca.id
+        where
+            sh.category_id = #{categoryId}
+            and sh.suggest = #{suggest}
+        order by shop.sort_key
+    </select>
+
+    <select id="getShopDetail" parameterType="TShop" resultMap="TShopResult">
+        select
+            shop.id,
+            shop.name,
+            shop.summary,
+            shop.region_name,
+            shop.cover_img,
+            shop.address,
+            shop.telephone,
+            shop.mobile,
+            shop.shop_hours_begin,
+            shop.shop_hours_end,
+            count(de.order_no)
+        from
+            t_shop shop
+        left join t_order de on shop.id = de.shop_id
+        <where>
+            <if test="id != null  and id != ''">shop.id = #{id}</if>
+        </where>
+        order by shop.sort_key
+    </select>
 </mapper>

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * 首页滚动广告Mapper接口
- * 
+ *
  * @author qcloud
  * @date 2019-09-05
  */
@@ -58,4 +58,13 @@ public interface TBannerMapper
      * @return 结果
      */
     public int deleteTBannerByIds(String[] ids);
+
+    /**
+     * 查询首页滚动广告
+     *
+     * @param
+     * @return 首页滚动广告
+     */
+    List<TBanner> getBanner();
+
 }
