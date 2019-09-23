@@ -1,5 +1,6 @@
 package co.tton.qcloud.web.controller.shop;
 
+import java.io.IOException;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
@@ -9,6 +10,10 @@ import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.domain.TShopCoursesImages;
+import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,6 +24,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.service.ITShopCoursesService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 课程基本信息Controller
@@ -35,6 +41,9 @@ public class TShopCoursesController extends BaseController
 
     @Autowired
     private ITShopCoursesService tShopCoursesService;
+
+    @Autowired
+    private MinioFileService minioFileService;
 
     @RequiresPermissions("shop:courses:view")
     @GetMapping()
@@ -94,9 +103,39 @@ public class TShopCoursesController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("新增课程基本信息")
-    public AjaxResult addSave(TShopCourses tShopCourses)
-    {
-        return toAjax(tShopCoursesService.insertTShopCourses(tShopCourses));
+    public AjaxResult addSave(TShopCourses tShopCourses) throws IOException {
+        try {
+            SysUser currentUser = ShiroUtils.getSysUser();
+
+            String id = StringUtils.genericId();
+            tShopCourses.setId(id);
+
+            if (tShopCourses.getParams().containsKey("file")){
+                //新文件上传
+                MultipartFile file = (MultipartFile)tShopCourses.getParams().get("file");
+                if (file !=null){
+                    String fileName = minioFileService.upload(file);
+                    TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
+                    tShopCoursesImages.setImageUrl(fileName);
+                    System.out.println("------------------>>>>"+fileName);
+
+                    return AjaxResult.success("数据保存成功。");
+                }
+                else {
+                    return AjaxResult.error("未能获取上传文件内容。");
+                }
+            }
+            else {
+                return AjaxResult.error("请选择图片上传。");
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("保存课程图片时发生异常。",ex);
+            return AjaxResult.error("保存课程图片时发生异常。");
+        }
+//        System.out.println("===============>>>>"+tShopCourses.getFile());
+//        return toAjax(tShopCoursesService.insertTShopCourses(tShopCourses));
     }
 
     /**
