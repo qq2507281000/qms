@@ -62,7 +62,14 @@ public interface ITShopCoursesImagesService
     /***
      * 根据课程Id获取课程图片地址
      * @param courses_id
-     * @return
+     * @return 结果
      */
     public List<String> getCoursesImages(String courses_id);
+
+    /***
+     * 根据课程Id获取课程标题，商家名称，课程价格
+     * @param id
+     * @return 结果
+     */
+    String getSuggestCoursesImages(String id);
 }

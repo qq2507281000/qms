@@ -58,4 +58,11 @@ public interface TShopCoursesImagesMapper
      * @return 结果
      */
     public int deleteTShopCoursesImagesByIds(String[] ids);
+
+    /***
+     * 根据课程Id获取课程标题，商家名称，课程价格
+     * @param id
+     * @return 结果
+     */
+    String getSuggestCoursesImages(String coursesId);
 }

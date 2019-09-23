@@ -111,4 +111,9 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
         }
         return null;
     }
+
+    @Override
+    public String getSuggestCoursesImages(String id) {
+        return tShopCoursesImagesMapper.getSuggestCoursesImages(id);
+    }
 }

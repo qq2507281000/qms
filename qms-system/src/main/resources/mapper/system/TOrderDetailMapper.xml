@@ -115,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTOrderDetailVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertTOrderDetail" parameterType="TOrderDetail">
         insert into t_order_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -176,5 +176,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+    <select id="getOrderMon" parameterType="String" resultType="java.lang.String">
+        SELECT
+            count( * )
+        FROM
+            t_order_detail
+        WHERE
+            DATE_SUB( CURDATE( ), INTERVAL 30 DAY ) &lt;= date( create_time )
+        AND courses_id = #{coursesId}
+    </select>
 </mapper>

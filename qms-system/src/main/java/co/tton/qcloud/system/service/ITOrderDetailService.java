@@ -68,4 +68,11 @@ public interface ITOrderDetailService
      * @return
      */
     public List<TOrderDetailModel> selectTOrderDetailModelList(String orderId);
+
+    /***
+     * 获取往前推三十天内订单的数量
+     * @param id 课程Id
+     * @return
+     */
+    String getOrderMon(String id);
 }

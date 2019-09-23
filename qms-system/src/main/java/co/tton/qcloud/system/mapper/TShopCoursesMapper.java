@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TShopCourses;
+import co.tton.qcloud.system.domain.TShopCoursesModel;
+
 import java.util.List;
 
 /**
@@ -66,4 +68,22 @@ public interface TShopCoursesMapper
      * @return 结果
      */
     public int deleteTShopCoursesByIds(String[] ids);
+
+    /**
+     * 小程序课程基本信息
+     *
+     * @param id 根据Id查询有关课程的详细信息
+     * @return 结果
+     */
+    TShopCoursesModel getCoursesDetail(String id);
+
+    /**
+     * 小程序查询推荐课程
+     *
+     * @param categoryId 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
+    List<TShopCoursesModel> getSuggestCourses(String categoryId);
+
+    List<TShopCoursesModel> getSuggestCoursesAll();
 }

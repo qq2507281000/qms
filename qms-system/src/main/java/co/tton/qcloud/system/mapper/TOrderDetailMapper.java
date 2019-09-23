@@ -68,4 +68,11 @@ public interface TOrderDetailMapper
      * @return 结果
      */
     public int deleteTOrderDetailByIds(String[] ids);
+
+    /***
+     * 获取往前推三十天内订单的数量
+     * @param id 课程Id
+     * @return
+     */
+    String getOrderMon(String coursesId);
 }

@@ -23,6 +23,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="useDiscount"    column="use_discount"    />
     </resultMap>
 
+    <resultMap type="TShopCoursesModel" id="TShopCoursesModelResult">
+        <result property="id"    column="id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="title"    column="title"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="contentHtml"    column="content_html"    />
+        <result property="suggest"    column="suggest"    />
+        <result property="salesCount"    column="sales_count"    />
+        <result property="avaiable"    column="avaiable"    />
+        <result property="sortKey"    column="sort_key"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="sku"    column="sku"    />
+        <result property="useDiscount"    column="use_discount"    />
+        <result property="coursesId"    column="courses_id"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="price"    column="price"    />
+        <result property="l1Price"    column="l1_price"    />
+        <result property="l2Price"    column="l2_price"    />
+        <result property="l3Price"    column="l3_price"    />
+        <result property="l4Price"    column="l4_price"    />
+        <result property="l5Price"    column="l5_price"    />
+        <result property="l6Price"    column="l6_price"    />
+        <result property="l7Price"    column="l7_price"    />
+        <result property="l8Price"    column="l8_price"    />
+        <result property="l9Price"    column="l9_price"    />
+        <result property="specialPriceLevel"    column="special_price_level"    />
+        <result property="perLimitBuy"    column="per_limit_buy"    />
+        <result property="name"    column="name"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="count"    column="count"    />
+    </resultMap>
+
     <sql id="selectTShopCoursesVo">
         select id, shop_id, title, sub_title, content_html, suggest, sales_count, avaiable, sort_key, flag, create_time, create_by, update_time, update_by, sku, use_discount from t_shop_courses
     </sql>
@@ -132,5 +168,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+    <select id="getCoursesDetail" parameterType="String" resultMap="TShopCoursesModelResult">
+        SELECT
+            *
+        FROM
+            t_shop_courses tsc
+            INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
+            INNER JOIN t_shop_courses_images tsci ON tsc.id = tsci.courses_id
+        WHERE
+            tsc.id = #{id}
+    </select>
+
+    <select id="getSuggestCourses" parameterType="String" resultMap="TShopCoursesModelResult">
+        SELECT
+            tsc.id,
+            ts.`name`,
+            tscp.price,
+            tsc.title
+        FROM
+            t_shop_courses tsc
+            INNER JOIN t_shop ts ON tsc.shop_id = ts.id
+            INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
+        WHERE
+            tsc.suggest = 1
+            and tsc.category_id = #{categoryId}
+    </select>
+
+    <select id="getSuggestCoursesAll" parameterType="String" resultMap="TShopCoursesModelResult">
+        SELECT
+            tsc.id,
+            ts.`name`,
+            tscp.price,
+            tsc.title
+        FROM
+            t_shop_courses tsc
+            INNER JOIN t_shop ts ON tsc.shop_id = ts.id
+            INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
+        WHERE
+            tsc.suggest = 1
+    </select>
+
 </mapper>
