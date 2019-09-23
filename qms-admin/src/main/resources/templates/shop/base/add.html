@@ -3,278 +3,452 @@
 <head>
     <th:block th:include="include :: header('新增商家信息')" />
     <link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css"
+          href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="/assets/global/plugins/bootstrap-datetimepicker/css/datetimepicker.css"/>
+    <script type="text/javascript"
+            src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script type="text/javascript"
+            src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript"
+            src="/assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-shop-add">
-            <div class="form-group">
-                <label class="col-sm-3 control-label">商家名称：</label>
-                <div class="col-sm-8">
-                    <input name="name" class="form-control" type="text">
+    <form class="form-horizontal m" id="form-shop-add">
+        <h4 class="form-header h4">基本信息</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家名称：</label>
+                    <div class="col-sm-8">
+                        <input name="name" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">商家副标题：</label>
-                <div class="col-sm-8">
-                    <input name="subject" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家副标题：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="subject" type="text" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">区域名称：</label>
-                <div class="col-sm-8">
-                    <input name="regionName" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">开始营业时间：</label>
+                    <div class="col-sm-8">
+                        <!--<input name="shopHoursBegin" class="form-control" type="text" maxlength="30" required>-->
+
+                        <div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">
+                            <div class="input-group">
+                                <input type="text" id="startTime" name="startTime"
+                                       readonly="readonly" class="form-control timepicker timepicker-default"
+                                       placeholder="从">
+                                <span class="input-group-btn">
+                                   <button class="btn default" type="button">
+                                           <i class="fa fa-clock-o"></i>
+                                   </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="text" id="endTime" name="endTime"
+                                       readonly="readonly" class="form-control timepicker timepicker-default"
+                                       placeholder="到">
+                                <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-clock-o"></i>
+                                        </button>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">封面图片：</label>
-                <div class="col-sm-8">
-                    <!--<input name="coverImg" class="form-control" type="text">-->
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">结束营业时间：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="shopHoursEnd" type="text" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否推荐：</label>
-                <div class="col-sm-8">
-                    <!--<select name="suggest" class="form-control" type="text">-->
-                    <!--<option value ="1">是</option>sss-->
-                    <!--<option value ="2">否</option>-->
-                    <!--</select>-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" id="suggest" onclick="openClick(this)" checked>
-                        <input type="hidden" name="suggest" value="1" id="suggestH" checked>
-                        <span></span>
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">排序键值：</label>
-                <div class="col-sm-8">
-                    <input name="sortKey" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">排序权重：</label>
-                <div class="col-sm-8">
-                    <input name="sortWeight" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">地理位置：</label>
-                <div class="col-sm-8">
-                    <input name="address" autocomplete="off" type="text" value="请选择/输入城市名称"
-                           class="form-control city_input inputFocus proCityQueryAll proCitySelAll" ov="请选择/输入城市名称">
-                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">地理位置：</label>
+                    <div class="col-sm-8">
+                        <!--<input name="userName" class="form-control" type="text" maxlength="30" required>-->
+                        <input name="address" autocomplete="off" type="text" maxlength="30" required value="请选择/输入城市名称"
+                               class="form-control city_input inputFocus proCityQueryAll proCitySelAll" ov="请选择/输入城市名称">
+                    </div>
                     <div class="provinceCityAll">
-                    <div class="tabs clearfix">
-                        <ul>
-                            <li>
-                                <a href="javascript:" class="current" tb="hotCityAll">热门城市</a>
-                            </li>
-                            <li>
-                                <a href="javascript:" tb="provinceAll">省份</a>
-                            </li>
-                            <li>
-                                <a href="javascript:" tb="cityAll" id="cityAll">城市</a>
-                            </li>
-                            <li>
-                                <a href="javascript:" tb="countyAll" id="countyAll">区县</a>
-                            </li>
-                        </ul>
+                        <div class="tabs clearfix">
+                            <ul>
+                                <li>
+                                    <a href="javascript:" class="current" tb="hotCityAll">热门城市</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:" tb="provinceAll">省份</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:" tb="cityAll" id="cityAll">城市</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:" tb="countyAll" id="countyAll">区县</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="con">
+                            <div class="hotCityAll invis" style="display: none;">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="provinceAll invis">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="cityAll invis">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="countyAll invis">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="con">
-                        <div class="hotCityAll invis" style="display: none;">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="provinceAll invis">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="cityAll invis">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="countyAll invis">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                     <script th:src="@{/js/city/jquery-1.6.2.min.js}"></script>
                     <script th:src="@{/js/city/public.js}"></script>
-                 <div id="dimCityQuery"><ul></ul></div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">开始营业时间：</label>
-                <div class="col-sm-8">
-                    <input name="shopHoursBegin" class="form-control" type="text">
+                    <div id="dimCityQuery"><ul></ul></div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">结束营业时间：</label>
-                <div class="col-sm-8">
-                    <input name="shopHoursEnd" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">区域名称：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="regionName" type="text" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">商家级别：</label>
-                <div class="col-sm-8">
-                    <input name="level" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">封面图片：</label>
+                    <div class="col-sm-8">
+                        <input name="coverImg" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">商家星级：</label>
-                <div class="col-sm-8">
-                    <input name="stars" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否推荐：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <!--<input name="deptName" type="text" class="form-control" required>-->
+                        </div>
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" id="suggest" onclick="openClick(this)" checked class="form-control" required>
+                            <input type="hidden" name="suggest" value="1" id="suggestH" checked>
+                            <span></span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">商家座机：</label>
-                <div class="col-sm-8">
-                    <input name="telephone" class="form-control" type="text">
+        </div>
+
+        <h4 class="form-header h4">联系信息</h4>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家座机：</label>
+                    <div class="col-sm-8">
+                        <input name="telephone" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">商家手机：</label>
-                <div class="col-sm-8">
-                    <input name="mobile" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家手机：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="mobile" type="text" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">联系人姓名：</label>
-                <div class="col-sm-8">
-                    <input name="contractName" class="form-control" type="text">
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">联系人姓名：</label>
+                    <div class="col-sm-8">
+                        <input name="contractName" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">微信号：</label>
-                <div class="col-sm-8">
-                    <input name="wechatNo" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">微信号：</label>
+                    <div class="col-sm-8">
+                        <input name="wechatNo" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">微信公众平台：</label>
-                <div class="col-sm-8">
-                    <input name="wechatPlatform" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">个人二维码图片：</label>
+                    <div class="col-sm-8">
+                        <!--<div class="input-group">-->
+                            <!--<input name="wechatNoImg" type="text" class="form-control" required>-->
+                        <!--</div>-->
+
+
+                        <!--上传-->
+
+                            <!--<div class="clearfix"></div>-->
+                            <!--<div class="input-group file-caption-main">-->
+                                <!--<div class="file-caption form-control  kv-fileinput-caption">-->
+                                    <!--<span class="file-caption-icon"></span>-->
+                                    <!--<input class="file-caption-name" onkeydown="return false;" onpaste="return false;" placeholder="选择 个文件...">-->
+                                <!--</div>-->
+                                <!--<div class="input-group-btn input-group-append">-->
+                                    <!--<button type="button" title="清除选中文件" class="btn btn-default btn-secondary fileinput-remove fileinput-remove-button">-->
+                                        <!--<i class="glyphicon glyphicon-trash">-->
+                                        <!--</i>-->
+                                        <!--<span class="hidden-xs">移除</span>-->
+                                    <!--</button>-->
+                                    <!--&lt;!&ndash;<button type="button" title="取消进行中的上传" class="btn btn-default btn-secondary kv-hidden fileinput-cancel fileinput-cancel-button">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i class="glyphicon glyphicon-ban-circle">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<span class="hidden-xs">取消</span>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                    <!--<button type="submit" title="上传选中文件" class="btn btn-default btn-secondary fileinput-upload fileinput-upload-button">-->
+                                        <!--<i class="glyphicon glyphicon-upload">-->
+                                        <!--</i>-->
+                                        <!--<span class="hidden-xs">上传</span>-->
+                                    <!--</button>-->
+                                    <!--<div class="btn btn-primary btn-file">-->
+                                        <!--<i class="glyphicon glyphicon-folder-open">-->
+                                        <!--</i>&nbsp;-->
+                                        <!--<span class="hidden-xs">选择 …</span>-->
+                                        <!--<input name="img" class="file" type="file" multiple="" data-min-file-count="1" data-theme="fas" id="1569155503448_91">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">个人二维码图片：</label>
-                <div class="col-sm-8">
-                    <!--<input name="wechatNoImg" class="form-control" type="text">-->
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">微信公众平台：</label>
+                    <div class="col-sm-8">
+                        <input name="wechatPlatform" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">微信公众号图片：</label>
-                <div class="col-sm-8">
-                    <input name="wechatPlatformImg" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">微信公众号图片：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="wechatPlatformImg" type="text" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否显示微信信息：</label>
-                <div class="col-sm-8">
-                    <!--<select name="wechatShow" class="form-control" type="text">-->
-                        <!--<option value ="1">是</option>-->
-                        <!--<option value ="2">否</option>-->
-                    <!--</select>-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" onclick="openClick(this)" checked>
-                        <input type="hidden" name="wechatShow" value="1" >
-                        <span></span>
-                    </label>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否显示微信信息：</label>
+                    <div class="col-sm-8">
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" onclick="openClick(this)" checked>
+                            <input type="hidden" name="wechatShow" value="1" >
+                            <span></span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否可用：</label>
-                <div class="col-sm-8">
-                    <!--<select name="available" class="form-control" type="text">-->
-                        <!--<option value ="1">是</option>-->
-                        <!--<option value ="2">否</option>-->
-                    <!--</select>-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" onclick="openClick(this)" checked>
-                        <input type="hidden" name="available" value="1" >
-                        <span></span>
-                    </label>
+        </div>
+
+        <h4 class="form-header h4">其他信息</h4>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">排序键值：</label>
+                    <div class="col-sm-8">
+                        <input name="sortKey" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">数据状态：</label>
-                <div class="col-sm-8">
-                    <!--<select name="flag" class="form-control" type="text">-->
-                        <!--<option value ="1">是</option>-->
-                        <!--<option value ="2">否</option>-->
-                    <!--</select>-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" onclick="openClick(this)" checked>
-                        <input type="hidden" name="flag" value="1" >
-                        <span></span>
-                    </label>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">排序权重：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="sortWeight" type="text" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家级别：</label>
+                    <div class="col-sm-8">
+                        <input name="level" class="form-control" type="text" maxlength="30" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家星级：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input name="stars" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否可用：</label>
+                    <div class="col-sm-8">
+                        <!--<div class="input-group">-->
+                        <!--<input name="wechatPlatformImg" type="text" class="form-control" required>-->
+                        <!--</div>-->
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" onclick="openClick(this)" checked>
+                            <input type="hidden" name="available" value="1" >
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">数据状态：</label>
+                    <div class="col-sm-8">
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" onclick="openClick(this)" checked>
+                            <input type="hidden" name="flag" value="1" >
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-sm-offset-5 col-sm-10">
+        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+        <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
     </div>
-    <th:block th:include="include :: footer" />
-    <script type="text/javascript">
-        var prefix = "/shop"
-        $("#form-shop-add").validate({
-            focusCleanup: true
-        });
+</div>
 
-        function submitHandler() {
-            if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-shop-add').serialize());
-            }
-        }
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+    var prefix = "/shop"
+    $("#form-shop-add").validate({
+        focusCleanup: true
+    });
 
-        function openClick(that){
-            if($(that).attr('checked')){
-                $(that).removeAttrs('checked');
-                $(that).parent().find('input').eq(1).val(0);
-            }else {
-                $(that).attr('checked','checked');
-                $(that).parent().find('input').eq(1).val(1);
-            }
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/add", $('#form-shop-add').serialize());
         }
-    </script>
+    }
+
+    function openClick(that){
+        if($(that).attr('checked')){
+            $(that).removeAttrs('checked');
+            $(that).parent().find('input').eq(1).val(0);
+        }else {
+            $(that).attr('checked','checked');
+            $(that).parent().find('input').eq(1).val(1);
+        }
+    }
+    var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
+    $("#startTime").val(nowTime).timepicker('setTime', nowTime);
+</script>
 </body>
 </html>

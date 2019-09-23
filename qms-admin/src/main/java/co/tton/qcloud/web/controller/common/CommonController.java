@@ -139,20 +139,4 @@ public class CommonController
         }
     }
 
-//    @Resource
-//    private MinioTemplate minioTemplate;
-//
-//    public String upload(@RequestParam("file") MultipartFile file) {
-//        String fileName  = file.getOriginalFilename();
-//        Map<String, String> resultMap = new HashMap<>(4);
-//        resultMap.put("bucketName", "bucketName");
-//        resultMap.put("fileName", fileName);
-//        try {
-//            minioTemplate.putObject("bucketName", fileName, file.getInputStream());
-//
-//    } catch (Exception e) {
-//            return "上传失败";
-//        }
-//        return "上传成功";
-//    }
 }

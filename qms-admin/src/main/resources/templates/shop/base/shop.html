@@ -15,35 +15,22 @@
                                 <input type="text" name="name"/>
                             </li>
                             <li>
-                                <p>是否推荐：</p>
-                                <select type="text" name="suggest">
-                                    <option value ="1">是</option>
-                                    <option value ="0">否</option>
-                                </select>
-                            </li>
-                            <!--<li>-->
-                                <!--<p>商家座机：</p>-->
-                                <!--<input type="text" name="telephone"/>-->
-                            <!--</li>-->
-                            <li>
-                                <p>微信号：</p>
-                                <input type="text" name="wechatNo"/>
+                                <p>区域名称：</p>
+                                <input type="text" name="regionName"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-
                             </li>
                         </ul>
                     </div>
                 </form>
             </div>
-
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:shop:add">
+                <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="system:shop:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:shop:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="system:shop:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:shop:remove">
@@ -57,9 +44,13 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
+
         var editFlag = [[${@permission.hasPermi('system:base:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:base:remove')}]];
         var viewFlag = [[${@permission.hasPermi('order:detail')}]];
+
+        var shop_suggest = [[${@dict.getType('shop_suggest')}]];
+        var available = [[${@dict.getType('available')}]];
         var prefix = "/shop";
 
         $(function() {
@@ -80,21 +71,17 @@
                 },
                 {
                     field : 'name',
-                    title : '商家名称'
+                    title : '商家名称',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value,10);
+                    }
                 },
                 {
                     field : 'suggest',
                     title : '是否推荐',
-                    formatter: function(value) {
-                        if(value==1){
-                            return '<span class="label label-success">推荐</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">不推荐</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未知</span>';
-                        }
+                    align : 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(shop_suggest, value);
                     }
                 },
                 {
@@ -104,14 +91,6 @@
                 {
                     field : 'shopHoursEnd',
                     title : '结束营业时间'
-                },
-                {
-                    field : 'level',
-                    title : '商家级别'
-                },
-                {
-                    field : 'stars',
-                    title : '商家星级'
                 },
                 {
                     field : 'telephone',
@@ -128,31 +107,8 @@
                 {
                     field : 'available',
                     title : '是否可用',
-                    formatter: function(value) {
-                        if(value==1){
-                            return '<span class="label label-success">可用</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">不可用</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未知</span>';
-                        }
-                    }
-                },
-                {
-                    field : 'flag',
-                    title : '数据状态',
-                    formatter: function(value) {
-                        if(value==1){
-                            return '<span class="label label-success">可用</span>';
-                        }
-                        else if(value == 0){
-                            return '<span class="label label-danger">不可用</span>';
-                        }
-                        else{
-                            return '<span class="label label-white">未知</span>';
-                        }
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(available, value);
                     }
                 },
                 {
@@ -160,10 +116,10 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/order\',\'商家订单\',\'' + row.id + '\')"><i class="fa fa-remove"></i>订单</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/shop/courses\',\'商家课程\',\'' + row.id + '\')"><i class="fa fa-remove"></i>课程</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/member\',\'商家会员\',\'' + row.id + '\')"><i class="fa fa-remove"></i>会员</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/order\',\'商家订单\',\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>订单</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/shop/courses\',\'商家课程\',\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>课程</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/member\',\'商家会员\',\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>会员</a>');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除 </a> ');
                         return actions.join('');
                     }

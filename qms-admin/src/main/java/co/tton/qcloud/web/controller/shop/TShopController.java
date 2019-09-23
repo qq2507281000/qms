@@ -27,7 +27,7 @@ import co.tton.qcloud.system.service.ITShopService;
  * @author qcloud
  * @date 2019-09-05
  */
-@Api("商家信息")
+@Api(value = "商家信息",tags="商家信息")
 @Controller
 @RequestMapping("/shop")
 public class TShopController extends BaseController
