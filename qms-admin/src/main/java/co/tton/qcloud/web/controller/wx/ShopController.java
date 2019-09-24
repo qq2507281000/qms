@@ -2,6 +2,7 @@ package co.tton.qcloud.web.controller.wx;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TShop;
 import co.tton.qcloud.system.wxservice.ITShopService;
 import io.swagger.annotations.Api;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author: Rain@TTON
  * @create: 2019-09-23
  */
-@Api(value = "微信商家信息",tags="微信商家信息")
+@Api(value = "小程序商家信息",tags="小程序微信商家信息")
 @RestController
 @RequestMapping("/api/v1.0/shop")
 public class ShopController extends BaseController {
@@ -48,8 +49,12 @@ public class ShopController extends BaseController {
     @RequiresPermissions("wx:shop:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public AjaxResult getShopDetail(@PathVariable("id")String shopId){
+      if(StringUtils.isNotEmpty(shopId)){
         TShop tShop=tShopService.getShopDetail(shopId);
         return AjaxResult.success("获取商家详情成功。",tShop);
+      }else{
+        return AjaxResult.success("商家ID错误。");
+      }
     }
 
 }

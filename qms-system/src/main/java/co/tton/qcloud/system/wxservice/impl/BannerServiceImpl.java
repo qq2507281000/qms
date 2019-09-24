@@ -6,6 +6,7 @@ import co.tton.qcloud.system.wxservice.ITBannerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,9 +16,9 @@ import java.util.List;
  * @date 2019-09-23
  */
 @Service
-public class bannerServiceImpl implements ITBannerService {
+public class BannerServiceImpl implements ITBannerService {
 
-  @Autowired
+  @Resource
   private TBannerMapper tBannerMapper;
 
   @Override

@@ -21,7 +21,7 @@ import java.util.List;
  * @create: 2019-09-18 18:16
  */
 
-@Api(value = "微信首页广告信息",tags="微信首页广告信息")
+@Api(value = "小程序首页广告信息",tags="小程序首页广告信息")
 @RestController
 @RequestMapping("/api/v1.0/banner")
 public class BannerController extends BaseController {
@@ -29,7 +29,7 @@ public class BannerController extends BaseController {
     @Autowired
     private ITBannerService tBannerService;
 
-    @ApiOperation("微信查询首页滚动广告")
+    @ApiOperation("查询首页滚动广告")
     @RequiresPermissions("wx:banner")
     @RequestMapping(value = "",method = RequestMethod.GET)
     public AjaxResult getBanner(@RequestParam(value = "loc",required = false)String location){

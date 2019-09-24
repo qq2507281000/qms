@@ -118,5 +118,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+    <!--查询会员详情-->
+    <select id="getMemberInfo" parameterType="String" resultMap="TMemberResult">
+        select id, avatar, wx_name, account_level
+        from t_member
+        <where>
+            1=1
+            <if test="_parameter != null and _parameter != ''">and id = #{id}</if>
+        </where>
+    </select>
 </mapper>

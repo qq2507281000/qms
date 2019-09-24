@@ -58,4 +58,12 @@ public interface TMemberMapper
      * @return 结果
      */
     public int deleteTMemberByIds(String[] ids);
+
+    /**
+     * 查询会员详情
+     *
+     * @param
+     * @return 会员详情对象
+     */
+    TMember getMemberInfo(String memberId);
 }
