@@ -11,6 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @program: qms
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  * @create: 2019-09-18 18:34
  */
 
-@Api(tags = "微信会员信息",value = "微信会员信息")
+@Api(tags = "小程序会员信息",value = "小程序微信会员信息")
 @RestController
 @RequestMapping("/api/v1.0/member")
 public class MemberController extends BaseController {
@@ -27,13 +28,25 @@ public class MemberController extends BaseController {
     @Resource
     ITMemberSrevice tMemberSrevice;
 
-    @ApiOperation("查询会员详情")
+    @ApiOperation("查询会员信息")
     @RequiresPermissions("wx:member:info")
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     public AjaxResult getMemberInfo(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
             TMember tMember = tMemberSrevice.getMemberInfo(memberId);
             return AjaxResult.success("获取会员信息成功",tMember);
+        }else{
+            return AjaxResult.success("ID错误");
+        }
+    }
+
+    @ApiOperation("查询会员用户子女信息")
+    @RequiresPermissions("wx:member:orders")
+    @RequestMapping(value="/orders",method = RequestMethod.GET)
+    public AjaxResult getOrderInfo(@RequestParam(value = "id") String memberId){
+        if(StringUtil.isNotEmpty(memberId)){
+            List<TMember> tMemberList = tMemberSrevice.getOrderInfo(memberId);
+            return AjaxResult.success("获取会员信息成功",tMemberList);
         }else{
             return AjaxResult.success("ID错误");
         }

@@ -21,6 +21,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
     </resultMap>
+    <resultMap id="TMemberAndTMemberBaby" type="TMember" extends="TMemberResult">
+        <collection property="TMemberBabyList" ofType="TMemberBaby" >
+            <result property="id"    column="a_id"    />
+            <result property="memberId"    column="member_id"    />
+            <result property="realName"    column="real_name"    />
+            <result property="birthday"    column="birthday"    />
+            <result property="sex"    column="sex"    />
+            <result property="interest"    column="interest"    />
+            <result property="nickName"    column="nick_name"    />
+        </collection>
+    </resultMap>
+
 
     <sql id="selectTMemberVo">
         select id, open_id, wx_name, mobile, reg_time, star, status, flag, real_name, account_level, score, create_time, create_by, update_time, update_by from t_member
@@ -126,6 +138,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             1=1
             <if test="_parameter != null and _parameter != ''">and id = #{id}</if>
+        </where>
+    </select>
+
+    <!--查询会员用户子女详情-->
+    <select id="getOrderInfo" parameterType="String" resultMap="TMemberAndTMemberBaby">
+        select t.id,t.avatar,t.account_level,b.id as a_id,b.real_name,b.birthday,b.sex,b.interest,b.nick_name
+        from t_member t
+        left join t_member_baby b on t.id = b.member_id
+        <where>
+            1=1
+            <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
     </select>
 </mapper>

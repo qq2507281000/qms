@@ -6,6 +6,7 @@ import co.tton.qcloud.system.wxservice.ITMemberSrevice;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class MemberSrevice implements ITMemberSrevice {
@@ -22,5 +23,16 @@ public class MemberSrevice implements ITMemberSrevice {
   @Override
   public TMember getMemberInfo(String memberId) {
     return tMemberMapper.getMemberInfo(memberId);
+  }
+
+  /**
+   * 查询会员详情
+   *
+   * @param
+   * @return 查询会员用户子女信息
+   */
+  @Override
+  public List<TMember> getOrderInfo(String memberId) {
+    return tMemberMapper.getOrderInfo(memberId);
   }
 }

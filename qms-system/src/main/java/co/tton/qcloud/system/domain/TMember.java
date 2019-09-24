@@ -2,11 +2,13 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 会员基本信息对象 t_member
@@ -63,6 +65,9 @@ public class TMember extends BaseEntity
     /** 积分 */
     @Excel(name = "积分")
     private Integer score;
+
+    @ApiModelProperty("关联订单")
+    private List<TMemberBaby> TMemberBabyList;
 
     @Override
     public String toString() {

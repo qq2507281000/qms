@@ -44,7 +44,6 @@ public class ShopController extends BaseController {
         }
     }
 
-    //查询商家详情
     @ApiOperation("查询商家详情")
     @RequiresPermissions("wx:shop:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)

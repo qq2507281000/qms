@@ -66,4 +66,12 @@ public interface TMemberMapper
      * @return 会员详情对象
      */
     TMember getMemberInfo(String memberId);
+
+    /**
+     * 查询会员详情
+     *
+     * @param
+     * @return 查询会员用户子女信息
+     */
+    List<TMember> getOrderInfo(String memberId);
 }
