@@ -11,6 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,14 +27,14 @@ import java.util.List;
 public class MemberController extends BaseController {
 
     @Resource
-    ITMemberService tMemberSrevice;
+    ITMemberService tMemberService;
 
     @ApiOperation("查询会员信息")
     @RequiresPermissions("wx:member:info")
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     public AjaxResult getMemberInfo(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
-            TMember tMember = tMemberSrevice.getMemberInfo(memberId);
+            TMember tMember = tMemberService.getMemberInfo(memberId);
             return AjaxResult.success("获取会员信息成功",tMember);
         }else{
             return AjaxResult.success("ID错误");
@@ -45,7 +46,7 @@ public class MemberController extends BaseController {
     @RequestMapping(value="/getFavourite",method = RequestMethod.GET)
     public AjaxResult getFavourite(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
-            List<TMember> tMemberList = tMemberSrevice.getFavourite(memberId);
+            List<TMember> tMemberList = tMemberService.getFavourite(memberId);
             return AjaxResult.success("获取会员信息成功",tMemberList);
         }else{
             return AjaxResult.success("ID错误");
@@ -60,12 +61,28 @@ public class MemberController extends BaseController {
                                            @RequestParam(value = "sex",required = false)Integer sex,
                                            @RequestParam(value = "birthday",required = false)String birthday){
       if(StringUtil.isNotEmpty(memberBabyId)){
-        int number = tMemberSrevice.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
+        int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
         return AjaxResult.success("修改会员子女信息成功",number);
       }else{
         return AjaxResult.success("ID错误");
       }
     }
+
+    //会员年费97.00和会员描述暂时写固定值
+    @ApiOperation("会员年费信息暂时写固定值")
+    @RequiresPermissions("wx:member:orders")
+    @RequestMapping(value="/getMemberYearMoney",method = RequestMethod.GET)
+    public AjaxResult upMemberBabyInfo(){
+            //会员年费
+            double memberYearMoney = 97.00F;
+            //会员描述
+            String member ="12月年费超级VIP";
+            List memberYearList = new ArrayList();
+            memberYearList.add(memberYearMoney);
+            memberYearList.add(member);
+            return AjaxResult.success("修改会员子女信息成功",memberYearList);
+    }
+
 
 
 
