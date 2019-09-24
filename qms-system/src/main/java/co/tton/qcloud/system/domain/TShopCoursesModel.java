@@ -133,16 +133,28 @@ public class TShopCoursesModel extends BaseEntity {
     @ApiModelProperty("课程图片")
     private String[] images;
 
+    @Excel(name = "商家名称")
+    @ApiModelProperty("商家名称")
     private String shopName;
 
+    @Excel(name = "商家地址")
+    @ApiModelProperty("商家地址")
     private String address;
 
+    @Excel(name = "课程描述")
+    @ApiModelProperty("课程描述")
     private String summary;
 
+    @Excel(name = "商家手机")
+    @ApiModelProperty("商家手机")
     private String telephone;
 
+    @Excel(name = "商家座机")
+    @ApiModelProperty("商家座机")
     private String mobile;
 
+    @Excel(name = "联系人姓名")
+    @ApiModelProperty("联系人姓名")
     private String contractName;
 
     @Override

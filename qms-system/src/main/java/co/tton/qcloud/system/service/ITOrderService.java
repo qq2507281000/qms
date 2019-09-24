@@ -2,6 +2,7 @@ package co.tton.qcloud.system.service;
 
 import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.domain.TOrderModel;
+import co.tton.qcloud.system.domain.WxOrderDetail;
 
 import java.util.List;
 
@@ -67,4 +68,20 @@ public interface ITOrderService
      * @return 结果
      */
     public int deleteTOrderById(String id);
+
+    /**
+     * 查询所有订单列表
+     *
+     * @param
+     * @return 结果
+     */
+    List<TOrder> getOrderList();
+
+    /**
+     * 微信小程序 查询所有订单详情
+     *
+     * @param orderId
+     * @return 结果
+     */
+    WxOrderDetail getOrderDetail(String orderId);
 }

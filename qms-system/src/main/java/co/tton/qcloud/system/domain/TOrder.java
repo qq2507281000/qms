@@ -116,6 +116,9 @@ public class TOrder extends BaseEntity
     @ApiModelProperty(value="店铺名称")
     private String shopName;
 
+    @ApiModelProperty(value="小程序订单状态")
+    private String wxStatus;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -141,6 +144,7 @@ public class TOrder extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
             .append("memberId", getMemberId())
+            .append("wxStatus", getWxStatus())
             .toString();
     }
 }

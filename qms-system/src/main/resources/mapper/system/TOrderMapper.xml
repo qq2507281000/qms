@@ -71,6 +71,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="useStatus" column="use_status"/>
     </resultMap>
 
+    <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
+        <result property="id"    column="id"    />
+        <result property="sex"    column="sex"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="payPrice"    column="pay_price"    />
+        <result property="preRealPrice"    column="pre_real_price"    />
+        <result property="faceValue"    column="face_value"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="bookingTime"    column="booking_Time"    />
+        <result property="confirmNo"    column="confirm_no"    />
+        <result property="address"    column="address"    />
+        <result property="shopHoursBegin"    column="shop_hours_begin"    />
+        <result property="shopHoursEnd"    column="shop_hours_end"    />
+        <result property="title"    column="title"    />
+        <result property="commentNote"    column="comment_note"    />
+    </resultMap>
+
     <sql id="selectTOrderVo">
         select id, order_no, subject, address, shop_id, pre_real_price, pay_price, payment_channel, serial_no, have_discount, booking_time, pay_time, pay_status, use_status, bill_status, verify_status, flag, create_time, create_by, update_time, update_by, member_id,
         (select name from t_shop where id = o.shop_id) as shop_name
@@ -267,5 +285,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+    <select id="getOrderList" resultMap="TOrderModelResult">
+        SELECT
+            tod.lession_time,
+            too.`subject`,
+            too.order_no,
+            too.pay_price,
+            tsci.image_url,
+            too.use_status,
+            too.bill_status,
+            too.pay_status
+        FROM
+            t_order_detail tod
+            INNER JOIN t_order too ON tod.order_id = too.id
+            INNER JOIN t_shop_courses_images tsci ON tsci.courses_id = tod.courses_id
+        WHERE
+            tsci.sort_key = 1
+    </select>
+
+    <select id="getOrderDetail" resultMap="WxOrderDetailResult">
+        SELECT
+            too.id,
+            tmb.real_name AS babyRealName,
+            tmb.nick_name AS babyNickName,
+            tmb.sex,
+            tmb.birthday,
+            tm.real_name AS adultName,
+            tm.mobile,
+            too.pay_price,
+            too.pre_real_price,
+            toc.face_value,
+            too.order_no,
+            too.booking_time,
+            tod.confirm_no,
+            too.address,
+            ts.shop_hours_begin,
+            ts.shop_hours_end,
+            tsc.title,
+            too.comment_note
+        FROM
+            t_order_detail tod
+            INNER JOIN t_order too ON too.id = tod.order_id
+            INNER JOIN t_order_use_log toul ON tod.order_id = toul.order_id
+            INNER JOIN t_member tm ON tm.id = toul.member_id
+            INNER JOIN t_member_baby tmb ON tmb.id = toul.child_id
+            INNER JOIN t_order_coupon toc ON toc.order_id = tod.order_id
+            INNER JOIN t_shop ts ON ts.id = too.shop_id
+            INNER JOIN t_shop_courses tsc ON tsc.id = tod.courses_id
+        WHERE
+            tod.order_id = #{orderId}
+    </select>
 </mapper>
