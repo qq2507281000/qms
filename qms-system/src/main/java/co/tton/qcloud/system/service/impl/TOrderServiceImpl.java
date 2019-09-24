@@ -6,6 +6,7 @@ import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.system.domain.TOrderDetailModel;
 import co.tton.qcloud.system.domain.TOrderModel;
+import co.tton.qcloud.system.domain.WxOrderDetail;
 import co.tton.qcloud.system.service.ITOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +100,28 @@ public class TOrderServiceImpl implements ITOrderService
     public int deleteTOrderById(String id)
     {
         return tOrderMapper.deleteTOrderById(id);
+    }
+
+    /**
+     * 查询所有订单列表
+     *
+     * @param
+     * @return 结果
+     */
+    @Override
+    public List<TOrder> getOrderList() {
+        return tOrderMapper.getOrderList();
+    }
+
+    /**
+     * 微信小程序 查询所有订单详情
+     *
+     * @param orderId
+     * @return 结果
+     */
+    @Override
+    public WxOrderDetail getOrderDetail(String orderId) {
+        return tOrderMapper.getOrderDetail(orderId);
     }
 
 
