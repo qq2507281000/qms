@@ -100,25 +100,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <update id="updateTMember" parameterType="TMember">
-        update t_member
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="openId != null  and openId != ''">open_id = #{openId},</if>
-            <if test="wxName != null  and wxName != ''">wx_name = #{wxName},</if>
-            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
-            <if test="regTime != null ">reg_time = #{regTime},</if>
-            <if test="star != null ">star = #{star},</if>
-            <if test="status != null  and status != ''">status = #{status},</if>
-            <if test="flag != null ">flag = #{flag},</if>
-            <if test="realName != null  and realName != ''">real_name = #{realName},</if>
-            <if test="accountLevel != null  and accountLevel != ''">account_level = #{accountLevel},</if>
-            <if test="score != null ">score = #{score},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
-            <if test="updateTime != null ">update_time = #{updateTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
-        </trim>
-        where id = #{id}
-    </update>
+    update t_member
+    <trim prefix="SET" suffixOverrides=",">
+        <if test="openId != null  and openId != ''">open_id = #{openId},</if>
+        <if test="wxName != null  and wxName != ''">wx_name = #{wxName},</if>
+        <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
+        <if test="regTime != null ">reg_time = #{regTime},</if>
+        <if test="star != null ">star = #{star},</if>
+        <if test="status != null  and status != ''">status = #{status},</if>
+        <if test="flag != null ">flag = #{flag},</if>
+        <if test="realName != null  and realName != ''">real_name = #{realName},</if>
+        <if test="accountLevel != null  and accountLevel != ''">account_level = #{accountLevel},</if>
+        <if test="score != null ">score = #{score},</if>
+        <if test="createTime != null ">create_time = #{createTime},</if>
+        <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+        <if test="updateTime != null ">update_time = #{updateTime},</if>
+        <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+    </trim>
+    where id = #{id}
+</update>
 
     <delete id="deleteTMemberById" parameterType="String">
         delete from t_member where id = #{id}
@@ -142,7 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!--查询会员用户子女详情-->
-    <select id="getOrderInfo" parameterType="String" resultMap="TMemberAndTMemberBaby">
+    <select id="getFavourite" parameterType="String" resultMap="TMemberAndTMemberBaby">
         select t.id,t.avatar,t.account_level,b.id as a_id,b.real_name,b.birthday,b.sex,b.interest,b.nick_name
         from t_member t
         left join t_member_baby b on t.id = b.member_id

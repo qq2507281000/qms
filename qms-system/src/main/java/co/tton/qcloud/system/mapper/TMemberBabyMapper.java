@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TMemberBaby;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -58,4 +60,12 @@ public interface TMemberBabyMapper
      * @return 结果
      */
     public int deleteTMemberBabyByIds(String[] ids);
+
+    /**
+     * 会员子女信息修改
+     *
+     * @param
+     * @return 结果
+     */
+    int upMemberBabyInfo(@Param("id") String memberBabyId, @Param("realName") String realName, @Param("sex") Integer sex, @Param("birthday") String birthday);
 }

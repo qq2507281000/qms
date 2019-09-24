@@ -3,7 +3,7 @@ package co.tton.qcloud.web.controller.wx;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.system.domain.TMember;
-import co.tton.qcloud.system.wxservice.ITMemberSrevice;
+import co.tton.qcloud.system.wxservice.ITMemberService;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ import java.util.List;
 public class MemberController extends BaseController {
 
     @Resource
-    ITMemberSrevice tMemberSrevice;
+    ITMemberService tMemberSrevice;
 
     @ApiOperation("查询会员信息")
     @RequiresPermissions("wx:member:info")
@@ -42,15 +42,32 @@ public class MemberController extends BaseController {
 
     @ApiOperation("查询会员用户子女信息")
     @RequiresPermissions("wx:member:orders")
-    @RequestMapping(value="/orders",method = RequestMethod.GET)
-    public AjaxResult getOrderInfo(@RequestParam(value = "id") String memberId){
+    @RequestMapping(value="/getFavourite",method = RequestMethod.GET)
+    public AjaxResult getFavourite(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
-            List<TMember> tMemberList = tMemberSrevice.getOrderInfo(memberId);
+            List<TMember> tMemberList = tMemberSrevice.getFavourite(memberId);
             return AjaxResult.success("获取会员信息成功",tMemberList);
         }else{
             return AjaxResult.success("ID错误");
         }
     }
+
+    @ApiOperation("会员子女信息修改")
+    @RequiresPermissions("wx:member:orders")
+    @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
+    public AjaxResult upMemberBabyInfo(@RequestParam(value = "id") String memberBabyId,
+                                           @RequestParam(value = "realName",required = false) String realName,
+                                           @RequestParam(value = "sex",required = false)Integer sex,
+                                           @RequestParam(value = "birthday",required = false)String birthday){
+      if(StringUtil.isNotEmpty(memberBabyId)){
+        int number = tMemberSrevice.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
+        return AjaxResult.success("修改会员子女信息成功",number);
+      }else{
+        return AjaxResult.success("ID错误");
+      }
+    }
+
+
 
 
 //    @RequiresPermissions("wx:member:info")

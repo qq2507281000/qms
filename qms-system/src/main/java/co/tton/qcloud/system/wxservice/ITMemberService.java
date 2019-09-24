@@ -1,6 +1,7 @@
 package co.tton.qcloud.system.wxservice;
 
 import co.tton.qcloud.system.domain.TMember;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author qcloud
  * @date 2019-09-24
  */
-public interface ITMemberSrevice  {
+public interface ITMemberService {
 
   /**
    * 查询会员详情
@@ -26,7 +27,14 @@ public interface ITMemberSrevice  {
    * @param
    * @return 会员详情对象
    */
+  List<TMember> getFavourite(String memberId);
 
-  List<TMember> getOrderInfo(String memberId);
+  /**
+   * 会员子女信息修改
+   *
+   * @param
+   * @return 结果
+   */
+  int upMemberBabyInfo(@Param("id") String memberBabyId, @Param("realName") String realName, @Param("sex") Integer sex, @Param("birthday") String birthday);
 
 }

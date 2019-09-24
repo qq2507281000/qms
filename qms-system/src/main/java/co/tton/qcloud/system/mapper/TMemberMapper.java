@@ -1,6 +1,9 @@
 package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TMember;
+import org.apache.ibatis.annotations.Param;
+import java.util.Date;
+
 import java.util.List;
 
 /**
@@ -73,5 +76,6 @@ public interface TMemberMapper
      * @param
      * @return 查询会员用户子女信息
      */
-    List<TMember> getOrderInfo(String memberId);
+    List<TMember> getFavourite(String memberId);
+
 }

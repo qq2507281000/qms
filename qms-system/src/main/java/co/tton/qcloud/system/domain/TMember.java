@@ -66,7 +66,7 @@ public class TMember extends BaseEntity
     @Excel(name = "积分")
     private Integer score;
 
-    @ApiModelProperty("关联订单")
+    @ApiModelProperty("关联会员用户子女信息表")
     private List<TMemberBaby> TMemberBabyList;
 
     @Override
