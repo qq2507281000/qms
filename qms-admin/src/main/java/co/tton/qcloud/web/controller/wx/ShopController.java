@@ -27,15 +27,16 @@ public class ShopController extends BaseController {
     @Autowired
     private ITShopService tShopService;
 
-    @ApiOperation("商家查询")
+    @ApiOperation("首页推荐商家查询，查询所有商家，名称查询商家")
     @RequiresPermissions("wx:shop:suggest")
     @RequestMapping(value="/suggest",method = RequestMethod.GET)
     public AjaxResult getSuggestShop(@RequestParam(value="loc",required = false) String location,
                                      @RequestParam(value="category",required = false)String categoryId,
-                                     @RequestParam(value="suggest",required = false)Integer suggest)
+                                     @RequestParam(value="suggest",required = false)Integer suggest,
+                                     @RequestParam(value="name",required = false)String name)
     {
         if(location.equals("dalian")){
-                List list=tShopService.getSuggestShop(categoryId,suggest);
+                List list=tShopService.getSuggestShop(categoryId,suggest,name);
                 return AjaxResult.success("获取商家信息成功。",list);
         }else{
             return AjaxResult.success("location错误。");

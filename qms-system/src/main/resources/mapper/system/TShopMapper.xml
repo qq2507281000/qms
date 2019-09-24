@@ -211,6 +211,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <!--首页推荐商家查询，查询所有商家，名称查询商家-->
     <select id="getSuggestShop" resultMap="TShopAll">
         select sh.id, sh.name, sh.suggest, sh.cover_img ,sh.region_name,sh.category_id,ca.id as a_id
         from t_shop sh
@@ -219,10 +220,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             1=1
             <if test="categoryId != null">and sh.category_id = #{categoryId}</if>
             <if test="suggest != null ">and sh.suggest = #{suggest}</if>
+            <if test="name != null">and sh.name like concat('%', #{name}, '%')</if>
         </where>
         order by sh.sort_key
     </select>
 
+    <!--查询商家详情-->
     <select id="getShopDetail" parameterType="String" resultMap="TShopResult">
         select
             shop.id,

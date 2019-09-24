@@ -21,14 +21,14 @@ public class ShopServiceImpl implements ITShopService
     private TShopMapper tShopMapper;
 
     /**
-     * 商家查询
+     * 首页推荐商家查询，查询所有商家，名称查询商家
      *
      * @param
      * @return 获取商家信息成功。
      */
     @Override
-    public List<TShop> getSuggestShop(String categoryId,Integer suggest) {
-        return tShopMapper.getSuggestShop(categoryId,suggest);
+    public List<TShop> getSuggestShop(String categoryId,Integer suggest,String name) {
+        return tShopMapper.getSuggestShop(categoryId,suggest,name);
     }
 
     /**

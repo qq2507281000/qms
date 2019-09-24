@@ -14,12 +14,12 @@ import java.util.List;
 public interface ITShopService 
 {
     /**
-     * 首页推荐商家查询
+     * 首页推荐商家查询，查询所有商家，名称查询商家
      * 
      * @param
      * @return 获取推荐商家信息成功。
      */
-    List<TShop> getSuggestShop(@Param("categoryId") String categoryId,@Param("suggest") Integer suggest);
+    List<TShop> getSuggestShop(@Param("categoryId") String categoryId,@Param("suggest") Integer suggest,@Param("name") String name);
 
     /**
      * 查询商家详情
