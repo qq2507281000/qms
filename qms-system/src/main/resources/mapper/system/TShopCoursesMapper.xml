@@ -57,6 +57,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="name"    column="name"    />
         <result property="categoryId"    column="category_id"    />
         <result property="count"    column="count"    />
+        <result property="shopName"    column="shopName"    />
+        <result property="address"    column="address"    />
+        <result property="summary"    column="summary"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="contractName"    column="contractName"    />
     </resultMap>
 
     <sql id="selectTShopCoursesVo">
@@ -171,11 +177,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getCoursesDetail" parameterType="String" resultMap="TShopCoursesModelResult">
         SELECT
-            *
+            tsc.title,
+            tscp.price,
+            ts.address,
+            ts.telephone,
+            ts.mobile,
+            ts.`name` AS shopName,
+            ts.summary,
+            tsc.content_html,
+            tsc.id,
+            tsc.shop_id
         FROM
             t_shop_courses tsc
+            INNER JOIN t_shop ts ON tsc.shop_id = ts.id
             INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
-            INNER JOIN t_shop_courses_images tsci ON tsc.id = tsci.courses_id
         WHERE
             tsc.id = #{id}
     </select>

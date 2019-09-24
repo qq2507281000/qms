@@ -61,8 +61,15 @@ public interface TShopCoursesImagesMapper
 
     /***
      * 根据课程Id获取课程标题，商家名称，课程价格
-     * @param id
+     * @param coursesId
      * @return 结果
      */
     String getSuggestCoursesImages(String coursesId);
+
+    /***
+     * 查看课程详情接口 按照id查询所有课程图片
+     * @param coursesId
+     * @return 结果
+     */
+    List<TShopCoursesImages> getImagesByid(String coursesId);
 }

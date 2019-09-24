@@ -116,4 +116,14 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
     public String getSuggestCoursesImages(String id) {
         return tShopCoursesImagesMapper.getSuggestCoursesImages(id);
     }
+
+    /***
+     * 查看课程详情接口 按照id查询所有课程图片
+     * @param id
+     * @return 结果
+     */
+    @Override
+    public List<TShopCoursesImages> getImagesByid(String id) {
+        return tShopCoursesImagesMapper.getImagesByid(id);
+    }
 }

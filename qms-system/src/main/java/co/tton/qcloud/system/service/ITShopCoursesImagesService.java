@@ -72,4 +72,11 @@ public interface ITShopCoursesImagesService
      * @return 结果
      */
     String getSuggestCoursesImages(String id);
+
+    /***
+     * 查看课程详情接口 按照id查询所有课程图片
+     * @param id
+     * @return 结果
+     */
+    List<TShopCoursesImages> getImagesByid(String id);
 }
