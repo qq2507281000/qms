@@ -91,6 +91,16 @@ public class CoursesController extends BaseController {
     public AjaxResult getCoursesDetail(@PathVariable("id") String id){
         if(StringUtils.isNotEmpty(id)){
             TShopCoursesModel tShopCoursesModels = iCoursesService.getCoursesDetail(id);
+            String count = tOrderDetailService.getOrderMon(id);
+            List<TShopCoursesImages> images = tShopCoursesImagesService.getImagesByid(id);
+            String[] imageUrls = new String[images.size()];
+            int i = 0;
+            for(TShopCoursesImages image:images){
+                imageUrls[i] = image.getImageUrl();
+                i++;
+            }
+            tShopCoursesModels.setImages(imageUrls);
+            tShopCoursesModels.setCount(count);
             return AjaxResult.success("查询成功",tShopCoursesModels);
         }
         else {
