@@ -95,4 +95,48 @@ public class TCategoryServiceImpl implements ITCategoryService
     {
         return tCategoryMapper.deleteTCategoryById(id);
     }
+
+    /**
+     * 获取顶级分类
+     *
+     * @param
+     * @return 结果
+     */
+    @Override
+    public List<TCategory> getTopCatgory() {
+        return tCategoryMapper.getTopCatgory();
+    }
+
+    /**
+     * 获取子级分类
+     *
+     * @param
+     * @return 结果
+     */
+    @Override
+    public List<TCategory> getAllCategory() {
+        return tCategoryMapper.getAllCategory();
+    }
+
+    /**
+     * 根据顶级分类搜索子级分类
+     *
+     * @param parentId
+     * @return 结果
+     */
+    @Override
+    public List<TCategory> getSubCategory(String parentId) {
+        return tCategoryMapper.getSubCategory(parentId);
+    }
+
+    /**
+     * 搜索框查询
+     *
+     * @param searchKey
+     * @return 结果
+     */
+    @Override
+    public List<TCategory> searchCategory(String searchKey) {
+        return tCategoryMapper.searchCategory(searchKey);
+    }
 }

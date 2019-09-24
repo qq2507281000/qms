@@ -98,5 +98,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+    <select id="getTopCatgory" resultMap="TCategoryResult">
+        SELECT
+            *
+        FROM
+            t_category
+        WHERE
+            parent_id IS NULL
+    </select>
+
+    <select id="getAllCategory" resultMap="TCategoryResult">
+        SELECT
+            *
+        FROM
+            t_category
+        WHERE
+            parent_id IS NOT NULL
+    </select>
+
+    <select id="getSubCategory" resultMap="TCategoryResult">
+        SELECT
+            *
+        FROM
+            t_category
+        WHERE
+            parent_id = #{parentId}
+    </select>
+
+    <select id="searchCategory" resultMap="TCategoryResult">
+        SELECT
+            *
+        FROM
+            t_category
+        WHERE
+            `name` LIKE "%"#{name}"%"
+            AND parent_id IS NOT NULL
+    </select>
 </mapper>
