@@ -28,10 +28,7 @@ public class ShopServiceImpl implements ITShopService
      */
     @Override
     public List<TShop> getSuggestShop(String categoryId,Integer suggest) {
-        TShop tShop =new TShop();
-        tShop.setCategoryId(categoryId);
-        tShop.setSuggest(suggest);
-        return tShopMapper.getSuggestShop(tShop);
+        return tShopMapper.getSuggestShop(categoryId,suggest);
     }
 
     /**
@@ -42,8 +39,6 @@ public class ShopServiceImpl implements ITShopService
      */
     @Override
     public TShop getShopDetail(String shopId){
-        TShop tShop =new TShop();
-        tShop.setId(shopId);
-        return tShopMapper.getShopDetail(tShop);
+        return tShopMapper.getShopDetail(shopId);
     }
 }

@@ -111,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <select id="getBanner" parameterType="String" resultMap="TBannerResult">
+    <select id="getBanner" resultMap="TBannerResult">
         select id, img, url, target_type, available, sort_key, flag, create_time, create_by, update_time, update_by from t_banner
         order by sort_key
     </select>

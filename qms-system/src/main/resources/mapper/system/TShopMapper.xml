@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
     <resultMap id="TShopAll" type="co.tton.qcloud.system.domain.TShop" extends="TShopResult">
         <collection property="tCategoryList" ofType="co.tton.qcloud.system.domain.TCategory">
-            <id property="id"    column="id"    />
+            <id property="id"    column="a_id"    />
         </collection>
     </resultMap>
 
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTShopList" parameterType="TShop" resultMap="TShopResult">
         <include refid="selectTShopVo"/>
         <where>
-            <if test="categoryId != null  and categoryId != ''">category_id = #{categoryId},</if>
+            <if test="categoryId != null">and category_id = #{categoryId}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertTShop" parameterType="TShop">
         insert into t_shop
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="categoryId != null  and categoryId != ''"> category_id = #{categoryId},</if>
+            <if test="categoryId != null "> category_id = #{categoryId},</if>
             <if test="id != null  and id != ''">id,</if>
             <if test="name != null  and name != ''">name,</if>
             <if test="subject != null  and subject != ''">subject,</if>
@@ -119,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="categoryId != null  and categoryId != ''"> category_id = #{categoryId},</if>
+            <if test="categoryId != null"> category_id = #{categoryId},</if>
             <if test="id != null  and id != ''">#{id},</if>
             <if test="name != null  and name != ''">#{name},</if>
             <if test="subject != null  and subject != ''">#{subject},</if>
@@ -155,7 +155,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateTShop" parameterType="TShop">
         update t_shop
         <trim prefix="SET" suffixOverrides=",">
-            <if test="categoryId != null  and categoryId != ''">category_id = #{categoryId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
             <if test="name != null  and name != ''">name = #{name},</if>
             <if test="subject != null  and subject != ''">subject = #{subject},</if>
             <if test="summary != null ">summary = #{summary},</if>
@@ -211,17 +211,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <select id="getSuggestShop" parameterType="TShop" resultMap="TShopAll">
-        select sh.id, sh.name, sh.suggest, sh.cover_img ,sh.region_name,sh.category_id,ca.id
+    <select id="getSuggestShop" resultMap="TShopAll">
+        select sh.id, sh.name, sh.suggest, sh.cover_img ,sh.region_name,sh.category_id,ca.id as a_id
         from t_shop sh
         left join t_category ca on sh.category_id = ca.id
-        where
-            sh.category_id = #{categoryId}
-            and sh.suggest = #{suggest}
-        order by shop.sort_key
+        <where>
+            1=1
+            <if test="categoryId != null">and sh.category_id = #{categoryId}</if>
+            <if test="suggest != null ">and sh.suggest = #{suggest}</if>
+        </where>
+        order by sh.sort_key
     </select>
 
-    <select id="getShopDetail" parameterType="TShop" resultMap="TShopResult">
+    <select id="getShopDetail" parameterType="String" resultMap="TShopResult">
         select
             shop.id,
             shop.name,
@@ -238,7 +240,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t_shop shop
         left join t_order de on shop.id = de.shop_id
         <where>
-            <if test="id != null  and id != ''">shop.id = #{id}</if>
+            <if test="_parameter != null  and _parameter  != ''">shop.id = #{id}</if>
         </where>
         order by shop.sort_key
     </select>

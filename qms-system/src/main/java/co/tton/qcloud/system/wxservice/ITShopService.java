@@ -1,6 +1,7 @@
 package co.tton.qcloud.system.wxservice;
 
 import co.tton.qcloud.system.domain.TShop;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface ITShopService
      * @param
      * @return 获取推荐商家信息成功。
      */
-    List<TShop> getSuggestShop(String categoryId,Integer suggest);
+    List<TShop> getSuggestShop(@Param("categoryId") String categoryId,@Param("suggest") Integer suggest);
 
     /**
      * 查询商家详情
