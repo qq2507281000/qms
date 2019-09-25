@@ -1,9 +1,14 @@
 package co.tton.qcloud.common.core.domain;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import co.tton.qcloud.common.utils.StringUtils;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 操作消息提醒
@@ -12,7 +17,7 @@ import io.swagger.annotations.ApiModel;
  */
 
 @ApiModel("AJAX返回结果集")
-public class AjaxResult extends HashMap<String, Object>
+public class AjaxResult<T>
 {
     private static final long serialVersionUID = 1L;
 
@@ -24,6 +29,23 @@ public class AjaxResult extends HashMap<String, Object>
 
     /** 数据对象 */
     public static final String DATA_TAG = "data";
+
+    private final Map<String,Object> map = new HashMap<>();
+
+    @Getter
+    @Setter
+    @ApiModelProperty("返回状态数值")
+    private int code;
+
+    @Getter
+    @Setter
+    @ApiModelProperty("返回对象消息")
+    private String message;
+
+    @Getter
+    @Setter
+    @ApiModelProperty("返回数据")
+    private T data;
 
     /**
      * 状态类型
@@ -54,6 +76,13 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public AjaxResult()
     {
+
+    }
+
+    public void put(String key,Object value){
+        if(map != null){
+            map.put(key,value);
+        }
     }
 
     /**
@@ -64,8 +93,13 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public AjaxResult(Type type, String msg)
     {
-        super.put(CODE_TAG, type.value);
-        super.put(MSG_TAG, msg);
+//        super.put(CODE_TAG, type.value);
+//        super.put(MSG_TAG, msg);
+
+        map.put(CODE_TAG,type.value);
+        map.put(MSG_TAG,msg);
+        code = type.value;
+        message = msg;
     }
 
     /**
@@ -75,13 +109,21 @@ public class AjaxResult extends HashMap<String, Object>
      * @param msg 返回内容
      * @param data 数据对象
      */
-    public AjaxResult(Type type, String msg, Object data)
+    public AjaxResult(Type type, String msg, T data)
     {
-        super.put(CODE_TAG, type.value);
-        super.put(MSG_TAG, msg);
-        if (StringUtils.isNotNull(data))
-        {
-            super.put(DATA_TAG, data);
+//        super.put(CODE_TAG, type.value);
+//        super.put(MSG_TAG, msg);
+        map.put(CODE_TAG,type.value);
+        map.put(MSG_TAG,msg);
+        code = type.value;
+        message = msg;
+//        if (StringUtils.isNotNull(data))
+//        {
+//            super.put(DATA_TAG, data);
+//        }
+        if(data != null){
+            map.put(DATA_TAG,data);
+            this.data = data;
         }
     }
 

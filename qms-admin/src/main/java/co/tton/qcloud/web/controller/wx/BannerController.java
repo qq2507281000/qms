@@ -2,9 +2,12 @@ package co.tton.qcloud.web.controller.wx;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.system.domain.TBanner;
 import co.tton.qcloud.system.wxservice.ITBannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +32,15 @@ public class BannerController extends BaseController {
     @Autowired
     private ITBannerService tBannerService;
 
+    /***
+     *
+     * @param location
+     * @return
+     */
     @ApiOperation("查询首页滚动广告")
     @RequiresPermissions("wx:banner")
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public AjaxResult getBanner(@RequestParam(value = "loc",required = false)String location){
+    public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc",required = false)String location){
         if(location.equals("dalian")){
             List list=tBannerService.getBanner();
             return AjaxResult.success("获取广告成功。",list);
