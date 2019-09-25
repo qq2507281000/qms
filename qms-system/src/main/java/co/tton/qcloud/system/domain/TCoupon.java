@@ -2,6 +2,8 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,6 +17,7 @@ import java.util.Date;
  * @date 2019-09-05
  */
 
+@ApiModel("优惠卷对象")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class TCoupon extends BaseEntity
@@ -22,49 +25,61 @@ public class TCoupon extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
+    @ApiModelProperty("主键")
     private String id;
 
     /** 允许使用的分类，为空则所有分类都允许使用 */
+    @ApiModelProperty("允许使用的分类，为空则所有分类都允许使用")
     @Excel(name = "允许使用的分类，为空则所有分类都允许使用")
     private String categoryLib;
 
     /** 优惠券编码 */
+    @ApiModelProperty("优惠券编码")
     @Excel(name = "优惠券编码")
     private String sno;
 
     /** 允许使用的店铺等级，-1为所有店铺都可使用。 */
+    @ApiModelProperty("允许使用的店铺等级，-1为所有店铺都可使用。")
     @Excel(name = "允许使用的店铺等级，-1为所有店铺都可使用。")
     private Integer shopLevel;
 
     /** 优惠券面值 */
+    @ApiModelProperty("faceValue")
     @Excel(name = "优惠券面值")
     private Double faceValue;
 
     /** 有效开始日期 */
+    @ApiModelProperty("avaBeginTime")
     @Excel(name = "有效开始日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date avaBeginTime;
 
     /** 有效结束日期 */
+    @ApiModelProperty("有效结束日期")
     @Excel(name = "有效结束日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date avaEndTime;
 
     /** 使用状态（已使用，未使用） */
+    @ApiModelProperty("使用状态")
     @Excel(name = "使用状态")
     private String useStatus;
 
     /** 领取状态（已领取，未领取） */
+    @ApiModelProperty("领取状态")
     @Excel(name = "领取状态")
     private String receiveStatus;
 
     /** 优惠券自身状态（有效、作废） */
+    @ApiModelProperty("优惠券自身状态")
     @Excel(name = "优惠券自身状态")
     private String status;
 
     /** $column.columnComment */
-    @Excel(name = "优惠券自身状态")
+    @ApiModelProperty("数据状态")
+    @Excel(name = "数据状态")
     private Integer flag;
 
     /** 批次编码 */
+    @ApiModelProperty("批次编码")
     @Excel(name = "批次编码")
     private String batchNo;
 

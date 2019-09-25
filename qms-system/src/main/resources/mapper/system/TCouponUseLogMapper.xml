@@ -22,6 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
     </resultMap>
 
+    <resultMap id="TCouponUseLogModelResult" type="TCouponUseLogModel" extends="TCouponUseLogResult">
+        <result property="shopLevel"    column="shop_level"    />
+        <result property="avaEndTime"    column="ava_end_time"    />
+    </resultMap>
+
     <sql id="selectTCouponUseLogVo">
         select id, coupon_id, sno, member_id, use_time, face_value, order_id, total_price, real_pay_price, discount_price, flag, create_time, create_by, update_time, update_by from t_coupon_use_log
     </sql>
@@ -118,5 +123,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+    <select id="getCouponList" parameterType="String" resultMap="TCouponUseLogModelResult">
+        select
+            log.id,
+            log.face_value,
+            t.shop_level,
+            t.ava_end_time
+        from
+            t_coupon_use_log log
+        left join t_coupon t on log.coupon_id = t.id
+        <where>
+            t.ava_end_time >= now()
+            and t.use_status = '未使用'
+            and t.receive_status = '已领取'
+            and t. status = '有效'
+            <if test="_parameter != null  and _parameter != ''"> and log.member_id = #{memberId}</if>
+        </where>
+    </select>
+
 </mapper>

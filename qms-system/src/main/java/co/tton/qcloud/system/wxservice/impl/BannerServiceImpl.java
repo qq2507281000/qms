@@ -21,6 +21,12 @@ public class BannerServiceImpl implements ITBannerService {
   @Resource
   private TBannerMapper tBannerMapper;
 
+  /**
+   * 查询首页滚动广告
+   *
+   * @param
+   * @return 首页滚动广告
+   */
   @Override
   public List<TBanner> getBanner() {
     return tBannerMapper.getBanner();

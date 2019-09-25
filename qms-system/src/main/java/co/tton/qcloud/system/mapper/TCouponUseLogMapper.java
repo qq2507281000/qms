@@ -1,6 +1,9 @@
 package co.tton.qcloud.system.mapper;
 
+import co.tton.qcloud.system.domain.TCoupon;
 import co.tton.qcloud.system.domain.TCouponUseLog;
+import co.tton.qcloud.system.domain.TCouponUseLogModel;
+
 import java.util.List;
 
 /**
@@ -58,4 +61,12 @@ public interface TCouponUseLogMapper
      * @return 结果
      */
     public int deleteTCouponUseLogByIds(String[] ids);
+
+    /**
+     * 优惠劵查询
+     *
+     * @param  memberId  平台优惠券ID
+     * @return 优惠劵
+     */
+    List<TCouponUseLogModel> getCouponList(String memberId);
 }

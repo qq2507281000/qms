@@ -8,75 +8,70 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.util.Date;
 
 /**
- * 【请填写功能名称】对象 t_coupon_use_log
- * 
+ * 分类基础对象 t_category
+ *
  * @author qcloud
- * @date 2019-09-05
+ * @date 2019-09-25
  */
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel("优惠卷用户Log对象")
-public class TCouponUseLog extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
-
-    /** $column.columnComment */
+@ApiModel("优惠卷用户Log对象Model")
+public class TCouponUseLogModel extends BaseEntity {
     @ApiModelProperty("主键")
     private String id;
 
-    /** $column.columnComment */
     @Excel(name = "优惠券Id")
     @ApiModelProperty("优惠券Id")
     private String couponId;
 
-    /** $column.columnComment */
     @Excel(name = "优惠券编号")
     @ApiModelProperty("优惠券编号")
     private String sno;
 
-    /** $column.columnComment */
     @Excel(name = "会员Id")
     @ApiModelProperty("会员Id")
     private String memberId;
 
-    /** $column.columnComment */
     @Excel(name = "使用时间")
     @ApiModelProperty("使用时间")
     private Date useTime;
 
-    /** $column.columnComment */
     @Excel(name = "面值")
     @ApiModelProperty("面值")
     private Double faceValue;
 
-    /** $column.columnComment */
     @Excel(name = "订单Id")
     @ApiModelProperty("订单Id")
     private String orderId;
 
-    /** $column.columnComment */
     @Excel(name = "订单总金额")
     @ApiModelProperty("订单总金额")
     private Double totalPrice;
 
-    /** $column.columnComment */
     @Excel(name = "实际支付金额")
     @ApiModelProperty("主键")
     private Double realPayPrice;
 
-    /** $column.columnComment */
     @Excel(name = "抵扣金额")
     @ApiModelProperty("抵扣金额")
     private Double discountPrice;
 
-    /** $column.columnComment */
     @Excel(name = "数据状态")
     @ApiModelProperty("数据状态")
     private Integer flag;
+
+    @ApiModelProperty("允许使用的店铺等级，-1为所有店铺都可使用。")
+    @Excel(name = "允许使用的店铺等级，-1为所有店铺都可使用。")
+    private Integer shopLevel;
+
+    @ApiModelProperty("有效结束日期")
+    @Excel(name = "有效结束日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date avaEndTime;
 
     @Override
     public String toString() {
@@ -96,6 +91,8 @@ public class TCouponUseLog extends BaseEntity
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
+            .append("shopLevel", getShopLevel())
+            .append("avaEndTime", getAvaEndTime())
             .toString();
     }
 }
