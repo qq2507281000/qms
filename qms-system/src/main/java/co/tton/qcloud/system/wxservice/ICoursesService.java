@@ -10,7 +10,6 @@ public interface ICoursesService {
 
     TShopCoursesModel getCoursesDetail(String id);
 
-    List<TShopCoursesModel> getSuggestCourses(String categoryId);
+    List<TShopCoursesModel> getSuggestCourses(String categoryId,String shopId);
 
-    List<TShopCoursesModel> getSuggestCoursesAll();
 }

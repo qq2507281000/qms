@@ -43,11 +43,19 @@ public class CoursesController extends BaseController {
     @RequestMapping(value = "suggest",method = RequestMethod.GET)
     @ApiOperation("获取推荐课程")
     public AjaxResult getSuggestCourses(@RequestParam(value="loc",required = false)String location,
-                                        @RequestParam(value="category",required = false)String categoryId){
+                                        @RequestParam(value="category",required = false)String categoryId,
+                                        @RequestParam(value="shopId",required = false)String shopId){
         if (StringUtils.isNotEmpty(location) && location.equals("dalian")){
                 //选择类型了的推荐
-            if(StringUtils.isNotEmpty(categoryId)) {
-                List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(categoryId);
+            String cId = null;
+            String sId= null;
+            if(shopId != null && !shopId.trim().equals("")){
+                sId = shopId;
+            }
+            if (categoryId != null && !categoryId.trim().equals("")){
+                cId = categoryId;
+            }
+                List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(cId,sId);
                 for (TShopCoursesModel tModel : tShopCoursesModels) {
                     String id = tModel.getId();
                     String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
@@ -60,22 +68,7 @@ public class CoursesController extends BaseController {
                     }
                 }
                 return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
-            }
-            else {
-                List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCoursesAll();
-                for (TShopCoursesModel tModel : tShopCoursesModels) {
-                    String id = tModel.getId();
-                    String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
-                    if (imageUrl != null) {
-                        tModel.setImageUrl(imageUrl);
-                    }
-                    String count = tOrderDetailService.getOrderMon(id);
-                    if (count != null) {
-                        tModel.setCount(count);
-                    }
-                }
-                return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
-            }
+
 
         }
         else {
@@ -113,5 +106,7 @@ public class CoursesController extends BaseController {
     public AjaxResult getCoursesComment(@PathVariable("id") String id){
         return null;
     }
+
+
 
 }

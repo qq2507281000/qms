@@ -21,12 +21,11 @@ public class CoursesServiceImpl implements ICoursesService {
     }
 
     @Override
-    public List<TShopCoursesModel> getSuggestCourses(String categoryId) {
-        return tShopCoursesMapper.getSuggestCourses(categoryId);
+    public List<TShopCoursesModel> getSuggestCourses(String categoryId,String shopId) {
+//        TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
+//        tShopCoursesModel.setShopId(shopId);
+//        tShopCoursesModel.setCategoryId(categoryId);
+        return tShopCoursesMapper.getSuggestCourses(categoryId,shopId);
     }
 
-    @Override
-    public List<TShopCoursesModel> getSuggestCoursesAll() {
-        return tShopCoursesMapper.getSuggestCoursesAll();
-    }
 }

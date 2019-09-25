@@ -2,6 +2,7 @@ package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public interface TShopCoursesMapper
 
     /**
      * 批量删除课程基本信息
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
@@ -83,7 +84,5 @@ public interface TShopCoursesMapper
      * @param categoryId 根据categoryId查询有关推荐课程
      * @return 结果
      */
-    List<TShopCoursesModel> getSuggestCourses(String categoryId);
-
-    List<TShopCoursesModel> getSuggestCoursesAll();
+    List<TShopCoursesModel> getSuggestCourses(@Param("categoryId")String categoryId,@Param("shopId")String shopId);
 }
