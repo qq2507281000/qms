@@ -117,8 +117,6 @@ public class TShopCoursesController extends BaseController
                     String fileName = minioFileService.upload(file);
                     TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
                     tShopCoursesImages.setImageUrl(fileName);
-                    System.out.println("------------------>>>>"+fileName);
-
                     return AjaxResult.success("数据保存成功。");
                 }
                 else {
@@ -134,8 +132,6 @@ public class TShopCoursesController extends BaseController
             logger.error("保存课程图片时发生异常。",ex);
             return AjaxResult.error("保存课程图片时发生异常。");
         }
-//        System.out.println("===============>>>>"+tShopCourses.getFile());
-//        return toAjax(tShopCoursesService.insertTShopCourses(tShopCourses));
     }
 
     /**

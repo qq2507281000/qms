@@ -2,6 +2,7 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,40 +15,58 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class WxOrderDetail extends BaseEntity {
 
+    @ApiModelProperty("主键")
     private String id;
 
+    @ApiModelProperty("宝宝真实姓名")
     private String babyRealName;
 
+    @ApiModelProperty("宝宝昵称")
     private String babyNickName;
 
+    @ApiModelProperty("宝宝性别")
     private Integer sex;
 
+    @ApiModelProperty("宝宝生日")
     private Date birthday;
 
+    @ApiModelProperty("联系人信息")
     private String adultName;
 
+    @ApiModelProperty("联系电话")
     private String mobile;
 
+    @ApiModelProperty("实收价格")
     private Double payPrice;
 
+    @ApiModelProperty("实际应收价格")
     private Double preRealPrice;
 
+    @ApiModelProperty("优惠券面值")
     private Double faceValue;
 
+    @ApiModelProperty("订单标号")
     private String orderNo;
 
+    @ApiModelProperty("下单时间")
     private Date bookingTime;
 
+    @ApiModelProperty("课程券Id")
     private String confirmNo;
 
+    @ApiModelProperty("上课地址")
     private String address;
 
+    @ApiModelProperty("商家营业开始时间")
     private Integer shopHoursBegin;
 
+    @ApiModelProperty("商家营业结束时间")
     private Integer shopHoursEnd;
 
+    @ApiModelProperty("课程标题")
     private String title;
 
+    @ApiModelProperty("备注")
     private String commentNote;
 
     @Override
