@@ -2,6 +2,7 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,51 +20,63 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ApiModel("小程序会员对象")
 public class TMember extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
+    @ApiModelProperty("主键")
     private String id;
 
     /** $column.columnComment */
+    @ApiModelProperty("会员微信Id")
     @Excel(name = "会员微信Id")
     private String openId;
 
     /** $column.columnComment */
+    @ApiModelProperty("微信名")
     @Excel(name = "微信名")
     private String wxName;
 
     /** $column.columnComment */
     @Excel(name = "手机号码")
+    @ApiModelProperty("手机号码")
     private String mobile;
 
     /** $column.columnComment */
     @Excel(name = "注册时间")
+    @ApiModelProperty("注册时间")
     private Date regTime;
 
     /** $column.columnComment */
     @Excel(name = "星级")
+    @ApiModelProperty("星级")
     private Double star;
 
     /** 账户状态（可用，锁定） */
     @Excel(name = "账户状态")
+    @ApiModelProperty("账户状态")
     private String status;
 
     /** $column.columnComment */
-    @Excel(name = "账户状态", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "数据状态", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("数据状态")
     private Integer flag;
 
     /** $column.columnComment */
-    @Excel(name = "账户状态", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "真实姓名", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("真实姓名")
     private String realName;
 
     /** 账户级别 */
     @Excel(name = "账户级别")
+    @ApiModelProperty("账户级别")
     private String accountLevel;
 
     /** 积分 */
     @Excel(name = "积分")
+    @ApiModelProperty("积分")
     private Integer score;
 
     @ApiModelProperty("关联会员用户子女信息表")

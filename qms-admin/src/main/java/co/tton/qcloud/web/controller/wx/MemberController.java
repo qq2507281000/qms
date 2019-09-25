@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.wx;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.system.domain.TMember;
+import co.tton.qcloud.system.domain.TMemberModel;
 import co.tton.qcloud.system.wxservice.ITMemberService;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
@@ -34,8 +35,8 @@ public class MemberController extends BaseController {
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     public AjaxResult getMemberInfo(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
-            TMember tMember = tMemberService.getMemberInfo(memberId);
-            return AjaxResult.success("获取会员信息成功",tMember);
+            TMemberModel tMemberModel= tMemberService.getMemberInfo(memberId);
+            return AjaxResult.success("获取会员信息成功",tMemberModel);
         }else{
             return AjaxResult.success("ID错误");
         }
@@ -82,10 +83,6 @@ public class MemberController extends BaseController {
             memberYearList.add(member);
             return AjaxResult.success("修改会员子女信息成功",memberYearList);
     }
-
-
-
-
 
 //    @RequiresPermissions("wx:member:info")
 //    @RequestMapping(value = "/info",method = RequestMethod.GET)

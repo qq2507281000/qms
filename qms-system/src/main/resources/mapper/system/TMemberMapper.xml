@@ -33,6 +33,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </collection>
     </resultMap>
 
+    <resultMap id="TMemberModel" type="co.tton.qcloud.system.domain.TMemberModel">
+        <result property="id"    column="id"    />
+        <result property="openId"    column="open_id"    />
+        <result property="wxName"    column="wx_name"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="regTime"    column="reg_time"    />
+        <result property="star"    column="star"    />
+        <result property="status"    column="status"    />
+        <result property="flag"    column="flag"    />
+        <result property="realName"    column="real_name"    />
+        <result property="accountLevel"    column="account_level"    />
+        <result property="score"    column="score"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
 
     <sql id="selectTMemberVo">
         select id, open_id, wx_name, mobile, reg_time, star, status, flag, real_name, account_level, score, create_time, create_by, update_time, update_by from t_member
@@ -132,12 +150,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <!--查询会员详情-->
-    <select id="getMemberInfo" parameterType="String" resultMap="TMemberResult">
-        select id, avatar, wx_name, account_level
-        from t_member
+    <select id="getMemberInfo" parameterType="String" resultMap="TMemberModel">
+        select
+        t.id,
+        t.avatar,
+        t.wx_name,
+        t.account_level,
+        count(er.order_no) as orderNo,
+        sum(er.pay_status = 'UNPAY')as payStatus,
+        sum(er.use_status = 'UNUSED')as useStatus,
+        sum(er.bill_status = 'FINISHED')as billStatus
+        from
+        t_member t
+        left join t_order er on t.id = er.member_id
         <where>
-            1=1
-            <if test="_parameter != null and _parameter != ''">and id = #{id}</if>
+            <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
     </select>
 
@@ -147,7 +174,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from t_member t
         left join t_member_baby b on t.id = b.member_id
         <where>
-            1=1
             <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
     </select>

@@ -28,7 +28,7 @@ public class ShopController extends BaseController {
     @Autowired
     private ITShopService tShopService;
 
-    @ApiOperation("首页推荐商家查询，查询所有商家，名称查询商家")
+    @ApiOperation("首页推荐商家查询，查询所有商家，搜索框查询")
     @RequiresPermissions("wx:shop:suggest")
     @RequestMapping(value="/suggest",method = RequestMethod.GET)
     public AjaxResult getSuggestShop(@RequestParam(value="loc",required = false) String location,

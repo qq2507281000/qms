@@ -1,6 +1,7 @@
 package co.tton.qcloud.system.wxservice.impl;
 
 import co.tton.qcloud.system.domain.TMember;
+import co.tton.qcloud.system.domain.TMemberModel;
 import co.tton.qcloud.system.mapper.TMemberBabyMapper;
 import co.tton.qcloud.system.mapper.TMemberMapper;
 import co.tton.qcloud.system.wxservice.ITMemberService;
@@ -24,7 +25,7 @@ public class MemberService implements ITMemberService {
    * @return 会员详情对象
    */
   @Override
-  public TMember getMemberInfo(String memberId) {
+  public TMemberModel getMemberInfo(String memberId) {
     return tMemberMapper.getMemberInfo(memberId);
   }
 
