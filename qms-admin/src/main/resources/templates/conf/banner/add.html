@@ -3,6 +3,7 @@
 <head>
     <th:block th:include="include :: header('新增首页滚动广告')" />
     <th:block th:include="include :: jasny-bootstrap-css" />
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content ibox-content">
@@ -20,7 +21,7 @@
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转类型：</label>
                 <div class="col-sm-8">
                     <div class="input-group" style="width: 100%">
-                        <select name="targetType" class="form-control m-b" th:with="type=${@dict.getType('redirect_type')}">
+                        <select name="targetType" class="form-control m-b" th:with="type=${@dict.getType('thd_redirect_type')}">
                             <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                         </select>
                     </div>
@@ -42,16 +43,18 @@
             </div>
 
             <label class="col-sm-3 control-label"><span style="color: red; ">*</span>是否可用：</label>
-            <div class="col-sm-8">
+            <div class="col-sm-8" style="padding-left:6px;padding-top:3px;">
                 <label class="toggle-switch switch-solid">
                     <input type="checkbox" name="params[availableText]" checked required>
                     <span></span>
                 </label>
+                <!--<input id="available-status" name="params[availableText]" type="checkbox" checked>-->
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: jasny-bootstrap-js" />
+    <script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
     <script type="text/javascript">
         var prefix = "/conf/banner";
         $("#form-banner-add").validate({
@@ -70,6 +73,14 @@
         // });
 
         // $('.fileinput').fileinput();
+
+        // $('#available-status').bootstrapSwitch({    //初始化按钮
+        //     onText:"可用",
+        //     offText:"不可用",
+        //     onColor:"success",
+        //     offColor:"info",
+        //     size:"small"
+        // });
 
         function submitHandler() {
             if ($.validate.form()) {

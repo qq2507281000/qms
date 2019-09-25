@@ -4,55 +4,49 @@
     <th:block th:include="include :: header('修改首页滚动广告')" />
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-banner-edit" th:object="${tBanner}">
-            <input name="id" th:field="*{id}" type="hidden">
+    <div class="wrapper wrapper-content ibox-content">
+        <form id="form-banner-edit" class="form-horizontal m" enctype="multipart/form-data" th:object="${tBanner}">
+            <div class="form-group" style="padding-left:50px;padding-right:50px;">
+                <!--<label class="col-sm-3 control-label"><span style="color: red; ">*</span>广告图片：</label>-->
+                <!--<div id="img_fileupload" class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">-->
+                    <!--<div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>-->
+                    <!--<span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>-->
+                    <!--<a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>-->
+                <!--</div>-->
+                <img class="col-sm-12 img-rounded shadow-1" style="height:200px;" th:src="'/resource-file/' + *{img}" alt="滚动广告">
+            </div>
+
             <div class="form-group">
-                <label class="col-sm-3 control-label">图片地址：</label>
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转类型：</label>
                 <div class="col-sm-8">
-                    <textarea name="img" class="form-control">[[*{img}]]</textarea>
+                    <div class="input-group" style="width: 100%">
+                        <select name="targetType" class="form-control m-b" th:with="type=${@dict.getType('thd_redirect_type')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">跳转URL：</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转地址：</label>
                 <div class="col-sm-8">
-                    <input name="url" th:field="*{url}" class="form-control" type="text">
+                    <input name="url" placeholder="请输入跳转地址" th:field="*{url}" class="form-control" type="text" required>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">跳转类型：</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>排序键值：</label>
                 <div class="col-sm-8">
-                    <!--9/16席国政-->
-                    <!--<select name="targetType" class="form-control m-b">-->
-                        <!--<option value="">所有</option>-->
-                    <!--</select>-->
-                    <input name="targetType" th:field="*{targetType}" class="form-control" type="text">
-                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                    <input name="sortKey" placeholder="请输入排序键值" th:field="*{sortKey}" class="form-control" type="text" required>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否可用：</label>
-                <div class="col-sm-8">
-                    <select name="available" th:field="*{available}" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">排序键值：</label>
-                <div class="col-sm-8">
-                    <input name="sortKey" th:field="*{sortKey}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">数据可用：</label>
-                <div class="col-sm-8">
-                    <select name="flag" th:field="*{flag}" class="form-control" type="text">
-                        <option value ="1">是</option>
-                        <option value ="2">否</option>
-                    </select>
-                </div>
+
+            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>是否可用：</label>
+            <div class="col-sm-8">
+                <label class="toggle-switch switch-solid">
+                    <input type="checkbox" name="params[availableText]" checked required>
+                    <span></span>
+                </label>
             </div>
         </form>
     </div>

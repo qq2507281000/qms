@@ -1063,7 +1063,9 @@
             },
 			saveAndUpload: function(url,form,callback){
         		var data = $(form).serialize();
-
+        		console.log("original->"+data);
+				data = decodeURIComponent(data);
+				console.log("decode->"+data);
         		var file = $("input[name='file']")[0].files[0];
 				var formData = new FormData();
 				formData.append("params[file]", file);

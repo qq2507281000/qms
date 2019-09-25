@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
@@ -106,9 +107,9 @@ public class TBannerController extends BaseController
                     tBanner.setImg(fileName);
 
                     //是否可用
-                    if(tBanner.getParams().containsKey("availableText)")){
+                    if(tBanner.getParams().containsKey("availableText")){
                         String avaiableText = tBanner.getParams().get("availableText").toString();
-                        int avaiable = Integer.parseInt(avaiableText);
+                        int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
                         tBanner.setAvailable(avaiable);
                     }
                     tBanner.setFlag(Constants.DATA_NORMAL);

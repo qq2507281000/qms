@@ -39,16 +39,16 @@
                     <div class="row row-split">
                         <input type="password" placeholder="请输入密码" name="password" class="form-control pword">
                     </div>
-                    <div class="row row-split">
-                        <div class="col-xs-8 no-padding no-margins">
-                            <input type="text" name="validateCode" class="form-control code" placeholder="请输入验证码" maxlength="5" autocomplete="off">
-                        </div>
-                        <div class="col-xs-4">
-                            <a href="javascript:void(0);" title="点击更换验证码">
-                                <img th:src="@{/captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
-                            </a>
-                        </div>
-                    </div>
+                    <!--<div class="row row-split">-->
+                        <!--<div class="col-xs-8 no-padding no-margins">-->
+                            <!--<input type="text" name="validateCode" class="form-control code" placeholder="请输入验证码" maxlength="5" autocomplete="off">-->
+                        <!--</div>-->
+                        <!--<div class="col-xs-4">-->
+                            <!--<a href="javascript:void(0);" title="点击更换验证码">-->
+                                <!--<img th:src="@{/captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <!--<div class="row row-split">-->
                         <!--<div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">-->
                             <!--<input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme" style="color:#000;">记住我</label>-->
@@ -56,6 +56,10 @@
                     <!--</div>-->
                     <div class="row row-split">
                         <button class="btn btn-block btn-login" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
+                    </div>
+
+                    <div class="row text-center" style="margin-top:30px;">
+                        <span style="color:#3a4459;">Copyright &copy; 2019 QCLOUD.ZONE</span>
                     </div>
                 </form>
             </div>
