@@ -2,6 +2,7 @@ package co.tton.qcloud.web.controller.wx;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TCategory;
 import co.tton.qcloud.system.service.ITCategoryService;
 import io.swagger.annotations.Api;
@@ -65,8 +66,12 @@ public class CategoryController extends BaseController {
     @ApiOperation("搜索框查询")
     public AjaxResult<List<TCategory>> searchCategory(@RequestParam("key")String searchKey){
         //搜索框查询
-        List<TCategory> tCategories =tCategoryService.searchCategory(searchKey);
-        return AjaxResult.success("获取所有分类信息成功。",tCategories);
+        if (StringUtils.isNotEmpty(searchKey)) {
+            List<TCategory> tCategories = tCategoryService.searchCategory(searchKey);
+            return AjaxResult.success("获取所有分类信息成功。", tCategories);
+        }else {
+            return AjaxResult.error("searchKey为空。");
+        }
     }
 
     /***
@@ -79,8 +84,12 @@ public class CategoryController extends BaseController {
     @ApiOperation("根据顶级分类搜索子级分类")
     public AjaxResult<List<TCategory>> getSubCategory(@PathVariable("pid") String parentId){
         //根据顶级分类搜索子级分类
-        List<TCategory> tCategories = tCategoryService.getSubCategory(parentId);
-        return AjaxResult.success("获取所有分类信息成功。",tCategories);
+        if (StringUtils.isNotEmpty(parentId)) {
+            List<TCategory> tCategories = tCategoryService.getSubCategory(parentId);
+            return AjaxResult.success("获取所有分类信息成功。", tCategories);
+        }else {
+            return AjaxResult.error("parentId为空。");
+        }
     }
 
 }
