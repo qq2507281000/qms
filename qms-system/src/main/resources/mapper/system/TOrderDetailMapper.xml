@@ -185,5 +185,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             DATE_SUB( CURDATE( ), INTERVAL 30 DAY ) &lt;= date( create_time )
         AND courses_id = #{coursesId}
+        AND flag = 1
     </select>
 </mapper>

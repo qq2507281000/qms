@@ -105,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM
             t_category
         WHERE
-            parent_id IS NULL
+            parent_id IS NULL AND flag = 1
     </select>
 
     <select id="getAllCategory" resultMap="TCategoryResult">
@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM
             t_category
         WHERE
-            parent_id IS NOT NULL
+            parent_id IS NOT NULL AND flag = 1
     </select>
 
     <select id="getSubCategory" resultMap="TCategoryResult">
@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM
             t_category
         WHERE
-            parent_id = #{parentId}
+            parent_id = #{parentId} AND flag = 1
     </select>
 
     <select id="searchCategory" resultMap="TCategoryResult">
@@ -133,6 +133,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t_category
         WHERE
             `name` LIKE "%"#{name}"%"
-            AND parent_id IS NOT NULL
+            AND parent_id IS NOT NULL AND flag = 1
     </select>
 </mapper>

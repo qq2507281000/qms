@@ -302,6 +302,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             INNER JOIN t_shop_courses_images tsci ON tsci.courses_id = tod.courses_id
         WHERE
             tsci.sort_key = 1
+            AND too.flag = 1
     </select>
 
     <select id="getOrderDetail" resultMap="WxOrderDetailResult">
@@ -335,5 +336,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             INNER JOIN t_shop_courses tsc ON tsc.id = tod.courses_id
         WHERE
             tod.order_id = #{orderId}
+            AND tod.flag = 1
     </select>
 </mapper>

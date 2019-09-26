@@ -193,6 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         WHERE
             tsc.id = #{id}
+            AND tsc.flag = 1
     </select>
 
     <select id="getSuggestCourses"  resultMap="TShopCoursesModelResult">
@@ -209,6 +210,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId == null  and shopId == ''"> and tsc.suggest = 1</if>
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
             <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
+            AND tsc.flag = 1
         </where>
     </select>
 

@@ -2,6 +2,7 @@ package co.tton.qcloud.web.controller.wx;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.domain.WxOrderDetail;
 import co.tton.qcloud.system.service.ITOrderService;
@@ -38,6 +39,11 @@ public class OrderController extends BaseController {
         return null;
     }
 
+    /***
+     *
+     * @param
+     * @return
+     */
     @RequiresPermissions("wx:order:list")
     @RequestMapping(value="",method = RequestMethod.GET)
     @ApiOperation("获取所有订单列表")
@@ -62,12 +68,21 @@ public class OrderController extends BaseController {
         return AjaxResult.success("获取顶级分类成功。",tOrders);
     }
 
+    /***
+     *
+     * @param orderId
+     * @return
+     */
     @RequiresPermissions("wx:order:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     @ApiOperation("获取订单详情")
     public AjaxResult getOrderDetail(@PathVariable("id")String orderId){
-        WxOrderDetail wxOrderDetail  = tOrderService.getOrderDetail(orderId);
-        return AjaxResult.success("获取顶级分类成功。",wxOrderDetail);
+        if (StringUtils.isNotEmpty(orderId)) {
+            WxOrderDetail wxOrderDetail = tOrderService.getOrderDetail(orderId);
+            return AjaxResult.success("获取顶级分类成功。", wxOrderDetail);
+        }else {
+            return AjaxResult.error("报错：orderId为空。");
+        }
     }
 
     @RequiresPermissions("wx:order:comment")
