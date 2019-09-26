@@ -27,37 +27,57 @@ public class CategoryController extends BaseController {
     @Autowired
     private ITCategoryService tCategoryService;
 
+    /***
+     *
+     * @param
+     * @return
+     */
     @RequiresPermissions("wx:category:top")
     @RequestMapping(value="/top",method = RequestMethod.GET)
     @ApiOperation("获取顶级分类信息")
-    public AjaxResult getTopCatgory(){
+    public AjaxResult<List<TCategory>> getTopCatgory(){
         //获取顶级分类信息
         List<TCategory> tCategories = tCategoryService.getTopCatgory();
         return AjaxResult.success("获取顶级分类成功。",tCategories);
     }
 
+    /***
+     *
+     * @param
+     * @return
+     */
     @RequiresPermissions("wx:category:all")
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ApiOperation("获取所有分类信息")
-    public AjaxResult getAllCategory(){
+    public AjaxResult<List<TCategory>> getAllCategory(){
         //获取所有分类信息
         List<TCategory> tAllCategories = tCategoryService.getAllCategory();
         return AjaxResult.success("获取所有分类信息成功。",tAllCategories);
     }
 
+    /***
+     *
+     * @param searchKey
+     * @return
+     */
     @RequiresPermissions("wx:category:search")
     @RequestMapping(value="/search",method = RequestMethod.GET)
     @ApiOperation("搜索框查询")
-    public AjaxResult searchCategory(@RequestParam("key")String searchKey){
+    public AjaxResult<List<TCategory>> searchCategory(@RequestParam("key")String searchKey){
         //搜索框查询
         List<TCategory> tCategories =tCategoryService.searchCategory(searchKey);
         return AjaxResult.success("获取所有分类信息成功。",tCategories);
     }
 
+    /***
+     *
+     * @param parentId
+     * @return
+     */
     @RequiresPermissions("wx:category:sub")
     @RequestMapping(value = "/{pid}",method = RequestMethod.GET)
     @ApiOperation("根据顶级分类搜索子级分类")
-    public AjaxResult getSubCategory(@PathVariable("pid") String parentId){
+    public AjaxResult<List<TCategory>> getSubCategory(@PathVariable("pid") String parentId){
         //根据顶级分类搜索子级分类
         List<TCategory> tCategories = tCategoryService.getSubCategory(parentId);
         return AjaxResult.success("获取所有分类信息成功。",tCategories);

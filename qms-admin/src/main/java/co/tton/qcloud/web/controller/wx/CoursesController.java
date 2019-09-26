@@ -39,10 +39,15 @@ public class CoursesController extends BaseController {
     private ITOrderDetailService tOrderDetailService;
 
 
+    /***
+     *
+     * @param location,categoryId,shopId
+     * @return
+     */
     @RequiresPermissions("wx:courses:suggest")
     @RequestMapping(value = "suggest",method = RequestMethod.GET)
     @ApiOperation("获取推荐课程")
-    public AjaxResult getSuggestCourses(@RequestParam(value="loc",required = false)String location,
+    public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value="loc",required = false)String location,
                                         @RequestParam(value="category",required = false)String categoryId,
                                         @RequestParam(value="shopId",required = false)String shopId){
         if (StringUtils.isNotEmpty(location) && location.equals("dalian")){
@@ -73,15 +78,21 @@ public class CoursesController extends BaseController {
         }
         else {
             //不是大连 回传报错
-            return AjaxResult.success("错误：所属地location");
+            return AjaxResult.error("错误：所属地location");
         }
 
     }
 
+
+    /***
+     *
+     * @param id
+     * @return
+     */
     @RequiresPermissions("wx:courses:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     @ApiOperation("课程详细信息")
-    public AjaxResult getCoursesDetail(@PathVariable("id") String id){
+    public AjaxResult<TShopCoursesModel> getCoursesDetail(@PathVariable("id") String id){
         if(StringUtils.isNotEmpty(id)){
             TShopCoursesModel tShopCoursesModels = iCoursesService.getCoursesDetail(id);
             String count = tOrderDetailService.getOrderMon(id);
