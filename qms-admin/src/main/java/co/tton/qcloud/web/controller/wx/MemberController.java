@@ -22,7 +22,7 @@ import java.util.List;
  * @create: 2019-09-18 18:34
  */
 
-@Api(tags = "小程序会员信息",value = "小程序微信会员信息")
+@Api(tags = "小程序会员信息",value = "小程序会员信息")
 @RestController
 @RequestMapping("/api/v1.0/member")
 public class MemberController extends BaseController {
