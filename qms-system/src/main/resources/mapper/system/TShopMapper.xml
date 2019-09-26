@@ -217,7 +217,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from t_shop sh
         left join t_category ca on sh.category_id = ca.id
         <where>
-            sh.flag = 1
+            sh.falg = 1
             <if test="categoryId != null">and sh.category_id = #{categoryId}</if>
             <if test="suggest != null ">and sh.suggest = #{suggest}</if>
             <if test="name != null">and sh.name like concat('%', #{name}, '%')</if>
@@ -243,7 +243,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t_shop shop
         left join t_order de on shop.id = de.shop_id
         <where>
-            shop.flag = 1
+            shop.falg = 1
             <if test="_parameter != null  and _parameter  != ''">shop.id = #{id}</if>
         </where>
         order by shop.sort_key
