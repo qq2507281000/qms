@@ -134,7 +134,28 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>${artifactId}</warName>
                 </configuration>   
-		   </plugin>   
+		   </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.14</version>
+                <configuration>
+                    <imageName>ttoncorp/${project.artifactId}:${project.version}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!--<dockerHost>http://43.254.2.83:2375</dockerHost>-->
+                    <!--<dockerHost>http://192.168.1.14:2375</dockerHost>-->
+                    <!--<dockerHost>http://47.92.169.3:2375</dockerHost>-->
+                    <dockerHost>http://39.98.80.131:2375</dockerHost>
+                    <!--<dockerHost>http://114.115.208.55:2375</dockerHost>-->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
         </plugins>
         <finalName>${artifactId}</finalName>
     </build>
