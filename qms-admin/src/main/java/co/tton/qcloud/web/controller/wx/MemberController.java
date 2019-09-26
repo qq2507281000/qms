@@ -30,11 +30,11 @@ public class MemberController extends BaseController {
     @Resource
     ITMemberService tMemberService;
 
-  /***
-   *
-   * @param memberId
-   * @return
-   */
+    /***
+     *
+     * @param memberId
+     * @return
+     */
     @ApiOperation("查询会员信息")
     @RequiresPermissions("wx:member:info")
     @RequestMapping(value = "/info",method = RequestMethod.GET)
@@ -47,11 +47,11 @@ public class MemberController extends BaseController {
         }
     }
 
-  /***
-   *
-   * @param memberId
-   * @return
-   */
+    /***
+     *
+     * @param memberId
+     * @return
+     */
     @ApiOperation("查询会员用户子女信息")
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getFavourite",method = RequestMethod.GET)
@@ -64,11 +64,11 @@ public class MemberController extends BaseController {
         }
     }
 
-  /***
-   *
-   * @param memberBabyId,realName,sex,birthday
-   * @return
-   */
+    /***
+     *
+     * @param memberBabyId,realName,sex,birthday
+     * @return
+     */
     @ApiOperation("会员子女信息修改")
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
@@ -84,11 +84,11 @@ public class MemberController extends BaseController {
         }
     }
 
-  /***
-   *
-   * @param
-   * @return
-   */
+    /***
+     *
+     * @param
+     * @return
+     */
     @ApiOperation("会员年费信息暂时写固定值")
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getMemberYearMoney",method = RequestMethod.GET)

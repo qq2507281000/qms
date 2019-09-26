@@ -138,8 +138,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             and t.use_status = '未使用'
             and t.receive_status = '已领取'
             and t. status = '有效'
+            and t.falg = 1
             <if test="_parameter != null  and _parameter != ''"> and log.member_id = #{memberId}</if>
         </where>
+        order by t.ava_end_time
     </select>
 
 </mapper>
