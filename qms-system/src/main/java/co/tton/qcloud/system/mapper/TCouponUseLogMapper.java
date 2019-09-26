@@ -65,7 +65,7 @@ public interface TCouponUseLogMapper
     /**
      * 优惠劵查询
      *
-     * @param  memberId  平台优惠券ID
+     * @param  memberId
      * @return 优惠劵
      */
     List<TCouponUseLogModel> getCouponList(String memberId);

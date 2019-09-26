@@ -48,16 +48,6 @@ public class MemberService implements ITMemberService {
    */
   @Override
   public int upMemberBabyInfo(String memberBabyId, String realName, Integer sex, String birthday) {
-//    Date date =null;
-//    if(StringUtil.isNotEmpty(birthday)){
-//      //生日类型转换
-//      SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//      try {
-//        date = sdf.parse(birthday);
-//      } catch (ParseException e) {
-//        e.printStackTrace();
-//      }
-//    }
     return tMemberBabyMapper.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
   }
 }

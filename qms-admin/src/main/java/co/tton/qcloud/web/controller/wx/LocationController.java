@@ -21,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1.0/location")
 public class LocationController extends BaseController {
 
+    /***
+     *
+     * @param
+     * @return
+     */
     @RequiresPermissions("wx:location")
     @RequestMapping(value="/list",method = RequestMethod.GET)
     @ApiOperation("获取城市")

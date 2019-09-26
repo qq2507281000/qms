@@ -30,30 +30,45 @@ public class MemberController extends BaseController {
     @Resource
     ITMemberService tMemberService;
 
+  /***
+   *
+   * @param memberId
+   * @return
+   */
     @ApiOperation("查询会员信息")
     @RequiresPermissions("wx:member:info")
     @RequestMapping(value = "/info",method = RequestMethod.GET)
-    public AjaxResult getMemberInfo(@RequestParam(value = "id") String memberId){
+    public AjaxResult<TMemberModel> getMemberInfo(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
             TMemberModel tMemberModel= tMemberService.getMemberInfo(memberId);
             return AjaxResult.success("获取会员信息成功",tMemberModel);
         }else{
-            return AjaxResult.success("ID错误");
+            return AjaxResult.error("会员ID错误");
         }
     }
 
+  /***
+   *
+   * @param memberId
+   * @return
+   */
     @ApiOperation("查询会员用户子女信息")
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getFavourite",method = RequestMethod.GET)
-    public AjaxResult getFavourite(@RequestParam(value = "id") String memberId){
+    public AjaxResult<TMember> getFavourite(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
             List<TMember> tMemberList = tMemberService.getFavourite(memberId);
             return AjaxResult.success("获取会员信息成功",tMemberList);
         }else{
-            return AjaxResult.success("ID错误");
+            return AjaxResult.error("会员ID错误");
         }
     }
 
+  /***
+   *
+   * @param memberBabyId,realName,sex,birthday
+   * @return
+   */
     @ApiOperation("会员子女信息修改")
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
@@ -61,19 +76,24 @@ public class MemberController extends BaseController {
                                            @RequestParam(value = "realName",required = false) String realName,
                                            @RequestParam(value = "sex",required = false)Integer sex,
                                            @RequestParam(value = "birthday",required = false)String birthday){
-      if(StringUtil.isNotEmpty(memberBabyId)){
-        int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
-        return AjaxResult.success("修改会员子女信息成功",number);
-      }else{
-        return AjaxResult.success("ID错误");
-      }
+        if(StringUtil.isNotEmpty(memberBabyId)){
+          int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
+          return AjaxResult.success("修改会员子女信息成功",number);
+        }else{
+          return AjaxResult.error("会员ID错误");
+        }
     }
 
-    //会员年费97.00和会员描述暂时写固定值
+  /***
+   *
+   * @param
+   * @return
+   */
     @ApiOperation("会员年费信息暂时写固定值")
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getMemberYearMoney",method = RequestMethod.GET)
-    public AjaxResult upMemberBabyInfo(){
+    public AjaxResult<List> upMemberBabyInfo(){
+      //会员年费97.00和会员描述暂时写固定值
             //会员年费
             double memberYearMoney = 97.00F;
             //会员描述
@@ -83,30 +103,5 @@ public class MemberController extends BaseController {
             memberYearList.add(member);
             return AjaxResult.success("修改会员子女信息成功",memberYearList);
     }
-
-//    @RequiresPermissions("wx:member:info")
-//    @RequestMapping(value = "/info",method = RequestMethod.GET)
-//    public AjaxResult getMemberInfo(@PathVariable("id") String memberId){
-//        //
-//        return null;
-//    }
-
-
-//    @RequiresPermissions("wx:member:orders")
-//    @RequestMapping(value="/orders",method = RequestMethod.GET)
-//    public AjaxResult getOrderInfo(@PathVariable("id") String memberId){
-//        return null;
-//    }
-//
-//    @RequiresPermissions("wx:member:favourite")
-//    @RequestMapping(value="/favourite")
-//    public AjaxResult getFavourite(){
-//        return null;
-//    }
-
-
-//    public AjaxResult autoLogin(){
-//        return null;
-//    }
 
 }

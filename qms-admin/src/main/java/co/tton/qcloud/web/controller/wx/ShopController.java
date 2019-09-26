@@ -28,32 +28,42 @@ public class ShopController extends BaseController {
     @Autowired
     private ITShopService tShopService;
 
+  /***
+   *
+   * @param location,categoryId,suggest,name
+   * @return
+   */
     @ApiOperation("首页推荐商家查询，查询所有商家，搜索框查询")
     @RequiresPermissions("wx:shop:suggest")
     @RequestMapping(value="/suggest",method = RequestMethod.GET)
-    public AjaxResult getSuggestShop(@RequestParam(value="loc",required = false) String location,
+    public AjaxResult<List<TShop>> getSuggestShop(@RequestParam(value="loc",required = false) String location,
                                      @RequestParam(value="category",required = false)String categoryId,
                                      @RequestParam(value="suggest",required = false)Integer suggest,
                                      @RequestParam(value="name",required = false)String name)
     {
         if(location.equals("dalian")){
-                List list=tShopService.getSuggestShop(categoryId,suggest,name);
-                return AjaxResult.success("获取商家信息成功。",list);
+                List<TShop> listTShop=tShopService.getSuggestShop(categoryId,suggest,name);
+                return AjaxResult.success("获取商家信息成功。",listTShop);
         }else{
-            return AjaxResult.success("location错误。");
+            return AjaxResult.error("location错误。");
         }
     }
 
+  /***
+   *
+   * @param shopId
+   * @return
+   */
     @ApiOperation("查询商家详情")
     @RequiresPermissions("wx:shop:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public AjaxResult getShopDetail(@PathVariable("id")String shopId){
-      if(StringUtils.isNotEmpty(shopId)){
-        TShop tShop=tShopService.getShopDetail(shopId);
-        return AjaxResult.success("获取商家详情成功。",tShop);
-      }else{
-        return AjaxResult.success("商家ID错误。");
-      }
+    public AjaxResult<TShop> getShopDetail(@PathVariable("id")String shopId){
+        if(StringUtils.isNotEmpty(shopId)){
+          TShop tShop=tShopService.getShopDetail(shopId);
+          return AjaxResult.success("获取商家详情成功。",tShop);
+        }else{
+          return AjaxResult.error("商家ID错误。");
+        }
     }
 
 }

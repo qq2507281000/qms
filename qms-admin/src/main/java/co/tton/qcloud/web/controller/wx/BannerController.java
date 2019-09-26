@@ -42,10 +42,10 @@ public class BannerController extends BaseController {
     @RequestMapping(value = "",method = RequestMethod.GET)
     public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc",required = false)String location){
         if(location.equals("dalian")){
-            List list=tBannerService.getBanner();
-            return AjaxResult.success("获取广告成功。",list);
+            List<TBanner> listTBanner=tBannerService.getBanner();
+            return AjaxResult.success("获取广告成功。",listTBanner);
         }else{
-            return AjaxResult.success("location错误。");
+            return AjaxResult.error("location错误。");
         }
     }
 

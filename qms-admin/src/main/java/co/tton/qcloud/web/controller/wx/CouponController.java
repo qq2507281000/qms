@@ -31,16 +31,20 @@ public class CouponController extends BaseController {
     @Autowired
     ITCouponService iTCouponService;
 
-
+  /***
+   *
+   * @param memberId
+   * @return
+   */
     @ApiOperation("会员用户优惠劵查询")
     @RequiresPermissions("wx:coupon:list")
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public AjaxResult getCouponList(@RequestParam(value = "id") String memberId){
+    public AjaxResult<List<TCouponUseLogModel>> getCouponList(@RequestParam(value = "id") String memberId){
       if(StringUtils.isNotEmpty(memberId)){
           List<TCouponUseLogModel> list = iTCouponService.getCouponList(memberId);
           return AjaxResult.success("优惠劵查询成功",list);
       }else{
-          return AjaxResult.success("ID错误");
+          return AjaxResult.error("会员ID错误");
       }
     }
 
