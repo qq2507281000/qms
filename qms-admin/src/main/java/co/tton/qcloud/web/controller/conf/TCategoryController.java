@@ -2,12 +2,19 @@ package co.tton.qcloud.web.controller.conf;
 
 import java.util.List;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import co.tton.qcloud.system.domain.TCategory;
 import co.tton.qcloud.system.service.ITCategoryService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 分类基础Controller
@@ -41,6 +49,9 @@ public class TCategoryController extends BaseController
 
     @Autowired
     private ITCategoryService tCategoryService;
+
+    @Autowired
+    private MinioFileService minioFileService;
 
     @RequiresPermissions("conf:category:view")
     @GetMapping()
@@ -95,7 +106,44 @@ public class TCategoryController extends BaseController
     @ApiOperation("新增课程分类信息")
     public AjaxResult addSave(TCategory tCategory)
     {
-        return toAjax(tCategoryService.insertTCategory(tCategory));
+        try {
+            SysUser currentUser = ShiroUtils.getSysUser();
+
+            String id = StringUtils.genericId();
+            tCategory.setId(id);
+
+            if (tCategory.getParams().containsKey("file")){
+                //上传新文件
+                MultipartFile file = (MultipartFile)tCategory.getParams().get("file");
+                if(file != null){
+                    String fileName = minioFileService.upload(file);
+                    tCategory.setIcon(fileName);
+
+                    //是否可用
+                    if(tCategory.getParams().containsKey("availableText")){
+                        String avaiableText = tCategory.getParams().get("availableText").toString();
+                        int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
+                        tCategory.setAvailable(avaiable);
+                    }
+                    tCategory.setFlag(Constants.DATA_NORMAL);
+                    tCategory.setCreateBy(currentUser.getUserId().toString());
+                    tCategory.setCreateTime(DateUtil.date());
+                    tCategoryService.insertTCategory(tCategory);
+                    return AjaxResult.success("数据保存成功。");
+                }
+                else {
+                    return AjaxResult.error("未能获取上传文件内容。");
+                }
+            }
+            else {
+                return AjaxResult.error("未能获取上传文件内容。");
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("保存课程分类图片时发生异常。",ex);
+            return AjaxResult.error("保存课程分类图片时发生异常。");
+        }
     }
 
     /**
