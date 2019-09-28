@@ -338,6 +338,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             INNER JOIN t_shop_courses tsc ON tsc.id = tod.courses_id
         WHERE
             tod.order_id = #{orderId}
-            AND tod.flag = 1
+            AND tod.flag = 0
     </select>
 </mapper>

@@ -92,18 +92,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from t_banner where id = #{id}
     </delete>
 
-    <!--<delete id="a" parameterType="String">-->
-        <!--delete from t_banner where id in -->
-        <!--<foreach item="id" collection="array" open="(" separator="," close=")">-->
-            <!--#{id}-->
-        <!--</foreach>-->
-    <!--</delete>-->
-
     <!--逻辑删除-->
     <delete id="deleteTBannerByIds" parameterType="String">
         update t_banner
         <trim prefix="SET" suffixOverrides=",">
-            flag = 0
+            flag = 1
         </trim>
         where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
@@ -114,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getBanner" resultMap="TBannerResult">
         select id, img, url, target_type, available, sort_key
         from t_banner
-        where flag = 1
+        where flag = 0
         order by sort_key
     </select>
 </mapper>

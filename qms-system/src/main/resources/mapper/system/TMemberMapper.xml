@@ -164,7 +164,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         t_member t
         left join t_order er on t.id = er.member_id
         <where>
-            t.flag = 1
+            t.flag = 0
             <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
     </select>
@@ -175,7 +175,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from t_member t
         left join t_member_baby b on t.id = b.member_id
         <where>
-            t.flag = 1
+            t.flag = 0
             <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
     </select>

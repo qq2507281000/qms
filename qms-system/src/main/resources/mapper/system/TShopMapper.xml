@@ -192,18 +192,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from t_shop where id = #{id}
     </delete>
 
-    <!--<delete id="deleteTShopByIds" parameterType="String">-->
-        <!--delete from t_shop where id in -->
-        <!--<foreach item="id" collection="array" open="(" separator="," close=")">-->
-            <!--#{id}-->
-        <!--</foreach>-->
-    <!--</delete>-->
-
     <!--逻辑删除-->
     <delete id="deleteTShopByIds" parameterType="String">
         update t_shop
           <trim prefix="SET" suffixOverrides=",">
-          flag = 0
+          flag = 1
           </trim>
         where id in
           <foreach item="id" collection="array" open="(" separator="," close=")">
@@ -217,7 +210,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from t_shop sh
         left join t_category ca on sh.category_id = ca.id
         <where>
-            sh.flag = 1
+            sh.flag = 0
             <if test="categoryId != null">and sh.category_id = #{categoryId}</if>
             <if test="suggest != null ">and sh.suggest = #{suggest}</if>
             <if test="name != null">and sh.name like concat('%', #{name}, '%')</if>
@@ -243,7 +236,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t_shop shop
         left join t_order de on shop.id = de.shop_id
         <where>
-            shop.flag = 1
+            shop.flag = 0
             <if test="_parameter != null  and _parameter  != ''">and shop.id = #{id}</if>
         </where>
         order by shop.sort_key

@@ -10,6 +10,8 @@ import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
 import co.tton.qcloud.system.domain.TOrderModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,8 +48,14 @@ public class TOrderController extends BaseController
     public String order(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
         mmap.put("shopId", "");
-        if(StringUtils.isNotEmpty(shopId)){
-            mmap.put("shopId", shopId);
+        SysUser user = ShiroUtils.getSysUser();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            mmap.put("shopId",user.getShopId());
+        }
+        else{
+            if(StringUtils.isNotEmpty(shopId)){
+                mmap.put("shopId", shopId);
+            }
         }
         return prefix + "/list";
     }
@@ -63,9 +71,16 @@ public class TOrderController extends BaseController
     public TableDataInfo list(@RequestParam(value="shop-id",required = false) String shopId, @ApiParam("订单实体对象") TOrder tOrder)
     {
         startPage();
-        if(StringUtils.isNotEmpty(shopId)){
-            tOrder.setShopId(shopId);
+        SysUser user = ShiroUtils.getSysUser();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            tOrder.setShopId(user.getShopId());
         }
+        else{
+            if(StringUtils.isNotEmpty(shopId)){
+                tOrder.setShopId(shopId);
+            }
+        }
+
         List<TOrder> list = tOrderService.selectTOrderList(tOrder);
         return getDataTable(list);
     }
