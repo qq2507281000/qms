@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.conf;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
@@ -51,6 +52,7 @@ public class TTopicController extends BaseController
     @RequiresPermissions("conf:topic:list")
     @PostMapping("/list")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public TableDataInfo list(TTopic tTopic)
     {
         startPage();
@@ -87,6 +89,7 @@ public class TTopicController extends BaseController
     @Log(title = "专题信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult addSave(TTopic tTopic)
     {
         return toAjax(tTopicService.insertTTopic(tTopic));
@@ -110,6 +113,7 @@ public class TTopicController extends BaseController
     @Log(title = "专题信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult editSave(TTopic tTopic)
     {
         return toAjax(tTopicService.updateTTopic(tTopic));
@@ -122,6 +126,7 @@ public class TTopicController extends BaseController
     @Log(title = "专题信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tTopicService.deleteTTopicByIds(ids));

@@ -69,6 +69,11 @@ public class WxOrderDetail extends BaseEntity {
     @ApiModelProperty("备注")
     private String commentNote;
 
+    @ApiModelProperty("课程时间")
+    private Date lessionTime;
+
+
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -89,6 +94,7 @@ public class WxOrderDetail extends BaseEntity {
                 .append("shopHoursEnd", getShopHoursEnd())
                 .append("title", getTitle())
                 .append("commentNote", getCommentNote())
+                .append("lessionTime", getLessionTime())
                 .toString();
     }
 }

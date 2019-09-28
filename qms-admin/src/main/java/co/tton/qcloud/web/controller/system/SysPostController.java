@@ -28,7 +28,7 @@ import co.tton.qcloud.system.service.ISysPostService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/post")
+@RequestMapping("/system/post")
 public class SysPostController extends BaseController
 {
     private String prefix = "system/post";

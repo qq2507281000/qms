@@ -12,7 +12,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/tool/build")
+@RequestMapping("/tool/build")
 public class BuildController extends BaseController
 {
     private String prefix = "tool/build";

@@ -3,6 +3,8 @@ package co.tton.qcloud.system.domain;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.*;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import co.tton.qcloud.common.annotation.Excel;
@@ -63,8 +65,7 @@ public class SysUser extends BaseEntity
     /***
      * 用户分类
      * 网站管理员  ADMIN
-     * 认证设计师  DESINGER
-     * 网站会员   MEMBER
+     * 店主       SHOP
      */
     private String category;
 
@@ -127,6 +128,7 @@ public class SysUser extends BaseEntity
     public static boolean isAdmin(Long userId)
     {
         return userId != null && 1L == userId;
+//        return StringUtils.equalsAnyIgnoreCase(category,"ADMIN");
     }
 
     public Long getDeptId()

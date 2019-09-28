@@ -95,9 +95,9 @@ pagehelper:
 shiro:
   user:
     # 登录地址
-    loginUrl: /user/login
+    loginUrl: /shop/login
     # 权限认证失败地址
-    unauthorizedUrl: /user/unauth
+    unauthorizedUrl: /shop/unauth
     # 首页地址
     indexUrl: /index
     # 验证码开关
@@ -130,9 +130,9 @@ xss:
   # 过滤开关
   enabled: true
   # 排除链接（多个用逗号分隔）
-  excludes: /system/notice/*
-  # 匹配链接
-  urlPatterns: /system/*,/monitor/*,/tool/*
+  excludes: /admin/system/notice/*,/shop/system/notice/*
+  # 匹配链接`
+  urlPatterns: /admin/system/*,/monitor/*,/tool/*,/shop/system/*
 
 wx:
   miniapp:

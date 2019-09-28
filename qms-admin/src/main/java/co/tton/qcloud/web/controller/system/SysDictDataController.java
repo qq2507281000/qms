@@ -27,7 +27,7 @@ import co.tton.qcloud.system.service.ISysDictDataService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/dict/data")
+@RequestMapping("/system/dict/data")
 public class SysDictDataController extends BaseController
 {
     private String prefix = "system/dict/data";

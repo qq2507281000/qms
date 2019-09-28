@@ -33,10 +33,10 @@
             	</li>
             	<li>
             		<div class="user-panel">
-            			<a class="menuItem" title="个人中心" th:href="@{/admin/system/user/profile}">
+            			<a class="menuItem" title="个人中心" th:href="@{/system/user/profile}">
             				<div class="hide" th:text="个人中心"></div>
 					        <div class="pull-left image">
-		                    	<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : '/admin/system/user/profile/avatar/' + @{${user.avatar}}" class="img-circle" alt="User Image">
+		                    	<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : '/system/user/profile/avatar/' + @{${user.avatar}}" class="img-circle" alt="User Image">
 					        </div>
 				        </a>
 				        <div class="pull-left info">
@@ -70,68 +70,68 @@
                     <ul class="nav nav-second-level collapse">
                         <li> <a>表单<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-								<li><a class="menuItem" th:href="@{/admin/demo/form/button}">按钮</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/grid}">栅格</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/select}">下拉框</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/basic}">基本表单</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/cards}">卡片列表</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/jasny}">功能扩展</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/sortable}">拖动排序</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/tabs_panels}">选项卡 & 面板</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/validate}">表单校验</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/wizard}">表单向导</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/upload}">文件上传</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/datetime}">日期和时间</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/summernote}">富文本编辑器</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/duallistbox}">左右互选组件</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/form/autocomplete}">搜索自动补全</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/button}">按钮</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/grid}">栅格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/select}">下拉框</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/basic}">基本表单</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/cards}">卡片列表</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/jasny}">功能扩展</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/sortable}">拖动排序</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/tabs_panels}">选项卡 & 面板</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/validate}">表单校验</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/wizard}">表单向导</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/upload}">文件上传</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/datetime}">日期和时间</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/summernote}">富文本编辑器</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/duallistbox}">左右互选组件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/autocomplete}">搜索自动补全</a></li>
 							</ul>
                         </li>
                         <li> <a>表格<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-								<li><a class="menuItem" th:href="@{/admin/demo/table/search}">查询条件</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/footer}">数据汇总</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/groupHeader}">组合表头</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/export}">表格导出</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/remember}">翻页记住选择</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/pageGo}">跳转至指定页</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/params}">自定义查询参数</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/multi}">初始多表格</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/button}">点击按钮加载表格</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/fixedColumns}">表格冻结列</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/event}">自定义触发事件</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/detail}">表格细节视图</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/image}">表格图片预览</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/curd}">动态增删改查</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/reorder}">表格拖拽操作</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/table/other}">表格其他操作</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/search}">查询条件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/footer}">数据汇总</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/groupHeader}">组合表头</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/export}">表格导出</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/remember}">翻页记住选择</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/pageGo}">跳转至指定页</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/params}">自定义查询参数</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/multi}">初始多表格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/button}">点击按钮加载表格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/fixedColumns}">表格冻结列</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/event}">自定义触发事件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/detail}">表格细节视图</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/image}">表格图片预览</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/curd}">动态增删改查</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/reorder}">表格拖拽操作</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/other}">表格其他操作</a></li>
 							</ul>
                         </li>
                         <li> <a>弹框<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-								<li><a class="menuItem" th:href="@{/admin/demo/modal/dialog}">模态窗口</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/modal/layer}">弹层组件</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/modal/table}">弹层表格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/modal/dialog}">模态窗口</a></li>
+								<li><a class="menuItem" th:href="@{/demo/modal/layer}">弹层组件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/modal/table}">弹层表格</a></li>
 							</ul>
                         </li>
                         <li> <a>操作<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-								<li><a class="menuItem" th:href="@{/admin/demo/operate/table}">表格</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/operate/other}">其他</a></li>
+								<li><a class="menuItem" th:href="@{/demo/operate/table}">表格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/operate/other}">其他</a></li>
 							</ul>
                         </li>
                         <li> <a>报表<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-								<li><a class="menuItem" th:href="@{/admin/demo/report/echarts}">百度ECharts</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/report/peity}">peity</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/report/sparkline}">sparkline</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/report/metrics}">图表组合</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/echarts}">百度ECharts</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/peity}">peity</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/sparkline}">sparkline</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/metrics}">图表组合</a></li>
 							</ul>
                         </li>
                         <li> <a>图标<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-								<li><a class="menuItem" th:href="@{/admin/demo/icon/fontawesome}">Font Awesome</a></li>
-								<li><a class="menuItem" th:href="@{/admin/demo/icon/glyphicons}">Glyphicons</a></li>
+								<li><a class="menuItem" th:href="@{/demo/icon/fontawesome}">Font Awesome</a></li>
+								<li><a class="menuItem" th:href="@{/demo/icon/glyphicons}">Glyphicons</a></li>
 							</ul>
                         </li>
                         <li>
@@ -173,12 +173,12 @@
 	                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a></li>
                     <li class="dropdown user-menu">
 						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
-							<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : '/admin/system/user/profile/avatar/'+@{${user.avatar}}" class="user-image">
+							<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : '/system/user/profile/avatar/'+@{${user.avatar}}" class="user-image">
 							<span class="hidden-xs">[[${user.userName}]]</span>
 						</a>
 						<ul class="dropdown-menu">
 							<li class="mt5">
-								<a th:href="@{/admin/system/user/profile}" class="menuItem">
+								<a th:href="@{/system/user/profile}" class="menuItem">
 								<i class="fa fa-user"></i> 个人中心</a>
 							</li>
 							<li>
@@ -187,7 +187,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a th:href="@{/admin/logout}">
+								<a th:href="@{/logout}">
 								<i class="fa fa-sign-out"></i> 退出登录</a>
 							</li>
 						</ul>
@@ -214,10 +214,10 @@
                     
         <div class="row mainContent" id="content-main">
             <iframe class="RuoYi_iframe" name="iframe0" width="100%" height="100%" data-id="/system/main"
-                    th:src="@{/admin/system/main}" frameborder="0" seamless></iframe>
+                    th:src="@{/system/main}" frameborder="0" seamless></iframe>
         </div>
         <div class="footer">
-            <div class="pull-right">&copy; 2019 All Rights Reserved. Qcloud.COM</div>
+            <div class="pull-right">&copy; 2019 All Rights Reserved. <a href="#">qcloud.com</a></div>
         </div>
     </div>
     <!--右侧部分结束-->
@@ -235,7 +235,7 @@
 <script th:src="@{/qcloud/index.js}"></script>
 <script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
 <script th:inline="javascript"> 
-var ctx = [[@{/admin/}]];
+var ctx = [[@{/}]];
 /*用户管理-重置密码*/
 function resetPwd() {
     var url = ctx + 'system/user/profile/resetPwd';

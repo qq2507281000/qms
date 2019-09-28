@@ -58,10 +58,10 @@ public class OrderController extends BaseController {
             if(tOrder.getUseStatus() == "USED"){
                 tOrder.setWxStatus("待评价");
             }
-            if (tOrder.getUseStatus() == "已过期"){
+            if (tOrder.getUseStatus() == "EXPIRED"){
                 tOrder.setWxStatus("已过期");
             }
-            if(tOrder.getBillStatus() == "已完成"){
+            if(tOrder.getBillStatus() == "FINISHED"){
                 tOrder.setWxStatus("已评价");
             }
         }
@@ -79,7 +79,11 @@ public class OrderController extends BaseController {
     public AjaxResult getOrderDetail(@PathVariable("id")String orderId){
         if (StringUtils.isNotEmpty(orderId)) {
             WxOrderDetail wxOrderDetail = tOrderService.getOrderDetail(orderId);
-            return AjaxResult.success("获取顶级分类成功。", wxOrderDetail);
+            if (wxOrderDetail == null){
+                return AjaxResult.error("报错：对象为空。");
+            }else {
+                return AjaxResult.success("获取顶级分类成功。", wxOrderDetail);
+            }
         }else {
             return AjaxResult.error("报错：orderId为空。");
         }

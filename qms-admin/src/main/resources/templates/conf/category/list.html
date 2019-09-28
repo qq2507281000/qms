@@ -86,7 +86,21 @@
                 },
                 {
                     field : 'parentId', 
-                    title : '父级分类'
+                    title : '父级分类',
+                    formatter: function(value) {
+                        if(value=="e7b5a14511fc4f288d5353b4dc39b4b5"){
+                            return '<span class="label label-success">体育运动</span>';
+                        }
+                        else if(value == "51fc547026154d42a467fa0aff14ed26"){
+                            return '<span class="label label-danger">艺术启蒙</span>';
+                        }
+                        else if(value == "a37989d94d154db2bc39dc1a3b74438b"){
+                            return '<span class="label label-warning">兴趣实践</span>';
+                        }
+                        else{
+                            return '<span class="label label-white">周末打卡</span>';
+                        }
+                    }
                 },
                 {
                     field : 'name', 
@@ -98,16 +112,19 @@
                 },
                 {
                     field : 'icon', 
-                    title : '图标'
+                    title : '图标',
+                    formatter: function(value, row, index) {
+                        return '<img src="/resource-file/'+value+'" class="banner-image"></img>';
+                    }
                 },
                 {
                     field : 'available', 
                     title : '是否可用'
                 },
-                {
-                    field : 'flag', 
-                    title : '是否可用'
-                },
+                // {
+                //     field : 'flag',
+                //     title : '状态'
+                // },
                 {
                     title: '操作',
                     align: 'center',
