@@ -29,7 +29,7 @@ import co.tton.qcloud.system.service.ISysDeptService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/dept")
+@RequestMapping("/system/dept")
 public class SysDeptController extends BaseController
 {
     private String prefix = "system/dept";

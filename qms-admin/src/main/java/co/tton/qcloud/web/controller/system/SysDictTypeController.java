@@ -29,7 +29,7 @@ import co.tton.qcloud.system.service.ISysDictTypeService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/dict")
+@RequestMapping("/system/dict")
 public class SysDictTypeController extends BaseController
 {
     private String prefix = "system/dict/type";

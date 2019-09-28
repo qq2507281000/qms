@@ -22,7 +22,7 @@ import co.tton.qcloud.common.utils.StringUtils;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("")
 public class SysLoginController extends BaseController
 {
     @GetMapping("/login")

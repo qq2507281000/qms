@@ -32,7 +32,7 @@ $(window).load(function() {
         thumbBox: '.thumbBox',
         spinner: '.spinner',
         //imgSrc: $.common.isEmpty(avatar) ? ctx + 'img/profile.jpg' : ctx + avatar.substr(1)
-		imgSrc: $.common.isEmpty(avatar) ? ctx + 'img/profile.jpg' : '/admin/system/user/profile/avatar/' + avatar
+		imgSrc: $.common.isEmpty(avatar) ? ctx + 'img/profile.jpg' : '/system/user/profile/avatar/' + avatar
     }
     cropper = $('.imageBox').cropbox(options);
     $('#avatar').on('change', function() {

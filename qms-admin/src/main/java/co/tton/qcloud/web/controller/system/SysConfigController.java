@@ -28,7 +28,7 @@ import co.tton.qcloud.system.service.ISysConfigService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/config")
+@RequestMapping("/system/config")
 public class SysConfigController extends BaseController
 {
     private String prefix = "system/config";

@@ -25,7 +25,7 @@ import co.tton.qcloud.system.service.ISysNoticeService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/notice")
+@RequestMapping("/system/notice")
 public class SysNoticeController extends BaseController
 {
     private String prefix = "system/notice";

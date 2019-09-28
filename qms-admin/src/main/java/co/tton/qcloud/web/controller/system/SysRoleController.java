@@ -31,7 +31,7 @@ import co.tton.qcloud.system.service.ISysUserService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/role")
+@RequestMapping("/system/role")
 public class SysRoleController extends BaseController
 {
     private String prefix = "system/role";

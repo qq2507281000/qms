@@ -25,7 +25,7 @@ import java.util.List;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/menu")
+@RequestMapping("/system/menu")
 public class SysMenuController extends BaseController {
     private String prefix = "system/menu";
 

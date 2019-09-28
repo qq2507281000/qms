@@ -12,7 +12,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/tool/swagger")
+@RequestMapping("/tool/swagger")
 public class SwaggerController extends BaseController
 {
     @RequiresPermissions("tool:swagger:view")

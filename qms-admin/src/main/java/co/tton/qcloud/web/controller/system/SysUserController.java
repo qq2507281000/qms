@@ -33,7 +33,7 @@ import co.tton.qcloud.system.service.ISysUserService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/system/user")
+@RequestMapping("/system/user")
 public class SysUserController extends BaseController
 {
     private String prefix = "system/user";

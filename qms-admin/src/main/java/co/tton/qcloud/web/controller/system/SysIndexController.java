@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/")
 public class SysIndexController extends BaseController
 {
     @Autowired
