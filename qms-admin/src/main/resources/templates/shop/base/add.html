@@ -3,18 +3,19 @@
 <head>
     <th:block th:include="include :: header('新增商家信息')" />
     <link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">
+    <th:block th:include="include :: jasny-bootstrap-css" />
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">
 
-
-    <link rel="stylesheet" type="text/css"
-          href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="/assets/global/plugins/bootstrap-datetimepicker/css/datetimepicker.css"/>
-    <script type="text/javascript"
-            src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-    <script type="text/javascript"
-            src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript"
-            src="/assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <!--<link rel="stylesheet" type="text/css"-->
+          <!--href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>-->
+    <!--<link rel="stylesheet" type="text/css"-->
+          <!--href="/assets/global/plugins/bootstrap-datetimepicker/css/datetimepicker.css"/>-->
+    <!--<script type="text/javascript"-->
+            <!--src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="/assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>-->
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -48,28 +49,28 @@
                     <div class="col-sm-8">
                         <!--<input name="shopHoursBegin" class="form-control" type="text" maxlength="30" required>-->
 
-                        <div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">
-                            <div class="input-group">
-                                <input type="text" id="startTime" name="startTime"
-                                       readonly="readonly" class="form-control timepicker timepicker-default"
-                                       placeholder="从">
-                                <span class="input-group-btn">
-                                   <button class="btn default" type="button">
-                                           <i class="fa fa-clock-o"></i>
-                                   </button>
-                                </span>
-                            </div>
-                        </div>
+                        <!--<div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">-->
+                            <!--<div class="input-group">-->
+                                <!--<input type="text" id="startTime" name="startTime"-->
+                                       <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
+                                       <!--placeholder="从">-->
+                                <!--<span class="input-group-btn">-->
+                                   <!--<button class="btn default" type="button">-->
+                                           <!--<i class="fa fa-clock-o"></i>-->
+                                   <!--</button>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" id="endTime" name="endTime"
-                                       readonly="readonly" class="form-control timepicker timepicker-default"
-                                       placeholder="到">
-                                <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-clock-o"></i>
-                                        </button>
-                                    </span>
+                                <!--<input type="text" id="endTime" name="endTime"-->
+                                       <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
+                                       <!--placeholder="到">-->
+                                <!--<span class="input-group-btn">-->
+                                        <!--<button class="btn default" type="button">-->
+                                            <!--<i class="fa fa-clock-o"></i>-->
+                                        <!--</button>-->
+                                    <!--</span>-->
                             </div>
                         </div>
                     </div>
@@ -193,9 +194,11 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">封面图片：</label>
-                    <div class="col-sm-8">
-                        <input name="coverImg" class="form-control" type="text" maxlength="30" required>
-                    </div>
+                        <div class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
+                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                            <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
+                            <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
+                        </div>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -260,46 +263,16 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">个人二维码图片：</label>
-                    <div class="col-sm-8">
+                    <!--<div class="col-sm-8">-->
                         <!--<div class="input-group">-->
                             <!--<input name="wechatNoImg" type="text" class="form-control" required>-->
                         <!--</div>-->
-
-
-                        <!--上传-->
-
-                            <!--<div class="clearfix"></div>-->
-                            <!--<div class="input-group file-caption-main">-->
-                                <!--<div class="file-caption form-control  kv-fileinput-caption">-->
-                                    <!--<span class="file-caption-icon"></span>-->
-                                    <!--<input class="file-caption-name" onkeydown="return false;" onpaste="return false;" placeholder="选择 个文件...">-->
-                                <!--</div>-->
-                                <!--<div class="input-group-btn input-group-append">-->
-                                    <!--<button type="button" title="清除选中文件" class="btn btn-default btn-secondary fileinput-remove fileinput-remove-button">-->
-                                        <!--<i class="glyphicon glyphicon-trash">-->
-                                        <!--</i>-->
-                                        <!--<span class="hidden-xs">移除</span>-->
-                                    <!--</button>-->
-                                    <!--&lt;!&ndash;<button type="button" title="取消进行中的上传" class="btn btn-default btn-secondary kv-hidden fileinput-cancel fileinput-cancel-button">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i class="glyphicon glyphicon-ban-circle">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<span class="hidden-xs">取消</span>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</button>&ndash;&gt;-->
-                                    <!--<button type="submit" title="上传选中文件" class="btn btn-default btn-secondary fileinput-upload fileinput-upload-button">-->
-                                        <!--<i class="glyphicon glyphicon-upload">-->
-                                        <!--</i>-->
-                                        <!--<span class="hidden-xs">上传</span>-->
-                                    <!--</button>-->
-                                    <!--<div class="btn btn-primary btn-file">-->
-                                        <!--<i class="glyphicon glyphicon-folder-open">-->
-                                        <!--</i>&nbsp;-->
-                                        <!--<span class="hidden-xs">选择 …</span>-->
-                                        <!--<input name="img" class="file" type="file" multiple="" data-min-file-count="1" data-theme="fas" id="1569155503448_91">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                    </div>
+                        <div class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
+                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                            <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
+                            <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
+                        </div>
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -316,11 +289,16 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">微信公众号图片：</label>
-                    <div class="col-sm-8">
-                        <div class="input-group">
-                            <input name="wechatPlatformImg" type="text" class="form-control" required>
+                    <!--<div class="col-sm-8">-->
+                        <!--<div class="input-group">-->
+                            <!--<input name="wechatPlatformImg" type="text" class="form-control" required>-->
+                        <!--</div>-->
+                        <div class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
+                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                            <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
+                            <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
                         </div>
-                    </div>
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -426,6 +404,8 @@
 </div>
 
 <th:block th:include="include :: footer" />
+<th:block th:include="include :: jasny-bootstrap-js" />
+<script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
 <script type="text/javascript">
     var prefix = "/shop"
     $("#form-shop-add").validate({
@@ -434,9 +414,10 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            $.operate.save(prefix + "/add", $('#form-shop-add').serialize());
+            $.operate.saveAndUpload(prefix+"/add",$('#form-shop-add'));
         }
     }
+
 
     function openClick(that){
         if($(that).attr('checked')){
@@ -447,8 +428,8 @@
             $(that).parent().find('input').eq(1).val(1);
         }
     }
-    var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
-    $("#startTime").val(nowTime).timepicker('setTime', nowTime);
+    // var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
+    // $("#startTime").val(nowTime).timepicker('setTime', nowTime);
 </script>
 </body>
 </html>
