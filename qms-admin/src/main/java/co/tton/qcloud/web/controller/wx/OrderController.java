@@ -58,10 +58,10 @@ public class OrderController extends BaseController {
             if(tOrder.getUseStatus() == "USED"){
                 tOrder.setWxStatus("待评价");
             }
-            if (tOrder.getUseStatus() == "已过期"){
+            if (tOrder.getUseStatus() == "EXPIRED"){
                 tOrder.setWxStatus("已过期");
             }
-            if(tOrder.getBillStatus() == "已完成"){
+            if(tOrder.getBillStatus() == "FINISHED"){
                 tOrder.setWxStatus("已评价");
             }
         }
