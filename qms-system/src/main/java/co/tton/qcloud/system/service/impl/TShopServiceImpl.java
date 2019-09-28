@@ -58,8 +58,8 @@ public class TShopServiceImpl implements ITShopService
     @Override
     public int insertTShop(TShop tShop)
     {
-//        tShop.setId(StringUtils.genericId());
-//        tShop.setCreateTime(DateUtils.getNowDate());
+        tShop.setId(StringUtils.genericId());
+        tShop.setCreateTime(DateUtils.getNowDate());
         return tShopMapper.insertTShop(tShop);
     }
 

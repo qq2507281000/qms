@@ -42,11 +42,7 @@ public class CouponController extends BaseController {
     public AjaxResult<List<TCouponUseLogModel>> getCouponList(@RequestParam(value = "id") String memberId){
         if(StringUtils.isNotEmpty(memberId)){
             List<TCouponUseLogModel> list = iTCouponService.getCouponList(memberId);
-            if(StringUtils.isNotEmpty(list)){
-                return AjaxResult.success("优惠劵查询成功",list);
-            }else{
-                return AjaxResult.success("查询失败");
-            }
+            return AjaxResult.success("优惠劵查询成功",list);
         }else{
             return AjaxResult.error("会员ID错误");
         }
