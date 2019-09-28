@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('课程图片 建议使用minio列表')" />
+    <th:block th:include="include :: header('课程图片列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -81,7 +81,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "课程图片 建议使用minio",
+                modalName: "课程图片",
                 columns: [{
                     checkbox: true
                 },
@@ -100,7 +100,10 @@
                 },
                 {
                     field : 'imageUrl', 
-                    title : '课程图片地址'
+                    title : '课程图片地址',
+                    formatter: function(value, row, index) {
+                        return '<img src="/resource-file/'+value+'" class="banner-image"></img>';
+                    }
                 },
                 {
                     field : 'sortKey', 

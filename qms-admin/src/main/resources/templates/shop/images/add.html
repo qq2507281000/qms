@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('新增课程图片 建议使用minio')" />
+    <th:block th:include="include :: header('新增课程图片')" />
+    <th:block th:include="include :: jasny-bootstrap-css" />
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -21,9 +23,10 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">课程图片地址：</label>
-                <div class="col-sm-8">
-                    <div id="summernote"></div>
-<!--                    <textarea  name="imageUrl" class="form-control"></textarea>-->
+                <div id="img_fileupload" class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
+                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                    <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
+                    <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
                 </div>
             </div>
             <div class="form-group">    
@@ -54,12 +57,8 @@
     </div>
     <th:block th:include="include :: footer" />
 
-    <!-- 插件引入 -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
-    <!--引入中文JS包-->
-    <script src="https://cdn.bootcss.com/summernote/0.8.10/lang/summernote-zh-CN.js"></script>
+    <th:block th:include="include :: jasny-bootstrap-js" />
+    <script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
 
 
     <script type="text/javascript">
@@ -70,49 +69,9 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-images-add').serialize());
+                $.operate.saveAndUpload(prefix + "/add", $('#form-images-add'));
             }
         }
-
-        $("#summernote").summernote({
-            lang : 'zh-CN',// 语言
-            height : 496, // 高度
-            minHeight : 300, // 最小高度
-            placeholder : '请输入文章内容', // 提示
-            // summernote自定义配置
-            toolbar: [
-                ['operate', ['undo','redo']],
-                ['magic',['style']],
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['para', ['height','fontsize','ul', 'ol', 'paragraph']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['color', ['color']],
-                ['insert',['picture','video','link','table','hr']],
-                ['layout',['fullscreen','codeview']],
-            ],
-            callbacks : { // 回调函数
-                // 上传图片时使用的回调函数   因为我们input选择的本地图片是二进制图片，需要把二进制图片上传服务器，服务器再返回图片url，就需要用到callback这个回调函数
-                onImageUpload : function(files) {
-                    var form =new FormData();
-                    form.append('myFileName',files[0])  //myFileName 是上传的参数名，一定不能写错
-                    $.ajax({
-                        type:"post",
-                        url:"${path}/Img/upload", //上传服务器地址
-
-
-                        dataType:'json',
-                        data:form,
-                        processData : false,
-                        contentType : false,
-                        cache : false,
-                        success:function(data){
-                            console.log(data.data)
-                            $('#summernote').summernote('editor.insertImage',data.data);
-                        }
-                    })
-                }
-            }
-        });
     </script>
 </body>
 </html>

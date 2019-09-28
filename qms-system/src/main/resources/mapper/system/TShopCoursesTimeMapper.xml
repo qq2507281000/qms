@@ -100,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteTShopCoursesTimeByIds" parameterType="String">
         update t_shop_courses_time
         <trim prefix="SET" suffixOverrides=",">
-            flag = 2s
+            flag = 1
         </trim>
         where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">

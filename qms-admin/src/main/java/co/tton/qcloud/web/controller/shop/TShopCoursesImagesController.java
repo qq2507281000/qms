@@ -2,16 +2,21 @@ package co.tton.qcloud.web.controller.shop;
 
 import java.util.List;
 
+import cn.hutool.core.date.DateUtil;
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.service.ITShopCoursesService;
+import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,6 +26,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import co.tton.qcloud.system.domain.TShopCoursesImages;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -42,6 +48,9 @@ public class TShopCoursesImagesController extends BaseController
 
     @Autowired
     private ITShopCoursesService tShopCoursesService;
+
+    @Autowired
+    private MinioFileService minioFileService;
 
 
     @RequiresPermissions("shop:images:view")
@@ -109,9 +118,38 @@ public class TShopCoursesImagesController extends BaseController
     @ResponseBody
     @ApiOperation("新增课程图片信息")
     @RoleScope(roleDefined={"ADMIN","SHOP"})
-    public AjaxResult addSave(TShopCoursesImages tShopCoursesImages)
-    {
-        return toAjax(tShopCoursesImagesService.insertTShopCoursesImages(tShopCoursesImages));
+    public AjaxResult addSave(TShopCoursesImages tShopCoursesImages) {
+        try {
+            SysUser currentUser = ShiroUtils.getSysUser();
+
+            String id = StringUtils.genericId();
+            tShopCoursesImages.setId(id);
+
+            if (tShopCoursesImages.getParams().containsKey("file")) {
+                MultipartFile file = (MultipartFile) tShopCoursesImages.getParams().get("file");
+                if (file != null) {
+                    String fileName = minioFileService.upload(file);
+                    tShopCoursesImages.setImageUrl(fileName);
+
+                    tShopCoursesImages.setFlag(Constants.DATA_NORMAL);
+                    tShopCoursesImages.setCreateBy(currentUser.getUserId().toString());
+                    tShopCoursesImages.setCreateTime(DateUtil.date());
+                    tShopCoursesImagesService.insertTShopCoursesImages(tShopCoursesImages);
+                    return AjaxResult.success("数据保存成功。");
+                }
+                else {
+                    return AjaxResult.error("未能获取上传文件内容。");
+                }
+            }
+            else{
+                return AjaxResult.error("请选择图片上传。");
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("保存课程图片时发生异常。",ex);
+            return AjaxResult.error("保存课程图片时发生异常。");
+        }
     }
 
     /**

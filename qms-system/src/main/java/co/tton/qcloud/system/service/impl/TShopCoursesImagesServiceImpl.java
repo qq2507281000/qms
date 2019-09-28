@@ -3,6 +3,7 @@ package co.tton.qcloud.system.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
@@ -45,7 +46,7 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
     @Override
     public List<TShopCoursesImages> selectTShopCoursesImagesList(TShopCoursesImages tShopCoursesImages)
     {
-        tShopCoursesImages.setFlag(1);
+        tShopCoursesImages.setFlag(Constants.DATA_NORMAL);
         return tShopCoursesImagesMapper.selectTShopCoursesImagesList(tShopCoursesImages);
     }
 
@@ -58,7 +59,6 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
     @Override
     public int insertTShopCoursesImages(TShopCoursesImages tShopCoursesImages)
     {
-        tShopCoursesImages.setId(StringUtils.genericId());
         tShopCoursesImages.setCreateTime(DateUtils.getNowDate());
         return tShopCoursesImagesMapper.insertTShopCoursesImages(tShopCoursesImages);
     }

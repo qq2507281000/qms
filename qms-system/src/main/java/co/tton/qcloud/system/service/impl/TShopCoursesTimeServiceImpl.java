@@ -2,6 +2,7 @@ package co.tton.qcloud.system.service.impl;
 
 import java.util.List;
 
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
@@ -44,7 +45,7 @@ public class TShopCoursesTimeServiceImpl implements ITShopCoursesTimeService
     @Override
     public List<TShopCoursesTime> selectTShopCoursesTimeList(TShopCoursesTime tShopCoursesTime)
     {
-        tShopCoursesTime.setFlag(1);
+        tShopCoursesTime.setFlag(Constants.DATA_NORMAL);
         return tShopCoursesTimeMapper.selectTShopCoursesTimeList(tShopCoursesTime);
     }
 

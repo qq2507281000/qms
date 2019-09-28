@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.service.impl;
 
 import java.util.List;
+
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
@@ -43,6 +45,7 @@ public class TCategoryServiceImpl implements ITCategoryService
     @Override
     public List<TCategory> selectTCategoryList(TCategory tCategory)
     {
+        tCategory.setFlag(Constants.DATA_NORMAL);
         return tCategoryMapper.selectTCategoryList(tCategory);
     }
 
@@ -79,9 +82,9 @@ public class TCategoryServiceImpl implements ITCategoryService
      * @return 结果
      */
     @Override
-    public int deleteTCategoryByIds(String ids)
+    public int deleteTCategoryByIds(String id)
     {
-        return tCategoryMapper.deleteTCategoryByIds(Convert.toStrArray(ids));
+        return tCategoryMapper.deleteTCategoryByIds(Convert.toStrArray(id));
     }
 
     /**

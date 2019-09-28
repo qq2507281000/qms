@@ -167,7 +167,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteTShopCoursesByIds" parameterType="String">
         update t_shop_courses
         <trim prefix="SET" suffixOverrides=",">
-            flag = 2
+            flag = 1
         </trim>
         where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
@@ -193,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         WHERE
             tsc.id = #{id}
-            AND tsc.flag = 1
+            AND tsc.flag = 0
     </select>
 
     <select id="getSuggestCourses"  resultMap="TShopCoursesModelResult">
@@ -210,7 +210,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId == null  and shopId == ''"> and tsc.suggest = 1</if>
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
             <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
-            AND tsc.flag = 1
+            AND tsc.flag = 0
         </where>
     </select>
 

@@ -54,10 +54,10 @@ public interface TCategoryMapper
     /**
      * 批量删除分类基础
      * 
-     * @param ids 需要删除的数据ID
+     * @param id 需要删除的数据ID
      * @return 结果
      */
-    public int deleteTCategoryByIds(String[] ids);
+    public int deleteTCategoryByIds(String[] id);
 
     /**
      * 获取顶级分类
