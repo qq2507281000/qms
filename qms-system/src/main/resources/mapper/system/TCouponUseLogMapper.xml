@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.tton.qcloud.system.mapper.TCouponUseLogMapper">
-    
+
     <resultMap type="TCouponUseLog" id="TCouponUseLogResult">
         <result property="id"    column="id"    />
         <result property="couponId"    column="coupon_id"    />
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTCouponUseLogList" parameterType="TCouponUseLog" resultMap="TCouponUseLogResult">
         <include refid="selectTCouponUseLogVo"/>
-        <where>  
+        <where>
             <if test="couponId != null  and couponId != ''"> and coupon_id = #{couponId}</if>
             <if test="sno != null  and sno != ''"> and sno = #{sno}</if>
             <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
@@ -48,12 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
         </where>
     </select>
-    
+
     <select id="selectTCouponUseLogById" parameterType="String" resultMap="TCouponUseLogResult">
         <include refid="selectTCouponUseLogVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertTCouponUseLog" parameterType="TCouponUseLog">
         insert into t_coupon_use_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -72,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="updateTime != null ">update_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
             <if test="couponId != null  and couponId != ''">#{couponId},</if>
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateTCouponUseLog" parameterType="TCouponUseLog">
@@ -118,7 +118,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTCouponUseLogByIds" parameterType="String">
-        delete from t_coupon_use_log where id in 
+        delete from t_coupon_use_log where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -137,7 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t.ava_end_time >= now()
             and t.use_status = '未使用'
             and t.receive_status = '已领取'
-            and t. status = '有效'
+            and t.status = '有效'
             and t.flag = 1
             <if test="_parameter != null  and _parameter != ''"> and log.member_id = #{memberId}</if>
         </where>

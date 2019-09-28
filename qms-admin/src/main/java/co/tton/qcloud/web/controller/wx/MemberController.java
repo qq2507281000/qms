@@ -73,14 +73,14 @@ public class MemberController extends BaseController {
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
     public AjaxResult upMemberBabyInfo(@RequestParam(value = "id") String memberBabyId,
-                                           @RequestParam(value = "realName",required = false) String realName,
-                                           @RequestParam(value = "sex",required = false)Integer sex,
-                                           @RequestParam(value = "birthday",required = false)String birthday){
+                                       @RequestParam(value = "realName") String realName,
+                                       @RequestParam(value = "sex")Integer sex,
+                                       @RequestParam(value = "birthday")String birthday){
         if(StringUtil.isNotEmpty(memberBabyId)){
-          int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
-          return AjaxResult.success("修改会员子女信息成功",number);
+            int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
+            return AjaxResult.success("修改会员子女信息成功",number);
         }else{
-          return AjaxResult.error("会员ID错误");
+            return AjaxResult.error("会员ID错误");
         }
     }
 
@@ -93,15 +93,15 @@ public class MemberController extends BaseController {
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getMemberYearMoney",method = RequestMethod.GET)
     public AjaxResult<List> upMemberBabyInfo(){
-      //会员年费97.00和会员描述暂时写固定值
-            //会员年费
-            double memberYearMoney = 97.00F;
-            //会员描述
-            String member ="12月年费超级VIP";
-            List memberYearList = new ArrayList();
-            memberYearList.add(memberYearMoney);
-            memberYearList.add(member);
-            return AjaxResult.success("修改会员子女信息成功",memberYearList);
+        //会员年费97.00和会员描述暂时写固定值
+        //会员年费
+        double memberYearMoney = 97.00F;
+        //会员描述
+        String member ="12月年费超级VIP";
+        List memberYearList = new ArrayList();
+        memberYearList.add(memberYearMoney);
+        memberYearList.add(member);
+        return AjaxResult.success("修改会员子女信息成功",memberYearList);
     }
 
 }

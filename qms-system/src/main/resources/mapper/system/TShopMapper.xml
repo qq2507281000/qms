@@ -244,7 +244,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join t_order de on shop.id = de.shop_id
         <where>
             shop.flag = 1
-            <if test="_parameter != null  and _parameter  != ''">shop.id = #{id}</if>
+            <if test="_parameter != null  and _parameter  != ''">and shop.id = #{id}</if>
         </where>
         order by shop.sort_key
     </select>
