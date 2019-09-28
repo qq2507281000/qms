@@ -1,10 +1,12 @@
 package co.tton.qcloud.web.controller.shop;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
@@ -19,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,11 +51,18 @@ public class TShopCoursesController extends BaseController
 
     @RequiresPermissions("shop:courses:view")
     @GetMapping()
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public String courses(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
         mmap.put("shopId", "");
-        if(StringUtils.isNotEmpty(shopId)) {
-            mmap.put("shopId", shopId);
+        SysUser user = ShiroUtils.getSysUser();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            mmap.put("shopId",user.getShopId());
+        }
+        else{
+            if(StringUtils.isNotEmpty(shopId)){
+                mmap.put("shopId", shopId);
+            }
         }
         return prefix + "/list";
     }
@@ -98,6 +108,7 @@ public class TShopCoursesController extends BaseController
      * 新增课程基本信息
      */
     @GetMapping("/add")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public String add()
     {
         return prefix + "/add";
@@ -114,26 +125,35 @@ public class TShopCoursesController extends BaseController
     @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult addSave(TShopCourses tShopCourses) throws IOException {
         try {
-            SysUser currentUser = ShiroUtils.getSysUser();
+            SysUser user = ShiroUtils.getSysUser();
+
             String id = StringUtils.genericId();
             tShopCourses.setId(id);
 
-            if (tShopCourses.getParams().containsKey("file")){
-                //新文件上传
-                MultipartFile file = (MultipartFile)tShopCourses.getParams().get("file");
-                if (file !=null){
-                    String fileName = minioFileService.upload(file);
-                    TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
-                    tShopCoursesImages.setImageUrl(fileName);
-                    return AjaxResult.success("数据保存成功。");
-                }
-                else {
-                    return AjaxResult.error("未能获取上传文件内容。");
-                }
+            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+                tShopCourses.setShopId(user.getShopId());
             }
-            else {
-                return AjaxResult.error("请选择图片上传。");
-            }
+            tShopCourses.setFlag(Constants.DATA_NORMAL);
+            tShopCourses.setCreateTime(new Date());
+            tShopCourses.setCreateBy(user.getUserId().toString());
+            return toAjax(tShopCoursesService.insertTShopCourses(tShopCourses));
+
+//            if (tShopCourses.getParams().containsKey("file")){
+//                //新文件上传
+//                MultipartFile file = (MultipartFile)tShopCourses.getParams().get("file");
+//                if (file !=null){
+//                    String fileName = minioFileService.upload(file);
+//                    TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
+//                    tShopCoursesImages.setImageUrl(fileName);
+//                    return AjaxResult.success("数据保存成功。");
+//                }
+//                else {
+//                    return AjaxResult.error("未能获取上传文件内容。");
+//                }
+//            }
+//            else {
+//                return AjaxResult.error("请选择图片上传。");
+//            }
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -146,6 +166,7 @@ public class TShopCoursesController extends BaseController
      * 修改课程基本信息
      */
     @GetMapping("/edit/{id}")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
         TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesById(id);

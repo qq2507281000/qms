@@ -133,8 +133,23 @@
         function addCourses() {
             if ($.validate.form()) {
                 //$.operate.saveAndUpload(prefix + "/add", $('#form-courses-add'));
-                var node = $('.summernote').summernote('code');
-                $.operate.save(prefix+"/add",$('#form-courses-add').serialize());
+                var note = $('.summernote').summernote('code');
+                // var data = $('#form-courses-add').serialize();
+                // var formData = new FormData();
+                // // formData.append("params[file]", file);
+                // data.split('&').forEach(function(item){
+                //     var is = item.split('=');
+                //     var name = decodeURIComponent(is[0]);
+                //     var val = decodeURIComponent(is[1]);
+                //     console.log("name["+name+"]-->value["+val+"]");
+                //     formData.append(name,val);
+                // });
+                // data += "&contentHtml=" + note;
+                // formData.append("contentHtml",note);
+                // console.log(data);
+                //formData.append("content_html",decodeURI(note));
+                //$.operate.save(prefix+"/add",formData);
+                $.operate.saveHtml(prefix+"/add",$('#form-courses-add'),"contentHtml",note);
             }
         }
         //

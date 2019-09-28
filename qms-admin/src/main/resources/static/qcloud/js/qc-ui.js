@@ -1061,6 +1061,38 @@
         	    };
         	    $.ajax(config)
             },
+			// 保存信息 刷新表格
+			saveHtml: function(url, form, field, note, callback) {
+				var data = $(form).serialize();
+				data = decodeURIComponent(data);
+				var formData = new FormData();
+				data.split('&').forEach(function(item){
+					var is = item.split('=');
+					var name = decodeURIComponent(is[0]);
+					var val = decodeURIComponent(is[1]);
+					formData.append(name,val);
+				});
+				formData.append(field,note);
+				console.log(formData);
+				$.ajax({
+					url: url,
+					data: formData,
+					cache: false,
+					contentType: false,
+					processData: false,
+					type: 'POST',
+					beforeSend: function(){
+						$.modal.loading("正在处理中，请稍后...");
+						$.modal.disable();
+					},
+					success: function (result) {
+						if (typeof callback == "function") {
+							callback(result);
+						}
+						$.operate.successCallback(result);
+					}
+				});
+			},
 			saveAndUpload: function(url,form,callback){
         		var data = $(form).serialize();
         		console.log("original->"+data);
