@@ -179,36 +179,36 @@
             <!-- 定时任务-->
 			<dependency>
 				<groupId>co.tton.qcloud</groupId>
-				<artifactId>ruoyi-quartz</artifactId>
-				<version>${ruoyi.version}</version>
+				<artifactId>qcloud-quartz</artifactId>
+				<version>${qcloud.version}</version>
 			</dependency>
 	
 			<!-- 代码生成-->
 			<dependency>
 				<groupId>co.tton.qcloud</groupId>
-				<artifactId>ruoyi-generator</artifactId>
-				<version>${ruoyi.version}</version>
+				<artifactId>qcloud-generator</artifactId>
+				<version>${qcloud.version}</version>
 			</dependency>
 			
 			<!-- 核心模块-->
 			<dependency>
 				<groupId>co.tton.qcloud</groupId>
-				<artifactId>ruoyi-framework</artifactId>
-				<version>${ruoyi.version}</version>
+				<artifactId>qcloud-framework</artifactId>
+				<version>${qcloud.version}</version>
 			</dependency>
 			
 	        <!-- 系统模块-->
 			<dependency>
 				<groupId>co.tton.qcloud</groupId>
-				<artifactId>ruoyi-system</artifactId>
-				<version>${ruoyi.version}</version>
+				<artifactId>qcloud-system</artifactId>
+				<version>${qcloud.version}</version>
 			</dependency>
 			
 			<!-- 通用工具-->
 	        <dependency>
 	            <groupId>co.tton.qcloud</groupId>
-	            <artifactId>ruoyi-common</artifactId>
-	            <version>${ruoyi.version}</version>
+	            <artifactId>qcloud-common</artifactId>
+	            <version>${qcloud.version}</version>
 	        </dependency>
 	        
         </dependencies>
