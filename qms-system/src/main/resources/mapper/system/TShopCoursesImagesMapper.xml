@@ -22,15 +22,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectTShopCoursesImagesList" parameterType="TShopCoursesImages" resultMap="TShopCoursesImagesResult">
-        <include refid="selectTShopCoursesImagesVo"/>
+        SELECT
+            tsci.*,
+            ts.`name` AS shopName,
+            tsc.title
+        FROM
+            t_shop_courses_images tsci
+        INNER JOIN t_shop ts ON tsci.shop_id = ts.id
+        INNER JOIN t_shop_courses tsc ON tsci.courses_id = tsc.id
         <where>  
-            <if test="shopId != null  and shopId != ''"> and shop_id = #{shopId}</if>
-            <if test="coursesId != null  and coursesId != ''"> and courses_id = #{coursesId}</if>
-            <if test="imageUrl != null  and imageUrl != ''"> and image_url = #{imageUrl}</if>
-            <if test="sortKey != null "> and sort_key = #{sortKey}</if>
-            <if test="flag != null "> and flag = #{flag}</if>
-            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
-            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="shopId != null  and shopId != ''"> and tsci.shop_id = #{shopId}</if>
+            <if test="coursesId != null  and coursesId != ''"> and tsci.courses_id = #{coursesId}</if>
+            <if test="imageUrl != null  and imageUrl != ''"> and tsci.image_url = #{imageUrl}</if>
+            <if test="sortKey != null "> and tsci.sort_key = #{sortKey}</if>
+            <if test="flag != null "> and tsci.flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and tsci.create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and tsci.update_by = #{updateBy}</if>
         </where>
     </select>
     

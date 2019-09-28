@@ -70,21 +70,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectTShopCoursesList" parameterType="TShopCourses" resultMap="TShopCoursesResult">
-        <include refid="selectTShopCoursesVo"/>
-        <where>  
-            <if test="shopId != null  and shopId != ''"> and shop_id = #{shopId}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="subTitle != null  and subTitle != ''"> and sub_title = #{subTitle}</if>
-            <if test="contentHtml != null  and contentHtml != ''"> and content_html = #{contentHtml}</if>
-            <if test="suggest != null "> and suggest = #{suggest}</if>
-            <if test="salesCount != null "> and sales_count = #{salesCount}</if>
-            <if test="avaiable != null "> and avaiable = #{avaiable}</if>
-            <if test="sortKey != null "> and sort_key = #{sortKey}</if>
-            <if test="flag != null "> and flag = #{flag}</if>
-            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
-            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
-            <if test="sku != null  and sku != ''"> and sku = #{sku}</if>
-            <if test="useDiscount != null "> and use_discount = #{useDiscount}</if>
+        SELECT
+            tsc.*,
+            ts.`name` AS shopName
+        FROM
+            t_shop_courses tsc
+        LEFT JOIN t_shop ts ON tsc.shop_id = ts.id
+        <where>
+            <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
+            <if test="title != null  and title != ''"> and tsc.title = #{title}</if>
+            <if test="subTitle != null  and subTitle != ''"> and tsc.sub_title = #{subTitle}</if>
+            <if test="contentHtml != null  and contentHtml != ''"> and tsc.content_html = #{contentHtml}</if>
+            <if test="suggest != null "> and tsc.suggest = #{suggest}</if>
+            <if test="salesCount != null "> and tsc.sales_count = #{salesCount}</if>
+            <if test="avaiable != null "> and tsc.avaiable = #{avaiable}</if>
+            <if test="sortKey != null "> and tsc.sort_key = #{sortKey}</if>
+            <if test="flag != null "> and tsc.flag = #{flag}</if>
+            <if test="createBy != null  and createBy != ''"> and tsc.create_by = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and tsc.update_by = #{updateBy}</if>
+            <if test="sku != null  and sku != ''"> and tsc.sku = #{sku}</if>
+            <if test="useDiscount != null "> and tsc.use_discount = #{useDiscount}</if>
         </where>
     </select>
     
