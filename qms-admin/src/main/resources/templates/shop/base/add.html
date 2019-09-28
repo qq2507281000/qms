@@ -5,17 +5,21 @@
     <link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">
     <th:block th:include="include :: jasny-bootstrap-css" />
     <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">
+    <th:block th:include="include :: datetimepicker-css" />
 
-    <!--<link rel="stylesheet" type="text/css"-->
-          <!--href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>-->
-    <!--<link rel="stylesheet" type="text/css"-->
-          <!--href="/assets/global/plugins/bootstrap-datetimepicker/css/datetimepicker.css"/>-->
-    <!--<script type="text/javascript"-->
-            <!--src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>-->
+    <script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.zh-CN.js}"></script>z
+    <script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.css}"></script>
+    <script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.js}"></script>
+
     <!--<script type="text/javascript"-->
             <!--src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>-->
     <!--<script type="text/javascript"-->
             <!--src="/assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>-->
+    <!--<link rel="stylesheet" type="text/css"-->
+          <!--href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>-->
+    <!--<script type="text/javascript"-->
+            <!--src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>-->
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -49,28 +53,29 @@
                     <div class="col-sm-8">
                         <!--<input name="shopHoursBegin" class="form-control" type="text" maxlength="30" required>-->
 
-                        <!--<div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">-->
-                            <!--<div class="input-group">-->
-                                <!--<input type="text" id="startTime" name="startTime"-->
-                                       <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
-                                       <!--placeholder="从">-->
-                                <!--<span class="input-group-btn">-->
-                                   <!--<button class="btn default" type="button">-->
-                                           <!--<i class="fa fa-clock-o"></i>-->
-                                   <!--</button>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">
+                            <div class="input-group">
+                                <input type="text" id="shopHoursBegin" name="shopHoursBegin"
+                                       readonly="readonly" class="form-control timepicker timepicker-default"
+                                       placeholder="从">
+                                <span class="input-group-btn">
+                                   <button class="btn default" type="button">
+                                           <i class="fa fa-clock-o"></i>
+                                   </button>
+                                </span>
+                            </div>
+                        </div>
+
                         <div class="col-md-4">
                             <div class="input-group">
-                                <!--<input type="text" id="endTime" name="endTime"-->
-                                       <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
-                                       <!--placeholder="到">-->
-                                <!--<span class="input-group-btn">-->
-                                        <!--<button class="btn default" type="button">-->
-                                            <!--<i class="fa fa-clock-o"></i>-->
-                                        <!--</button>-->
-                                    <!--</span>-->
+                                <input type="text" id="shopHoursEnd" name="shopHoursEnd"
+                                       readonly="readonly" class="form-control timepicker timepicker-default"
+                                       placeholder="到">
+                                <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-clock-o"></i>
+                                        </button>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -428,8 +433,8 @@
             $(that).parent().find('input').eq(1).val(1);
         }
     }
-    // var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
-    // $("#startTime").val(nowTime).timepicker('setTime', nowTime);
+    var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
+    $("#shopHoursBegin").val(nowTime).timepicker('setTime', nowTime);
 </script>
 </body>
 </html>
