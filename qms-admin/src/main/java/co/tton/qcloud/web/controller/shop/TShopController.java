@@ -3,12 +3,15 @@ package co.tton.qcloud.web.controller.shop;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.ServletUtils;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -60,6 +63,7 @@ public class TShopController extends BaseController
     @RequiresPermissions("shop:list")
     @PostMapping("/list")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public TableDataInfo list(TShop tShop)
     {
         startPage();
@@ -84,6 +88,7 @@ public class TShopController extends BaseController
     @Log(title = "商家信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult addSave(TShop tShop)
     {
         return toAjax(tShopService.insertTShop(tShop));
@@ -109,8 +114,18 @@ public class TShopController extends BaseController
     @Log(title = "商家信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult editSave(TShop tShop)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            if(user.getShopId() == tShop.getId()){
+                return toAjax(tShopService.updateTShop(tShop));
+            }
+            else{
+                return error("不能修改其他商家信息。");
+            }
+        }
         return toAjax(tShopService.updateTShop(tShop));
     }
 
@@ -122,6 +137,7 @@ public class TShopController extends BaseController
     @Log(title = "商家信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopService.deleteTShopByIds(ids));

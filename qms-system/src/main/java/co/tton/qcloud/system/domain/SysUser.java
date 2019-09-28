@@ -69,6 +69,11 @@ public class SysUser extends BaseEntity
      */
     private String category;
 
+    /***
+     * 如果用户分类为SHOP的时候，则填入ShopId
+     */
+    private String shopId;
+
     /** 盐加密 */
     private String salt;
 
@@ -329,6 +334,14 @@ public class SysUser extends BaseEntity
     public void setPostIds(Long[] postIds)
     {
         this.postIds = postIds;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
     @Override

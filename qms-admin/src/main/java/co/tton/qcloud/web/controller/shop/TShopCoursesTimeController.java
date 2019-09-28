@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.shop;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
@@ -58,6 +59,7 @@ public class TShopCoursesTimeController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("查询课程时间信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId,TShopCoursesTime tShopCoursesTime)
     {
         startPage();
@@ -103,6 +105,7 @@ public class TShopCoursesTimeController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("新增课程时间信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult addSave(TShopCoursesTime tShopCoursesTime)
     {
         return toAjax(tShopCoursesTimeService.insertTShopCoursesTime(tShopCoursesTime));
@@ -127,6 +130,7 @@ public class TShopCoursesTimeController extends BaseController
     @PostMapping("/edit")
     @ResponseBody
     @ApiOperation("修改课程时间信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult editSave(TShopCoursesTime tShopCoursesTime)
     {
         return toAjax(tShopCoursesTimeService.updateTShopCoursesTime(tShopCoursesTime));
@@ -140,6 +144,7 @@ public class TShopCoursesTimeController extends BaseController
     @PostMapping( "/remove")
     @ResponseBody
     @ApiOperation("删除课程时间信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesTimeService.deleteTShopCoursesTimeByIds(ids));

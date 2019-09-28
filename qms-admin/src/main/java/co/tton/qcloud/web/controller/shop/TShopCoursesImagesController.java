@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.shop;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
@@ -61,6 +62,7 @@ public class TShopCoursesImagesController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("查询课程图片信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId,TShopCoursesImages tShopCoursesImages)
     {
         startPage();
@@ -106,6 +108,7 @@ public class TShopCoursesImagesController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("新增课程图片信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult addSave(TShopCoursesImages tShopCoursesImages)
     {
         return toAjax(tShopCoursesImagesService.insertTShopCoursesImages(tShopCoursesImages));
@@ -130,6 +133,7 @@ public class TShopCoursesImagesController extends BaseController
     @PostMapping("/edit")
     @ResponseBody
     @ApiOperation("修改课程图片信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult editSave(TShopCoursesImages tShopCoursesImages)
     {
         return toAjax(tShopCoursesImagesService.updateTShopCoursesImages(tShopCoursesImages));
@@ -143,6 +147,7 @@ public class TShopCoursesImagesController extends BaseController
     @PostMapping( "/remove")
     @ResponseBody
     @ApiOperation("删除课程图片信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesImagesService.deleteTShopCoursesImagesByIds(ids));

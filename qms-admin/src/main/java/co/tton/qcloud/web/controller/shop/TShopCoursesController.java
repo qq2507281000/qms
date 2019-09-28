@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
@@ -63,11 +64,18 @@ public class TShopCoursesController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("获取课程基本信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId, @ApiParam("课程基本信息实体对象")TShopCourses tShopCourses)
     {
         startPage();
-        if(StringUtils.isNotEmpty(shopId)){
-            tShopCourses.setShopId(shopId);
+        SysUser user = ShiroUtils.getSysUser();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            tShopCourses.setShopId(user.getShopId());
+        }
+        else{
+            if(StringUtils.isNotEmpty(shopId)){
+                tShopCourses.setShopId(shopId);
+            }
         }
         List<TShopCourses> list = tShopCoursesService.selectTShopCoursesList(tShopCourses);
         return getDataTable(list);
@@ -103,10 +111,10 @@ public class TShopCoursesController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("新增课程基本信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult addSave(TShopCourses tShopCourses) throws IOException {
         try {
             SysUser currentUser = ShiroUtils.getSysUser();
-
             String id = StringUtils.genericId();
             tShopCourses.setId(id);
 
@@ -153,6 +161,7 @@ public class TShopCoursesController extends BaseController
     @PostMapping("/edit")
     @ResponseBody
     @ApiOperation("修改课程基本信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult editSave(TShopCourses tShopCourses)
     {
         return toAjax(tShopCoursesService.updateTShopCourses(tShopCourses));
@@ -166,6 +175,7 @@ public class TShopCoursesController extends BaseController
     @PostMapping( "/remove")
     @ResponseBody
     @ApiOperation("删除课程基本信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopCoursesService.deleteTShopCoursesByIds(ids));

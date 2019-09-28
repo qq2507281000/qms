@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.order;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
@@ -58,6 +59,7 @@ public class TOrderController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("获取订单列表")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public TableDataInfo list(@RequestParam(value="shop-id",required = false) String shopId, @ApiParam("订单实体对象") TOrder tOrder)
     {
         startPage();
@@ -75,6 +77,7 @@ public class TOrderController extends BaseController
     @PostMapping("/export")
     @ResponseBody
     @ApiOperation("导出订单信息列表")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult export(@ApiParam("订单实体对象") TOrder tOrder)
     {
         List<TOrder> list = tOrderService.selectTOrderList(tOrder);
@@ -99,6 +102,7 @@ public class TOrderController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("保存订单信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult addSave(@ApiParam("订单实体对象") TOrder tOrder)
     {
         return toAjax(tOrderService.insertTOrder(tOrder));
@@ -126,6 +130,7 @@ public class TOrderController extends BaseController
     @PostMapping("/edit")
     @ResponseBody
     @ApiOperation("编辑订单信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult editSave(@ApiParam("订单实体对象") TOrder tOrder)
     {
         return toAjax(tOrderService.updateTOrder(tOrder));
@@ -139,6 +144,7 @@ public class TOrderController extends BaseController
     @PostMapping( "/remove")
     @ResponseBody
     @ApiOperation("删除订单信息")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tOrderService.deleteTOrderByIds(ids));
