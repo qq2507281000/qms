@@ -11,21 +11,23 @@ import co.tton.qcloud.system.mapper.TShopMapper;
 import co.tton.qcloud.system.domain.TShop;
 import co.tton.qcloud.system.service.ITShopService;
 
+import javax.annotation.Resource;
+
 /**
  * 商家信息Service业务层处理
- * 
+ *
  * @author qcloud
  * @date 2019-09-05
  */
 @Service
-public class TShopServiceImpl implements ITShopService 
+public class TShopServiceImpl implements ITShopService
 {
-    @Autowired
+    @Resource
     private TShopMapper tShopMapper;
 
     /**
      * 查询商家信息
-     * 
+     *
      * @param id 商家信息ID
      * @return 商家信息
      */
@@ -37,7 +39,7 @@ public class TShopServiceImpl implements ITShopService
 
     /**
      * 查询商家信息列表
-     * 
+     *
      * @param tShop 商家信息
      * @return 商家信息
      */
@@ -51,21 +53,19 @@ public class TShopServiceImpl implements ITShopService
 
     /**
      * 新增商家信息
-     * 
+     *
      * @param tShop 商家信息
      * @return 结果
      */
     @Override
     public int insertTShop(TShop tShop)
     {
-        tShop.setId(StringUtils.genericId());
-        tShop.setCreateTime(DateUtils.getNowDate());
         return tShopMapper.insertTShop(tShop);
     }
 
     /**
      * 修改商家信息
-     * 
+     *
      * @param tShop 商家信息
      * @return 结果
      */
@@ -78,7 +78,7 @@ public class TShopServiceImpl implements ITShopService
 
     /**
      * 删除商家信息对象
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
@@ -90,7 +90,7 @@ public class TShopServiceImpl implements ITShopService
 
     /**
      * 删除商家信息信息
-     * 
+     *
      * @param id 商家信息ID
      * @return 结果
      */
