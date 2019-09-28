@@ -73,12 +73,12 @@ public class MemberController extends BaseController {
     @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
     public AjaxResult upMemberBabyInfo(@RequestParam(value = "id") String memberBabyId,
-                                           @RequestParam(value = "realName",required = false) String realName,
-                                           @RequestParam(value = "sex",required = false)Integer sex,
-                                           @RequestParam(value = "birthday",required = false)String birthday){
+                                           @RequestParam(value = "realName") String realName,
+                                           @RequestParam(value = "sex")Integer sex,
+                                           @RequestParam(value = "birthday")String birthday){
         if(StringUtil.isNotEmpty(memberBabyId)){
-          int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
-          return AjaxResult.success("修改会员子女信息成功",number);
+                int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
+                return AjaxResult.success("修改会员子女信息成功",number);
         }else{
           return AjaxResult.error("会员ID错误");
         }
