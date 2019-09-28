@@ -120,5 +120,10 @@ public class TOrderModel extends TOrder {
      */
     private List<TOrderDetailModel> details;
 
+    /***
+     * 课程时间
+     */
+    private Date lessionTime;
+
 
 }

@@ -79,7 +79,11 @@ public class OrderController extends BaseController {
     public AjaxResult getOrderDetail(@PathVariable("id")String orderId){
         if (StringUtils.isNotEmpty(orderId)) {
             WxOrderDetail wxOrderDetail = tOrderService.getOrderDetail(orderId);
-            return AjaxResult.success("获取顶级分类成功。", wxOrderDetail);
+            if (wxOrderDetail == null){
+                return AjaxResult.error("报错：对象为空。");
+            }else {
+                return AjaxResult.success("获取顶级分类成功。", wxOrderDetail);
+            }
         }else {
             return AjaxResult.error("报错：orderId为空。");
         }

@@ -69,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="avaBeginTime" column="ava_begin_time"/>
         <result property="avaEndTime" column="ava_end_time"/>
         <result property="useStatus" column="use_status"/>
+        <result property="lessionTime"    column="lession_time"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
@@ -87,6 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shopHoursEnd"    column="shop_hours_end"    />
         <result property="title"    column="title"    />
         <result property="commentNote"    column="comment_note"    />
+        <result property="lessionTime"    column="lession_time"    />
     </resultMap>
 
     <sql id="selectTOrderVo">
