@@ -5,7 +5,9 @@ import java.util.List;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import co.tton.qcloud.common.annotation.AllowAdmin;
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
@@ -19,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.bouncycastle.pqc.math.linearalgebra.IntUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +57,7 @@ public class TBannerController extends BaseController
 
     @RequiresPermissions("conf:banner:view")
     @GetMapping()
+    //@RoleScope(roleDefined={"ADMIN"})
     public String banner()
     {
         return prefix + "/list";
@@ -66,6 +70,7 @@ public class TBannerController extends BaseController
     @RequiresPermissions("conf:banner:list")
     @PostMapping("/list")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public TableDataInfo list(TBanner tBanner)
     {
         startPage();
@@ -90,6 +95,7 @@ public class TBannerController extends BaseController
     @Log(title = "首页滚动广告", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult addSave(TBanner tBanner)
     {
         try {
@@ -153,6 +159,7 @@ public class TBannerController extends BaseController
     @Log(title = "首页滚动广告", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult editSave(TBanner tBanner)
     {
         return toAjax(tBannerService.updateTBanner(tBanner));
@@ -172,24 +179,25 @@ public class TBannerController extends BaseController
     }
 
 
-    /***
-     * 文件上传
-     * @param file 文件地址
-     * @return
-     */
-    @ApiOperation("滚动广告图片上传")
-    @PostMapping("/img/upload")
-    @Log(title = "滚动广告图片上传", businessType=BusinessType.IMPORT)
-    public AjaxResult upload(@RequestParam("file") MultipartFile file){
-        try{
-//            String fileName = MinioFileService.upload(file);
-//            return AjaxResult.success(fileName);
-            return AjaxResult.success();
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-            logger.error("文件上传发生异常。",ex);
-            return AjaxResult.error("文件上传发生异常。");
-        }
-    }
+//    /***
+//     * 文件上传
+//     * @param file 文件地址
+//     * @return
+//     */
+//    @ApiOperation("滚动广告图片上传")
+//    @PostMapping("/img/upload")
+//    @Log(title = "滚动广告图片上传", businessType=BusinessType.IMPORT)
+//    @RoleScope(roleDefined={"ADMIN"})
+//    public AjaxResult upload(@RequestParam("file") MultipartFile file){
+//        try{
+////            String fileName = MinioFileService.upload(file);
+////            return AjaxResult.success(fileName);
+//            return AjaxResult.success();
+//        }
+//        catch(Exception ex){
+//            ex.printStackTrace();
+//            logger.error("文件上传发生异常。",ex);
+//            return AjaxResult.error("文件上传发生异常。");
+//        }
+//    }
 }

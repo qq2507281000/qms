@@ -1,7 +1,7 @@
 package co.tton.qcloud.framework.aspectj;
 
-import co.tton.qcloud.common.annotation.AllowAdmin;
 import co.tton.qcloud.common.annotation.RoleScope;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import org.aspectj.lang.JoinPoint;
@@ -25,32 +25,33 @@ import java.util.Arrays;
  * @program: qms
  * @description:
  * @author: Rain@TTON
- * @create: 2019-08-25 21:53
+ * @create: 2019-09-27 09:44
  */
+
 @Aspect
 @Component
-public class AdminPermissionAspect {
-
+public class RolePermissionAspect {
 
     private final Logger logger = LoggerFactory.getLogger(AdminPermissionAspect.class);
 
-    @Pointcut("@annotation(co.tton.qcloud.common.annotation.AllowAdmin)")
+    @Pointcut("@annotation(co.tton.qcloud.common.annotation.RoleScope)")
     public void allowPointCut(){
 
     }
 
     @Before("allowPointCut()")
     public void doBeforeRequest(JoinPoint joinPoint) throws Throwable{
+        logger.debug("方法执行--"+ DateUtils.dateTime());
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
         if(!ShiroUtils.isLogin()){
-            Signature signature = joinPoint.getSignature();
-            MethodSignature methodSignature = (MethodSignature) signature;
-            Method method = methodSignature.getMethod();
-            logger.error("当前没有用户登录，跳转到网站首页。---[" + method.getName() + "]");
-            ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            logger.error("当前没有用户登录，跳转到网站首页。---["+method.getName()+"]");
+            ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
             if(requestAttributes != null){
                 HttpServletResponse response = requestAttributes.getResponse();
-                //response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                response.sendRedirect("/");
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                //response.sendRedirect("/");
                 return;
             }
         }
@@ -59,18 +60,27 @@ public class AdminPermissionAspect {
             ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
             if(requestAttributes != null){
                 HttpServletResponse response = requestAttributes.getResponse();
-                response.sendRedirect("/");
+//                response.sendRedirect("/");
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 return;
             }
         }
-        if(!ShiroUtils.getSysUser().getCategory().equals("ADMIN")){
-            logger.error("当前用户分类不是网站管理员，跳转到网站首页。---["+ShiroUtils.getSysUser().getCategory()+"]");
-            ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-            if(requestAttributes != null){
-                HttpServletResponse response = requestAttributes.getResponse();
-                response.sendRedirect("/");
-                return;
+        String userCategory = ShiroUtils.getSysUser().getCategory();
+        RoleScope roleScope = method.getAnnotation(RoleScope.class);
+        if(roleScope != null){
+            String role = Arrays.stream(roleScope.roleDefined()).filter(d->StringUtils.equalsAnyIgnoreCase(d,userCategory)).findFirst().orElse(null);
+            if(StringUtils.isEmpty(role)){
+                logger.error("方法中包含的权限未能匹配当前登录用户。");
+                ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+                if(requestAttributes != null){
+                    HttpServletResponse response = requestAttributes.getResponse();
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    return;
+                }
             }
+        }
+        else{
+            logger.info("方法中未加注释。");
         }
     }
 

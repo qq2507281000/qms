@@ -258,10 +258,10 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/admin/logout", "logout");
-        filterChainDefinitionMap.put("/user/logout", "logout");
+        filterChainDefinitionMap.put("/shop/logout", "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/admin/login", "anon,captchaValidate");
-        filterChainDefinitionMap.put("/user/login", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/shop/login", "anon,captchaValidate");
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
         filterChainDefinitionMap.put("/**", "anon");
@@ -278,7 +278,7 @@ public class ShiroConfig
         // 所有请求需要认证
 //        filterChainDefinitionMap.put("/**", "user,kickout,onlineSession,syncOnlineSession");
         filterChainDefinitionMap.put("/admin/**", "user,kickout,onlineSession,syncOnlineSession");
-        filterChainDefinitionMap.put("/user/**", "user,kickout,onlineSession,syncOnlineSession");
+        filterChainDefinitionMap.put("/shop/**", "user,kickout,onlineSession,syncOnlineSession");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         return shiroFilterFactoryBean;

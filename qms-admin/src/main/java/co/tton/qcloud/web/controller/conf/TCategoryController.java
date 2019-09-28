@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.conf;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
@@ -56,6 +57,7 @@ public class TCategoryController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("查询课程分类信息")
+    @RoleScope(roleDefined={"ADMIN"})
     public TableDataInfo list(TCategory tCategory)
     {
         startPage();
@@ -93,6 +95,7 @@ public class TCategoryController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("新增课程分类信息")
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult addSave(TCategory tCategory)
     {
         return toAjax(tCategoryService.insertTCategory(tCategory));
@@ -117,6 +120,7 @@ public class TCategoryController extends BaseController
     @PostMapping("/edit")
     @ResponseBody
     @ApiOperation("修改课程分类信息")
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult editSave(TCategory tCategory)
     {
         return toAjax(tCategoryService.updateTCategory(tCategory));
@@ -130,6 +134,7 @@ public class TCategoryController extends BaseController
     @PostMapping( "/remove")
     @ResponseBody
     @ApiOperation("删除课程分类信息")
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tCategoryService.deleteTCategoryByIds(ids));

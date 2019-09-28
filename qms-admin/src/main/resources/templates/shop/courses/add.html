@@ -7,140 +7,105 @@
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-courses-add">
-            <h4 class="form-header h4">基本信息</h4>
-            <div class="form-group">
-                <!--                <label class="col-sm-3 control-label">商家Id：</label>-->
-                <div class="col-sm-8">
-                    <input name="shopId" class="form-control" type="hidden">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">课程标题：</label>
-                <div class="col-sm-8">
-                    <input name="title" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">库存数量：</label>
-                <div class="col-sm-8">
-                    <input name="salesCount" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">排序：</label>
-                <div class="col-sm-8">
-                    <input name="sortKey" class="form-control" type="text">
-                </div>
-            </div>
-            <!--            <div class="form-group">    -->
-            <!--                <label class="col-sm-3 control-label">副标题：</label>-->
-            <!--                <div class="col-sm-8">-->
-            <!--                    <input name="subTitle" th:field="*{subTitle}" class="form-control" type="hidden">-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否推荐：</label>
-                <div class="col-sm-8">
-                    <!--                    <input name="suggest" th:field="*{suggest}" class="form-control" type="text">-->
-                    <div class="radio">
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" value="1" name="suggest"> <i></i> 是</label>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>新增课程基本信息</h5>
                         </div>
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" checked="" value="0" name="suggest"> <i></i> 否</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否可用：</label>
-                <div class="col-sm-8">
-                    <div class="radio">
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" value="1" name="avaiable"> <i></i> 是</label>
-                        </div>
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" checked="" value="0" name="avaiable"> <i></i> 否</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--            <div class="form-group">-->
-            <!--                <label class="col-sm-3 control-label">状态：</label>-->
-            <!--                <div class="col-sm-8">-->
-            <!--                    <input name="flag" th:field="*{flag}" value="1" class="form-control" type="hidden">-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="form-group">    -->
-            <!--                <label class="col-sm-3 control-label">创建人：</label>-->
-            <!--                <div class="col-sm-8">-->
-            <!--                    <input name="createUser" th:field="*{createBy}" class="form-control" type="hidden">-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <div class="form-group">    -->
-            <!--                <label class="col-sm-3 control-label">修改人：</label>-->
-            <!--                <div class="col-sm-8">-->
-            <!--                    <input name="updateUser" th:field="*{updateBy}" class="form-control" type="hidden">-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否允许使用优惠券：</label>
-                <div class="col-sm-8">
-                    <div class="radio">
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" value="1" name="useDiscount"> <i></i> 是</label>
-                        </div>
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" checked="" value="0" name="useDiscount"> <i></i> 否</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--            <div class="form-group">    -->
-            <!--                <label class="col-sm-3 control-label">SKU保留字段：</label>-->
-            <!--                <div class="col-sm-8">-->
-            <!--                    <input name="sku" th:field="*{sku}" class="form-control" type="text">-->
-            <!--                </div>-->
-            <!--            </div>-->
-
-            <div class="form-group">
-                <h4 class="form-header h4">课程详情</h4>
-                <div class="ibox float-e-margins">
-                    <div class="ibox-content no-padding">
-                        <div class="summernote">
-                            <p id="contentHtml">请输入内容</p>
-                        </div>
-                    </div>
-                </div>
-            </div>>
-
-            <div class="form-group">
-                <div class="wrapper wrapper-content animated fadeInRight">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <h4 class="form-header h4">课程图片</h4>
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <div class="form-group">
-                                        <div class="file-loading">
-                                            <input id="fileinput-demo-1" name="file" type="file" multiple>
+                        <div class="ibox-content">
+                            <form class="form-horizontal m" id="form-courses-add">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程标题</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="title" placeholder="请输入课程标题" class="form-control">
                                     </div>
-                                    </div>
-                                    <hr>
                                 </div>
-                            </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">库存数量</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="salesCount" placeholder="请输入库存数量" class="form-control">
+                                        <span class="help-block m-b-none">库存数量为-1的情况下，则不限制销售数量。</span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程排序</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="sortKey" placeholder="请输入课程排序" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">是否推荐：</label>
+                                    <div class="col-sm-10">
+                                        <!--                    <input name="suggest" th:field="*{suggest}" class="form-control" type="text">-->
+                                        <div class="radio">
+                                            <div class="radio check-box">
+                                                <label>
+                                                    <input type="radio" value="1" name="suggest"> <i></i> 是</label>
+                                            </div>
+                                            <div class="radio check-box">
+                                                <label>
+                                                    <input type="radio" checked="" value="0" name="suggest"> <i></i> 否</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">是否可用：</label>
+                                    <div class="col-sm-10">
+                                        <div class="radio">
+                                            <div class="radio check-box">
+                                                <label>
+                                                    <input type="radio" value="1" name="avaiable"> <i></i> 是</label>
+                                            </div>
+                                            <div class="radio check-box">
+                                                <label>
+                                                    <input type="radio" checked="" value="0" name="avaiable"> <i></i> 否</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">是否允许使用优惠券：</label>
+                                    <div class="col-sm-10">
+                                        <div class="radio">
+                                            <div class="radio check-box">
+                                                <label>
+                                                    <input type="radio" value="1" name="useDiscount"> <i></i> 是</label>
+                                            </div>
+                                            <div class="radio check-box">
+                                                <label>
+                                                    <input type="radio" checked="" value="0" name="useDiscount"> <i></i> 否</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="hr-line-dashed"></div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-sm-12">-->
+                                        <!--<h4 class="form-header h4">课程图片</h4>-->
+                                        <!--<div class="file-loading">-->
+                                            <!--<input id="courses-img" class="file" type="file" multiple data-theme="fas">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="hr-line-dashed"></div>-->
+                                <div class="form-group">
+                                    <h4 class="form-header h4">课程详情</h4>
+                                    <div id="summernote" class="summernote">
+
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>>
-        </form>
+            </div>
 
         <div class="row text-center" style="padding:15px;">
             <button class="btn btn-primary btn-xl" onclick="addCourses()"><i class="fa fa-save"></i> 保存</button>
@@ -156,53 +121,65 @@
             focusCleanup: true
         });
 
-        function addCourses() {
-            if ($.validate.form()) {
-                $.operate.saveAndUpload(prefix + "/add", $('#form-courses-add'));
-            }
-        }
-
-        function openClick(that){
-            if($(that).attr('checked')){
-                $(that).removeAttrs('checked');
-                $(that).parent().find('input').eq(1).val(0);
-            }else {
-                $(that).attr('checked','checked');
-                $(that).parent().find('input').eq(1).val(1);
-            }
-        }
-
         //富文本输入框
         $(document).ready(function () {
             $('.summernote').summernote({
-                lang: 'zh-CN'
-            });
-        });
-        var edit = function () {
-            $("#eg").addClass("no-padding");
-            $('.click2edit').summernote({
                 lang: 'zh-CN',
-                focus: true
-            });
-        };
-        var save = function () {
-            $("#eg").removeClass("no-padding");
-            var aHTML = $('.click2edit').summernote('code');
-            $('.click2edit').summernote('destroy');
-        };
-
-        // 多图片上传
-        $(document).ready(function () {
-            $("#fileinput-demo-1").fileinput({
-                'theme': 'explorer-fas',
-                'uploadUrl': '#',
-                overwriteInitial: false,
-                initialPreviewAsData: true,
-                initialPreview: [
-                    "/img/profile.jpg"
-                ]
+                placeholder: '请输入课程详细信息。',
+                height: 300
             });
         });
+
+        function addCourses() {
+            if ($.validate.form()) {
+                //$.operate.saveAndUpload(prefix + "/add", $('#form-courses-add'));
+                var node = $('.summernote').summernote('code');
+                $.operate.save(prefix+"/add",$('#form-courses-add').serialize());
+            }
+        }
+        //
+        // function openClick(that){
+        //     if($(that).attr('checked')){
+        //         $(that).removeAttrs('checked');
+        //         $(that).parent().find('input').eq(1).val(0);
+        //     }else {
+        //         $(that).attr('checked','checked');
+        //         $(that).parent().find('input').eq(1).val(1);
+        //     }
+        // }
+        //
+        // //富文本输入框
+        // $(document).ready(function () {
+        //     $('.summernote').summernote({
+        //         lang: 'zh-CN'
+        //     });
+        // });
+        //
+        // var edit = function () {
+        //     $("#eg").addClass("no-padding");
+        //     $('.click2edit').summernote({
+        //         lang: 'zh-CN',
+        //         focus: true
+        //     });
+        // };
+        // var save = function () {
+        //     $("#eg").removeClass("no-padding");
+        //     var aHTML = $('.click2edit').summernote('code');
+        //     $('.click2edit').summernote('destroy');
+        // };
+        //
+        // // 多图片上传
+        // $(document).ready(function () {
+        //     $("#fileinput-demo-1").fileinput({
+        //         'theme': 'explorer-fas',
+        //         'uploadUrl': '#',
+        //         overwriteInitial: false,
+        //         initialPreviewAsData: true,
+        //         initialPreview: [
+        //             "/img/profile.jpg"
+        //         ]
+        //     });
+        // });
 
 
     </script>
