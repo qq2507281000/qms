@@ -142,7 +142,7 @@
                 <configuration>
                     <imageName>ttoncorp/${project.artifactId}:${project.version}</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
-                    <dockerHost>http://39.98.80.131:2375</dockerHost>
+                    <dockerHost>http://119.3.244.42:2375</dockerHost>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
