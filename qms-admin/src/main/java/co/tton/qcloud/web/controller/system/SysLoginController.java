@@ -2,6 +2,8 @@ package co.tton.qcloud.web.controller.system;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import co.tton.qcloud.framework.util.ShiroUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -57,6 +59,12 @@ public class SysLoginController extends BaseController
             }
             return error(msg);
         }
+    }
+
+    @GetMapping("/logout")
+    public AjaxResult ajaxLogout(){
+        ShiroUtils.logout();
+        return success();
     }
 
     @GetMapping("/unauth")

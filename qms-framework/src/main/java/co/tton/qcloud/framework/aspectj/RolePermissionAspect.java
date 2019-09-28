@@ -41,16 +41,17 @@ public class RolePermissionAspect {
 
     @Before("allowPointCut()")
     public void doBeforeRequest(JoinPoint joinPoint) throws Throwable{
-        logger.debug("方法执行--"+ DateUtils.dateTime());
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
+        logger.debug("方法执行【"+method.getName()+"】--"+ DateUtils.dateTime());
         if(!ShiroUtils.isLogin()){
             logger.error("当前没有用户登录，跳转到网站首页。---["+method.getName()+"]");
             ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
             if(requestAttributes != null){
                 HttpServletResponse response = requestAttributes.getResponse();
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.sendRedirect("/login");
                 //response.sendRedirect("/");
                 return;
             }
@@ -62,6 +63,7 @@ public class RolePermissionAspect {
                 HttpServletResponse response = requestAttributes.getResponse();
 //                response.sendRedirect("/");
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.sendRedirect("/login");
                 return;
             }
         }
@@ -75,6 +77,7 @@ public class RolePermissionAspect {
                 if(requestAttributes != null){
                     HttpServletResponse response = requestAttributes.getResponse();
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//                    response.sendRedirect("/login");
                     return;
                 }
             }
