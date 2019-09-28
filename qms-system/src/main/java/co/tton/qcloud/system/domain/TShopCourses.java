@@ -82,6 +82,10 @@ public class TShopCourses extends BaseEntity
     @ApiModelProperty("是否允许使用优惠券")
     private Integer useDiscount;
 
+    /** 商家名称 */
+    @Excel(name = "商家名称")
+    @ApiModelProperty("商家名称")
+    private String shopName;
 
     @Override
     public String toString() {
@@ -102,6 +106,7 @@ public class TShopCourses extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("sku", getSku())
             .append("useDiscount", getUseDiscount())
+            .append("shopName", getShopName())
             .toString();
     }
 }

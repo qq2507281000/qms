@@ -62,6 +62,16 @@ public class TShopCoursesImages extends BaseEntity
     @ApiModelProperty("修改人")
     private String updateUser;
 
+    /** 商家名称 */
+    @Excel(name = "商家名称")
+    @ApiModelProperty("商家名称")
+    private String shopName;
+
+    /** 课程标题 */
+    @Excel(name = "课程标题")
+    @ApiModelProperty("课程标题")
+    private String title;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -75,6 +85,8 @@ public class TShopCoursesImages extends BaseEntity
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
+            .append("shopName", getShopName())
+            .append("title", getTitle())
             .toString();
     }
 }

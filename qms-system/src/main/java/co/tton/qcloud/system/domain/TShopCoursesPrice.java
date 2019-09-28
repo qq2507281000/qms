@@ -105,6 +105,16 @@ public class TShopCoursesPrice extends BaseEntity
     @ApiModelProperty("数据状态")
     private Integer flag;
 
+    /** $column.columnComment */
+    @Excel(name = "商家名称")
+    @ApiModelProperty("商家名称")
+    private String shopName;
+
+    /** $column.columnComment */
+    @Excel(name = "课程名称")
+    @ApiModelProperty("课程名称")
+    private String title;
+
 
     @Override
     public String toString() {
@@ -130,6 +140,8 @@ public class TShopCoursesPrice extends BaseEntity
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
+            .append("shopName", getShopName())
+            .append("title", getTitle())
             .toString();
     }
 }
