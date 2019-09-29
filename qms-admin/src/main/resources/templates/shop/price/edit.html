@@ -8,15 +8,15 @@
         <form class="form-horizontal m" id="form-price-edit" th:object="${tShopCoursesPrice}">
             <input name="id" th:field="*{id}" type="hidden">
             <div class="form-group">    
-                <label class="col-sm-3 control-label">商家id：</label>
+<!--                <label class="col-sm-3 control-label">商家id：</label>-->
                 <div class="col-sm-8">
-                    <input name="shopId" th:field="*{shopId}" class="form-control" type="text">
+                    <input name="shopId" th:field="*{shopId}" class="form-control" type="hidden">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">商家id：</label>
+<!--                <label class="col-sm-3 control-label">商家id：</label>-->
                 <div class="col-sm-8">
-                    <input name="coursesId" th:field="*{coursesId}" class="form-control" type="text">
+                    <input name="coursesId" th:field="*{coursesId}" class="form-control" type="hidden">
                 </div>
             </div>
             <div class="form-group">    
@@ -85,12 +85,12 @@
 <!--                    <input name="specialPriceLevel" th:field="*{specialPriceLevel}" class="form-control" type="text">-->
 <!--                </div>-->
 <!--            </div>-->
-            <div class="form-group">
-                <label class="col-sm-3 control-label">副标题：</label>
-                <div class="col-sm-8">
-                    <input name="perLimitBuy" th:field="*{subTitle}" class="form-control" type="text">
-                </div>
-            </div>
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">副标题：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="perLimitBuy" th:field="*{subTitle}" class="form-control" type="text">-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="form-group">    
                 <label class="col-sm-3 control-label">限制每人购买数量，-1为不限制。：</label>
                 <div class="col-sm-8">
@@ -103,18 +103,18 @@
 <!--                    <input name="flag" th:field="*{flag}" class="form-control" type="text">-->
 <!--                </div>-->
 <!--            </div>-->
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">创建人：</label>
-                <div class="col-sm-8">
-                    <input name="createUser" th:field="*{createBy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">修改人：</label>
-                <div class="col-sm-8">
-                    <input name="updateUser" th:field="*{updateBy}" class="form-control" type="text">
-                </div>
-            </div>
+<!--            <div class="form-group">    -->
+<!--                <label class="col-sm-3 control-label">创建人：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="createUser" th:field="*{createBy}" class="form-control" type="text">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">    -->
+<!--                <label class="col-sm-3 control-label">修改人：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="updateUser" th:field="*{updateBy}" class="form-control" type="text">-->
+<!--                </div>-->
+<!--            </div>-->
         </form>
     </div>
     <th:block th:include="include :: footer" />

@@ -8,21 +8,22 @@
         <form class="form-horizontal m" id="form-images-edit" th:object="${tShopCoursesImages}">
             <input name="id" th:field="*{id}" type="hidden">
             <div class="form-group">    
-                <label class="col-sm-3 control-label">商家Id：</label>
+<!--                <label class="col-sm-3 control-label">商家Id：</label>-->
                 <div class="col-sm-8">
-                    <input name="shopId" th:field="*{shopId}" class="form-control" type="text">
+                    <input name="shopId" th:field="*{shopId}" class="form-control" type="hidden">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">课程Id：</label>
+<!--                <label class="col-sm-3 control-label">课程Id：</label>-->
                 <div class="col-sm-8">
-                    <input name="coursesId" th:field="*{coursesId}" class="form-control" type="text">
+                    <input name="coursesId" th:field="*{coursesId}" class="form-control" type="hidden">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">课程图片地址：</label>
                 <div class="col-sm-8">
-                    <textarea name="imageUrl" class="form-control">[[*{imageUrl}]]</textarea>
+<!--                    <textarea name="imageUrl" class="form-control">[[*{imageUrl}]]</textarea>-->
+                    <img class="col-sm-12 img-rounded shadow-1" style="height:200px;" th:src="'/resource-file/' + *{imageUrl}" alt="图标">
                 </div>
             </div>
             <div class="form-group">    
@@ -37,18 +38,18 @@
 <!--                    <input name="flag" th:field="*{flag}" class="form-control" type="text">-->
 <!--                </div>-->
 <!--            </div>-->
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">排序键值：</label>
-                <div class="col-sm-8">
-                    <input name="createBy" th:field="*{createBy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">排序键值：</label>
-                <div class="col-sm-8">
-                    <input name="updateBy" th:field="*{updateBy}" class="form-control" type="text">
-                </div>
-            </div>
+<!--            <div class="form-group">    -->
+<!--                <label class="col-sm-3 control-label">排序键值：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="createBy" th:field="*{createBy}" class="form-control" type="text">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">    -->
+<!--                <label class="col-sm-3 control-label">排序键值：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="updateBy" th:field="*{updateBy}" class="form-control" type="text">-->
+<!--                </div>-->
+<!--            </div>-->
         </form>
     </div>
     <th:block th:include="include :: footer" />
