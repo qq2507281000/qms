@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.service;
 
 import co.tton.qcloud.system.domain.TShopCourses;
+import co.tton.qcloud.system.domain.TShopCoursesModel;
+
 import java.util.List;
 
 /**
@@ -66,4 +68,12 @@ public interface ITShopCoursesService
      * @return 结果
      */
     public int deleteTShopCoursesById(String id);
+
+    /**
+     * 模糊查询课程
+     *
+     * @param
+     * @return 获取课程详情
+     */
+    List<TShopCoursesModel> getNameShopCourses(String name);
 }

@@ -3,9 +3,9 @@ package co.tton.qcloud.system.wxservice.impl;
 import co.tton.qcloud.system.domain.TShop;
 import co.tton.qcloud.system.mapper.TShopMapper;
 import co.tton.qcloud.system.wxservice.ITShopService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,18 +17,18 @@ import java.util.List;
 @Service
 public class ShopServiceImpl implements ITShopService
 {
-    @Autowired
+    @Resource
     private TShopMapper tShopMapper;
 
     /**
-     * 首页推荐商家查询，查询所有商家，名称查询商家
+     * 首页推荐商家查询，查询所有商家
      *
      * @param
      * @return 获取商家信息成功。
      */
     @Override
-    public List<TShop> getSuggestShop(String categoryId,Integer suggest,String name) {
-        return tShopMapper.getSuggestShop(categoryId,suggest,name);
+    public List<TShop> getSuggestShop(String categoryId,Integer suggest) {
+        return tShopMapper.getSuggestShop(categoryId,suggest);
     }
 
     /**
@@ -40,5 +40,16 @@ public class ShopServiceImpl implements ITShopService
     @Override
     public TShop getShopDetail(String shopId){
         return tShopMapper.getShopDetail(shopId);
+    }
+
+    /**
+     * 模糊查询商家
+     *
+     * @param
+     * @return 获取商家详情
+     */
+    @Override
+    public List<TShop> getNameShop(String name) {
+        return tShopMapper.getNameShop(name);
     }
 }

@@ -85,4 +85,12 @@ public interface TShopCoursesMapper
      * @return 结果
      */
     List<TShopCoursesModel> getSuggestCourses(@Param("categoryId")String categoryId,@Param("shopId")String shopId);
+
+    /**
+     * 模糊查询课程
+     *
+     * @param
+     * @return 获取课程详情
+     */
+    List<TShopCoursesModel> getNameShopCourses(String name);
 }

@@ -82,12 +82,12 @@ public class TShop extends BaseEntity
     /** 开始营业时间 */
     @ApiModelProperty("开始营业时间")
     @Excel(name = "开始营业时间")
-    private Integer shopHoursBegin;
+    private String shopHoursBegin;
 
     /** 结束营业时间 */
     @ApiModelProperty("结束营业时间")
     @Excel(name = "结束营业时间")
-    private Integer shopHoursEnd;
+    private String shopHoursEnd;
 
     /** 商家级别 */
     @ApiModelProperty("商家级别")

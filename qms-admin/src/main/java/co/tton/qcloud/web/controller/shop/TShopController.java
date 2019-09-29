@@ -1,14 +1,20 @@
 package co.tton.qcloud.web.controller.shop;
 
+import java.util.Date;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.annotation.RoleScope;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
-import co.tton.qcloud.common.utils.ServletUtils;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -45,6 +51,8 @@ public class TShopController extends BaseController
 
     @Autowired
     private ITShopService tShopService;
+    @Autowired
+    private MinioFileService minioFileService;
 
     @RequiresPermissions("shop:view")
     @GetMapping()
@@ -60,9 +68,19 @@ public class TShopController extends BaseController
     @RequiresPermissions("shop:list")
     @PostMapping("/list")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public TableDataInfo list(TShop tShop)
     {
         startPage();
+        SysUser user = ShiroUtils.getSysUser();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            tShop.setId(user.getShopId());
+        }
+        else{
+            if(StringUtils.isNotEmpty(tShop.getId())){
+                tShop.setId(tShop.getId());
+            }
+        }
         List<TShop> list = tShopService.selectTShopList(tShop);
         return getDataTable(list);
     }
@@ -84,9 +102,44 @@ public class TShopController extends BaseController
     @Log(title = "商家信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult addSave(TShop tShop)
     {
-        return toAjax(tShopService.insertTShop(tShop));
+        try {
+            SysUser user = ShiroUtils.getSysUser();
+            String id = StringUtils.genericId();
+            tShop.setId(id);
+
+            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+                tShop.setId(user.getShopId());
+            }
+            tShop.setFlag(Constants.DATA_NORMAL);
+            tShop.setCreateTime(new Date());
+            tShop.setCreateBy(user.getUserId().toString());
+            return toAjax(tShopService.insertTShop(tShop));
+
+//            if (tShopCourses.getParams().containsKey("file")){
+//                //新文件上传
+//                MultipartFile file = (MultipartFile)tShopCourses.getParams().get("file");
+//                if (file !=null){
+//                    String fileName = minioFileService.upload(file);
+//                    TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
+//                    tShopCoursesImages.setImageUrl(fileName);
+//                    return AjaxResult.success("数据保存成功。");
+//                }
+//                else {
+//                    return AjaxResult.error("未能获取上传文件内容。");
+//                }
+//            }
+//            else {
+//                return AjaxResult.error("请选择图片上传。");
+//            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("保存商家图片时发生异常。",ex);
+            return AjaxResult.error("保存商家图片时发生异常。");
+        }
     }
 
     /**
@@ -109,8 +162,17 @@ public class TShopController extends BaseController
     @Log(title = "商家信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
     public AjaxResult editSave(TShop tShop)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            if(user.getShopId().equals(tShop.getId())){
+                return toAjax(tShopService.updateTShop(tShop));
+            }else{
+                return error("不能修改其他商家信息。");
+            }
+        }
         return toAjax(tShopService.updateTShop(tShop));
     }
 
@@ -122,6 +184,7 @@ public class TShopController extends BaseController
     @Log(title = "商家信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
+    @RoleScope(roleDefined={"ADMIN"})
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopService.deleteTShopByIds(ids));
