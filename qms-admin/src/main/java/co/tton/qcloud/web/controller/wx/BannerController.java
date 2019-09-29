@@ -2,6 +2,7 @@ package co.tton.qcloud.web.controller.wx;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TBanner;
 import co.tton.qcloud.system.wxservice.ITBannerService;
 import io.swagger.annotations.Api;
@@ -41,11 +42,11 @@ public class BannerController extends BaseController {
     @RequiresPermissions("wx:banner")
     @RequestMapping(value = "",method = RequestMethod.GET)
     public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc",required = false)String location){
-        if(location.equals("dalian")){
+        if(StringUtils.isNotEmpty(location) && location.equals("大连")){
             List<TBanner> listTBanner=tBannerService.getBanner();
             return AjaxResult.success("获取广告成功。",listTBanner);
         }else{
-            return AjaxResult.error("location错误。");
+            return AjaxResult.error("地点错误。");
         }
     }
 

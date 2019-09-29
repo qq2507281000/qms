@@ -41,11 +41,11 @@ public class ShopController extends BaseController {
                                      @RequestParam(value="suggest",required = false)Integer suggest,
                                      @RequestParam(value="name",required = false)String name)
     {
-        if(location.equals("dalian")){
+        if(StringUtils.isNotEmpty(location) && location.equals("大连")){
                 List<TShop> listTShop=tShopService.getSuggestShop(categoryId,suggest,name);
                 return AjaxResult.success("获取商家信息成功。",listTShop);
         }else{
-            return AjaxResult.error("location错误。");
+            return AjaxResult.error("地点错误。");
         }
     }
 
