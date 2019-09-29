@@ -2,24 +2,16 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('新增商家信息')" />
+    <th:block th:include="include :: summernote-css" />
     <link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">
     <th:block th:include="include :: jasny-bootstrap-css" />
     <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+
     <th:block th:include="include :: datetimepicker-css" />
 
-    <script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.js}"></script>
-    <script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.zh-CN.js}"></script>z
-    <script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.css}"></script>
-    <script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.js}"></script>
+    <link href="http://localhost/ajax/libs/datapicker/bootstrap-timepicker.min.css" rel="stylesheet">
 
-    <!--<script type="text/javascript"-->
-            <!--src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>-->
-    <!--<script type="text/javascript"-->
-            <!--src="/assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>-->
-    <!--<link rel="stylesheet" type="text/css"-->
-          <!--href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>-->
-    <!--<script type="text/javascript"-->
-            <!--src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>-->
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -38,9 +30,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">商家副标题：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <input name="subject" type="text" class="form-control" required>
-                        </div>
+                        <input name="subject" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -52,32 +42,31 @@
                     <label class="col-sm-4 control-label">开始营业时间：</label>
                     <div class="col-sm-8">
                         <!--<input name="shopHoursBegin" class="form-control" type="text" maxlength="30" required>-->
-
-                        <div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">
+                        <div style="display: -webkit-inline-box;padding-left:0px">
                             <div class="input-group">
                                 <input type="text" id="shopHoursBegin" name="shopHoursBegin"
                                        readonly="readonly" class="form-control timepicker timepicker-default"
                                        placeholder="从">
                                 <span class="input-group-btn">
                                    <button class="btn default" type="button">
-                                           <i class="fa fa-clock-o"></i>
+                                       <i class="fa fa-clock-o"></i>
                                    </button>
                                 </span>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <input type="text" id="shopHoursEnd" name="shopHoursEnd"
-                                       readonly="readonly" class="form-control timepicker timepicker-default"
-                                       placeholder="到">
-                                <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-clock-o"></i>
-                                        </button>
-                                </span>
-                            </div>
-                        </div>
+                        <!--<div class="col-md-4">-->
+                            <!--<div class="input-group">-->
+                                <!--<input type="text" id="shopHoursEnd" name="shopHoursEnd"-->
+                                       <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
+                                       <!--placeholder="到">-->
+                                <!--<span class="input-group-btn">-->
+                                    <!--<button class="btn default" type="button">-->
+                                        <!--<i class="fa fa-clock-o"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -85,9 +74,17 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">结束营业时间：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <input name="shopHoursEnd" type="text" class="form-control" required>
-                        </div>
+                        <!--<input name="shopHoursEnd" type="text" class="form-control" required>-->
+                            <div class="input-group">
+                                <input type="text" id="shopHoursEnd" name="shopHoursEnd"
+                                       readonly="readonly" class="form-control timepicker timepicker-default"
+                                       placeholder="到">
+                                <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-clock-o"></i>
+                                    </button>
+                                </span>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -187,9 +184,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">区域名称：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <input name="regionName" type="text" class="form-control" required>
-                        </div>
+                        <input name="regionName" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -238,9 +233,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">商家手机：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <input name="mobile" type="text" class="form-control" required>
-                        </div>
+                        <input name="mobile" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -338,9 +331,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">排序权重：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <input name="sortWeight" type="text" class="form-control" required>
-                        </div>
+                        <input name="sortWeight" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -359,9 +350,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">商家星级：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <input name="stars" type="text" class="form-control" required>
-                        </div>
+                        <input name="stars" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -398,12 +387,20 @@
             </div>
         </div>
 
+        <h4 class="form-header h4">其他信息</h4>
+
+        <div class="row">
+            <div id="summernote" class="summernote">
+
+            </div>
+        </div>
+
     </form>
 </div>
 
 <div class="row">
     <div class="col-sm-offset-5 col-sm-10">
-        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+        <button type="button" class="btn btn-sm btn-primary" onclick="addCourses()"><i class="fa fa-check"></i>保 存</button>&nbsp;
         <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
     </div>
 </div>
@@ -411,18 +408,59 @@
 <th:block th:include="include :: footer" />
 <th:block th:include="include :: jasny-bootstrap-js" />
 <script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
+<th:block th:include="include :: summernote-js" />
+<th:block th:include="include :: bootstrap-fileinput-js" />
+
+<script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+<script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.js}"></script>
+
+<!--<script th:src="@{/ajax/libs/datapicker/time/bootstrap-datetimepicker.min.js}"></script>-->
+
 <script type="text/javascript">
+    //富文本输入框
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            lang: 'zh-CN',
+            placeholder: '请输入商家详细信息。',
+            height: 300
+        });
+    });
+
+    function addCourses() {
+        if ($.validate.form()) {
+            //$.operate.saveAndUpload(prefix + "/add", $('#form-courses-add'));
+            var note = $('.summernote').summernote('code');
+            // var data = $('#form-courses-add').serialize();
+            // var formData = new FormData();
+            // // formData.append("params[file]", file);
+            // data.split('&').forEach(function(item){
+            //     var is = item.split('=');
+            //     var name = decodeURIComponent(is[0]);
+            //     var val = decodeURIComponent(is[1]);
+            //     console.log("name["+name+"]-->value["+val+"]");
+            //     formData.append(name,val);
+            // });
+            // data += "&contentHtml=" + note;
+            // formData.append("contentHtml",note);
+            // console.log(data);
+            //formData.append("content_html",decodeURI(note));
+            //$.operate.save(prefix+"/add",formData);
+            $.operate.saveHtml(prefix+"/add",$('#form-shop-add'),"htmlContent",note);
+        }
+    }
+
     var prefix = "/shop"
     $("#form-shop-add").validate({
         focusCleanup: true
     });
 
-    function submitHandler() {
-        if ($.validate.form()) {
-            $.operate.saveAndUpload(prefix+"/add",$('#form-shop-add'));
-        }
-    }
-
+    // function submitHandler() {
+    //     if ($.validate.form()) {
+    //         $.operate.saveAndUpload(prefix+"/add",$('#form-shop-add'));
+    //     }
+    // }
 
     function openClick(that){
         if($(that).attr('checked')){
@@ -433,8 +471,29 @@
             $(that).parent().find('input').eq(1).val(1);
         }
     }
-    var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
-    $("#shopHoursBegin").val(nowTime).timepicker('setTime', nowTime);
+    // var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
+
+    function writeCurrentDate() {
+        var now = new Date();
+        var hour = now.getHours();//得到小时
+        var minu = now.getMinutes();//得到分钟
+        if (hour < 10) hour = "0" + hour;
+        if (minu < 10) minu = "0" + minu;
+        var time = "";
+        time = hour + ":" + minu;
+        //当前日期赋值给当前日期输入框中（jQuery easyUI）
+        $("#shopHoursBegin").html(time);
+        $("#shopHoursEnd").html(time);
+    }
+
+    $("#shopHoursBegin").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+    $("#shopHoursEnd").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+    // function beginTime() {
+    //     $("#shopHoursBegin").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+    // }
+    // function endTime() {
+    //     $("#shopHoursEnd").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+    // }
 </script>
 </body>
 </html>

@@ -66,12 +66,13 @@
                 },
                 {
                     field : 'id',
-                    title : '是否可用',
+                    title : '主键',
                     visible: false
                 },
                 {
                     field : 'name',
                     title : '商家名称',
+                    align : 'center',
                     formatter: function(value, row, index) {
                         return $.table.tooltip(value,10);
                     }
@@ -86,27 +87,39 @@
                 },
                 {
                     field : 'shopHoursBegin',
-                    title : '开始营业时间'
+                    title : '开始营业时间',
+                    align : 'center',
                 },
                 {
                     field : 'shopHoursEnd',
-                    title : '结束营业时间'
+                    title : '结束营业时间',
+                    align : 'center',
                 },
                 {
                     field : 'telephone',
-                    title : '商家座机'
+                    title : '商家座机',
+                    align : 'center',
                 },
                 {
                     field : 'wechatNo',
-                    title : '微信号'
+                    title : '微信号',
+                    align : 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value,8);
+                    }
                 },
                 {
                     field : 'wechatPlatform',
-                    title : '微信公众平台'
+                    title : '微信公众平台',
+                    align : 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value,8);
+                    }
                 },
                 {
                     field : 'available',
                     title : '是否可用',
+                    align : 'center',
                     formatter: function(value, row, index) {
                         return $.table.selectDictLabel(available, value);
                     }
@@ -117,9 +130,9 @@
                     formatter: function(value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/order\',\'商家订单\',\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>订单</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/shop/courses\',\'商家课程\',\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>课程</a> ');
-                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/member\',\'商家会员\',\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>会员</a>');
+                        actions.push('<a class="btn btn-primary btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/order\',\'商家订单\',\'' + row.id + '\')"><i class="fa fa-check-square-o"></i>订单</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/shop/courses\',\'商家课程\',\'' + row.id + '\')"><i class="fa fa-child"></i>课程</a> ');
+                        actions.push('<a class="btn btn-info btn-xs ' + viewFlag + '" href="javascript:void(0)" onclick="$.operate.openShopTab(\'/member\',\'商家会员\',\'' + row.id + '\')"><i class="fa fa-user"></i>会员</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除 </a> ');
                         return actions.join('');
                     }
