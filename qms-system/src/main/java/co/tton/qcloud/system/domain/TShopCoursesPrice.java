@@ -90,10 +90,20 @@ public class TShopCoursesPrice extends BaseEntity
     @ApiModelProperty("特殊价格级别，默认为0，没有特殊价格。")
     private Integer specialPriceLevel;
 
-    /** 价格描述副标题 */
-    @Excel(name = "价格描述副标题")
-    @ApiModelProperty("价格描述副标题")
-    private String subTitle;
+    /** 一级标题 */
+    @Excel(name = "一级标题")
+    @ApiModelProperty("一级标题")
+    private String subTitleOne;
+
+    /** 二级标题 */
+    @Excel(name = "二级标题")
+    @ApiModelProperty("二级标题")
+    private String subTitleTwo;
+
+    /** 补充标题 */
+    @Excel(name = "补充标题")
+    @ApiModelProperty("补充标题")
+    private String subTitleThree;
 
     /** 限制每人购买数量，-1为不限制。 */
     @Excel(name = "限制每人购买数量，-1为不限制。")
@@ -133,7 +143,9 @@ public class TShopCoursesPrice extends BaseEntity
             .append("l8Price", getL8Price())
             .append("l9Price", getL9Price())
             .append("specialPriceLevel", getSpecialPriceLevel())
-            .append("subTitle", getSubTitle())
+            .append("subTitleOne", getSubTitleOne())
+            .append("subTitleTwo", getSubTitleTwo())
+            .append("subTitleThree", getSubTitleThree())
             .append("perLimitBuy", getPerLimitBuy())
             .append("flag", getFlag())
             .append("createTime", getCreateTime())

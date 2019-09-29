@@ -19,7 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="l8Price"    column="l8_price"    />
         <result property="l9Price"    column="l9_price"    />
         <result property="specialPriceLevel"    column="special_price_level"    />
-        <result property="subTitle"    column="sub_title"    />
+        <result property="subTitleOne"    column="sub_title_one"    />
+        <result property="subTitleTwo"    column="sub_title_two"    />
+        <result property="subTitleThree"    column="sub_title_three"    />
         <result property="perLimitBuy"    column="per_limit_buy"    />
         <result property="flag"    column="flag"    />
         <result property="createTime"    column="create_time"    />
@@ -29,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTShopCoursesPriceVo">
-        select id, shop_id, courses_id, price, l1_price, l2_price, l3_price, l4_price, l5_price, l6_price, l7_price, l8_price, l9_price, special_price_level, sub_title, per_limit_buy, flag, create_time, create_by, update_time, update_by from t_shop_courses_price
+        select id, shop_id, courses_id, price, l1_price, l2_price, l3_price, l4_price, l5_price, l6_price, l7_price, l8_price, l9_price, special_price_level, sub_title_one,sub_title_two,sub_title_three, per_limit_buy, flag, create_time, create_by, update_time, update_by from t_shop_courses_price
     </sql>
 
     <select id="selectTShopCoursesPriceList" parameterType="TShopCoursesPrice" resultMap="TShopCoursesPriceResult">
@@ -55,7 +57,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="l8Price != null "> and tscp.l8_price = #{l8Price}</if>
             <if test="l9Price != null "> and tscp.l9_price = #{l9Price}</if>
             <if test="specialPriceLevel != null "> and tscp.special_price_level = #{specialPriceLevel}</if>
-            <if test="subTitle != null "> and tscp.sub_title = #{subTitle}</if>
+            <if test="subTitleOne != null "> and tscp.sub_title_one = #{subTitleOne}</if>
+            <if test="subTitleTwo != null "> and tscp.sub_title_two = #{subTitleTwo}</if>
+            <if test="subTitleThree != null "> and tscp.sub_title_three = #{subTitleThree}</if>
             <if test="perLimitBuy != null "> and tscp.per_limit_buy = #{perLimitBuy}</if>
             <if test="flag != null "> and tscp.flag = #{flag}</if>
             <if test="createBy != null  and createBy != ''"> and tscp.create_by = #{createBy}</if>
@@ -85,7 +89,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="l8Price != null ">l8_price,</if>
             <if test="l9Price != null ">l9_price,</if>
             <if test="specialPriceLevel != null ">special_price_level,</if>
-            <if test="subTitle != null ">sub_title,</if>
+            <if test="subTitleOne != null ">sub_title_one,</if>
+            <if test="subTitleTwo != null ">sub_title_two,</if>
+            <if test="subTitleThree != null ">sub_title_three,</if>
             <if test="perLimitBuy != null ">per_limit_buy,</if>
             <if test="flag != null ">flag,</if>
             <if test="createTime != null ">create_time,</if>
@@ -108,7 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="l8Price != null ">#{l8Price},</if>
             <if test="l9Price != null ">#{l9Price},</if>
             <if test="specialPriceLevel != null ">#{specialPriceLevel},</if>
-            <if test="subTitle != null ">#{subTitle},</if>
+            <if test="subTitleOne != null ">#{subTitleOne},</if>
+            <if test="subTitleTwo != null ">#{subTitleTwo},</if>
+            <if test="subTitleThree != null ">#{subTitleThree},</if>
             <if test="perLimitBuy != null ">#{perLimitBuy},</if>
             <if test="flag != null ">#{flag},</if>
             <if test="createTime != null ">#{createTime},</if>
@@ -134,7 +142,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="l8Price != null ">l8_price = #{l8Price},</if>
             <if test="l9Price != null ">l9_price = #{l9Price},</if>
             <if test="specialPriceLevel != null ">special_price_level = #{specialPriceLevel},</if>
-            <if test="subTitle != null ">sub_title = #{subTitle},</if>
+            <if test="subTitleOne != null ">sub_title_one = #{subTitleOne},</if>
+            <if test="subTitleTwo != null ">sub_title_two = #{subTitleTwo},</if>
+            <if test="subTitleThree != null ">sub_title_three = #{subTitleThree},</if>
             <if test="perLimitBuy != null ">per_limit_buy = #{perLimitBuy},</if>
             <if test="flag != null ">flag = #{flag},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>

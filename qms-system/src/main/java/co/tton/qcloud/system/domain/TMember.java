@@ -82,6 +82,10 @@ public class TMember extends BaseEntity
     @ApiModelProperty("关联会员用户子女信息表")
     private List<TMemberBaby> TMemberBabyList;
 
+    @Excel(name = "微信头像")
+    @ApiModelProperty("微信头像")
+    private String img;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -100,6 +104,7 @@ public class TMember extends BaseEntity
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
+            .append("img", getImg())
             .toString();
     }
 }

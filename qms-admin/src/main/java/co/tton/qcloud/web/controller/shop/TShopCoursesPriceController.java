@@ -119,6 +119,7 @@ public class TShopCoursesPriceController extends BaseController
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
         TShopCoursesPrice tShopCoursesPrice = tShopCoursesPriceService.selectTShopCoursesPriceById(id);
+        System.out.println("===========>>>"+tShopCoursesPrice.getSubTitleOne());
         mmap.put("tShopCoursesPrice", tShopCoursesPrice);
         return prefix + "/edit";
     }

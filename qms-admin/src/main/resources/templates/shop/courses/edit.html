@@ -4,6 +4,14 @@
     <th:block th:include="include :: header('修改课程基本信息')" />
     <th:block th:include="include :: summernote-css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var contentHtml = [[${tShopCourses.contentHtml}]];
+        console.log("------>>>"+contentHtml);
+
+        /*]]>*/
+    </script>
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -149,7 +157,7 @@
         function editCourses() {
             if ($.validate.form()) {
                 var note = $('.summernote').summernote('code');
-                $.operate.save(prefix + "/edit", $('#form-courses-edit'),"contentHtml",note);
+                $.operate.saveHtml(prefix + "/edit", $('#form-courses-edit'),"contentHtml",note);
             }
         }
 
@@ -162,6 +170,7 @@
             });
         });
 
+        $('.summernote').summernote('code',contentHtml);
 
 
     </script>

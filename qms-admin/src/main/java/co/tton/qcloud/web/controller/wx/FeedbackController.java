@@ -28,7 +28,7 @@ public class FeedbackController extends BaseController {
     private IFeedbackService iFeedbackService;
 
     @RequiresPermissions("wx:feedback")
-    @RequestMapping(value = "",method = RequestMethod.POST)
+    @RequestMapping(value = "/saveFeedback",method = RequestMethod.POST)
     @ApiOperation("新增反馈信息")
     public AjaxResult saveFeedback(TFeedback tFeedback){
         iFeedbackService.saveFeedback(tFeedback);

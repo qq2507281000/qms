@@ -45,4 +45,12 @@ public interface ITMemberService {
    * @return 结果
    */
     TMember getMemberByOpenId(String openId);
+
+  /**
+   * 保存会员信息
+   *
+   * @param tMember
+   * @return 结果
+   */
+    void saveMember(TMember tMember);
 }

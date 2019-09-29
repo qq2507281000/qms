@@ -136,15 +136,26 @@
                 },
                 {
                     field : 'shopName',
+                    align: 'center',
                     title : '商家名称'
                 },
                 {
                     field : 'title',
+                    align: 'center',
                     title : '课程名称'
                 },
                 {
-                    field : 'price', 
+                    field : 'price',
+                    align: 'center',
                     title : '默认基准价格'
+                },
+                {
+                    field : 'subTitleOne',
+                    align: 'center',
+                    title : '一级标题',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
                 },
                 // {
                 //     field : 'l1Price',
@@ -191,8 +202,14 @@
                 //     title : '价格描述副标题'
                 // },
                 {
-                    field : 'perLimitBuy', 
-                    title : '限制每人购买数量，-1为不限制。'
+                    field : 'perLimitBuy',
+                    align: 'center',
+                    title : '限制每人购买数量'
+                },
+                {
+                    field : 'specialPriceLevel',
+                    align: 'center',
+                    title : '是否VIP价格'
                 },
                 // {
                 //     field : 'flag',
