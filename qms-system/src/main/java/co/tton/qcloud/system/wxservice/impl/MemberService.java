@@ -61,4 +61,15 @@ public class MemberService implements ITMemberService {
   public TMember getMemberByOpenId(String openId) {
     return tMemberMapper.getMemberByOpenId(openId);
   }
+
+    /**
+     * 保存会员信息
+     *
+     * @param tMember
+     * @return 结果
+     */
+    @Override
+    public void saveMember(TMember tMember) {
+        tMemberMapper.saveMember(tMember);
+    }
 }

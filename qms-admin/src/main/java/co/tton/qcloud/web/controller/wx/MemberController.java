@@ -1,8 +1,11 @@
 package co.tton.qcloud.web.controller.wx;
 
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.framework.util.ShiroUtils;
+import co.tton.qcloud.system.domain.SysUser;
 import co.tton.qcloud.system.domain.TMember;
 import co.tton.qcloud.system.domain.TMemberModel;
 import co.tton.qcloud.system.wxservice.ITMemberService;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -124,4 +128,17 @@ public class MemberController extends BaseController {
     }
 
 
+    @RequiresPermissions("wx:feedback")
+    @RequestMapping(value = "/saveMember",method = RequestMethod.POST)
+    @ApiOperation("新增用户信息")
+    public AjaxResult saveMember(TMember tMember){
+            SysUser user = ShiroUtils.getSysUser();
+            tMember.setId(StringUtils.genericId());
+            tMember.setCreateBy(user.getUserId().toString());
+            tMember.setCreateTime(new Date());
+            tMember.setFlag(Constants.DATA_NORMAL);
+            tMemberService.saveMember(tMember);
+            return AjaxResult.success("保存用户成功。");
+
+    }
 }

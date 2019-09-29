@@ -188,4 +188,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             open_id = #{openId}
     </select>
+
+    <insert id="saveMember" parameterType="TMember">
+        insert into t_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="openId != null  and openId != ''">open_id,</if>
+            <if test="wxName != null  and wxName != ''">wx_name,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
+            <if test="regTime != null ">reg_time,</if>
+            <if test="star != null ">star,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="realName != null  and realName != ''">real_name,</if>
+            <if test="accountLevel != null  and accountLevel != ''">account_level,</if>
+            <if test="score != null ">score,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="openId != null  and openId != ''">#{openId},</if>
+            <if test="wxName != null  and wxName != ''">#{wxName},</if>
+            <if test="mobile != null  and mobile != ''">#{mobile},</if>
+            <if test="regTime != null ">#{regTime},</if>
+            <if test="star != null ">#{star},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="realName != null  and realName != ''">#{realName},</if>
+            <if test="accountLevel != null  and accountLevel != ''">#{accountLevel},</if>
+            <if test="score != null ">#{score},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+        </trim>
+    </insert>
 </mapper>
