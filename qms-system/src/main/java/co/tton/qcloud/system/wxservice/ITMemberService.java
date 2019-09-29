@@ -38,4 +38,11 @@ public interface ITMemberService {
    */
   int upMemberBabyInfo(@Param("id") String memberBabyId, @Param("realName") String realName, @Param("sex") Integer sex, @Param("birthday") String birthday);
 
+  /**
+   * 根据openId查询会员信息
+   *
+   * @param openId
+   * @return 结果
+   */
+    TMember getMemberByOpenId(String openId);
 }

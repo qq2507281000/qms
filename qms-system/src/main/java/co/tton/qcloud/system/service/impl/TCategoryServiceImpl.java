@@ -58,7 +58,6 @@ public class TCategoryServiceImpl implements ITCategoryService
     @Override
     public int insertTCategory(TCategory tCategory)
     {
-        tCategory.setCreateTime(DateUtils.getNowDate());
         return tCategoryMapper.insertTCategory(tCategory);
     }
 

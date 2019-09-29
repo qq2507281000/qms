@@ -50,4 +50,15 @@ public class MemberService implements ITMemberService {
   public int upMemberBabyInfo(String memberBabyId, String realName, Integer sex, String birthday) {
     return tMemberBabyMapper.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
   }
+
+  /**
+   * 根据openId查询会员信息
+   *
+   * @param openId
+   * @return 结果
+   */
+  @Override
+  public TMember getMemberByOpenId(String openId) {
+    return tMemberMapper.getMemberByOpenId(openId);
+  }
 }

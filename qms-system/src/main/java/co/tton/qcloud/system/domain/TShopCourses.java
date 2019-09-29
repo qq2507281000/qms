@@ -60,7 +60,7 @@ public class TShopCourses extends BaseEntity
     /** 是否可用 */
     @Excel(name = "是否可用")
     @ApiModelProperty("是否可用")
-    private Integer avaiable;
+    private Integer available;
 
     /** 排序 */
     @Excel(name = "排序")
@@ -97,7 +97,7 @@ public class TShopCourses extends BaseEntity
             .append("contentHtml", getContentHtml())
             .append("suggest", getSuggest())
             .append("salesCount", getSalesCount())
-            .append("avaiable", getAvaiable())
+            .append("available", getAvailable())
             .append("sortKey", getSortKey())
             .append("flag", getFlag())
             .append("createTime", getCreateTime())

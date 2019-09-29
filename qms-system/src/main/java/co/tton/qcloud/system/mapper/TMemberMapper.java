@@ -79,4 +79,11 @@ public interface TMemberMapper
      */
     List<TMember> getFavourite(String memberId);
 
+    /**
+     * 根据openId查询会员信息
+     *
+     * @param openId
+     * @return 结果
+     */
+    TMember getMemberByOpenId(String openId);
 }

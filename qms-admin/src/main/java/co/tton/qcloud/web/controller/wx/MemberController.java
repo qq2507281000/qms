@@ -2,6 +2,7 @@ package co.tton.qcloud.web.controller.wx;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TMember;
 import co.tton.qcloud.system.domain.TMemberModel;
 import co.tton.qcloud.system.wxservice.ITMemberService;
@@ -103,5 +104,24 @@ public class MemberController extends BaseController {
         memberYearList.add(member);
         return AjaxResult.success("修改会员子女信息成功",memberYearList);
     }
+
+    @ApiOperation("根据openId查询会员信息")
+    @RequiresPermissions("wx:member:orders")
+    @RequestMapping(value="/getMemberByOpenId",method = RequestMethod.GET)
+    public AjaxResult<TMember> getMemberByOpenId(@RequestParam(value = "openId") String openId){
+        if(StringUtils.isNotEmpty(openId)){
+            TMember tMember = tMemberService.getMemberByOpenId(openId);
+            if(tMember == null){
+                return AjaxResult.error("错误：不存在该用户");
+            }
+            else {
+                return AjaxResult.success("查询会员信息成功",tMember);
+            }
+        }
+        else{
+            return AjaxResult.error("错误：openId为空");
+        }
+    }
+
 
 }

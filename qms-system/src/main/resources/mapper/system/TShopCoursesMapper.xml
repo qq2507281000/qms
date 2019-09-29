@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contentHtml"    column="content_html"    />
         <result property="suggest"    column="suggest"    />
         <result property="salesCount"    column="sales_count"    />
-        <result property="avaiable"    column="avaiable"    />
+        <result property="available"    column="available"    />
         <result property="sortKey"    column="sort_key"    />
         <result property="flag"    column="flag"    />
         <result property="createTime"    column="create_time"    />
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contentHtml"    column="content_html"    />
         <result property="suggest"    column="suggest"    />
         <result property="salesCount"    column="sales_count"    />
-        <result property="avaiable"    column="avaiable"    />
+        <result property="available"    column="available"    />
         <result property="sortKey"    column="sort_key"    />
         <result property="flag"    column="flag"    />
         <result property="createTime"    column="create_time"    />
@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTShopCoursesVo">
-        select id, shop_id, title, sub_title, content_html, suggest, sales_count, avaiable, sort_key, flag, create_time, create_by, update_time, update_by, sku, use_discount from t_shop_courses
+        select id, shop_id, title, sub_title, content_html, suggest, sales_count, available, sort_key, flag, create_time, create_by, update_time, update_by, sku, use_discount from t_shop_courses
     </sql>
 
     <select id="selectTShopCoursesList" parameterType="TShopCourses" resultMap="TShopCoursesResult">
@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contentHtml != null  and contentHtml != ''"> and tsc.content_html = #{contentHtml}</if>
             <if test="suggest != null "> and tsc.suggest = #{suggest}</if>
             <if test="salesCount != null "> and tsc.sales_count = #{salesCount}</if>
-            <if test="avaiable != null "> and tsc.avaiable = #{avaiable}</if>
+            <if test="available != null "> and tsc.available = #{available}</if>
             <if test="sortKey != null "> and tsc.sort_key = #{sortKey}</if>
             <if test="flag != null "> and tsc.flag = #{flag}</if>
             <if test="createBy != null  and createBy != ''"> and tsc.create_by = #{createBy}</if>
@@ -113,7 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contentHtml != null ">content_html,</if>
             <if test="suggest != null ">suggest,</if>
             <if test="salesCount != null ">sales_count,</if>
-            <if test="avaiable != null ">avaiable,</if>
+            <if test="available != null ">available,</if>
             <if test="sortKey != null ">sort_key,</if>
             <if test="flag != null ">flag,</if>
             <if test="createTime != null ">create_time,</if>
@@ -131,7 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contentHtml != null ">#{contentHtml},</if>
             <if test="suggest != null ">#{suggest},</if>
             <if test="salesCount != null ">#{salesCount},</if>
-            <if test="avaiable != null ">#{avaiable},</if>
+            <if test="available != null ">#{available},</if>
             <if test="sortKey != null ">#{sortKey},</if>
             <if test="flag != null ">#{flag},</if>
             <if test="createTime != null ">#{createTime},</if>
@@ -152,7 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contentHtml != null ">content_html = #{contentHtml},</if>
             <if test="suggest != null ">suggest = #{suggest},</if>
             <if test="salesCount != null ">sales_count = #{salesCount},</if>
-            <if test="avaiable != null ">avaiable = #{avaiable},</if>
+            <if test="available != null ">available = #{available},</if>
             <if test="sortKey != null ">sort_key = #{sortKey},</if>
             <if test="flag != null ">flag = #{flag},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>

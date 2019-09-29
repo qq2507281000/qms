@@ -179,4 +179,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
     </select>
+
+    <select id="getMemberByOpenId" resultMap="TMemberResult">
+        SELECT
+            *
+        FROM
+            t_member
+        WHERE
+            open_id = #{openId}
+    </select>
 </mapper>

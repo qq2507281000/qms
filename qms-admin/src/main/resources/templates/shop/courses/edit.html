@@ -6,122 +6,135 @@
     <th:block th:include="include :: bootstrap-fileinput-css" />
 </head>
 <body class="white-bg">
-    <div id="topBox" class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-courses-edit" th:object="${tShopCourses}">
-            <input name="id" th:field="*{id}" type="hidden">
-            <h4 class="form-header h4">基本信息</h4>
-            <div class="form-group">    
-<!--                <label class="col-sm-3 control-label">商家Id：</label>-->
-                <div class="col-sm-8">
-                    <input name="shopId" th:field="*{shopId}" class="form-control" type="hidden">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">课程标题：</label>
-                <div class="col-sm-8">
-                    <input name="title" th:field="*{title}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">库存数量：</label>
-                <div class="col-sm-8">
-                    <input name="salesCount" th:field="*{salesCount}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">排序：</label>
-                <div class="col-sm-8">
-                    <input name="sortKey" th:field="*{sortKey}" class="form-control" type="text">
-                </div>
-            </div>
-<!--            <div class="form-group">    -->
-<!--                <label class="col-sm-3 control-label">副标题：</label>-->
-<!--                <div class="col-sm-8">-->
-<!--                    <input name="subTitle" th:field="*{subTitle}" class="form-control" type="hidden">-->
-<!--                </div>-->
-<!--            </div>-->
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否推荐：</label>
-                <div class="col-sm-8">
-<!--                    <input name="suggest" th:field="*{suggest}" class="form-control" type="text">-->
-                    <div class="radio">
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" value="1" th:field="*{suggest}" name="avaiable"> <i></i> 是</label>
-                        </div>
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" checked="" th:field="*{suggest}" value="0" name="avaiable"> <i></i> 否</label>
-                        </div>
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>修改课程基本信息</h5>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否可用：</label>
-                <div class="col-sm-8">
-                    <div class="radio">
-                            <div class="radio check-box">
-                                <label>
-                                    <input type="radio" value="1" th:field="*{avaiable}" name="avaiable"> <i></i> 是</label>
+                    <div class="ibox-content">
+
+                    <form class="form-horizontal m" id="form-courses-edit" th:object="${tShopCourses}">
+                        <input name="id" th:field="*{id}" type="hidden">
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">课程标题：</label>
+                            <div class="col-sm-10">
+                                <input name="title" th:field="*{title}" class="form-control" type="text">
+                                <input name="shopId" th:field="*{shopId}" class="form-control" type="hidden">
                             </div>
-                            <div class="radio check-box">
-                                <label>
-                                    <input type="radio" checked="" th:field="*{avaiable}" value="0" name="avaiable"> <i></i> 否</label>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库存数量：</label>
+                            <div class="col-sm-10">
+                                <input name="salesCount" th:field="*{salesCount}" class="form-control" type="text">
+                                <span class="help-block m-b-none">库存数量为-1的情况下，则不限制销售数量。</span>
                             </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">课程排序：</label>
+                            <div class="col-sm-10">
+                                <input name="sortKey" th:field="*{sortKey}" class="form-control" type="text">
+                            </div>
+                        </div>
+            <!--            <div class="form-group">    -->
+            <!--                <label class="col-sm-3 control-label">副标题：</label>-->
+            <!--                <div class="col-sm-8">-->
+            <!--                    <input name="subTitle" th:field="*{subTitle}" class="form-control" type="hidden">-->
+            <!--                </div>-->
+            <!--            </div>-->
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否推荐：</label>
+                            <div class="col-sm-10">
+            <!--                    <input name="suggest" th:field="*{suggest}" class="form-control" type="text">-->
+
+                                    <div class="radio check-box">
+                                        <label>
+                                            <input type="radio" value="1" th:field="*{suggest}" name="avaiable"> <i></i> 是</label>
+                                    </div>
+                                    <div class="radio check-box">
+                                        <label>
+                                            <input type="radio" checked="" th:field="*{suggest}" value="0" name="avaiable"> <i></i> 否</label>
+                                    </div>
+
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否可用：</label>
+                            <div class="col-sm-10">
+
+                                        <div class="radio check-box">
+                                            <label>
+                                                <input type="radio" value="1" th:field="*{available}" name="available"> <i></i> 是</label>
+                                        </div>
+                                        <div class="radio check-box">
+                                            <label>
+                                                <input type="radio" checked="" th:field="*{available}" value="0" name="available"> <i></i> 否</label>
+                                        </div>
+
+                            </div>
+                        </div>
+            <!--            <div class="form-group">-->
+            <!--                <label class="col-sm-3 control-label">状态：</label>-->
+            <!--                <div class="col-sm-8">-->
+            <!--                    <input name="flag" th:field="*{flag}" value="1" class="form-control" type="hidden">-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            <div class="form-group">    -->
+            <!--                <label class="col-sm-3 control-label">创建人：</label>-->
+            <!--                <div class="col-sm-8">-->
+            <!--                    <input name="createUser" th:field="*{createBy}" class="form-control" type="hidden">-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            <div class="form-group">    -->
+            <!--                <label class="col-sm-3 control-label">修改人：</label>-->
+            <!--                <div class="col-sm-8">-->
+            <!--                    <input name="updateUser" th:field="*{updateBy}" class="form-control" type="hidden">-->
+            <!--                </div>-->
+            <!--            </div>-->
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否允许使用优惠券：</label>
+                            <div class="col-sm-10">
+
+                                    <div class="radio check-box">
+                                        <label>
+                                            <input type="radio" value="0" th:field="*{useDiscount}" name="avaiable"> <i></i> 是</label>
+                                    </div>
+                                    <div class="radio check-box">
+                                        <label>
+                                            <input type="radio" checked="" th:field="*{useDiscount}" value="1" name="avaiable"> <i></i> 否</label>
+                                    </div>
+
+                            </div>
+                        </div>
+            <!--            <div class="form-group">    -->
+            <!--                <label class="col-sm-3 control-label">SKU保留字段：</label>-->
+            <!--                <div class="col-sm-8">-->
+            <!--                    <input name="sku" th:field="*{sku}" class="form-control" type="text">-->
+            <!--                </div>-->
+            <!--            </div>-->
+                        <div class="form-group">
+                            <h4 class="form-header h4">课程详情</h4>
+                            <div id="summernote" class="summernote">
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <div class="row text-center" style="padding:15px;">
+                        <button class="btn btn-primary btn-xl" onclick="editCourses()"><i class="fa fa-save"></i> 保存</button>
+                        <button class="btn btn-danger btn-xl" onclick="closeItem()"><i class="fa fa-close"></i> 取消</button>
                     </div>
                 </div>
             </div>
-<!--            <div class="form-group">-->
-<!--                <label class="col-sm-3 control-label">状态：</label>-->
-<!--                <div class="col-sm-8">-->
-<!--                    <input name="flag" th:field="*{flag}" value="1" class="form-control" type="hidden">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="form-group">    -->
-<!--                <label class="col-sm-3 control-label">创建人：</label>-->
-<!--                <div class="col-sm-8">-->
-<!--                    <input name="createUser" th:field="*{createBy}" class="form-control" type="hidden">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="form-group">    -->
-<!--                <label class="col-sm-3 control-label">修改人：</label>-->
-<!--                <div class="col-sm-8">-->
-<!--                    <input name="updateUser" th:field="*{updateBy}" class="form-control" type="hidden">-->
-<!--                </div>-->
-<!--            </div>-->
-            <div class="form-group">
-                <label class="col-sm-3 control-label">是否允许使用优惠券：</label>
-                <div class="col-sm-8">
-                    <div class="radio">
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" value="0" th:field="*{useDiscount}" name="avaiable"> <i></i> 是</label>
-                        </div>
-                        <div class="radio check-box">
-                            <label>
-                                <input type="radio" checked="" th:field="*{useDiscount}" value="1" name="avaiable"> <i></i> 否</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<!--            <div class="form-group">    -->
-<!--                <label class="col-sm-3 control-label">SKU保留字段：</label>-->
-<!--                <div class="col-sm-8">-->
-<!--                    <input name="sku" th:field="*{sku}" class="form-control" type="text">-->
-<!--                </div>-->
-<!--            </div>-->
-            <div class="form-group">
-                <h4 class="form-header h4">课程详情</h4>
-                <div id="summernote" class="summernote">
-
-                </div>
-            </div>
-
-        </form>
-
-        <div class="row text-center" style="padding:15px;">
-            <button class="btn btn-primary btn-xl" onclick="editCourses()"><i class="fa fa-save"></i> 保存</button>
-            <button class="btn btn-danger btn-xl" onclick="closeItem()"><i class="fa fa-close"></i> 取消</button>
         </div>
     </div>
     <th:block th:include="include :: footer" />
