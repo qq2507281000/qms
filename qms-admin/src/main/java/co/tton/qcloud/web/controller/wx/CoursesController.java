@@ -50,7 +50,7 @@ public class CoursesController extends BaseController {
     public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value="loc",required = false)String location,
                                         @RequestParam(value="category",required = false)String categoryId,
                                         @RequestParam(value="shopId",required = false)String shopId){
-        if (StringUtils.isNotEmpty(location) && location.equals("dalian")){
+        if (StringUtils.isNotEmpty(location) && location.equals("大连")){
                 //选择类型了的推荐
             String cId = null;
             String sId= null;
