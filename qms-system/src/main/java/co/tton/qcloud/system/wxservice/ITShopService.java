@@ -27,7 +27,7 @@ public interface ITShopService
      * @param
      * @return 获取商家详情成功。
      */
-    TShop getShopDetail(String shopId);
+    List getShopDetail(String shopId);
 
     /**
      * 模糊查询商家

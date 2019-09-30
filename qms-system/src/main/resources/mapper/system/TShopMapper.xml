@@ -220,24 +220,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!--查询商家详情-->
     <select id="getShopDetail" parameterType="String" resultMap="TShopResult">
         select
-            shop.id,
-            shop.name,
-            shop.summary,
-            shop.region_name,
-            shop.cover_img,
-            shop.address,
-            shop.telephone,
-            shop.mobile,
-            shop.shop_hours_begin,
-            shop.shop_hours_end,
-            count(de.order_no)
+        shop.id,
+        shop. NAME,
+        shop.summary,
+        shop.region_name,
+        shop.cover_img,
+        shop.address,
+        shop.telephone,
+        shop.mobile,
+        shop.shop_hours_begin,
+        shop.shop_hours_end,
+        count(de.order_no) as shopCount,
+        ca.name as shopCategoryName
         from
-            t_shop shop
+        t_shop shop
         left join t_order de on shop.id = de.shop_id
+        left join t_category ca on shop.category_id = ca.parent_id
         <where>
             shop.flag = 0
             <if test="_parameter != null  and _parameter  != ''">and shop.id = #{id}</if>
         </where>
+        group by
+        ca. name
         order by shop.sort_key
     </select>
 

@@ -154,6 +154,15 @@ public class TShop extends BaseEntity
     @Excel(name = "数据状态")
     private Integer flag;
 
+    //以下是自定义字段
+    @ApiModelProperty("商家月销")
+    @Excel(name = "商家月销")
+    private Integer shopCount;
+
+    @ApiModelProperty("商家分类名称")
+    @Excel(name = "商家分类名称")
+    private String  shopCategoryName;
+
     @ApiModelProperty("关联订单")
     private List<TCategory> tCategoryList;
 

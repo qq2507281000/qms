@@ -60,10 +60,10 @@ public class ShopController extends BaseController {
     @ApiOperation("查询商家详情")
     @RequiresPermissions("wx:shop:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public AjaxResult<TShop> getShopDetail(@PathVariable("id")String shopId){
+    public AjaxResult<List<TShop>> getShopDetail(@PathVariable("id")String shopId){
         if(StringUtils.isNotEmpty(shopId)){
-          TShop tShop=tShopService.getShopDetail(shopId);
-          return AjaxResult.success("获取商家详情成功。",tShop);
+          List list=tShopService.getShopDetail(shopId);
+          return AjaxResult.success("获取商家详情成功。",list);
         }else{
           return AjaxResult.error("商家ID错误。");
         }
