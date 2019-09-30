@@ -114,11 +114,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getAllCategory" resultMap="TCategoryResult">
         SELECT
-            *
+            tco.*,
+            tct.`name` AS parentName
         FROM
-            t_category
-        WHERE
-            parent_id IS NOT NULL AND flag = 0
+            t_category tco
+            INNER JOIN t_category tct ON tco.parent_id = tct.id
     </select>
 
     <select id="getSubCategory" resultMap="TCategoryResult">

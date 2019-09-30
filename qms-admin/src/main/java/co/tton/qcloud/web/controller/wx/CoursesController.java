@@ -6,6 +6,7 @@ import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.*;
 import co.tton.qcloud.system.service.ITOrderDetailService;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
+import co.tton.qcloud.system.service.ITShopCoursesPriceService;
 import co.tton.qcloud.system.wxservice.ICoursesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,9 @@ public class CoursesController extends BaseController {
 
     @Autowired
     private ITOrderDetailService tOrderDetailService;
+
+    @Autowired
+    private ITShopCoursesPriceService tShopCoursesPriceService;
 
 
     /***
@@ -120,4 +124,22 @@ public class CoursesController extends BaseController {
 
 
 
+    /***
+     *查询所有价格信息
+     * @param
+     * @return
+     */
+    @RequiresPermissions("wx:courses:priceAll")
+    @RequestMapping(value = "/price",method = RequestMethod.GET)
+    @ApiOperation("根据Id获取价格信息")
+    public AjaxResult<List<TShopCoursesPrice>> getCoursesPriceById(@RequestParam(value="coursesId",required = false)String coursesId){
+        if (StringUtils.isNotEmpty(coursesId)){
+            List<TShopCoursesPrice> tShopCoursesPrice = tShopCoursesPriceService.getCoursesPriceById(coursesId);
+            if(tShopCoursesPrice.size() == 0){
+                return AjaxResult.error("获取失败");
+            }
+            return AjaxResult.success("查询成功",tShopCoursesPrice);
+        }
+        return AjaxResult.error("错我：课程Id为空");
+    }
 }

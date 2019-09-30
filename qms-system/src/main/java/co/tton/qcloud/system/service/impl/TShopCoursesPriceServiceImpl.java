@@ -98,4 +98,15 @@ public class TShopCoursesPriceServiceImpl implements ITShopCoursesPriceService
     {
         return tShopCoursesPriceMapper.deleteTShopCoursesPriceById(id);
     }
+
+    /**
+     * 根据Id查询价格信息
+     *
+     * @param coursesId
+     * @return 结果
+     */
+    @Override
+    public List<TShopCoursesPrice> getCoursesPriceById(String coursesId) {
+        return tShopCoursesPriceMapper.getCoursesPriceById(coursesId);
+    }
 }
