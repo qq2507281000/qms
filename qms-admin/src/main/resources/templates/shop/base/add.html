@@ -11,7 +11,6 @@
     <th:block th:include="include :: datetimepicker-css" />
 
     <link href="http://localhost/ajax/libs/datapicker/bootstrap-timepicker.min.css" rel="stylesheet">
-
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -416,8 +415,6 @@
 
 <script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.js}"></script>
 
-<!--<script th:src="@{/ajax/libs/datapicker/time/bootstrap-datetimepicker.min.js}"></script>-->
-
 <script type="text/javascript">
     //富文本输入框
     $(document).ready(function () {
@@ -471,7 +468,6 @@
             $(that).parent().find('input').eq(1).val(1);
         }
     }
-    // var nowTime = '<%=DateTime.Now.ToString("HH:mm")%>';
 
     function writeCurrentDate() {
         var now = new Date();
@@ -488,12 +484,6 @@
 
     $("#shopHoursBegin").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
     $("#shopHoursEnd").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
-    // function beginTime() {
-    //     $("#shopHoursBegin").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
-    // }
-    // function endTime() {
-    //     $("#shopHoursEnd").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
-    // }
 </script>
 </body>
 </html>

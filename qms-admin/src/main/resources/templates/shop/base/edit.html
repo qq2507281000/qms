@@ -2,280 +2,481 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('修改商家信息')" />
+    <th:block th:include="include :: summernote-css" />
     <link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">
+    <th:block th:include="include :: jasny-bootstrap-css" />
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <link href="http://localhost/ajax/libs/datapicker/bootstrap-timepicker.min.css" rel="stylesheet">
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var htmlContent = [[${tShop.htmlContent}]];
+        console.log("------>>>"+htmlContent);
+
+        /*]]>*/
+    </script>
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-shop-edit" th:object="${tShop}">
-            <input name="id" th:field="*{id}" type="hidden">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">商家名称：</label>
-                <div class="col-sm-8">
-                    <input name="name" th:field="*{name}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">商家副标题：</label>
-                <div class="col-sm-8">
-                    <input name="subject" th:field="*{subject}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">封面图片：</label>
-                <div class="col-sm-8">
-                    <input name="coverImg" th:field="*{coverImg}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否推荐：</label>
-                <div class="col-sm-8">
-                    <!--<input name="suggest" th:field="*{suggest}" class="form-control" type="text">-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" onclick="openClick(this)" checked>
-                        <input type="hidden" name="suggest" value="1" >
-                        <span></span>
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">排序键值：</label>
-                <div class="col-sm-8">
-                    <input name="sortKey" th:field="*{sortKey}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">排序权重：</label>
-                <div class="col-sm-8">
-                    <input name="sortWeight" th:field="*{sortWeight}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">地理位置：</label>
-                <div class="col-sm-8">
-                    <input name="address" autocomplete="off" type="text" value="请选择/输入城市名称"
-                           class="form-control city_input inputFocus proCityQueryAll proCitySelAll">
-                </div>
-                <div class="provinceCityAll">
-                    <div class="tabs clearfix">
-                        <ul>
-                            <li>
-                                <a href="javascript:" class="current" tb="hotCityAll">热门城市</a>
-                            </li>
-                            <li>
-                                <a href="javascript:" tb="provinceAll">省份</a>
-                            </li>
-                            <li>
-                                <a href="javascript:" tb="cityAll" id="cityAll">城市</a>
-                            </li>
-                            <li>
-                                <a href="javascript:" tb="countyAll" id="countyAll">区县</a>
-                            </li>
-                        </ul>
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-shop-edit" th:object="${tShop}">
+        <h4 class="form-header h4">基本信息</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家名称：</label>
+                    <div class="col-sm-8">
+                        <input name="name" th:field="*{name}" class="form-control" type="text" maxlength="30" required>
                     </div>
-                    <div class="con">
-                        <div class="hotCityAll invis" style="display: none;">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="provinceAll invis">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="cityAll invis">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家副标题：</label>
+                    <div class="col-sm-8">
+                        <input name="subject" th:field="*{subject}" type="text" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">开始营业时间：</label>
+                    <div class="col-sm-8">
+                        <!--<input name="shopHoursBegin" class="form-control" type="text" maxlength="30" required>-->
+                        <div style="display: -webkit-inline-box;padding-left:0px">
+                            <div class="input-group">
+                                <input type="text" id="shopHoursBegin" name="shopHoursBegin" th:field="*{shopHoursBegin}"
+                                       readonly="readonly" class="form-control timepicker timepicker-default"
+                                       placeholder="从">
+                                <span class="input-group-btn">
+                                   <button class="btn default" type="button">
+                                       <i class="fa fa-clock-o"></i>
+                                   </button>
+                                </span>
                             </div>
                         </div>
-                        <div class="countyAll invis">
-                            <div class="pre">
-                                <a>
-                                </a>
-                            </div>
-                            <div class="list">
-                                <ul>
-                                </ul>
-                            </div>
-                            <div class="next">
-                                <a class="can">
-                                </a>
-                            </div>
+
+                        <!--<div class="col-md-4">-->
+                        <!--<div class="input-group">-->
+                        <!--<input type="text" id="shopHoursEnd" name="shopHoursEnd"-->
+                        <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
+                        <!--placeholder="到">-->
+                        <!--<span class="input-group-btn">-->
+                        <!--<button class="btn default" type="button">-->
+                        <!--<i class="fa fa-clock-o"></i>-->
+                        <!--</button>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">结束营业时间：</label>
+                    <div class="col-sm-8">
+                        <!--<input name="shopHoursEnd" type="text" class="form-control" required>-->
+                        <div class="input-group">
+                            <input type="text" id="shopHoursEnd" name="shopHoursEnd" th:field="*{shopHoursEnd}"
+                                   readonly="readonly" class="form-control timepicker timepicker-default"
+                                   placeholder="到">
+                            <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-clock-o"></i>
+                                    </button>
+                                </span>
                         </div>
                     </div>
                 </div>
-                <script th:src="@{/js/city/jquery-1.6.2.min.js}"></script>
-                <script th:src="@{/js/city/public.js}"></script>
-                <div id="dimCityQuery"><ul></ul></div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">区域名称：</label>
-                <div class="col-sm-8">
-                    <input name="regionName" th:field="*{regionName}" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">地理位置：</label>
+                    <div class="col-sm-8">
+                        <input name="address" th:field="*{address}" autocomplete="off" type="text" maxlength="30" required value="请选择/输入城市名称"
+                               class="form-control city_input inputFocus proCityQueryAll proCitySelAll" ov="请选择/输入城市名称">
+                    </div>
+                    <div class="provinceCityAll">
+                        <div class="tabs clearfix">
+                            <ul>
+                                <li>
+                                    <a href="javascript:"  class="current" tb="hotCityAll">热门城市</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:" tb="provinceAll">省份</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:" tb="cityAll" id="cityAll">城市</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:" tb="countyAll" id="countyAll">区县</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="con">
+                            <div class="hotCityAll invis" style="display: none;">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="provinceAll invis">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="cityAll invis">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="countyAll invis">
+                                <div class="pre">
+                                    <a>
+                                    </a>
+                                </div>
+                                <div class="list">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="next">
+                                    <a class="can">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script th:src="@{/js/city/jquery-1.6.2.min.js}"></script>
+                    <script th:src="@{/js/city/public.js}"></script>
+                    <div id="dimCityQuery"><ul></ul></div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">开始营业时间：</label>
-                <div class="col-sm-8">
-                    <input name="shopHoursBegin" th:field="*{shopHoursBegin}" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">区域名称：</label>
+                    <div class="col-sm-8">
+                        <input name="regionName" th:field="*{regionName}" type="text" class="form-control" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">结束营业时间：</label>
-                <div class="col-sm-8">
-                    <input name="shopHoursEnd" th:field="*{shopHoursEnd}" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">封面图片：</label>
+                    <div class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
+                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                        <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
+                        <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">商家级别：</label>
-                <div class="col-sm-8">
-                    <input name="level" th:field="*{level}" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否推荐：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <!--<input name="deptName" type="text" class="form-control" required>-->
+                        </div>
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" id="suggest" onclick="openClick(this)" checked class="form-control" required>
+                            <input type="hidden" name="suggest" th:field="*{suggest}" value="1" id="suggestH" checked>
+                            <span></span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">商家星级：</label>
-                <div class="col-sm-8">
-                    <input name="stars" th:field="*{stars}" class="form-control" type="text">
+        </div>
+
+        <h4 class="form-header h4">联系信息</h4>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家座机：</label>
+                    <div class="col-sm-8">
+                        <input name="telephone" th:field="*{telephone}" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">商家座机：</label>
-                <div class="col-sm-8">
-                    <input name="telephone" th:field="*{telephone}" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家手机：</label>
+                    <div class="col-sm-8">
+                        <input name="mobile" th:field="*{mobile}" type="text" class="form-control" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">商家手机：</label>
-                <div class="col-sm-8">
-                    <input name="mobile" th:field="*{mobile}" class="form-control" type="text">
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">联系人姓名：</label>
+                    <div class="col-sm-8">
+                        <input name="contractName" th:field="*{contractName}" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">联系人姓名：</label>
-                <div class="col-sm-8">
-                    <input name="contractName" th:field="*{contractName}" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">微信号：</label>
+                    <div class="col-sm-8">
+                        <input name="wechatNo" th:field="*{wechatNo}" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">微信号：</label>
-                <div class="col-sm-8">
-                    <input name="wechatNo" th:field="*{wechatNo}" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">个人二维码图片：</label>
+                    <!--<div class="col-sm-8">-->
+                    <!--<div class="input-group">-->
+                    <!--<input name="wechatNoImg" type="text" class="form-control" required>-->
+                    <!--</div>-->
+                    <div class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
+                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                        <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
+                        <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
+                    </div>
+                    <!--</div>-->
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">微信公众平台：</label>
-                <div class="col-sm-8">
-                    <input name="wechatPlatform" th:field="*{wechatPlatform}" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">微信公众平台：</label>
+                    <div class="col-sm-8">
+                        <input name="wechatPlatform" th:field="*{wechatPlatform}" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">个人二维码图片：</label>
-                <div class="col-sm-8">
-                    <input name="wechatNoImg" th:field="*{wechatNoImg}" class="form-control" type="text">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">微信公众号图片：</label>
+                    <!--<div class="col-sm-8">-->
+                    <!--<div class="input-group">-->
+                    <!--<input name="wechatPlatformImg" type="text" class="form-control" required>-->
+                    <!--</div>-->
+                    <div class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
+                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                        <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
+                        <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
+                    </div>
+                    <!--</div>-->
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">微信公众号图片：</label>
-                <div class="col-sm-8">
-                    <input name="wechatPlatformImg" th:field="*{wechatPlatformImg}" class="form-control" type="text">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否显示微信信息：</label>
+                    <div class="col-sm-8">
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" onclick="openClick(this)" checked>
+                            <input type="hidden" name="wechatShow" th:field="*{wechatShow}" value="1" >
+                            <span></span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否显示微信信息：</label>
-                <div class="col-sm-8">
-                    <!--<select name="wechatShow" th:field="*{wechatShow}" class="form-control" type="text">-->
-                        <!--<option value ="1">是</option>-->
-                        <!--<option value ="0">否</option>-->
-                    <!--</select>-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" onclick="openClick(this)" checked>
-                        <input type="hidden" name="wechatShow" value="1" >
-                        <span></span>
-                    </label>
+        </div>
+
+        <h4 class="form-header h4">其他信息</h4>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">排序键值：</label>
+                    <div class="col-sm-8">
+                        <input name="sortKey" th:field="*{sortKey}" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">是否可用：</label>
-                <div class="col-sm-8">
-                    <!--<select name="available" th:field="*{available}" class="form-control" type="text">-->
-                        <!--<option value ="1">是</option>-->
-                        <!--<option value ="0">否</option>-->
-                    <!--</select>-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" onclick="openClick(this)" checked>
-                        <input type="hidden" name="available" value="1" >
-                        <span></span>
-                    </label>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">排序权重：</label>
+                    <div class="col-sm-8">
+                        <input name="sortWeight" th:field="*{sortWeight}" type="text" class="form-control" required>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">数据状态：</label>
-                <div class="col-sm-8">
-                    <!--<select name="flag" th:field="*{flag}" class="form-control" type="text">-->
-                        <!--<option value ="1">是</option>-->
-                        <!--<option value ="0">否</option>-->
-                    <!--</select>-->
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" onclick="openClick(this)" checked>
-                        <input type="hidden" name="flag" value="1" >
-                        <span></span>
-                    </label>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家级别：</label>
+                    <div class="col-sm-8">
+                        <input name="level" th:field="*{level}" class="form-control" type="text" maxlength="30" required>
+                    </div>
                 </div>
             </div>
-        </form>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家星级：</label>
+                    <div class="col-sm-8">
+                        <input name="stars" th:field="*{stars}" type="text" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否可用：</label>
+                    <div class="col-sm-8">
+                        <!--<div class="input-group">-->
+                        <!--<input name="wechatPlatformImg" type="text" class="form-control" required>-->
+                        <!--</div>-->
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" onclick="openClick(this)" checked>
+                            <input type="hidden" name="available" th:field="*{available}" value="1" >
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">数据状态：</label>
+                    <div class="col-sm-8">
+                        <label class="toggle-switch switch-solid">
+                            <input type="checkbox" onclick="openClick(this)" checked>
+                            <input type="hidden" name="flag" th:field="*{flag}" value="1" >
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="form-header h4">其他信息</h4>
+
+        <div class="row">
+            <div id="summernote" class="summernote">
+
+            </div>
+        </div>
+
+    </form>
+
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="editCourses()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
     </div>
-    <th:block th:include="include :: footer" />
-    <script type="text/javascript">
-        var prefix = "/shop";
-        $("#form-shop-edit").validate({
-            focusCleanup: true
+
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: jasny-bootstrap-js" />
+<script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
+<th:block th:include="include :: summernote-js" />
+<th:block th:include="include :: bootstrap-fileinput-js" />
+
+<script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+<script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.js}"></script>
+<script type="text/javascript">
+    var prefix = "/shop";
+    $("#form-shop-edit").validate({
+        focusCleanup: true
+    });
+
+    // function submitHandler() {
+    //     if ($.validate.form()) {
+    //         $.operate.save(prefix + "/edit", $('#form-shop-edit').serialize());
+    //     }
+    // }
+
+
+    // 修改时js有bug------------------
+
+    function openClick(that){
+        if($(that).attr('checked')){
+            $(that).removeAttrs('checked');
+            $(that).parent().find('input').eq(1).val(0);
+        }else {
+            $(that).attr('checked','checked');
+            $(that).parent().find('input').eq(1).val(1);
+        }
+    }
+
+    //富文本输入框
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            lang: 'zh-CN',
+            placeholder: '请输入商家详细信息。',
+            height: 300
         });
+    });
 
-        function submitHandler() {
-            if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-shop-edit').serialize());
-            }
+    function editCourses() {
+        if ($.validate.form()) {
+            var note = $('.summernote').summernote('code');
+            $.operate.saveHtml(prefix+"/edit",$('#form-shop-edit'),"htmlContent",note);
         }
+    }
 
+    function writeCurrentDate() {
+        var now = new Date();
+        var hour = now.getHours();//得到小时
+        var minu = now.getMinutes();//得到分钟
+        if (hour < 10) hour = "0" + hour;
+        if (minu < 10) minu = "0" + minu;
+        var time = "";
+        time = hour + ":" + minu;
+        //当前日期赋值给当前日期输入框中（jQuery easyUI）
+        $("#shopHoursBegin").html(time);
+        $("#shopHoursEnd").html(time);
+    }
 
-        // 修改时js有bug------------------
-
-        function openClick(that){
-            if($(that).attr('checked')){
-                $(that).removeAttrs('checked');
-                $(that).parent().find('input').eq(1).val(0);
-            }else {
-                $(that).attr('checked','checked');
-                $(that).parent().find('input').eq(1).val(1);
-            }
-        }
-    </script>
+    $("#shopHoursBegin").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+    $("#shopHoursEnd").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+    $('.summernote').summernote('code',htmlContent);
+</script>
 </body>
 </html>
