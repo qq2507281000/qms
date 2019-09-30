@@ -58,4 +58,12 @@ public interface TShopCoursesPriceMapper
      * @return 结果
      */
     public int deleteTShopCoursesPriceByIds(String[] ids);
+
+    /**
+     * 根据Id查询价格信息
+     *
+     * @param coursesId
+     * @return 结果
+     */
+    List<TShopCoursesPrice> getCoursesPriceById(String coursesId);
 }

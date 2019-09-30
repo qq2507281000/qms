@@ -169,5 +169,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="getCoursesPriceById"  resultMap="TShopCoursesPriceResult">
+        SELECT
+            *
+        FROM
+            t_shop_courses_price
+        WHERE
+            courses_id = #{coursesId}
+    </select>
     
 </mapper>

@@ -58,4 +58,6 @@ public interface ITShopCoursesPriceService
      * @return 结果
      */
     public int deleteTShopCoursesPriceById(String id);
+
+    List<TShopCoursesPrice> getCoursesPriceById(String coursesId);
 }

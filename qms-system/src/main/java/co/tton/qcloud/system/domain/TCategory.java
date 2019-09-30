@@ -57,6 +57,10 @@ public class TCategory extends BaseEntity
     @ApiModelProperty("数据状态")
     private Integer flag;
 
+    @Excel(name = "父级分类名称")
+    @ApiModelProperty("父级分类名称")
+    private String parentName;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -71,6 +75,7 @@ public class TCategory extends BaseEntity
             .append("createBy", getCreateBy())
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
+            .append("parentName", getParentName())
             .toString();
     }
 }
