@@ -133,11 +133,17 @@
                 },
                 {
                     field : 'subject', 
-                    title : '订单标题'
+                    title : '订单标题',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value,8);
+                    }
                 },
                 {
                     field : 'shopName',
-                    title : '商家名称'
+                    title : '商家名称',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value,8);
+                    }
                 },
                 {
                     field : 'preRealPrice', 
@@ -157,7 +163,10 @@
                 },
                 {
                     field : 'serialNo', 
-                    title : '支付流水'
+                    title : '支付流水',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value,10);
+                    }
                 },
                 {
                     field : 'haveDiscount', 
