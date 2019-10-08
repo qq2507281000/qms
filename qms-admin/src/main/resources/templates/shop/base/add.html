@@ -53,19 +53,6 @@
                                 </span>
                             </div>
                         </div>
-
-                        <!--<div class="col-md-4">-->
-                            <!--<div class="input-group">-->
-                                <!--<input type="text" id="shopHoursEnd" name="shopHoursEnd"-->
-                                       <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
-                                       <!--placeholder="到">-->
-                                <!--<span class="input-group-btn">-->
-                                    <!--<button class="btn default" type="button">-->
-                                        <!--<i class="fa fa-clock-o"></i>-->
-                                    <!--</button>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -204,14 +191,22 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">是否推荐：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <!--<input name="deptName" type="text" class="form-control" required>-->
+                        <!--<div class="input-group">-->
+                            <!--&lt;!&ndash;<input name="deptName" type="text" class="form-control" required>&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--<label class="toggle-switch switch-solid">-->
+                            <!--<input type="checkbox" id="suggest" onclick="openClick(this)" checked class="form-control" required>-->
+                            <!--<input type="hidden" name="suggest" value="1" id="suggestH" checked>-->
+                            <!--<span></span>-->
+                        <!--</label>-->
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" value="1" name="suggest"> <i></i> 是</label>
                         </div>
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" id="suggest" onclick="openClick(this)" checked class="form-control" required>
-                            <input type="hidden" name="suggest" value="1" id="suggestH" checked>
-                            <span></span>
-                        </label>
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" checked="" value="0" name="suggest"> <i></i> 否</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -305,11 +300,19 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">是否显示微信信息：</label>
                     <div class="col-sm-8">
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" onclick="openClick(this)" checked>
-                            <input type="hidden" name="wechatShow" value="1" >
-                            <span></span>
-                        </label>
+                        <!--<label class="toggle-switch switch-solid">-->
+                            <!--<input type="checkbox" onclick="openClick(this)" checked>-->
+                            <!--<input type="hidden" name="wechatShow" value="1" >-->
+                            <!--<span></span>-->
+                        <!--</label>-->
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" value="1" name="wechatShow"> <i></i> 是</label>
+                        </div>
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" checked="" value="0" name="wechatShow"> <i></i> 否</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -363,11 +366,19 @@
                         <!--<div class="input-group">-->
                         <!--<input name="wechatPlatformImg" type="text" class="form-control" required>-->
                         <!--</div>-->
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" onclick="openClick(this)" checked>
-                            <input type="hidden" name="available" value="1" >
-                            <span></span>
-                        </label>
+                        <!--<label class="toggle-switch switch-solid">-->
+                            <!--<input type="checkbox" onclick="openClick(this)" checked>-->
+                            <!--<input type="hidden" name="available" value="1" >-->
+                            <!--<span></span>-->
+                        <!--</label>-->
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" value="1" name="available"> <i></i> 是</label>
+                        </div>
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" checked="" value="0" name="available"> <i></i> 否</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -376,11 +387,19 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">数据状态：</label>
                     <div class="col-sm-8">
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" onclick="openClick(this)" checked>
-                            <input type="hidden" name="flag" value="1" >
-                            <span></span>
-                        </label>
+                        <!--<label class="toggle-switch switch-solid">-->
+                            <!--<input type="checkbox" onclick="openClick(this)" checked>-->
+                            <!--<input type="hidden" name="flag" value="1" >-->
+                            <!--<span></span>-->
+                        <!--</label>-->
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" value="1" name="flag"> <i></i> 是</label>
+                        </div>
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" checked="" value="0" name="flag"> <i></i> 否</label>
+                        </div>
                     </div>
                 </div>
             </div>
