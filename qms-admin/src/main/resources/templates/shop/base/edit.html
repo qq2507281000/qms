@@ -22,6 +22,7 @@
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
     <form class="form-horizontal m" id="form-shop-edit" th:object="${tShop}">
+        <input name="id" th:field="*{id}" type="hidden">
         <h4 class="form-header h4">基本信息</h4>
         <div class="row">
             <div class="col-sm-6">
@@ -60,19 +61,6 @@
                                 </span>
                             </div>
                         </div>
-
-                        <!--<div class="col-md-4">-->
-                        <!--<div class="input-group">-->
-                        <!--<input type="text" id="shopHoursEnd" name="shopHoursEnd"-->
-                        <!--readonly="readonly" class="form-control timepicker timepicker-default"-->
-                        <!--placeholder="到">-->
-                        <!--<span class="input-group-btn">-->
-                        <!--<button class="btn default" type="button">-->
-                        <!--<i class="fa fa-clock-o"></i>-->
-                        <!--</button>-->
-                        <!--</span>-->
-                        <!--</div>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -210,14 +198,14 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">是否推荐：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <!--<input name="deptName" type="text" class="form-control" required>-->
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" value="1" th:field="*{suggest}" name="avaiable"> <i></i> 是</label>
                         </div>
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" id="suggest" onclick="openClick(this)" checked class="form-control" required>
-                            <input type="hidden" name="suggest" th:field="*{suggest}" value="1" id="suggestH" checked>
-                            <span></span>
-                        </label>
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" checked="" th:field="*{suggest}" value="0" name="avaiable"> <i></i> 否</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -310,12 +298,13 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">是否显示微信信息：</label>
-                    <div class="col-sm-8">
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" onclick="openClick(this)" checked>
-                            <input type="hidden" name="wechatShow" th:field="*{wechatShow}" value="1" >
-                            <span></span>
-                        </label>
+                    <div class="radio check-box">
+                        <label>
+                            <input type="radio" value="1" th:field="*{wechatShow}" name="avaiable"> <i></i> 是</label>
+                    </div>
+                    <div class="radio check-box">
+                        <label>
+                            <input type="radio" checked="" th:field="*{wechatShow}" value="0" name="avaiable"> <i></i> 否</label>
                     </div>
                 </div>
             </div>
@@ -366,14 +355,14 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">是否可用：</label>
                     <div class="col-sm-8">
-                        <!--<div class="input-group">-->
-                        <!--<input name="wechatPlatformImg" type="text" class="form-control" required>-->
-                        <!--</div>-->
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" onclick="openClick(this)" checked>
-                            <input type="hidden" name="available" th:field="*{available}" value="1" >
-                            <span></span>
-                        </label>
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" value="1" th:field="*{available}" name="avaiable"> <i></i> 是</label>
+                        </div>
+                        <div class="radio check-box">
+                            <label>
+                                <input type="radio" checked="" th:field="*{available}" value="0" name="avaiable"> <i></i> 否</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -381,12 +370,13 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">数据状态：</label>
-                    <div class="col-sm-8">
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" onclick="openClick(this)" checked>
-                            <input type="hidden" name="flag" th:field="*{flag}" value="1" >
-                            <span></span>
-                        </label>
+                    <div class="radio check-box">
+                        <label>
+                            <input type="radio" value="1" th:field="*{flag}" name="avaiable"> <i></i> 是</label>
+                    </div>
+                    <div class="radio check-box">
+                        <label>
+                            <input type="radio" checked="" th:field="*{flag}" value="0" name="avaiable"> <i></i> 否</label>
                     </div>
                 </div>
             </div>
@@ -426,24 +416,17 @@
         focusCleanup: true
     });
 
-    // function submitHandler() {
-    //     if ($.validate.form()) {
-    //         $.operate.save(prefix + "/edit", $('#form-shop-edit').serialize());
-    //     }
-    // }
-
-
     // 修改时js有bug------------------
 
-    function openClick(that){
-        if($(that).attr('checked')){
-            $(that).removeAttrs('checked');
-            $(that).parent().find('input').eq(1).val(0);
-        }else {
-            $(that).attr('checked','checked');
-            $(that).parent().find('input').eq(1).val(1);
-        }
-    }
+    // function openClick(that){
+    //     if($(that).attr('checked')){
+    //         $(that).removeAttrs('checked');
+    //         $(that).parent().find('input').eq(1).val(0);
+    //     }else {
+    //         $(that).attr('checked','checked');
+    //         $(that).parent().find('input').eq(1).val(1);
+    //     }
+    // }
 
     //富文本输入框
     $(document).ready(function () {
@@ -473,9 +456,13 @@
         $("#shopHoursBegin").html(time);
         $("#shopHoursEnd").html(time);
     }
+    console.log(Begin);
+    // $("#shopHoursBegin").val(shopHoursBegin).timepicker('setTime', writeCurrentDate);
+    // $("#shopHoursEnd").val(shopHoursEnd).timepicker('setTime', writeCurrentDate);
 
     $("#shopHoursBegin").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
     $("#shopHoursEnd").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+
     $('.summernote').summernote('code',htmlContent);
 </script>
 </body>
