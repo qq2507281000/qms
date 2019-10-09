@@ -58,4 +58,20 @@ public interface ITMemberService
      * @return 结果
      */
     public int deleteTMemberById(String id);
+
+    /**
+     * 登录时会员基本信息查询
+     *
+     * @param openId 会员基本信息openId
+     * @return
+     */
+    public TMember loginInfo(String openId);
+
+    /**
+     * 新增会员用户
+     *
+     * @param tMember
+     * @return 结果
+     */
+    public int insertloginInfo(TMember tMember);
 }

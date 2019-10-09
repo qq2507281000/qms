@@ -39,7 +39,7 @@ public class BannerController extends BaseController {
      * @return
      */
     @ApiOperation("查询首页滚动广告")
-    @RequiresPermissions("wx:banner")
+//    @RequiresPermissions("wx:banner")
     @RequestMapping(value = "",method = RequestMethod.GET)
     public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc",required = false)String location){
         if(StringUtils.isNotEmpty(location) && location.equals("大连")){

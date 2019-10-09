@@ -41,7 +41,7 @@ public class MemberController extends BaseController {
      * @return
      */
     @ApiOperation("查询会员信息")
-    @RequiresPermissions("wx:member:info")
+//    @RequiresPermissions("wx:member:info")
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     public AjaxResult<TMemberModel> getMemberInfo(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
@@ -58,7 +58,7 @@ public class MemberController extends BaseController {
      * @return
      */
     @ApiOperation("查询会员用户子女信息")
-    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getFavourite",method = RequestMethod.GET)
     public AjaxResult<TMember> getFavourite(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
@@ -75,7 +75,7 @@ public class MemberController extends BaseController {
      * @return
      */
     @ApiOperation("会员子女信息修改")
-    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
     public AjaxResult upMemberBabyInfo(@RequestParam(value = "id") String memberBabyId,
                                        @RequestParam(value = "realName") String realName,
@@ -95,7 +95,7 @@ public class MemberController extends BaseController {
      * @return
      */
     @ApiOperation("会员年费信息暂时写固定值")
-    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getMemberYearMoney",method = RequestMethod.GET)
     public AjaxResult<List> upMemberBabyInfo(){
         //会员年费97.00和会员描述暂时写固定值
@@ -110,7 +110,7 @@ public class MemberController extends BaseController {
     }
 
     @ApiOperation("根据openId查询会员信息")
-    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/getMemberByOpenId",method = RequestMethod.GET)
     public AjaxResult<TMember> getMemberByOpenId(@RequestParam(value = "openId") String openId){
         if(StringUtils.isNotEmpty(openId)){
@@ -128,7 +128,7 @@ public class MemberController extends BaseController {
     }
 
 
-    @RequiresPermissions("wx:feedback")
+//    @RequiresPermissions("wx:feedback")
     @RequestMapping(value = "/saveMember",method = RequestMethod.POST)
     @ApiOperation("新增用户信息")
     public AjaxResult saveMember(TMember tMember){

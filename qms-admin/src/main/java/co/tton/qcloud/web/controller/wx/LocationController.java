@@ -26,7 +26,7 @@ public class LocationController extends BaseController {
      * @param
      * @return
      */
-    @RequiresPermissions("wx:location")
+//    @RequiresPermissions("wx:location")
     @RequestMapping(value="/list",method = RequestMethod.GET)
     @ApiOperation("获取城市")
     public AjaxResult getLocaltions(){

@@ -38,7 +38,7 @@ public class ShopController extends BaseController {
    * @return
    */
     @ApiOperation("首页推荐商家查询，查询所有商家")
-    @RequiresPermissions("wx:shop:suggest")
+//    @RequiresPermissions("wx:shop:suggest")
     @RequestMapping(value="/suggest",method = RequestMethod.GET)
     public AjaxResult<List<TShop>> getSuggestShop(@RequestParam(value="loc",required = false) String location,
                                      @RequestParam(value="category",required = false)String categoryId,
@@ -58,7 +58,7 @@ public class ShopController extends BaseController {
    * @return
    */
     @ApiOperation("查询商家详情")
-    @RequiresPermissions("wx:shop:detail")
+//    @RequiresPermissions("wx:shop:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public AjaxResult<List<TShop>> getShopDetail(@PathVariable("id")String shopId){
         if(StringUtils.isNotEmpty(shopId)){
@@ -75,7 +75,7 @@ public class ShopController extends BaseController {
    * @return
    */
   @ApiOperation("搜索框查询")
-  @RequiresPermissions("wx:shop:suggest")
+//  @RequiresPermissions("wx:shop:suggest")
   @RequestMapping(value="/getName",method = RequestMethod.GET)
   public AjaxResult<List> getNameShop(@RequestParam(value="name")String name)
   {

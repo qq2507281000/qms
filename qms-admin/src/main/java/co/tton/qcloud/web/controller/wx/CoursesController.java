@@ -48,7 +48,7 @@ public class CoursesController extends BaseController {
      * @param location,categoryId,shopId
      * @return
      */
-    @RequiresPermissions("wx:courses:suggest")
+//    @RequiresPermissions("wx:courses:suggest")
     @RequestMapping(value = "suggest",method = RequestMethod.GET)
     @ApiOperation("获取推荐课程")
     public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value="loc",required = false)String location,
@@ -93,7 +93,7 @@ public class CoursesController extends BaseController {
      * @param id
      * @return
      */
-    @RequiresPermissions("wx:courses:detail")
+//    @RequiresPermissions("wx:courses:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     @ApiOperation("课程详细信息")
     public AjaxResult<TShopCoursesModel> getCoursesDetail(@PathVariable("id") String id){
@@ -116,7 +116,7 @@ public class CoursesController extends BaseController {
         }
     }
 
-    @RequiresPermissions("wx:courses:detail")
+//    @RequiresPermissions("wx:courses:detail")
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
     public AjaxResult getCoursesComment(@PathVariable("id") String id){
         return null;
@@ -129,7 +129,7 @@ public class CoursesController extends BaseController {
      * @param
      * @return
      */
-    @RequiresPermissions("wx:courses:priceAll")
+//    @RequiresPermissions("wx:courses:priceAll")
     @RequestMapping(value = "/price",method = RequestMethod.GET)
     @ApiOperation("根据Id获取价格信息")
     public AjaxResult<List<TShopCoursesPrice>> getCoursesPriceById(@RequestParam(value="coursesId",required = false)String coursesId){

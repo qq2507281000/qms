@@ -10,6 +10,8 @@ import co.tton.qcloud.system.mapper.TMemberMapper;
 import co.tton.qcloud.system.domain.TMember;
 import co.tton.qcloud.system.service.ITMemberService;
 
+import javax.annotation.Resource;
+
 /**
  * 会员基本信息Service业务层处理
  * 
@@ -19,7 +21,7 @@ import co.tton.qcloud.system.service.ITMemberService;
 @Service
 public class TMemberServiceImpl implements ITMemberService 
 {
-    @Autowired
+    @Resource
     private TMemberMapper tMemberMapper;
 
     /**
@@ -93,5 +95,27 @@ public class TMemberServiceImpl implements ITMemberService
     public int deleteTMemberById(String id)
     {
         return tMemberMapper.deleteTMemberById(id);
+    }
+
+    /**
+     * 登录时会员基本信息查询
+     *
+     * @param openId 会员基本信息openId
+     * @return
+     */
+    @Override
+    public TMember loginInfo(String openId) {
+        return tMemberMapper.loginInfo(openId);
+    }
+
+    /**
+     * 新增会员用户
+     *
+     * @param tMember
+     * @return 结果
+     */
+    @Override
+    public int insertloginInfo(TMember tMember) {
+        return tMemberMapper.insertloginInfo(tMember);
     }
 }

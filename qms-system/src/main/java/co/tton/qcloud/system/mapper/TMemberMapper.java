@@ -94,4 +94,20 @@ public interface TMemberMapper
      * @return 结果
      */
     void saveMember(TMember tMember);
+
+    /**
+     * 登录时会员基本信息查询
+     *
+     * @param openId 会员基本信息openId
+     * @return
+     */
+    TMember loginInfo(String openId);
+
+    /**
+     * 新增会员用户
+     *
+     * @param tMember
+     * @return 结果
+     */
+    int insertloginInfo(TMember tMember);
 }

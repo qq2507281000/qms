@@ -32,7 +32,7 @@ public class OrderController extends BaseController {
     @Autowired
     private ITOrderService tOrderService;
 
-    @RequiresPermissions("wx:order:submit")
+//    @RequiresPermissions("wx:order:submit")
     @RequestMapping(value = "",method = RequestMethod.POST)
     public AjaxResult submitOrder(){
         //TODO:参数未定义，提交数据需要有实体对象。
@@ -44,7 +44,7 @@ public class OrderController extends BaseController {
      * @param
      * @return
      */
-    @RequiresPermissions("wx:order:list")
+//    @RequiresPermissions("wx:order:list")
     @RequestMapping(value="",method = RequestMethod.GET)
     @ApiOperation("获取所有订单列表")
     public AjaxResult getOrderList(){
@@ -73,7 +73,7 @@ public class OrderController extends BaseController {
      * @param orderId
      * @return
      */
-    @RequiresPermissions("wx:order:detail")
+//    @RequiresPermissions("wx:order:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     @ApiOperation("获取订单详情")
     public AjaxResult getOrderDetail(@PathVariable("id")String orderId){
@@ -89,7 +89,7 @@ public class OrderController extends BaseController {
         }
     }
 
-    @RequiresPermissions("wx:order:comment")
+//    @RequiresPermissions("wx:order:comment")
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
     public AjaxResult comment(){
         return null;

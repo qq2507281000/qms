@@ -33,7 +33,7 @@ public class CategoryController extends BaseController {
      * @param
      * @return
      */
-    @RequiresPermissions("wx:category:top")
+//    @RequiresPermissions("wx:category:top")
     @RequestMapping(value="/top",method = RequestMethod.GET)
     @ApiOperation("获取顶级分类信息")
     public AjaxResult<List<TCategory>> getTopCatgory(){
@@ -47,7 +47,7 @@ public class CategoryController extends BaseController {
      * @param
      * @return
      */
-    @RequiresPermissions("wx:category:all")
+//    @RequiresPermissions("wx:category:all")
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ApiOperation("获取所有分类信息")
     public AjaxResult<List<TCategory>> getAllCategory(){
@@ -61,7 +61,7 @@ public class CategoryController extends BaseController {
      * @param searchKey
      * @return
      */
-    @RequiresPermissions("wx:category:search")
+//    @RequiresPermissions("wx:category:search")
     @RequestMapping(value="/search",method = RequestMethod.GET)
     @ApiOperation("搜索框查询")
     public AjaxResult<List<TCategory>> searchCategory(@RequestParam("key")String searchKey){
@@ -79,7 +79,7 @@ public class CategoryController extends BaseController {
      * @param parentId
      * @return
      */
-    @RequiresPermissions("wx:category:sub")
+//    @RequiresPermissions("wx:category:sub")
     @RequestMapping(value = "/{pid}",method = RequestMethod.GET)
     @ApiOperation("根据顶级分类搜索子级分类")
     public AjaxResult<List<TCategory>> getSubCategory(@PathVariable("pid") String parentId){

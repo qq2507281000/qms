@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1.0")
 public class OperationController extends BaseController {
 
-    @RequiresPermissions("wx:operation:popup")
+//    @RequiresPermissions("wx:operation:popup")
     @RequestMapping(value = "/popup",method = RequestMethod.GET)
     public AjaxResult indexPopup(@RequestParam(value="loc",required = false) String location){
         return null;

@@ -37,7 +37,7 @@ public class CouponController extends BaseController {
      * @return
      */
     @ApiOperation("会员用户优惠劵查询")
-    @RequiresPermissions("wx:coupon:list")
+//    @RequiresPermissions("wx:coupon:list")
     @RequestMapping(value = "",method = RequestMethod.GET)
     public AjaxResult<List<TCouponUseLogModel>> getCouponList(@RequestParam(value = "id") String memberId){
         if(StringUtils.isNotEmpty(memberId)){
