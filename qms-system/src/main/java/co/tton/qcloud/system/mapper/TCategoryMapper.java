@@ -73,7 +73,7 @@ public interface TCategoryMapper
      * @param
      * @return 结果
      */
-    List<TCategory> getAllCategory();
+    List<TCategory> getAllCategory(String str);
 
     /**
      * 根据顶级分类搜索子级分类

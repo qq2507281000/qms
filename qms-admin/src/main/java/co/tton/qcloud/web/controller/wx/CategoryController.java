@@ -11,7 +11,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: qms
@@ -51,10 +54,40 @@ public class CategoryController extends BaseController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ApiOperation("获取所有分类信息")
     public AjaxResult<List<TCategory>> getAllCategory(){
-        //获取所有分类信息
-        List<TCategory> tAllCategories = tCategoryService.getAllCategory();
-        return AjaxResult.success("获取所有分类信息成功。",tAllCategories);
+        //查询所有不重复parentId信息
+        List<TCategory> tAllCategories = tCategoryService.getAllCategory(null);
+        List list = new ArrayList();
+        for(int i=0;i<tAllCategories.size();i++){
+            String s = tAllCategories.get(i).getParentId();
+            if(!list.contains(s)) {
+                list.add(s);
+            }
+        }
+        Map <String,List> map = new HashMap();
+        //根据parentId查询信息
+        for(int j=0;j<list.size();j++){
+            String str=list.get(j).toString();
+            if(StringUtils.isNotEmpty(str)){
+                List tCategoryList=tCategoryService.getAllCategory(str);
+                map.put(str,tCategoryList);
+            }
+        }
+        return AjaxResult.success("获取所有分类信息成功。",map);
     }
+
+//    /***
+//     *
+//     * @param
+//     * @return
+//     */
+////    @RequiresPermissions("wx:category:all")
+//    @RequestMapping(value = "/all", method = RequestMethod.GET)
+//    @ApiOperation("获取所有分类信息")
+//    public AjaxResult<List<TCategory>> getAllCategory(){
+//        //获取所有分类信息
+//        List<TCategory> tAllCategories = tCategoryService.getAllCategory();
+//        return AjaxResult.success("获取所有分类信息成功。",tAllCategories);
+//    }
 
     /***
      *

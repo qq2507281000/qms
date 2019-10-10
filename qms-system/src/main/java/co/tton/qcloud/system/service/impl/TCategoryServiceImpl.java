@@ -115,8 +115,8 @@ public class TCategoryServiceImpl implements ITCategoryService
      * @return 结果
      */
     @Override
-    public List<TCategory> getAllCategory() {
-        return tCategoryMapper.getAllCategory();
+    public List<TCategory> getAllCategory(String str) {
+        return tCategoryMapper.getAllCategory(str);
     }
 
     /**

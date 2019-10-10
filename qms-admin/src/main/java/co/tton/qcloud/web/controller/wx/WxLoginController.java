@@ -42,7 +42,11 @@ public class WxLoginController extends BaseController {
     @GetMapping("/user/loginInfo")
     @ApiOperation("返回个人信息和token")
 //    @RequiresPermissions("wx:member:openId")
-    public AjaxResult<List> loginInfo(@RequestParam(value = "openId",required = false) String openId) {
+    public AjaxResult<List> loginInfo(@RequestParam(value = "openId") String openId,
+                                      @RequestParam(value = "mobile",required = false) String mobile,
+                                      @RequestParam(value = "realName",required = false) String realName,
+                                      @RequestParam(value = "img",required = false) String img
+                                      ) {
         if(StringUtils.isNotEmpty(openId)){
             TMember tMember = itMemberService.loginInfo(openId);
             List list = new ArrayList();
@@ -52,9 +56,14 @@ public class WxLoginController extends BaseController {
                 TMember tMemberOne = new TMember();
                 tMemberOne.setId(StringUtils.genericId());
                 tMemberOne.setOpenId(openId);
+                tMemberOne.setMobile(mobile);
+                tMemberOne.setWxName(realName);
+                tMemberOne.setImg(img);
                 int number = itMemberService.insertloginInfo(tMemberOne);
-                list.add(number);
-                return AjaxResult.success("新增用户插入成功。",list);
+                if(number>0){
+                    list.add(tMemberOne.getId());
+                    return AjaxResult.success("新增用户插入成功。",list);
+                }
             }
             return AjaxResult.success("获取信息成功。",list);
           }else{

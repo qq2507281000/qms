@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @program: qms
  * @description:
@@ -31,8 +35,17 @@ public class LocationController extends BaseController {
     @ApiOperation("获取城市")
     public AjaxResult getLocaltions(){
         //TODO:获取所有城市列表信息
-        return AjaxResult.success("获取所有城市列表信息成功。",cityStringArray);
+        ArrayList<String> list = new ArrayList<String>(){
+            {add("str01"); add("str02");}
+        };
+        final Map<String, String[]> cityArray = new HashMap();
+        String[]  StringArray = {"大连"};
+        cityArray.put("A",StringArray);
+        return AjaxResult.success("获取所有城市列表信息成功。",cityArray);
     }
+
+
+
 
     public static final String[] cityStringArray = {
         "A","阿坝","阿拉善","阿里","安康","安庆","鞍山","安顺","安阳","澳门","B","北京","白银",

@@ -46,8 +46,8 @@ public class TShopServiceImpl implements ITShopService
     @Override
     public List<TShop> selectTShopList(TShop tShop)
     {
-        tShop.setFlag(1);
-        tShop.setAvailable(1);
+        tShop.setFlag(0);
+        tShop.setAvailable(0);
         return tShopMapper.selectTShopList(tShop);
     }
 

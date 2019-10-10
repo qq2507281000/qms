@@ -112,13 +112,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             parent_id IS NULL AND flag = 0
     </select>
 
+    <!--<select id="getAllCategory" resultMap="TCategoryResult">-->
+        <!--SELECT-->
+            <!--tco.*,-->
+            <!--tct.`name` AS parentName-->
+        <!--FROM-->
+            <!--t_category tco-->
+            <!--INNER JOIN t_category tct ON tco.parent_id = tct.id-->
+    <!--</select>-->
+
     <select id="getAllCategory" resultMap="TCategoryResult">
         SELECT
-            tco.*,
-            tct.`name` AS parentName
+            parent_id,
+            id,
+            name,
+            icon
         FROM
-            t_category tco
-            INNER JOIN t_category tct ON tco.parent_id = tct.id
+            t_category
+            where
+            1=1
+            <if test="_parameter != null  and _parameter != ''">and parent_id = #{parentId}</if>
     </select>
 
     <select id="getSubCategory" resultMap="TCategoryResult">
