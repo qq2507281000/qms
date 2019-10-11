@@ -4,16 +4,14 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TOrder;
+import co.tton.qcloud.system.domain.TOrderModel;
 import co.tton.qcloud.system.domain.WxOrderDetail;
 import co.tton.qcloud.system.service.ITOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,23 +44,27 @@ public class OrderController extends BaseController {
      */
 //    @RequiresPermissions("wx:order:list")
     @RequestMapping(value="",method = RequestMethod.GET)
-    @ApiOperation("获取所有订单列表")
-    public AjaxResult getOrderList(){
-        List<TOrder> tOrders =tOrderService.getOrderList();
+    @ApiOperation("获取所有订单列表,支付状态订单列表")
+    public AjaxResult getOrderList(@RequestParam(value = "memberid")String memberId,
+                                   @RequestParam(value = "billstatus",required = false)String billStatus){
+        TOrder tOrderNew = new TOrder();
+        tOrderNew.setBillStatus(billStatus);
+        tOrderNew.setMemberId(memberId);
+        List<TOrder> tOrders =tOrderService.getOrderList(tOrderNew);
         for(TOrder tOrder:tOrders){
-            if(tOrder.getPayStatus() == "UNPAY"){
-                tOrder.setWxStatus("未支付");
-            }else {
-                tOrder.setWxStatus("待使用");
-            }
-            if(tOrder.getUseStatus() == "USED"){
-                tOrder.setWxStatus("待评价");
-            }
-            if (tOrder.getUseStatus() == "EXPIRED"){
-                tOrder.setWxStatus("已过期");
-            }
-            if(tOrder.getBillStatus() == "FINISHED"){
-                tOrder.setWxStatus("已评价");
+            switch (tOrder.getBillStatus()) {
+                case "BOOKING":
+                    tOrder.setBillStatus("下单中");
+                    break;
+                case "EXECUTING":
+                    tOrder.setBillStatus("执行中");
+                    break;
+                case "EVALUATING":
+                    tOrder.setBillStatus("评价中");
+                    break;
+                case "FINISHED":
+                    tOrder.setBillStatus("已完成");
+                    break;
             }
         }
         return AjaxResult.success("获取顶级分类成功。",tOrders);
@@ -86,6 +88,27 @@ public class OrderController extends BaseController {
             }
         }else {
             return AjaxResult.error("报错：orderId为空。");
+        }
+    }
+
+    /***
+     *
+     * @param
+     * @return
+     */
+//    @RequiresPermissions("wx:order:count")
+    @RequestMapping(value="/countOder",method = RequestMethod.GET)
+    @ApiOperation("根据订单状态获取订单数量")
+    public AjaxResult getCountOrder(@RequestParam(value = "billstatus")String billStatus,
+                                    @RequestParam(value = "memberid")String memberId){
+        if(StringUtils.isNotEmpty(billStatus)){
+            TOrderModel tOrder = new TOrderModel();
+            tOrder.setBillStatus(billStatus);
+            tOrder.setMemberId(memberId);
+            TOrderModel tOrderModel =tOrderService.getCountOrder(tOrder);
+            return AjaxResult.success("获取数量成功。",tOrderModel);
+        }else{
+            return AjaxResult.error("参数错误");
         }
     }
 

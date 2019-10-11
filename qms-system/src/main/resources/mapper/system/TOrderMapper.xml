@@ -91,6 +91,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="lessionTime"    column="lession_time"    />
     </resultMap>
 
+    <resultMap type="TOrderModel" id="WxstatusCount" extends="TOrderResult">
+        <result property="statusCount"    column="statusCount"    />
+    </resultMap>
+
     <sql id="selectTOrderVo">
         select id, order_no, subject, address, shop_id, pre_real_price, pay_price, payment_channel, serial_no, have_discount, booking_time, pay_time, pay_status, use_status, bill_status, verify_status, flag, create_time, create_by, update_time, update_by, member_id,
         (select name from t_shop where id = o.shop_id) as shop_name
@@ -288,7 +292,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <select id="getOrderList" resultMap="TOrderModelResult">
+    <select id="getOrderList" parameterType="TOrder" resultMap="TOrderModelResult">
         SELECT
             tod.lession_time,
             too.`subject`,
@@ -305,6 +309,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             tsci.sort_key = 1
             AND too.flag = 0
+        <if test="billStatus != null  and billStatus != ''">AND too.bill_status = #{billStatus}</if>
+        <if test="memberId != null  and memberId != ''">AND too.member_id = #{memberId}</if>
     </select>
 
     <select id="getOrderDetail" resultMap="WxOrderDetailResult">
@@ -339,5 +345,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             tod.order_id = #{orderId}
             AND tod.flag = 0
+    </select>
+
+    <select id="getCountOrder" parameterType="TOrderModel" resultMap="WxstatusCount">
+        SELECT
+        count(member_id) statusCount,
+        member_id
+        FROM
+        t_order
+        <where>
+            <if test="billStatus != null  and billStatus != ''">and bill_status = #{billStatus}</if>
+            <if test="memberId != null  and memberId != ''">and member_id = #{memberId}</if>
+        </where>
     </select>
 </mapper>

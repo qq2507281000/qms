@@ -55,24 +55,31 @@ public class CategoryController extends BaseController {
     @ApiOperation("获取所有分类信息")
     public AjaxResult<List<TCategory>> getAllCategory(){
         //查询所有不重复parentId信息
-        List<TCategory> tAllCategories = tCategoryService.getAllCategory(null);
-        List list = new ArrayList();
-        for(int i=0;i<tAllCategories.size();i++){
-            String s = tAllCategories.get(i).getParentId();
-            if(!list.contains(s)) {
-                list.add(s);
-            }
-        }
-        Map <String,List> map = new HashMap();
-        //根据parentId查询信息
-        for(int j=0;j<list.size();j++){
-            String str=list.get(j).toString();
-            if(StringUtils.isNotEmpty(str)){
-                List tCategoryList=tCategoryService.getAllCategory(str);
-                map.put(str,tCategoryList);
-            }
-        }
-        return AjaxResult.success("获取所有分类信息成功。",map);
+//        List<TCategory> tAllCategories = tCategoryService.getAllCategory(null);
+//        List list = new ArrayList();
+//        for(int i=0;i<tAllCategories.size();i++){
+//            String s = tAllCategories.get(i).getParentId();
+//            if(!list.contains(s)) {
+//                list.add(s);
+//            }
+//        }
+//        Map <String,List> map = new HashMap();
+        Map <String,Object> map = new HashMap();
+        map.put("parent",1);
+        List<TCategory> tAllCategories = tCategoryService.getAllCategoryByMap(map);
+        tAllCategories.forEach(parent ->{
+            List<TCategory> childList = tCategoryService.getChildList(parent.getId());
+            parent.setChildTCategoryList(childList);
+        });
+//        //根据parentId查询信息
+//        for(int j=0;j<list.size();j++){
+//            String str=list.get(j).toString();
+//            if(StringUtils.isNotEmpty(str)){
+//                List tCategoryList=tCategoryService.getAllCategory(str);
+//                map.put(str,tCategoryList);
+//            }
+//        }
+        return AjaxResult.success("获取所有分类信息成功。",tAllCategories);
     }
 
 //    /***

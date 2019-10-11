@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,13 +36,22 @@ public class LocationController extends BaseController {
     @ApiOperation("获取城市")
     public AjaxResult getLocaltions(){
         //TODO:获取所有城市列表信息
-        ArrayList<String> list = new ArrayList<String>(){
-            {add("str01"); add("str02");}
-        };
-        final Map<String, String[]> cityArray = new HashMap();
-        String[]  StringArray = {"大连"};
-        cityArray.put("A",StringArray);
-        return AjaxResult.success("获取所有城市列表信息成功。",cityArray);
+        List<Object> list1 = new ArrayList<>();
+        List<Object> list2 = new ArrayList<>();
+        Map<String,Object> map = new HashMap();
+        Map<String,Object> map1 = new HashMap();
+        map.put("A","A");
+        map.put("city",list2);
+        map1.put("name","大连");
+        list2.add(map1);
+        list1.add(map);
+
+
+
+//        final Map<String, String[]> cityArray = new HashMap();
+//        String[]  StringArray = {"大连"};
+//        cityArray.put("A",StringArray);
+        return AjaxResult.success("获取所有城市列表信息成功。",list1);
     }
 
 

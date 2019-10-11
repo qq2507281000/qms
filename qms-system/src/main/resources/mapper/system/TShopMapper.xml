@@ -206,7 +206,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!--首页推荐商家查询，查询所有商家-->
     <select id="getSuggestShop" resultMap="TShopAll">
-        select sh.id, sh.name, sh.suggest, sh.cover_img ,sh.region_name,sh.category_id,ca.id as a_id
+        select sh.category_id,sh.id, sh.name, sh.subject, sh.summary, sh.region_name, sh.cover_img, sh.suggest, sh.sort_key, sh.sort_weight, sh.address, sh.shop_hours_begin, sh.shop_hours_end,
+        sh.level, sh.stars, sh.html_content, sh.telephone, sh.mobile, sh.contract_name, sh.wechat_no, sh.wechat_platform, sh.wechat_no_img, sh.wechat_platform_img, sh.wechat_show, sh.available
+        ,ca.id as a_id
         from t_shop sh
         left join t_category ca on sh.category_id = ca.id
         <where>

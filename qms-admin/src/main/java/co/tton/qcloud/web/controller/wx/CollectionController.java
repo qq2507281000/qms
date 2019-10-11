@@ -77,11 +77,14 @@ public class CollectionController {
         List<TCollection> tCollection1 =itCollectionService.getCollection(tCollection);
         for(int i=0;i<tCollection1.size();i++){
           String id = tCollection1.get(i).getCoursesId();
+          //根据课程ID查询
           TShopCoursesModel tShopCoursesModel = iCoursesService.getCoursesDetail(id);
+          //查询月销
           String count = tOrderDetailService.getOrderMon(id);
           if (count != null) {
             tShopCoursesModel.setCount(count);
           }
+          //查询排序最大图片
           String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
           if (imageUrl != null) {
             tShopCoursesModel.setImageUrl(imageUrl);

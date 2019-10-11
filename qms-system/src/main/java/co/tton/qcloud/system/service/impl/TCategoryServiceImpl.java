@@ -1,11 +1,11 @@
 package co.tton.qcloud.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
-import co.tton.qcloud.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TCategoryMapper;
@@ -139,5 +139,20 @@ public class TCategoryServiceImpl implements ITCategoryService
     @Override
     public List<TCategory> searchCategory(String searchKey) {
         return tCategoryMapper.searchCategory(searchKey);
+    }
+
+    /**
+     * 获取所有分类信息
+     *
+     * @param
+     * @return 结果
+     */
+    @Override
+    public List<TCategory> getAllCategoryByMap(Map<String, Object> map) {
+        return tCategoryMapper.getAllCategoryByMap(map);
+    }
+    @Override
+    public List<TCategory> getChildList(String id) {
+        return tCategoryMapper.getChildList(id);
     }
 }

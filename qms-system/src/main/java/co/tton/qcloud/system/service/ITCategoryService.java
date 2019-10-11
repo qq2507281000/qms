@@ -2,6 +2,7 @@ package co.tton.qcloud.system.service;
 
 import co.tton.qcloud.system.domain.TCategory;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分类基础Service接口
@@ -90,4 +91,13 @@ public interface ITCategoryService
      * @return 结果
      */
     List<TCategory> searchCategory(String searchKey);
+
+    /**
+     * 获取所有分类信息
+     *
+     * @param
+     * @return 结果
+     */
+    List<TCategory> getAllCategoryByMap(Map<String,Object> map);
+    List<TCategory> getChildList(String id);
 }

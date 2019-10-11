@@ -125,5 +125,9 @@ public class TOrderModel extends TOrder {
      */
     private Date lessionTime;
 
+    /***
+     * 小程序订单状态数量
+     */
+    private String statusCount;
 
 }

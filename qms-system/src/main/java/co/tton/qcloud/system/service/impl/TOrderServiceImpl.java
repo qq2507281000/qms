@@ -109,8 +109,8 @@ public class TOrderServiceImpl implements ITOrderService
      * @return 结果
      */
     @Override
-    public List<TOrder> getOrderList() {
-        return tOrderMapper.getOrderList();
+    public List<TOrder> getOrderList(TOrder tOrder) {
+        return tOrderMapper.getOrderList(tOrder);
     }
 
     /**
@@ -122,6 +122,17 @@ public class TOrderServiceImpl implements ITOrderService
     @Override
     public WxOrderDetail getOrderDetail(String orderId) {
         return tOrderMapper.getOrderDetail(orderId);
+    }
+
+    /**
+     * 微信小程序 根据订单状态获取订单数量
+     *
+     * @param tOrder
+     * @return 结果
+     */
+    @Override
+    public TOrderModel getCountOrder(TOrderModel tOrder) {
+        return tOrderMapper.getCountOrder(tOrder);
     }
 
 

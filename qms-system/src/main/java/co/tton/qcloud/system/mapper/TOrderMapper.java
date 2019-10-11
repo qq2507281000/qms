@@ -3,6 +3,7 @@ package co.tton.qcloud.system.mapper;
 import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.domain.TOrderModel;
 import co.tton.qcloud.system.domain.WxOrderDetail;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -75,7 +76,7 @@ public interface TOrderMapper
      * @param
      * @return 结果
      */
-    List<TOrder> getOrderList();
+    List<TOrder> getOrderList(TOrder tOrder);
 
     /**
      * 微信小程序 查询所有订单详情
@@ -84,4 +85,12 @@ public interface TOrderMapper
      * @return 结果
      */
     WxOrderDetail getOrderDetail(String orderId);
+
+    /**
+     * 微信小程序 根据订单状态获取订单数量
+     *
+     * @param tOrder
+     * @return 结果
+     */
+    TOrderModel getCountOrder(TOrderModel tOrder);
 }

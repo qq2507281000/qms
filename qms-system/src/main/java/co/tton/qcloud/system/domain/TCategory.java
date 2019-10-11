@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.List;
+
 /**
  * 分类基础对象 t_category
  * 
@@ -61,6 +63,10 @@ public class TCategory extends BaseEntity
     @ApiModelProperty("父级分类名称")
     private String parentName;
 
+    @Excel(name = "子级分类数据")
+    @ApiModelProperty("子级分类数据")
+    private List<TCategory> childTCategoryList;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -76,6 +82,7 @@ public class TCategory extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
             .append("parentName", getParentName())
+            .append("childTCategoryList", getChildTCategoryList())
             .toString();
     }
 }

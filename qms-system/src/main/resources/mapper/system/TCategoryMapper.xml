@@ -35,7 +35,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
         </where>
     </select>
-    
+
+    <select id="getAllCategoryByMap" parameterType="java.util.Map" resultMap="TCategoryResult">
+        <include refid="selectTCategoryVo"/>
+        <where>
+            <if test="parent != null">
+                parent_id is null or parent_id = ''
+            </if>
+        </where>
+    </select>
+
+    <select id="getChildList" parameterType="java.lang.String" resultMap="TCategoryResult">
+        <include refid="selectTCategoryVo"/>
+        <where>
+            <if test="_parameter != null">
+                parent_id = #{_parameter}
+            </if>
+        </where>
+    </select>
+
     <select id="selectTCategoryById" parameterType="String" resultMap="TCategoryResult">
         <include refid="selectTCategoryVo"/>
         where id = #{id}
