@@ -6,6 +6,7 @@ import co.tton.qcloud.system.wxservice.ITCollectionService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 收藏夹Service业务层处理
@@ -36,7 +37,7 @@ public class CollectionServiceImpl implements ITCollectionService {
      * @return 结果
      */
     @Override
-    public TCollection getCollection(TCollection tCollection) {
+    public List<TCollection> getCollection(TCollection tCollection) {
         return tCollectionMapper.getCollection(tCollection);
     }
 

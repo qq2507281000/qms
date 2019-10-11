@@ -109,7 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM
             t_category
         WHERE
-            parent_id IS NULL AND flag = 0
+            parent_id IS NOT NULL AND flag = 0
     </select>
 
     <!--<select id="getAllCategory" resultMap="TCategoryResult">-->

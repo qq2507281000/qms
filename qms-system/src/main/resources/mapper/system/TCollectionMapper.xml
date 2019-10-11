@@ -48,7 +48,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="flag != null "> and flag = #{flag}</if>
             <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
-            <if test="coursesId != null  and coursesId != ''"> and courses_id = #{coursesId}</if>
         </where>
     </select>
 

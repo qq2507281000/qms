@@ -37,7 +37,7 @@ public class ShopController extends BaseController {
    * @param location,categoryId,suggest
    * @return
    */
-    @ApiOperation("首页推荐商家查询，查询所有商家")
+    @ApiOperation("首页推荐商家查询，查询所有商家，根据分类查商家")
 //    @RequiresPermissions("wx:shop:suggest")
     @RequestMapping(value="/suggest",method = RequestMethod.GET)
     public AjaxResult<List<TShop>> getSuggestShop(@RequestParam(value="loc",required = false) String location,
@@ -79,18 +79,18 @@ public class ShopController extends BaseController {
   @RequestMapping(value="/getName",method = RequestMethod.GET)
   public AjaxResult<List> getNameShop(@RequestParam(value="name")String name)
   {
-    if(StringUtils.isNotEmpty(name)){
-      //查询商家表
-      List listTShop=tShopService.getNameShop(name);
-      List list = new ArrayList();
-      list.add(listTShop);
-      //查询课程表
-      List listTShopCourses=tShopCoursesService.getNameShopCourses(name);
-      list.add(listTShopCourses);
-      return AjaxResult.success("获取信息成功。",list);
-    }else{
-      return AjaxResult.error("名称错误");
-    }
+      if(StringUtils.isNotEmpty(name)){
+        //查询商家表
+        List listTShop=tShopService.getNameShop(name);
+        List list = new ArrayList();
+        list.add(listTShop);
+        //查询课程表
+        List listTShopCourses=tShopCoursesService.getNameShopCourses(name);
+        list.add(listTShopCourses);
+        return AjaxResult.success("获取信息成功。",list);
+      }else{
+        return AjaxResult.error("名称错误");
+      }
   }
 
 }

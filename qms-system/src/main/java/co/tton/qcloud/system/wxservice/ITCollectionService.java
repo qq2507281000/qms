@@ -3,6 +3,8 @@ package co.tton.qcloud.system.wxservice;
 import co.tton.qcloud.system.domain.TCollection;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 收藏夹信息接口
  *
@@ -25,7 +27,7 @@ public interface ITCollectionService {
      * @param tCollection 查询条件
      * @return 结果
      */
-    TCollection getCollection(TCollection tCollection);
+    List<TCollection> getCollection(TCollection tCollection);
 
     /**
      * 取消收藏
