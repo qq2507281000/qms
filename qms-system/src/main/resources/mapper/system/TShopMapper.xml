@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertTShop" parameterType="TShop">
         insert into t_shop
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="categoryId != null "> category_id = #{categoryId},</if>
+            <if test="categoryId != null "> category_id,</if>
             <if test="id != null  and id != ''">id,</if>
             <if test="name != null  and name != ''">name,</if>
             <if test="subject != null  and subject != ''">subject,</if>
@@ -119,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="categoryId != null"> category_id = #{categoryId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
             <if test="id != null  and id != ''">#{id},</if>
             <if test="name != null  and name != ''">#{name},</if>
             <if test="subject != null  and subject != ''">#{subject},</if>

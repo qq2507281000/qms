@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TCollectionMapper">
+    
+    <resultMap type="TCollection" id="TCollectionResult">
+        <result property="id"    column="id"    />
+        <result property="flag"    column="flag"    />
+        <result property="coursesId"    column="courses_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTCollectionVo">
+        select id, member_id, courses_id, flag, create_time, create_by, update_time, update_by from t_collection
+    </sql>
+
+    <insert id="insertCollection" parameterType="TCollection">
+        insert into t_collection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="coursesId != null  and coursesId != ''">courses_id,</if>
+            <if test="memberId != null  and memberId != ''">member_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="coursesId != null  and coursesId != ''">#{coursesId},</if>
+            <if test="memberId != null  and memberId != ''">#{memberId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <select id="getCollection" parameterType="TCollection" resultMap="TCollectionResult">
+        select id, member_id, courses_id, flag from t_collection
+        <where>
+            <if test="flag != null "> and flag = #{flag}</if>
+            <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
+            <if test="coursesId != null  and coursesId != ''"> and courses_id = #{coursesId}</if>
+        </where>
+    </select>
+
+    <delete id="deleteCollection" parameterType="TCollection">
+        delete from t_collection
+        <where>
+            <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
+            <if test="coursesId != null  and coursesId != ''"> and courses_id = #{coursesId}</if>
+        </where>
+    </delete>
+</mapper>
