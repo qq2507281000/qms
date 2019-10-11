@@ -457,25 +457,10 @@
             $.operate.saveHtml(prefix+"/edit",$('#form-shop-edit'),"htmlContent",note);
         }
     }
-
-    function writeCurrentDate() {
-        var now = new Date();
-        var hour = now.getHours();//得到小时
-        var minu = now.getMinutes();//得到分钟
-        if (hour < 10) hour = "0" + hour;
-        if (minu < 10) minu = "0" + minu;
-        var time = "";
-        time = hour + ":" + minu;
-        //当前日期赋值给当前日期输入框中（jQuery easyUI）
-        $("#shopHoursBegin").html(time);
-        $("#shopHoursEnd").html(time);
-    }
-    console.log(shopHoursBegin);
-    $("#shopHoursBegin").val(shopHoursBegin).timepicker('setTime', writeCurrentDate);
-    $("#shopHoursEnd").val(shopHoursEnd).timepicker('setTime', writeCurrentDate);
-
-    // $("#shopHoursBegin").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
-    // $("#shopHoursEnd").val(writeCurrentDate).timepicker('setTime', writeCurrentDate);
+    $(function(){
+        $("#shopHoursBegin").val($("#shopHoursBegin").val()).timepicker('setTime', $("#shopHoursBegin").val());
+        $("#shopHoursEnd").val($("#shopHoursEnd").val()).timepicker('setTime', $("#shopHoursEnd").val());
+    })
 
     $('.summernote').summernote('code',htmlContent);
 </script>
