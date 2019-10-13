@@ -36,4 +36,12 @@ public interface TCollectionMapper {
      * @return 结果
      */
     int deleteCollection(TCollection tCollection);
+
+    /**
+     * 判断是否收藏课程
+     *
+     * @param tCollection 查询条件
+     * @return 结果
+     */
+    TCollection userCollection(TCollection tCollection);
 }

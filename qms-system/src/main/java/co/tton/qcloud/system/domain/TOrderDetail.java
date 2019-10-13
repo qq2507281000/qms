@@ -44,7 +44,7 @@ public class TOrderDetail extends BaseEntity
     private Double preRealPrice;
 
     /** 使用状态（未使用、已使用、已过期） */
-    @Excel(name = "使用状态", readConverterExp = "未=使用、已使用、已过期")
+    @Excel(name = "使用状态", readConverterExp = "未使用、已使用、已过期")
     private String useStatus;
 
     /** $column.columnComment */

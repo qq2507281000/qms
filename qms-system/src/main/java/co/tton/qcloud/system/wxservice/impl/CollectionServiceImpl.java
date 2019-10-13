@@ -51,4 +51,15 @@ public class CollectionServiceImpl implements ITCollectionService {
     public int deleteCollection(TCollection tCollection) {
         return tCollectionMapper.deleteCollection(tCollection);
     }
+
+    /**
+     * 判断是否收藏课程
+     *
+     * @param tCollection 查询条件
+     * @return 结果
+     */
+    @Override
+    public TCollection userCollection(TCollection tCollection) {
+        return tCollectionMapper.userCollection(tCollection);
+    }
 }

@@ -97,27 +97,6 @@ public class TCategoryServiceImpl implements ITCategoryService
         return tCategoryMapper.deleteTCategoryById(id);
     }
 
-    /**
-     * 获取顶级分类
-     *
-     * @param
-     * @return 结果
-     */
-    @Override
-    public List<TCategory> getTopCatgory() {
-        return tCategoryMapper.getTopCatgory();
-    }
-
-    /**
-     * 获取子级分类
-     *
-     * @param
-     * @return 结果
-     */
-    @Override
-    public List<TCategory> getAllCategory(String str) {
-        return tCategoryMapper.getAllCategory(str);
-    }
 
     /**
      * 根据顶级分类搜索子级分类
@@ -142,6 +121,17 @@ public class TCategoryServiceImpl implements ITCategoryService
     }
 
     /**
+     * 获取顶级分类
+     *
+     * @param
+     * @return 结果
+     */
+    @Override
+    public List<TCategory> getChildList(String id) {
+        return tCategoryMapper.getChildList(id);
+    }
+
+    /**
      * 获取所有分类信息
      *
      * @param
@@ -150,9 +140,5 @@ public class TCategoryServiceImpl implements ITCategoryService
     @Override
     public List<TCategory> getAllCategoryByMap(Map<String, Object> map) {
         return tCategoryMapper.getAllCategoryByMap(map);
-    }
-    @Override
-    public List<TCategory> getChildList(String id) {
-        return tCategoryMapper.getChildList(id);
     }
 }

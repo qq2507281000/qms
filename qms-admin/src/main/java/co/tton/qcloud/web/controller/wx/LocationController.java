@@ -40,17 +40,13 @@ public class LocationController extends BaseController {
         List<Object> list2 = new ArrayList<>();
         Map<String,Object> map = new HashMap();
         Map<String,Object> map1 = new HashMap();
-        map.put("A","A");
+        map.put("code","A");
         map.put("city",list2);
         map1.put("name","大连");
         list2.add(map1);
         list1.add(map);
 
 
-
-//        final Map<String, String[]> cityArray = new HashMap();
-//        String[]  StringArray = {"大连"};
-//        cityArray.put("A",StringArray);
         return AjaxResult.success("获取所有城市列表信息成功。",list1);
     }
 

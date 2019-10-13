@@ -309,8 +309,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             tsci.sort_key = 1
             AND too.flag = 0
-        <if test="billStatus != null  and billStatus != ''">AND too.bill_status = #{billStatus}</if>
-        <if test="memberId != null  and memberId != ''">AND too.member_id = #{memberId}</if>
+        <if test="billStatus != null  and billStatus != ''"> AND too.bill_status = #{billStatus}</if>
+        <if test="memberId != null  and memberId != ''"> AND too.member_id = #{memberId}</if>
+        <if test="payStatus != null  and payStatus != ''"> AND too.pay_status = #{payStatus}</if>
+        <if test="useStatus != null  and useStatus != ''"> AND too.use_status = #{useStatus}</if>
     </select>
 
     <select id="getOrderDetail" resultMap="WxOrderDetailResult">

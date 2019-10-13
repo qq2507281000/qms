@@ -58,4 +58,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="coursesId != null  and coursesId != ''"> and courses_id = #{coursesId}</if>
         </where>
     </delete>
+
+    <select id="userCollection" parameterType="TCollection" resultMap="TCollectionResult">
+        <include refid="selectTCollectionVo"/>
+        <where>
+            <if test="memberId != null  and memberId != ''">and member_id = #{memberId}</if>
+            <if test="coursesId != null  and coursesId != ''">and courses_id = #{coursesId}</if>
+        </where>
+    </select>
 </mapper>

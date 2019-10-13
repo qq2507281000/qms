@@ -61,22 +61,6 @@ public interface TCategoryMapper
     public int deleteTCategoryByIds(String[] id);
 
     /**
-     * 获取顶级分类
-     *
-     * @param
-     * @return 结果
-     */
-    List<TCategory> getTopCatgory();
-
-    /**
-     * 获取子级分类
-     *
-     * @param
-     * @return 结果
-     */
-    List<TCategory> getAllCategory(String str);
-
-    /**
      * 根据顶级分类搜索子级分类
      *
      * @param parentId
@@ -93,11 +77,18 @@ public interface TCategoryMapper
     List<TCategory> searchCategory(String searchKey);
 
     /**
+     * 获取子级分类
+     *
+     * @param
+     * @return 结果
+     */
+    List<TCategory> getChildList(String id);
+
+    /**
      * 获取所有分类信息
      *
      * @param
      * @return 结果
      */
     List<TCategory> getAllCategoryByMap(Map<String, Object> map);
-    List<TCategory> getChildList(String id);
 }

@@ -61,22 +61,6 @@ public interface ITCategoryService
     public int deleteTCategoryById(String id);
 
     /**
-     * 获取顶级分类
-     *
-     * @param
-     * @return 结果
-     */
-    List<TCategory> getTopCatgory();
-
-    /**
-     * 获取子级分类
-     *
-     * @param
-     * @return 结果
-     */
-    List<TCategory> getAllCategory(String str);
-
-    /**
      * 根据顶级分类搜索子级分类
      *
      * @param parentId
@@ -99,5 +83,11 @@ public interface ITCategoryService
      * @return 结果
      */
     List<TCategory> getAllCategoryByMap(Map<String,Object> map);
+    /**
+     * 获取顶级分类
+     *
+     * @param
+     * @return 结果
+     */
     List<TCategory> getChildList(String id);
 }
