@@ -14,10 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -45,7 +42,7 @@ public class CollectionController {
   @Autowired
   private ICoursesService iCoursesService;
 
-  @GetMapping("/user/insert")
+  @GetMapping("/collection")
   @ApiOperation("添加收藏")
 //    @RequiresPermissions("wx:insert:collection")
   public AjaxResult insertCollection(@RequestParam(value = "memberId") String memberId,
@@ -64,7 +61,7 @@ public class CollectionController {
       }
   }
 
-  @GetMapping("/user/get")
+  @GetMapping("/id")
   @ApiOperation("查看收藏")
 //    @RequiresPermissions("wx:get:collection")
   public AjaxResult<List<TShopCoursesModel>> getCollection(@RequestParam(value = "memberId") String memberId) {
@@ -107,7 +104,7 @@ public class CollectionController {
       }
   }
 
-  @GetMapping("/user/delete")
+  @RequestMapping(value = "/user/id",method = RequestMethod.DELETE)
   @ApiOperation("取消收藏")
 //    @RequiresPermissions("wx:delete:collection")
   public AjaxResult<TCollection> deleteCollection(@RequestParam(value = "memberId") String memberId,
@@ -127,7 +124,7 @@ public class CollectionController {
       }
   }
 
-  @GetMapping("/user/courses")
+  @GetMapping("/courses/id")
   @ApiOperation("判断该用户是否收藏某课程")
 //    @RequiresPermissions("wx:user:collection")
   public AjaxResult<TCollection> userCollection(@RequestParam(value = "memberId") String memberId,

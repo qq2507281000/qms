@@ -122,7 +122,7 @@ public class CoursesController extends BaseController {
    * @return
    */
 //    @RequiresPermissions("wx:courses:priceAll")
-  @RequestMapping(value = "/price", method = RequestMethod.GET)
+  @RequestMapping(value = "/price/id", method = RequestMethod.GET)
   @ApiOperation("根据Id获取价格信息")
   public AjaxResult<List<TShopCoursesPrice>> getCoursesPriceById(@RequestParam(value = "coursesId", required = false) String coursesId) {
     if (StringUtils.isNotEmpty(coursesId)) {
@@ -141,7 +141,7 @@ public class CoursesController extends BaseController {
    * @return
    */
 //    @RequiresPermissions("wx:courses:suggest")
-  @RequestMapping(value = "/shopId/category", method = RequestMethod.GET)
+  @RequestMapping(value = "/shop/id/category/id", method = RequestMethod.GET)
   @ApiOperation("获取某商家某分类下课程接口")
   public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "category", required = false) String categoryId,
                                                                @RequestParam(value = "shopId") String shopId) {
@@ -173,7 +173,7 @@ public class CoursesController extends BaseController {
    * @return
    */
 //    @RequiresPermissions("wx:courses:suggest")
-  @RequestMapping(value = "/shopId/AllCategory", method = RequestMethod.GET)
+  @RequestMapping(value = "/shop/category", method = RequestMethod.GET)
   @ApiOperation("获取商家所有课程分类接口")
   public AjaxResult<List<TShopCoursesModel>> getAllCoursesCategory(@RequestParam(value = "shopId") String shopId) {
     TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();

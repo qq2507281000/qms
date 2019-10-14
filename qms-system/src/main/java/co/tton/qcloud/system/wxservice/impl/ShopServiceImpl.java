@@ -27,8 +27,8 @@ public class ShopServiceImpl implements ITShopService
      * @return 获取商家信息成功。
      */
     @Override
-    public List<TShop> getSuggestShop(String categoryId,Integer suggest) {
-        return tShopMapper.getSuggestShop(categoryId,suggest);
+    public List<TShop> getSuggestShop(TShop tShop) {
+        return tShopMapper.getSuggestShop(tShop);
     }
 
     /**
@@ -38,8 +38,8 @@ public class ShopServiceImpl implements ITShopService
      * @return 获取商家详情成功。
      */
     @Override
-    public List getShopDetail(String shopId){
-        return tShopMapper.getShopDetail(shopId);
+    public List getShopDetail(TShop tShop){
+        return tShopMapper.getShopDetail(tShop);
     }
 
     /**

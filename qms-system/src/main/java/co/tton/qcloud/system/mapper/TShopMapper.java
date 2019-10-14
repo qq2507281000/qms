@@ -1,7 +1,6 @@
 package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TShop;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -67,7 +66,7 @@ public interface TShopMapper
      * @param
      * @return 获取推荐商家信息成功。
      */
-    List<TShop> getSuggestShop(@Param("categoryId") String categoryId, @Param("suggest") Integer suggest);
+    List<TShop> getSuggestShop(TShop tShop);
 
     /**
      * 查询商家详情
@@ -75,7 +74,7 @@ public interface TShopMapper
      * @param
      * @return 获取商家详情成功。
      */
-    List getShopDetail(String shopId);
+    List getShopDetail(TShop tShop);
 
     /**
      * 模糊查询商家
