@@ -201,7 +201,7 @@ public class TShopController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @RoleScope(roleDefined={"ADMIN","SHOP"})
-    public AjaxResult addSave(TShop tShop)
+    public AjaxResult addSave(TShop tShop,MultipartFile file)
     {
         try {
             SysUser user = ShiroUtils.getSysUser();
@@ -210,10 +210,10 @@ public class TShopController extends BaseController
             if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
                 tShop.setId(user.getShopId());
             }
-            if (tShop.getParams().containsKey("file")){
+//            if (tShop.getParams().containsKey("file")){
                 //新文件上传
-                MultipartFile file = (MultipartFile)tShop.getParams().get("file");
-                if (file !=null){
+//                MultipartFile file = (MultipartFile)tShop.getParams().get("file");
+                if (StringUtils.isNotNull(file)){
                     String fileName = minioFileService.upload(file);
                     tShop.setCoverImg(fileName);
                     tShop.setFlag(Constants.DATA_NORMAL);
@@ -225,9 +225,10 @@ public class TShopController extends BaseController
                 else {
                     return AjaxResult.error("未能获取上传文件内容。");
                 }
-            }else {
-                return AjaxResult.error("请选择图片上传。");
-            }
+//            }
+//            else {
+//                return AjaxResult.error("请选择图片上传。");
+//            }
         }
         catch (Exception ex){
             ex.printStackTrace();

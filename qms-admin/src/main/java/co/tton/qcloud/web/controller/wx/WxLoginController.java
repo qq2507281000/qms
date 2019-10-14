@@ -39,7 +39,7 @@ public class WxLoginController extends BaseController {
      * 获取用户信息和token接口
      * </pre>
      */
-    @GetMapping("/user/loginInfo")
+    @GetMapping("/info")
     @ApiOperation("返回个人信息和token")
 //    @RequiresPermissions("wx:member:openId")
     public AjaxResult<List> loginInfo(@RequestParam(value = "openId") String openId,

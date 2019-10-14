@@ -18,6 +18,7 @@ import co.tton.qcloud.system.service.ITOrderService;
 import co.tton.qcloud.system.service.ITShopCoursesService;
 import co.tton.qcloud.system.service.ITShopService;
 import co.tton.qcloud.system.wxservice.ITOrderUseEvaluationService;
+import co.tton.qcloud.web.controller.common.CommonController;
 import co.tton.qcloud.web.minio.MinioFileService;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -211,25 +213,25 @@ public class OrderController extends BaseController {
     @ApiOperation("订单和课程评价")
     public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno")String orderNo,
                                                @RequestParam(value = "memberid")String memberId,
-                                               @RequestParam(value = "imageurl")String imageUrl,
+                                               @RequestParam(value = "imageurl")MultipartFile file,
                                                @RequestParam(value = "evaluation")String evaluation,
                                                @RequestParam(value = "coursesid")String coursesId,
-                                               @RequestParam(value = "star")String star){
+                                               @RequestParam(value = "star")String star) throws IOException {
         if(StringUtils.isNotEmpty(orderNo)&&StringUtils.isNotEmpty(memberId)){
             TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
             String id = StringUtils.genericId();
             tOrder.setId(id);
 //            if(tOrder.getParams().containsKey("file")){
-            //调用上传图片接口
-
 //                MultipartFile file = (MultipartFile)tOrder.getParams().get("file");
 //                if(file != null){
-//                    String fileName = minioFileService.upload(file);
-//                    tOrder.setImageUrl(fileName);
+            if(StringUtils.isNotNull(file)){
+                String fileName = minioFileService.upload(file);
+                tOrder.setImageUrl(fileName);
+            }
             tOrder.setFlag(Constants.DATA_NORMAL);
             tOrder.setOrderNo(orderNo);
             tOrder.setMemberId(memberId);
-            tOrder.setImageUrl(imageUrl);
+//            tOrder.setImageUrl(imageUrl);
             tOrder.setEvaluation(evaluation);
             if(!StringUtils.isNotEmpty(star)){
                 tOrder.setStar("0");
@@ -249,11 +251,11 @@ public class OrderController extends BaseController {
 
 
 
-    @RequiresPermissions("wx:order:comment")
-    @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public AjaxResult comment(){
-        return null;
-    }
+//    @RequiresPermissions("wx:order:comment")
+//    @RequestMapping(value = "/comment",method = RequestMethod.POST)
+//    public AjaxResult comment(){
+//        return null;
+//    }
 
 
 }
