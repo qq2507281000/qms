@@ -201,21 +201,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND tsc.flag = 0
     </select>
 
-    <select id="getSuggestCourses"  resultMap="TShopCoursesModelResult">
+    <select id="getSuggestCourses"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">
         SELECT
             tsc.id,
             ts.`name`,
             tscp.price,
-            tsc.title
+            tsc.title,
+            tsc.suggest
         FROM
             t_shop_courses tsc
             INNER JOIN t_shop ts ON tsc.shop_id = ts.id
             INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         <where>
-            <if test="shopId == null  and shopId == ''"> and tsc.suggest = 1</if>
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
             <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
-            AND tsc.flag = 0
+            AND tsc.flag = 0 and tsc.suggest = 0
         </where>
     </select>
 
@@ -240,4 +240,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND tsc.flag = 0
     </select>
 
+    <select id="getShopAllCourses"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">
+        SELECT
+        tsc.id,
+        ts.`name`,
+        tscp.price,
+        tsc.title,
+        tsc.suggest
+        FROM
+        t_shop_courses tsc
+        INNER JOIN t_shop ts ON tsc.shop_id = ts.id
+        INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
+        <where>
+            <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
+            <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
+            AND tsc.flag = 0
+        </where>
+    </select>
 </mapper>

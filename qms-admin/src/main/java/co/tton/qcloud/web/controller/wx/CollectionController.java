@@ -69,33 +69,44 @@ public class CollectionController {
 //    @RequiresPermissions("wx:get:collection")
   public AjaxResult<List<TShopCoursesModel>> getCollection(@RequestParam(value = "memberId") String memberId) {
       if(StringUtils.isNotEmpty(memberId)){
-          List list = new ArrayList();
+          List<TShopCoursesModel> list = new ArrayList<>();
           TCollection tCollection = new TCollection();
           tCollection.setMemberId(memberId);
           tCollection.setFlag(Constants.DATA_NORMAL);
           //查询收藏表为了获取课程ID
           List<TCollection> tCollection1 =itCollectionService.getCollection(tCollection);
-          for(int i=0;i<tCollection1.size();i++){
-            String id = tCollection1.get(i).getCoursesId();
-            //根据课程ID查询
-            TShopCoursesModel tShopCoursesModel = iCoursesService.getCoursesDetail(id);
-            //查询月销
-            String count = tOrderDetailService.getOrderMon(id);
-            if (count != null) {
-              tShopCoursesModel.setCount(count);
+          if(StringUtils.isNotEmpty(tCollection1)){
+            for(int i=0;i<tCollection1.size();i++){
+              String id = tCollection1.get(i).getCoursesId();
+              if(StringUtils.isNotEmpty(id)){
+                //根据课程ID查询
+                TShopCoursesModel tShopCoursesModel = iCoursesService.getCoursesDetail(id);
+                //查询月销
+                if (!StringUtils.isNull(tShopCoursesModel)) {
+                  String count = tOrderDetailService.getOrderMon(id);
+                  tShopCoursesModel.setCount(count);
+                  //查询排序最大图片
+                  String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+                  if (StringUtils.isNotEmpty(imageUrl)) {
+                    tShopCoursesModel.setImageUrl(imageUrl);
+                  }
+                  list.add(tShopCoursesModel);
+                }
+              }
             }
-            //查询排序最大图片
-            String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
-            if (imageUrl != null) {
-              tShopCoursesModel.setImageUrl(imageUrl);
+            if(list.size()==0){
+              return AjaxResult.success("没有收藏课程。");
+            }else {
+              return AjaxResult.success("查看收藏成功。",list);
             }
-            list.add(tShopCoursesModel);
+          }else{
+            return AjaxResult.success("没有收藏课程。");
           }
-          return AjaxResult.success("查看收藏成功。",list);
       }else{
           return AjaxResult.error("参数错误");
       }
   }
+
   @GetMapping("/user/delete")
   @ApiOperation("取消收藏")
 //    @RequiresPermissions("wx:delete:collection")
@@ -106,7 +117,11 @@ public class CollectionController {
         tCollection.setCoursesId(coursesId);
         tCollection.setMemberId(memberId);
         int number =itCollectionService.deleteCollection(tCollection);
-        return AjaxResult.success("取消收藏成功。",number);
+        if(number == 1){
+          return AjaxResult.success("取消收藏成功。",number);
+        }else{
+          return AjaxResult.success("取消收藏失败。",number);
+        }
       }else{
         return AjaxResult.error("参数错误");
       }

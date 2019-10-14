@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class MemberService implements ITMemberService {
+public class MemberServiceImpl implements ITMemberService {
 
   @Resource
   TMemberMapper tMemberMapper;

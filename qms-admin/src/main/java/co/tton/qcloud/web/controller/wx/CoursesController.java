@@ -52,41 +52,37 @@ public class CoursesController extends BaseController {
     @RequestMapping(value = "suggest",method = RequestMethod.GET)
     @ApiOperation("获取推荐课程")
     public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value="loc",required = false)String location,
-                                        @RequestParam(value="category",required = false)String categoryId,
-                                        @RequestParam(value="shopId",required = false)String shopId){
+                                                                 @RequestParam(value="category",required = false)String categoryId,
+                                                                 @RequestParam(value="shopId",required = false)String shopId){
         if (StringUtils.isNotEmpty(location) && location.equals("大连")){
-                //选择类型了的推荐
-            String cId = null;
-            String sId= null;
-            if(shopId != null && !shopId.trim().equals("")){
-                sId = shopId;
+            TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
+            if(StringUtils.isNotEmpty(shopId)){
+                tShopCoursesModel.setShopId(shopId);
             }
-            if (categoryId != null && !categoryId.trim().equals("")){
-                cId = categoryId;
+            if (StringUtils.isNotEmpty(categoryId)){
+                tShopCoursesModel.setCategoryId(categoryId);
             }
-                List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(cId,sId);
+                List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
                 for (TShopCoursesModel tModel : tShopCoursesModels) {
                     String id = tModel.getId();
+                    //匹配图片
                     String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
                     if (imageUrl != null) {
                         tModel.setImageUrl(imageUrl);
                     }
+                    //月销
                     String count = tOrderDetailService.getOrderMon(id);
                     if (count != null) {
                         tModel.setCount(count);
                     }
                 }
                 return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
-
-
         }
         else {
             //不是大连 回传报错
             return AjaxResult.error("错误：所属地location");
         }
-
     }
-
 
     /***
      *
@@ -141,5 +137,37 @@ public class CoursesController extends BaseController {
             return AjaxResult.success("查询成功",tShopCoursesPrice);
         }
         return AjaxResult.error("错我：课程Id为空");
+    }
+
+    /***
+     *
+     * @param categoryId,shopId
+     * @return
+     */
+//    @RequiresPermissions("wx:courses:suggest")
+    @RequestMapping(value = "/shopId/category",method = RequestMethod.GET)
+    @ApiOperation("获取某商家某分类下课程接口，获取商家所有课程分类接口")
+    public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value="category",required = false)String categoryId,
+                                                                 @RequestParam(value="shopId")String shopId){
+        TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
+        if(StringUtils.isNotEmpty(shopId)){
+            tShopCoursesModel.setShopId(shopId);
+        }
+        if (StringUtils.isNotEmpty(categoryId)){
+            tShopCoursesModel.setCategoryId(categoryId);
+        }
+            List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getShopAllCourses(tShopCoursesModel);
+            for (TShopCoursesModel tModel : tShopCoursesModels) {
+                String id = tModel.getId();
+                String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+                if (imageUrl != null) {
+                    tModel.setImageUrl(imageUrl);
+                }
+                String count = tOrderDetailService.getOrderMon(id);
+                if (count != null) {
+                    tModel.setCount(count);
+                }
+            }
+            return AjaxResult.success("获取成功", tShopCoursesModels);
     }
 }

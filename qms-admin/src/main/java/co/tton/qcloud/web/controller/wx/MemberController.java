@@ -12,7 +12,6 @@ import co.tton.qcloud.system.wxservice.ITMemberService;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -43,9 +42,18 @@ public class MemberController extends BaseController {
     @ApiOperation("查询会员信息")
 //    @RequiresPermissions("wx:member:info")
     @RequestMapping(value = "/info",method = RequestMethod.GET)
-    public AjaxResult<TMemberModel> getMemberInfo(@RequestParam(value = "id") String memberId){
+    public AjaxResult getMemberInfo(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
             TMemberModel tMemberModel= tMemberService.getMemberInfo(memberId);
+            if(tMemberModel.getUseStatus() == null){
+                tMemberModel.setUseStatus("0");
+            }
+            if(tMemberModel.getPayStatus() == null){
+                tMemberModel.setPayStatus("0");
+            }
+            if(tMemberModel.getBillStatus() == null){
+                tMemberModel.setBillStatus("0");
+            }
             return AjaxResult.success("获取会员信息成功",tMemberModel);
         }else{
             return AjaxResult.error("会员ID错误");

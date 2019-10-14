@@ -7,12 +7,13 @@ import co.tton.qcloud.system.wxservice.ICoursesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class CoursesServiceImpl implements ICoursesService {
 
-    @Autowired
+    @Resource
     private TShopCoursesMapper tShopCoursesMapper;
 
     @Override
@@ -21,8 +22,19 @@ public class CoursesServiceImpl implements ICoursesService {
     }
 
     @Override
-    public List<TShopCoursesModel> getSuggestCourses(String categoryId,String shopId) {
-        return tShopCoursesMapper.getSuggestCourses(categoryId,shopId);
+    public List<TShopCoursesModel> getSuggestCourses(TShopCoursesModel tShopCoursesModel) {
+        return tShopCoursesMapper.getSuggestCourses(tShopCoursesModel);
+    }
+
+    /**
+     * 小程序获取某商家某分类下课程接口，获取商家所有课程分类接口
+     *
+     * @param  tShopCoursesModel 根据categoryId查询
+     * @return 结果
+     */
+    @Override
+    public List<TShopCoursesModel> getShopAllCourses(TShopCoursesModel tShopCoursesModel) {
+        return tShopCoursesMapper.getShopAllCourses(tShopCoursesModel);
     }
 
 }

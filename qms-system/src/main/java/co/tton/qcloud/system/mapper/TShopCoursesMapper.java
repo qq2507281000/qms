@@ -81,10 +81,10 @@ public interface TShopCoursesMapper
     /**
      * 小程序查询推荐课程
      *
-     * @param categoryId 根据categoryId查询有关推荐课程
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
      * @return 结果
      */
-    List<TShopCoursesModel> getSuggestCourses(@Param("categoryId")String categoryId,@Param("shopId")String shopId);
+    List<TShopCoursesModel> getSuggestCourses(TShopCoursesModel tShopCoursesModel);
 
     /**
      * 模糊查询课程
@@ -93,4 +93,12 @@ public interface TShopCoursesMapper
      * @return 获取课程详情
      */
     List<TShopCoursesModel> getNameShopCourses(String name);
+
+    /**
+     * 小程序获取某商家某分类下课程接口，获取商家所有课程分类接口
+     *
+     * @param  tShopCoursesModel 根据categoryId查询
+     * @return 结果
+     */
+    List<TShopCoursesModel> getShopAllCourses(TShopCoursesModel tShopCoursesModel);
 }
