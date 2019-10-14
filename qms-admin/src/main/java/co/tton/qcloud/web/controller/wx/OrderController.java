@@ -107,7 +107,7 @@ public class OrderController extends BaseController {
             if (wxOrderDetail == null){
                 return AjaxResult.error("报错：对象为空。");
             }else {
-                return AjaxResult.success("获取顶级分类成功。", wxOrderDetail);
+                return AjaxResult.success("获取订单详情成功。", wxOrderDetail);
             }
         }else {
             return AjaxResult.error("报错：orderId为空。");
@@ -136,56 +136,56 @@ public class OrderController extends BaseController {
 //    }
 
     //    @RequiresPermissions("wx:evaluation:insert")
-    //不好使
-//    @RequestMapping(value = "/setEvaluation",method = RequestMethod.GET)
-//    @ApiOperation("订单评价包含订单评价图片-----不好使")
-//    public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno")String orderNo,
-//                                               @RequestParam(value = "memberid")String memberId,
-//                                               @RequestParam(value = "imageurl")String imageUrl,
-//                                               @RequestParam(value = "evaluation")String evaluation,
-//                                               @RequestParam(value = "star")String star){
-//        try {
-//            TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
-//            String id = StringUtils.genericId();
-//            tOrder.setId(id);
-//            if(tOrder.getParams().containsKey("file")){
-//                //有新文件上传
-//                MultipartFile file = (MultipartFile)tOrder.getParams().get("file");
-//                if(file != null){
-//                    String fileName = minioFileService.upload(file);
-//                    tOrder.setImageUrl(fileName);
-//                    tOrder.setFlag(Constants.DATA_NORMAL);
-//                    tOrder.setOrderNo(orderNo);
-//                    tOrder.setMemberId(memberId);
-//                    tOrder.setImageUrl(imageUrl);
-//                    tOrder.setEvaluation(evaluation);
-//                    tOrder.setStar(star);
-//                    int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
-//                    return AjaxResult.success("数据保存成功。",number);
-//                }
-//                else{
-//                    return AjaxResult.error("未能获取上传文件内容。");
-//                }
-//            }
-//            else{
-//                return AjaxResult.error("请选择图片上传。");
-//            }
-//        }
-//        catch(Exception ex){
-//            ex.printStackTrace();
-//            logger.error("保存图片时发生异常。",ex);
-//            return AjaxResult.error("保存图片时发生异常。");
-//        }
-//    }
+//    不好使
+    @RequestMapping(value = "/setEvaluation",method = RequestMethod.GET)
+    @ApiOperation("订单评价包含订单评价图片-----不好使")
+    public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno")String orderNo,
+                                               @RequestParam(value = "memberid")String memberId,
+                                               @RequestParam(value = "imageurl")String imageUrl,
+                                               @RequestParam(value = "evaluation")String evaluation,
+                                               @RequestParam(value = "star")String star){
+        try {
+            TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
+            String id = StringUtils.genericId();
+            tOrder.setId(id);
+            if(tOrder.getParams().containsKey("file")){
+                //有新文件上传
+                MultipartFile file = (MultipartFile)tOrder.getParams().get("file");
+                if(file != null){
+                    String fileName = minioFileService.upload(file);
+                    tOrder.setImageUrl(fileName);
+                    tOrder.setFlag(Constants.DATA_NORMAL);
+                    tOrder.setOrderNo(orderNo);
+                    tOrder.setMemberId(memberId);
+                    tOrder.setImageUrl(imageUrl);
+                    tOrder.setEvaluation(evaluation);
+                    tOrder.setStar(star);
+                    int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
+                    return AjaxResult.success("数据保存成功。",number);
+                }
+                else{
+                    return AjaxResult.error("未能获取上传文件内容。");
+                }
+            }
+            else{
+                return AjaxResult.error("请选择图片上传。");
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("保存图片时发生异常。",ex);
+            return AjaxResult.error("保存图片时发生异常。");
+        }
+    }
 
 
 
 
-//    @RequiresPermissions("wx:order:comment")
-//    @RequestMapping(value = "/comment",method = RequestMethod.POST)
-//    public AjaxResult comment(){
-//        return null;
-//    }
+    @RequiresPermissions("wx:order:comment")
+    @RequestMapping(value = "/comment",method = RequestMethod.POST)
+    public AjaxResult comment(){
+        return null;
+    }
 
 
 }

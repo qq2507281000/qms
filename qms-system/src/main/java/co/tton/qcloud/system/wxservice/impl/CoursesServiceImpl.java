@@ -27,14 +27,25 @@ public class CoursesServiceImpl implements ICoursesService {
     }
 
     /**
-     * 小程序获取某商家某分类下课程接口，获取商家所有课程分类接口
+     * 小程序获取某商家某分类下课程接口
      *
-     * @param  tShopCoursesModel 根据categoryId查询
+     * @param  tShopCoursesModel 查询
      * @return 结果
      */
     @Override
-    public List<TShopCoursesModel> getShopAllCourses(TShopCoursesModel tShopCoursesModel) {
-        return tShopCoursesMapper.getShopAllCourses(tShopCoursesModel);
+    public List<TShopCoursesModel> getShopCategoryCourses(TShopCoursesModel tShopCoursesModel) {
+        return tShopCoursesMapper.getShopCategoryCourses(tShopCoursesModel);
+    }
+
+    /**
+     * 获取商家所有课程分类接口
+     *
+     * @param  tShopCoursesModel 查询
+     * @return 结果
+     */
+    @Override
+    public List<TShopCoursesModel> getAllCoursesCategory(TShopCoursesModel tShopCoursesModel) {
+        return tShopCoursesMapper.getAllCoursesCategory(tShopCoursesModel);
     }
 
 }

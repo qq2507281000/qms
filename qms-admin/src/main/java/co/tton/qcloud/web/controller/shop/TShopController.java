@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import co.tton.qcloud.system.domain.TShop;
 import co.tton.qcloud.system.service.ITShopService;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -97,50 +98,50 @@ public class TShopController extends BaseController
     /**
      * 新增保存商家信息
      */
-    @ApiOperation("新增商家信息")
-    @RequiresPermissions("shop:add")
-    @Log(title = "商家信息", businessType = BusinessType.INSERT)
-    @PostMapping("/add")
-    @ResponseBody
-    @RoleScope(roleDefined={"ADMIN","SHOP"})
-    public AjaxResult addSave(TShop tShop)
-    {
-        try {
-            SysUser user = ShiroUtils.getSysUser();
-            String id = StringUtils.genericId();
-            tShop.setId(id);
-
-            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-                tShop.setId(user.getShopId());
-            }
-            tShop.setFlag(Constants.DATA_NORMAL);
-            tShop.setCreateTime(new Date());
-            tShop.setCreateBy(user.getUserId().toString());
-            return toAjax(tShopService.insertTShop(tShop));
-
-//            if (tShopCourses.getParams().containsKey("file")){
-//                //新文件上传
-//                MultipartFile file = (MultipartFile)tShopCourses.getParams().get("file");
-//                if (file !=null){
-//                    String fileName = minioFileService.upload(file);
-//                    TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
-//                    tShopCoursesImages.setImageUrl(fileName);
-//                    return AjaxResult.success("数据保存成功。");
-//                }
-//                else {
-//                    return AjaxResult.error("未能获取上传文件内容。");
-//                }
+//    @ApiOperation("新增商家信息")
+//    @RequiresPermissions("shop:add")
+//    @Log(title = "商家信息", businessType = BusinessType.INSERT)
+//    @PostMapping("/add")
+//    @ResponseBody
+//    @RoleScope(roleDefined={"ADMIN","SHOP"})
+//    public AjaxResult addSave(TShop tShop)
+//    {
+//        try {
+//            SysUser user = ShiroUtils.getSysUser();
+//            String id = StringUtils.genericId();
+//            tShop.setId(id);
+//
+//            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+//                tShop.setId(user.getShopId());
 //            }
-//            else {
-//                return AjaxResult.error("请选择图片上传。");
-//            }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-            logger.error("保存商家图片时发生异常。",ex);
-            return AjaxResult.error("保存商家图片时发生异常。");
-        }
-    }
+//            tShop.setFlag(Constants.DATA_NORMAL);
+//            tShop.setCreateTime(new Date());
+//            tShop.setCreateBy(user.getUserId().toString());
+//            return toAjax(tShopService.insertTShop(tShop));
+//
+////            if (tShopCourses.getParams().containsKey("file")){
+////                //新文件上传
+////                MultipartFile file = (MultipartFile)tShopCourses.getParams().get("file");
+////                if (file !=null){
+////                    String fileName = minioFileService.upload(file);
+////                    TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
+////                    tShopCoursesImages.setImageUrl(fileName);
+////                    return AjaxResult.success("数据保存成功。");
+////                }
+////                else {
+////                    return AjaxResult.error("未能获取上传文件内容。");
+////                }
+////            }
+////            else {
+////                return AjaxResult.error("请选择图片上传。");
+////            }
+//        }
+//        catch (Exception ex){
+//            ex.printStackTrace();
+//            logger.error("保存商家图片时发生异常。",ex);
+//            return AjaxResult.error("保存商家图片时发生异常。");
+//        }
+//    }
 
     /**
      * 修改商家信息
@@ -188,5 +189,50 @@ public class TShopController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(tShopService.deleteTShopByIds(ids));
+    }
+
+
+    /**
+     * 新增保存商家信息
+     */
+    @ApiOperation("新增商家信息")
+    @RequiresPermissions("shop:add")
+    @Log(title = "商家信息", businessType = BusinessType.INSERT)
+    @PostMapping("/add")
+    @ResponseBody
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
+    public AjaxResult addSave(TShop tShop)
+    {
+        try {
+            SysUser user = ShiroUtils.getSysUser();
+            String id = StringUtils.genericId();
+            tShop.setId(id);
+            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+                tShop.setId(user.getShopId());
+            }
+            if (tShop.getParams().containsKey("file")){
+                //新文件上传
+                MultipartFile file = (MultipartFile)tShop.getParams().get("file");
+                if (file !=null){
+                    String fileName = minioFileService.upload(file);
+                    tShop.setCoverImg(fileName);
+                    tShop.setFlag(Constants.DATA_NORMAL);
+                    tShop.setCreateTime(new Date());
+                    tShop.setCreateBy(user.getUserId().toString());
+                    int count = tShopService.insertTShop(tShop);
+                    return AjaxResult.success("数据保存成功。",count);
+                }
+                else {
+                    return AjaxResult.error("未能获取上传文件内容。");
+                }
+            }else {
+                return AjaxResult.error("请选择图片上传。");
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("保存商家图片时发生异常。",ex);
+            return AjaxResult.error("保存商家图片时发生异常。");
+        }
     }
 }
