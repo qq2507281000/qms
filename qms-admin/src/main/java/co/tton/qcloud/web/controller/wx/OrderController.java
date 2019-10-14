@@ -115,30 +115,9 @@ public class OrderController extends BaseController {
         }
     }
 
-    /***
-     *
-     * @param
-     * @return
-     */
-//    @RequiresPermissions("wx:order:count")
-//    @RequestMapping(value="/countOder",method = RequestMethod.GET)
-//    @ApiOperation("根据订单状态获取订单数量--这个接口在会员信息查询")
-//    public AjaxResult<TOrderModel> getCountOrder(@RequestParam(value = "billstatus")String billStatus,
-//                                    @RequestParam(value = "memberid")String memberId){
-//        if(StringUtils.isNotEmpty(billStatus)){
-//            TOrderModel tOrder = new TOrderModel();
-//            tOrder.setBillStatus(billStatus);
-//            tOrder.setMemberId(memberId);
-//            TOrderModel tOrderModel =tOrderService.getCountOrder(tOrder);
-//            return AjaxResult.success("获取数量成功。",tOrderModel);
-//        }else{
-//            return AjaxResult.error("参数错误");
-//        }
-//    }
-
     //    @RequiresPermissions("wx:evaluation:insert")
 //    不好使
-    @RequestMapping(value = "/setEvaluation",method = RequestMethod.GET)
+    @RequestMapping(value = "/evaluation",method = RequestMethod.GET)
     @ApiOperation("订单评价包含订单评价图片-----不好使")
     public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno")String orderNo,
                                                @RequestParam(value = "memberid")String memberId,

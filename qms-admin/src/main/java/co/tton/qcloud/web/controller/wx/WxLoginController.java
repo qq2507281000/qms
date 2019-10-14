@@ -49,8 +49,6 @@ public class WxLoginController extends BaseController {
                                       ) {
         if(StringUtils.isNotEmpty(openId)){
             TMember tMember = itMemberService.loginInfo(openId);
-            List list = new ArrayList();
-            list.add(tMember);
             if(StringUtils.isNull(tMember)){
                 //如果查询不到就插入
                 TMember tMemberOne = new TMember();
@@ -61,11 +59,10 @@ public class WxLoginController extends BaseController {
                 tMemberOne.setImg(img);
                 int number = itMemberService.insertloginInfo(tMemberOne);
                 if(number>0){
-                    list.add(tMemberOne.getId());
-                    return AjaxResult.success("新增用户插入成功。",list);
+                    return AjaxResult.success("新增用户插入成功。",number);
                 }
             }
-            return AjaxResult.success("获取信息成功。",list);
+            return AjaxResult.success("获取信息成功。",tMember);
           }else{
             return AjaxResult.error("openId错误。");
         }

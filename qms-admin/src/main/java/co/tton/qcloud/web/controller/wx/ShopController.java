@@ -44,8 +44,12 @@ public class ShopController extends BaseController {
                                      @RequestParam(value="category",required = false)String categoryId,
                                      @RequestParam(value="suggest",required = false)Integer suggest)
     {
-        if(StringUtils.isNotEmpty(location) && location.equals("大连")){
-                List<TShop> listTShop=tShopService.getSuggestShop(categoryId,suggest);
+        if(StringUtils.isNotEmpty(location)){
+          TShop tShop = new TShop();
+          tShop.setAddress(location);
+          tShop.setCategoryId(categoryId);
+          tShop.setSuggest(suggest);
+          List<TShop> listTShop=tShopService.getSuggestShop(tShop);
                 return AjaxResult.success("获取商家信息成功。",listTShop);
         }else{
             return AjaxResult.error("地点错误。");
@@ -60,9 +64,13 @@ public class ShopController extends BaseController {
     @ApiOperation("查询商家详情")
 //    @RequiresPermissions("wx:shop:detail")
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public AjaxResult<List<TShop>> getShopDetail(@PathVariable("id")String shopId){
+    public AjaxResult<List<TShop>> getShopDetail(@PathVariable("id")String shopId,
+                                                 @RequestParam(value="loc",required = false) String location){
         if(StringUtils.isNotEmpty(shopId)){
-          List list=tShopService.getShopDetail(shopId);
+          TShop tShop = new TShop();
+          tShop.setId(shopId);
+          tShop.setAddress(location);
+          List list=tShopService.getShopDetail(tShop);
           return AjaxResult.success("获取商家详情成功。",list);
         }else{
           return AjaxResult.error("商家ID错误。");
@@ -76,7 +84,7 @@ public class ShopController extends BaseController {
    */
   @ApiOperation("搜索框查询")
 //  @RequiresPermissions("wx:shop:suggest")
-  @RequestMapping(value="/getName",method = RequestMethod.GET)
+  @RequestMapping(value="/name",method = RequestMethod.GET)
   public AjaxResult<List> getNameShop(@RequestParam(value="name")String name)
   {
       if(StringUtils.isNotEmpty(name)){

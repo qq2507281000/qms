@@ -205,7 +205,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <!--首页推荐商家查询，查询所有商家-->
-    <select id="getSuggestShop" resultMap="TShopAll">
+    <select id="getSuggestShop" resultMap="TShopAll" parameterType="TShop">
         select sh.category_id,sh.id, sh.name, sh.subject, sh.summary, sh.region_name, sh.cover_img, sh.suggest, sh.sort_key, sh.sort_weight, sh.address, sh.shop_hours_begin, sh.shop_hours_end,
         sh.level, sh.stars, sh.html_content, sh.telephone, sh.mobile, sh.contract_name, sh.wechat_no, sh.wechat_platform, sh.wechat_no_img, sh.wechat_platform_img, sh.wechat_show, sh.available
         ,ca.id as a_id
@@ -215,12 +215,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             sh.flag = 0
             <if test="categoryId != null">and sh.category_id = #{categoryId}</if>
             <if test="suggest != null ">and sh.suggest = #{suggest}</if>
+            <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
         </where>
         order by sh.sort_key
     </select>
 
     <!--查询商家详情-->
-    <select id="getShopDetail" parameterType="String" resultMap="TShopResult">
+    <select id="getShopDetail" parameterType="TShop" resultMap="TShopResult">
         select
         shop.id,
         shop. NAME,
@@ -240,7 +241,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join t_category ca on shop.category_id = ca.parent_id
         <where>
             shop.flag = 0
-            <if test="_parameter != null  and _parameter  != ''">and shop.id = #{id}</if>
+            <if test="id != null  and id != ''">and shop.id = #{id}</if>
+            <if test="address != null and address != ''">and shop.address like concat('%', #{address}, '%')</if>
         </where>
         group by
         ca. name
