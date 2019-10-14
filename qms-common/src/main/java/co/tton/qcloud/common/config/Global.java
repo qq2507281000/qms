@@ -76,6 +76,26 @@ public class Global
         return StringUtils.nvl(getConfig("qcloud.name"), "Qcloud.QMS");
     }
 
+    /***
+     * 获取短信AccessKey
+     * @return
+     */
+    public static String getAccessKey(){
+        return StringUtils.nvl(getConfig("qcloud.sms-accessKey"),"");
+    }
+
+    /***
+     * 获取短信AccessSecret
+     * @return
+     */
+    public static String getAccessSecret(){
+        return StringUtils.nvl(getConfig("qcloud.sms-accessSecret"),"");
+    }
+
+    public static String getNotifyUrl(){
+        return StringUtils.nvl(getConfig("qcloud.pay-notifyUrl"),"");
+    }
+
     /**
      * 获取项目版本
      */

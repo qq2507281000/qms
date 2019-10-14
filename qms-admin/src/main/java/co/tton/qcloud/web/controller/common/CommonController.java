@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.common.utils.SmsUtils;
 import co.tton.qcloud.web.minio.MinioFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,18 +87,43 @@ public class CommonController
         try
         {
             // 上传文件路径
-            String filePath = Global.getUploadPath();
-            // 上传并返回新文件名称
-            String fileName = FileUploadUtils.upload(filePath, file);
-            String url = serverConfig.getUrl() + fileName;
-            AjaxResult ajax = AjaxResult.success();
-            ajax.put("fileName", fileName);
-            ajax.put("url", url);
+//            String filePath = Global.getUploadPath();
+//            // 上传并返回新文件名称
+//            String fileName = FileUploadUtils.upload(filePath, file);
+//            String url = serverConfig.getUrl() + fileName;
+//            AjaxResult ajax = AjaxResult.success();
+//            ajax.put("fileName", fileName);
+//            ajax.put("url", url);
+//            return ajax;
+            String fileName = minioFileService.upload(file);
+            AjaxResult ajax = AjaxResult.success("文件上传成功。");
+            ajax.put("fileName",fileName);
             return ajax;
         }
         catch (Exception e)
         {
             return AjaxResult.error(e.getMessage());
+        }
+    }
+
+    /***
+     * 发送手机验证码
+     * @param mobile 手机号码
+     * @return
+     */
+
+    @PostMapping("/common/sms")
+    public AjaxResult sendSmsCode(@RequestParam("mobile") String mobile){
+        try{
+            String verifyCode = SmsUtils.send(mobile);
+            AjaxResult result = AjaxResult.success("验证码发送成功。");
+            result.put("code",verifyCode);
+            return result;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            log.error("发送手机验证码出错。",ex);
+            return AjaxResult.error("发送手机验证码出错。");
         }
     }
 

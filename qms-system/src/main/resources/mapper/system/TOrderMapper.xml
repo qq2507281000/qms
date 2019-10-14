@@ -131,6 +131,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="selectTOrderByNo" parameterType="String" resultMap="TOrderResult">
+        <include refid="selectTOrderVo"/>
+        where orderNo = #{no}
+    </select>
+
     <select id="selectFullOrderById" parameterType="String" resultMap="TOrderModelResult">
         SELECT
         o.id,
