@@ -130,4 +130,14 @@ public class TOrderModel extends TOrder {
      */
     private String statusCount;
 
+    /***
+     * 父级分类
+     */
+    private String parentId;
+
+    /***
+     * 分类名称
+     */
+    private String categoryName;
+
 }

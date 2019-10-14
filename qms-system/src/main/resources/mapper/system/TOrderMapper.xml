@@ -360,4 +360,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="memberId != null  and memberId != ''">and member_id = #{memberId}</if>
         </where>
     </select>
+
+    <select id="getBillStatusCourses" parameterType="TOrderModel" resultMap="WxstatusCount">
+        SELECT
+        o.bill_status,
+        o.member_id,
+        o.id,
+        ca.`name`,
+        ca.parent_id,
+        s.category_id
+        FROM
+        t_shop s
+        LEFT JOIN t_order o ON s.id = o.shop_id
+        LEFT JOIN t_shop_courses co ON co.id = s.category_id
+        LEFT JOIN t_category ca ON ca.id = s.category_id
+        <where>
+            <if test="memberId != null  and memberId != ''">and o.member_id = #{memberId}</if>
+            AND o.bill_status = 'BOOKING'
+        </where>
+    </select>
 </mapper>

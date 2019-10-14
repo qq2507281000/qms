@@ -110,12 +110,12 @@ public class OrderController extends BaseController {
                                                @RequestParam(value = "memberid")String memberId,
                                                @RequestParam(value = "imageurl")String imageUrl,
                                                @RequestParam(value = "evaluation")String evaluation,
+                                               @RequestParam(value = "coursesid")String coursesId,
                                                @RequestParam(value = "star")String star){
 
-        if(StringUtils.isNotEmpty(orderNo)&&StringUtils.isNotEmpty(memberId)){
+        if(StringUtils.isNotEmpty(memberId)){
             TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
-            String id = StringUtils.genericId();
-            tOrder.setId(id);
+
 //            if(tOrder.getParams().containsKey("file")){
             //调用上传图片接口
 
@@ -123,8 +123,11 @@ public class OrderController extends BaseController {
 //                if(file != null){
 //                    String fileName = minioFileService.upload(file);
 //                    tOrder.setImageUrl(fileName);
-            tOrder.setFlag(Constants.DATA_NORMAL);
             tOrder.setOrderNo(orderNo);
+            tOrder.setOrderNo(coursesId);
+            String id = StringUtils.genericId();
+            tOrder.setId(id);
+            tOrder.setFlag(Constants.DATA_NORMAL);
             tOrder.setMemberId(memberId);
             tOrder.setImageUrl(imageUrl);
             tOrder.setEvaluation(evaluation);
@@ -143,7 +146,29 @@ public class OrderController extends BaseController {
         }
     }
 
+    /***
+     *
+     * @param
+     * @return
+     */
+//    @RequiresPermissions("wx:order:billStatus")
+    @RequestMapping(value="/courses/billStatus/category",method = RequestMethod.GET)
+    @ApiOperation("课程下单时选择的类别")
+    public AjaxResult<List<TOrder>> getBillStatusCourses(@RequestParam(value = "memberid")String memberId){
+        if(StringUtils.isNotEmpty(memberId)){
+            TOrder tOrder = new TOrder();
+            tOrder.setMemberId(memberId);
+            List<TOrderModel> tOrderModel = tOrderService.getBillStatusCourses(tOrder);
+            if(StringUtils.isNotEmpty(tOrderModel)){
+                return AjaxResult.success("获取分类成功。",tOrderModel);
+            }else {
+                return AjaxResult.success("获取分类失败。");
+            }
+        }else{
+            return AjaxResult.error("参数错误。");
+        }
 
+    }
 
 
     @RequiresPermissions("wx:order:comment")

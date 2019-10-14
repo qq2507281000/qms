@@ -93,4 +93,12 @@ public interface ITOrderService
      * @return 结果
      */
     TOrderModel getCountOrder(TOrderModel tOrder);
+
+    /**
+     * 微信小程序 课程下单时选择的类别
+     *
+     * @param tOrder
+     * @return 结果
+     */
+    List<TOrderModel> getBillStatusCourses(TOrder tOrder);
 }

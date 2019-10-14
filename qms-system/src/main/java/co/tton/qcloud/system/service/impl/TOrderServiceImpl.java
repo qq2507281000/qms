@@ -135,6 +135,17 @@ public class TOrderServiceImpl implements ITOrderService
         return tOrderMapper.getCountOrder(tOrder);
     }
 
+    /**
+     * 微信小程序 课程下单时选择的类别
+     *
+     * @param tOrder
+     * @return 结果
+     */
+    @Override
+    public List<TOrderModel> getBillStatusCourses(TOrder tOrder) {
+        return tOrderMapper.getBillStatusCourses(tOrder);
+    }
+
 
     /***
      * 获取完整订单信息

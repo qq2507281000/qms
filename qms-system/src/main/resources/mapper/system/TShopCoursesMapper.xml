@@ -290,7 +290,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         inner join t_shop ts on tsc.shop_id = ts.id
         inner join t_shop_courses_price tscp on tsc.id = tscp.courses_id
         where
-            tsc.flag = 0
+            tsc.flag = 0 and tsc.suggest = 0
         order by tsc.sort_key
         limit 1
     </select>

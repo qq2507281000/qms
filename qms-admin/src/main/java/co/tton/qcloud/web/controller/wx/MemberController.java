@@ -137,10 +137,10 @@ public class MemberController extends BaseController {
 
 
 //    @RequiresPermissions("wx:feedback")
-  //需要判断
     @RequestMapping(value = "/info",method = RequestMethod.POST)
     @ApiOperation("新增用户信息")
     public AjaxResult<TMember> saveMember(TMember tMember){
+        if(StringUtils.isNotNull(tMember)){
             SysUser user = ShiroUtils.getSysUser();
             tMember.setId(StringUtils.genericId());
             tMember.setCreateBy(user.getUserId().toString());
@@ -148,6 +148,10 @@ public class MemberController extends BaseController {
             tMember.setFlag(Constants.DATA_NORMAL);
             tMemberService.saveMember(tMember);
             return AjaxResult.success("保存用户成功。");
+        }else{
+            return AjaxResult.error("参数错误。");
+        }
+
 
     }
 

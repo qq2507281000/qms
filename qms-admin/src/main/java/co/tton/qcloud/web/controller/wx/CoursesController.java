@@ -141,10 +141,10 @@ public class CoursesController extends BaseController {
    * @return
    */
 //    @RequiresPermissions("wx:courses:suggest")
-  @RequestMapping(value = "/shop/id/category/id", method = RequestMethod.GET)
+  @RequestMapping(value = "/category/id", method = RequestMethod.GET)
   @ApiOperation("获取某商家某分类下课程接口")
-  public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "category", required = false) String categoryId,
-                                                               @RequestParam(value = "shopId") String shopId) {
+  public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "categoryid", required = false) String categoryId,
+                                                               @RequestParam(value = "shopid") String shopId) {
     TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
     if (StringUtils.isNotEmpty(shopId)) {
       tShopCoursesModel.setShopId(shopId);
