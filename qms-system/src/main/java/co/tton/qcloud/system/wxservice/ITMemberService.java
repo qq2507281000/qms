@@ -53,4 +53,12 @@ public interface ITMemberService {
    * @return 结果
    */
     void saveMember(TMember tMember);
+
+    /**
+     * 绑定手机号
+     *
+     * @param tMember
+     * @return 结果
+     */
+    int upMobile(TMember tMember);
 }

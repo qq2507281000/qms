@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.*;
@@ -61,33 +62,21 @@ public class OrderController extends BaseController {
         if(StringUtils.isNotEmpty(memberId)){
             TOrder tOrderNew = new TOrder();
             tOrderNew.setMemberId(memberId);
-            if(StringUtils.isNotEmpty(billStatus)&&billStatus.equals("FINISHED")){
+            if(StringUtils.isNotEmpty(billStatus)){
                 tOrderNew.setBillStatus(billStatus);
             }
-            if(StringUtils.isNotEmpty(payStatus)&&payStatus.equals("UNPAY")){
+            if(StringUtils.isNotEmpty(payStatus)){
                 tOrderNew.setPayStatus(payStatus);
             }
-            if(StringUtils.isNotEmpty(useStatus)&&useStatus.equals("UNUSED")){
+            if(StringUtils.isNotEmpty(useStatus)){
                 tOrderNew.setUseStatus(useStatus);
             }
             List<TOrder> tOrders =tOrderService.getOrderList(tOrderNew);
-            for(TOrder tOrder:tOrders) {
-                if (tOrder.getPayStatus().equals("UNPAY")) {
-                    tOrder.setWxStatus("未支付");
-                } else {
-                    tOrder.setWxStatus("待使用");
-                }
-                if (tOrder.getUseStatus().equals("USED")) {
-                    tOrder.setWxStatus("待评价");
-                }
-                if (tOrder.getUseStatus().equals("EXPIRED")) {
-                    tOrder.setWxStatus("已过期");
-                }
-                if (tOrder.getBillStatus().equals("FINISHED")) {
-                    tOrder.setWxStatus("已评价");
-                }
+            if(StringUtils.isNotNull(tOrders)){
+                return AjaxResult.success("获取分类成功。",tOrders);
+            }else{
+                return AjaxResult.success("获取分类失败。");
             }
-            return AjaxResult.success("获取分类成功。",tOrders);
         }else{
             return AjaxResult.error("参数错误");
         }
@@ -115,45 +104,42 @@ public class OrderController extends BaseController {
     }
 
     //    @RequiresPermissions("wx:evaluation:insert")
-//    不好使
-    @RequestMapping(value = "/evaluation",method = RequestMethod.GET)
-    @ApiOperation("订单评价包含订单评价图片-----不好使")
+    @RequestMapping(value = "/evaluation",method = RequestMethod.POST)
+    @ApiOperation("订单和课程评价")
     public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno")String orderNo,
                                                @RequestParam(value = "memberid")String memberId,
                                                @RequestParam(value = "imageurl")String imageUrl,
                                                @RequestParam(value = "evaluation")String evaluation,
                                                @RequestParam(value = "star")String star){
-        try {
+
+        if(StringUtils.isNotEmpty(orderNo)&&StringUtils.isNotEmpty(memberId)){
             TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
             String id = StringUtils.genericId();
             tOrder.setId(id);
-            if(tOrder.getParams().containsKey("file")){
-                //有新文件上传
-                MultipartFile file = (MultipartFile)tOrder.getParams().get("file");
-                if(file != null){
-                    String fileName = minioFileService.upload(file);
-                    tOrder.setImageUrl(fileName);
-                    tOrder.setFlag(Constants.DATA_NORMAL);
-                    tOrder.setOrderNo(orderNo);
-                    tOrder.setMemberId(memberId);
-                    tOrder.setImageUrl(imageUrl);
-                    tOrder.setEvaluation(evaluation);
-                    tOrder.setStar(star);
-                    int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
-                    return AjaxResult.success("数据保存成功。",number);
-                }
-                else{
-                    return AjaxResult.error("未能获取上传文件内容。");
-                }
+//            if(tOrder.getParams().containsKey("file")){
+            //调用上传图片接口
+
+//                MultipartFile file = (MultipartFile)tOrder.getParams().get("file");
+//                if(file != null){
+//                    String fileName = minioFileService.upload(file);
+//                    tOrder.setImageUrl(fileName);
+            tOrder.setFlag(Constants.DATA_NORMAL);
+            tOrder.setOrderNo(orderNo);
+            tOrder.setMemberId(memberId);
+            tOrder.setImageUrl(imageUrl);
+            tOrder.setEvaluation(evaluation);
+            if(!StringUtils.isNotEmpty(star)){
+                tOrder.setStar("0");
             }
-            else{
-                return AjaxResult.error("请选择图片上传。");
+            tOrder.setStar(star);
+            int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
+            if(number>0){
+                return AjaxResult.success("数据保存成功。",number);
+            }else{
+                return AjaxResult.success("数据保存失败。");
             }
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-            logger.error("保存图片时发生异常。",ex);
-            return AjaxResult.error("保存图片时发生异常。");
+        }else{
+            return AjaxResult.error("参数错误");
         }
     }
 

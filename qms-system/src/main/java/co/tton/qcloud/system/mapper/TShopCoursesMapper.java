@@ -109,4 +109,12 @@ public interface TShopCoursesMapper
      * @return 结果
      */
     List<TShopCoursesModel> getAllCoursesCategory(TShopCoursesModel tShopCoursesModel);
+
+    /**
+     * 首页弹窗
+     *
+     * @param  tShopCourses 查询
+     * @return 结果
+     */
+    TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
 }

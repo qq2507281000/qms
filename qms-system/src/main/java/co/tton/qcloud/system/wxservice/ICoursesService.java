@@ -1,5 +1,6 @@
 package co.tton.qcloud.system.wxservice;
 
+import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
 
 import java.util.List;
@@ -26,5 +27,13 @@ public interface ICoursesService {
      * @return 结果
      */
     List<TShopCoursesModel> getAllCoursesCategory(TShopCoursesModel tShopCoursesModel);
+
+    /**
+     * 首页弹窗
+     *
+     * @param  tShopCourses 查询
+     * @return 结果
+     */
+    TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
 
 }

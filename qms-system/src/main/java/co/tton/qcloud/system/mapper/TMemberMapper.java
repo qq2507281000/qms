@@ -110,4 +110,12 @@ public interface TMemberMapper
      * @return 结果
      */
     int insertloginInfo(TMember tMember);
+
+    /**
+     * 绑定手机号
+     *
+     * @param tMember
+     * @return 结果
+     */
+    int upMobile(TMember tMember);
 }

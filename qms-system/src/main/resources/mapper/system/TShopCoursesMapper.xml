@@ -274,4 +274,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND co.flag = 0
         </where>
     </select>
+
+    <select id="getMaxSortKeyCourses"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">
+        select
+            tsc.id,
+            ts.`name`,
+            tscp.price,
+            tsc.title,
+            tsc.suggest,
+            tsc.shop_id,
+            tsc.category_id,
+            tsc.sort_key
+        from
+            t_shop_courses tsc
+        inner join t_shop ts on tsc.shop_id = ts.id
+        inner join t_shop_courses_price tscp on tsc.id = tscp.courses_id
+        where
+            tsc.flag = 0
+        order by tsc.sort_key
+        limit 1
+    </select>
 </mapper>

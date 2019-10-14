@@ -137,9 +137,10 @@ public class MemberController extends BaseController {
 
 
 //    @RequiresPermissions("wx:feedback")
-    @RequestMapping(value = "/saveMember",method = RequestMethod.POST)
+  //需要判断
+    @RequestMapping(value = "/info",method = RequestMethod.POST)
     @ApiOperation("新增用户信息")
-    public AjaxResult saveMember(TMember tMember){
+    public AjaxResult<TMember> saveMember(TMember tMember){
             SysUser user = ShiroUtils.getSysUser();
             tMember.setId(StringUtils.genericId());
             tMember.setCreateBy(user.getUserId().toString());
@@ -148,5 +149,25 @@ public class MemberController extends BaseController {
             tMemberService.saveMember(tMember);
             return AjaxResult.success("保存用户成功。");
 
+    }
+
+    //    @RequiresPermissions("wx:mobile")
+    @RequestMapping(value = "/mobile",method = RequestMethod.POST)
+    @ApiOperation("绑定手机号")
+    public AjaxResult<TMember> upMobile(@RequestParam(value = "memberid") String memberid,
+                                        @RequestParam(value = "mobile") String mobile){
+        if(StringUtils.isNotEmpty(memberid)&&StringUtils.isNotEmpty(mobile)){
+            TMember tMember = new TMember();
+            tMember.setId(memberid);
+            tMember.setMobile(mobile);
+            int number = tMemberService.upMobile(tMember);
+            if(number > 0){
+                return AjaxResult.success("保存用户成功。",number);
+            }else{
+                return AjaxResult.success("修改失败。");
+            }
+        }else{
+            return AjaxResult.error("参数错误。");
+        }
     }
 }

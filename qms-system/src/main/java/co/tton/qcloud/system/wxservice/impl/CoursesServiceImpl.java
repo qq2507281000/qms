@@ -48,4 +48,15 @@ public class CoursesServiceImpl implements ICoursesService {
         return tShopCoursesMapper.getAllCoursesCategory(tShopCoursesModel);
     }
 
+    /**
+     * 首页弹窗
+     *
+     * @param  tShopCourses 查询
+     * @return 结果
+     */
+    @Override
+    public TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses) {
+        return tShopCoursesMapper.getMaxSortKeyCourses(tShopCourses);
+    }
+
 }

@@ -181,9 +181,6 @@ public class CoursesController extends BaseController {
       tShopCoursesModel.setShopId(shopId);
     }
     List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getAllCoursesCategory(tShopCoursesModel);
-    tShopCoursesModels.forEach(parent ->{
-
-    });
     return AjaxResult.success("获取成功", tShopCoursesModels);
   }
 

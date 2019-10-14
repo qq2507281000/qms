@@ -72,4 +72,15 @@ public class MemberServiceImpl implements ITMemberService {
     public void saveMember(TMember tMember) {
         tMemberMapper.saveMember(tMember);
     }
+
+    /**
+     * 绑定手机号
+     *
+     * @param tMember
+     * @return 结果
+     */
+      @Override
+      public int upMobile(TMember tMember) {
+        return tMemberMapper.upMobile(tMember);
+      }
 }
