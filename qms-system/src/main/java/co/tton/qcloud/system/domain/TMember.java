@@ -86,6 +86,9 @@ public class TMember extends BaseEntity
     @ApiModelProperty("微信头像")
     private String img;
 
+    @ApiModelProperty("用户Token")
+    private String token;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

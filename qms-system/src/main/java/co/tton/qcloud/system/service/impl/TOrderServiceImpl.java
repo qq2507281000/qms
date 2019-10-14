@@ -41,6 +41,12 @@ public class TOrderServiceImpl implements ITOrderService
         return tOrderMapper.selectTOrderById(id);
     }
 
+    @Override
+    public TOrder selectTOrderByNo(String no) {
+        return tOrderMapper.selectTOrderByNo(no);
+    }
+
+
     /**
      * 查询【请填写功能名称】列表
      * 

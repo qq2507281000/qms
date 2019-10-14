@@ -1,7 +1,10 @@
 package co.tton.qcloud.web.controller.wx;
 
+import cn.hutool.core.date.DateUtil;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.system.domain.TOrder;
+import co.tton.qcloud.system.service.ITOrderService;
 import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.entpay.*;
 import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
@@ -32,6 +35,8 @@ import java.util.Date;
 public class WxpayController extends BaseController {
 
     private WxPayService wxService;
+
+    private ITOrderService orderService;
 
     /**
      * <pre>
@@ -268,6 +273,24 @@ public class WxpayController extends BaseController {
     public String parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
         final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
         // TODO 根据自己业务场景需要构造返回对象
+        if(notifyResult != null){
+            if(StringUtils.equals(notifyResult.getAttach(),"课程订单")){
+                String orderNo = notifyResult.getOutTradeNo();
+                String transactionId = notifyResult.getTransactionId();
+                String payTime = notifyResult.getTimeEnd();
+                Date date = DateUtil.parse(payTime,"yyyyMMddHHmmss");
+                TOrder order = orderService.selectTOrderByNo(orderNo);
+                if(order != null) {
+                    order.setPayStatus("PAID");
+                    order.setUseStatus("UNUSED");
+                    order.setBillStatus("EXECUTING");
+                    order.setVerifyStatus("UNCONFIRM");
+                    order.setSerialNo(transactionId);
+                    order.setPayTime(date);
+                    orderService.updateTOrder(order);
+                }
+            }
+        }
         return WxPayNotifyResponse.success("成功");
     }
 

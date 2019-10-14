@@ -24,6 +24,13 @@ public interface ITOrderService
     public TOrder selectTOrderById(String id);
 
     /***
+     * 根据订单编号获取订单详情
+     * @param no
+     * @return
+     */
+    public TOrder selectTOrderByNo(String no);
+
+    /***
      * 获取完整订单信息
      * @param id 订单Id
      * @return

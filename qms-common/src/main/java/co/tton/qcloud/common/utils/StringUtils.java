@@ -1,8 +1,7 @@
 package co.tton.qcloud.common.utils;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import co.tton.qcloud.common.core.text.StrFormatter;
 
@@ -401,5 +400,108 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     public static String genericId(){
         String uuid = UUID.randomUUID().toString();
         return StringUtils.replace(uuid,"-","");
+    }
+
+    public static synchronized List getEncode(String maxOrderno, int count)
+    {
+        String Orderno = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyMMdd"); // 时间字符串产生方式
+        String uid_pfix = format.format(new Date()); // 组合流水号前一部分，时间字符串，如：20160126
+        if (maxOrderno != null && maxOrderno.contains(uid_pfix)) {
+            String uid_end = maxOrderno.substring(6, 10); // 截取字符串最后四位，结果:0001
+            System.out.println("uid_end=" + uid_end);
+            int endNum = Integer.parseInt(uid_end); // 把String类型的0001转化为int类型的1
+            System.out.println("endNum=" + endNum);
+            int tmpNum = 10000 + endNum + 1; // 结果10002
+            System.out.println("tmpNum=" + tmpNum);
+            Orderno = uid_pfix + substring("" + tmpNum, 1);// 把10002首位的1去掉，再拼成201601260002字符串
+        }
+        else
+        {
+            Orderno = uid_pfix + "0001";
+        }
+        List arry = new ArrayList();
+        arry.add(Orderno);
+        //批量生成多个
+        while (count>1)
+        {
+            Orderno = String.valueOf(Integer.parseInt(Orderno.trim())+1);
+            arry.add(Orderno);
+            count--;
+        }
+        return arry;
+    }
+
+    public static synchronized String genericOrderNo(){
+        SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+        String uid_pfix = format.format(new Date());
+        String orderNo = "HDP"+uid_pfix + randomCode();
+        return orderNo;
+    }
+
+    public static String randomCode(){
+        StringBuffer sBuffer = new StringBuffer();
+//时分秒
+        Calendar cal = Calendar.getInstance();
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+        int second = cal.get(Calendar.SECOND);
+        int mm = cal.get(Calendar.MILLISECOND);
+
+        sBuffer.append(hour).append(minute).append(second).append(mm);
+
+// 随机数7位
+        String random = createRandom(7);
+// System.out.println(random);
+        sBuffer.append(random);
+
+
+// 校验码
+        String check = passWord(random);
+// System.out.println(check);
+        sBuffer.append(check);
+
+        String str = sBuffer.toString();
+        return str;
+    }
+
+    public static String createRandom(int ws) {
+        String cs = "0";
+        for (int i = 0; i < ws-1; i++ ) {
+            cs = cs + "0";
+        }
+        cs = "1" + cs;
+        int stochastic = new Double(Math.random() * Integer.valueOf(cs)).intValue();
+        String temp = "%0" + ws + "d";
+        String stocha = String.format(temp, stochastic);
+        return stocha;
+    }
+
+    public static String passWord(String id) {
+        String result = "";
+        int[] b = new int[id.length()];
+        for (int i = 0; i < id.length(); i++) {
+            char q = id.charAt(i);
+            b[i] = (int) (q - '0');// 字符数字-字符0就是实际的数字值，赋值给数字数组
+        }
+        int[] w = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+        int[] c = { 1, 0, 'x', 9, 8, 7, 6, 5, 4, 3, 2 };
+        int sum = 0;
+        for (int j = 0; j < id.length(); j++) {
+            sum = sum + b[j] * w[j];
+        }
+        int r = sum % 11;
+        int res = c[r];
+// if (res == 120) {
+// result = "x";
+// } else {
+// result = String.valueOf(res);
+// }
+        if (res == 120) {
+            result = "9";
+        } else {
+            result = String.valueOf(res);
+        }
+        return result;
     }
 }

@@ -15,6 +15,11 @@ qcloud:
   # 获取ip地址开关
   addressEnabled: true
 
+  #短信接口
+  sms-accessKey: LTAIVBUBSmF5xENU
+  sms-accessSecret: 2zBjUTiMhq4CHBB3EZjrMzUuIZxqzI
+  pay-notifyUrl: https://hdpi.ttonservice.com/api/v1.0/wx/pay/notify/order
+
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
