@@ -8,6 +8,7 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.*;
+import co.tton.qcloud.system.model.OrderEvaluationModel;
 import co.tton.qcloud.system.service.ITOrderService;
 import co.tton.qcloud.system.wxservice.ITOrderUseEvaluationService;
 import co.tton.qcloud.web.minio.MinioFileService;
@@ -178,7 +179,44 @@ public class OrderController extends BaseController {
         }
     }
 
+//    @PostMapping("/evaluation")
+//    public AjaxResult putOrderEvaluation(OrderEvaluationModel model){
+//        try{
+//
+////            String orderId = model.getOrderId();
+//
+//            TOrderUseEvaluation orderUseEvaluation = new TOrderUseEvaluation();
+//            String id = StringUtils.genericId();
+//            orderUseEvaluation.setId(id);
+//            orderUseEvaluation.setOrderNo(model.getOrderId());
+//            orderUseEvaluation.setCoursesId(model.getOpenId());
+//
+//        }
+//        catch(Exception ex){
+//            ex.printStackTrace();
+//            logger.error("订单评价时发生异常。", ex);
+//            return AjaxResult.error("订单评价时发生异常。");
+//        }
+//    }
 
+//    @PostMapping("/upload")
+//    @ResponseBody
+//    public AjaxResult<String> uploadFile(@RequestParam("file") MultipartFile file){
+//        try{
+//            if(file == null){
+//                return AjaxResult.error("文件不允许为空。");
+//            }
+//            else{
+//                String fileName = minioFileService.upload(file);
+//                return AjaxResult.success("文件上传成功。",fileName);
+//            }
+//        }
+//        catch(Exception ex){
+//            ex.printStackTrace();
+//            logger.error("保存图片发生异常。",ex);
+//            return AjaxResult.error("保存图片发生异常。");
+//        }
+//    }
 
 
     @RequiresPermissions("wx:order:comment")

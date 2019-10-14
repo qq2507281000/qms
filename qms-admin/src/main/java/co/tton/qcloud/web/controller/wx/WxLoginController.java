@@ -68,6 +68,27 @@ public class WxLoginController extends BaseController {
             return AjaxResult.success("获取信息成功。",list);
           }else{
             return AjaxResult.error("openId错误。");
-          }
-      }
+        }
+    }
+
+//    public AjaxResult<TMember> wxLogin(@RequestParam(value = "openId") String openId,
+//                                       @RequestParam(value = "mobile",required = false) String mobile,
+//                                       @RequestParam(value = "realName",required = false) String realName,
+//                                       @RequestParam(value = "avatar",required = false) String avatar){
+//        if(StringUtils.isEmpty(openId)){
+//            return AjaxResult.error("微信端OpenId不允许为空。");
+//        }
+//        else{
+//            TMember member = itMemberService.loginInfo(openId);
+//
+//            if(member == null){
+//                //如果OpenId为空，则向数据库中插入数据。
+//            }
+//            else{
+//
+//            }
+//        }
+//    }
+
+
 }
