@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TMemberChargingMapper">
+
+    <resultMap type="TMemberCharging" id="TMemberChargingResult">
+        <result property="id"              column="id"    />
+        <result property="memberId"        column="member_id"    />
+        <result property="chargingTime"    column="charging_time"    />
+        <result property="chargingPrice"   column="charging_price"    />
+        <result property="beginTime"       column="begin_time"    />
+        <result property="endTime"         column="end_time"    />
+        <result property="vipLevel"        column="vip_level"    />
+        <result property="serialNo"        column="serial_no"    />
+        <result property="flag"            column="flag"    />
+        <result property="payStatus"       column="pay_status"    />
+        <result property="orderNo"         column="order_no"    />
+        <result property="createTime"      column="create_time"    />
+        <result property="createBy"        column="create_by"    />
+        <result property="updateTime"      column="update_time"    />
+        <result property="updateBy"        column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTMemberChargingVo">
+        select id, member_id, charging_time, charging_price, begin_time, end_time, vip_level, flag, serial_no, pay_status, order_no, create_time, create_by, update_time, update_by from t_member_charging
+    </sql>
+
+    <select id="selectTMemberChargingById" parameterType="String" resultMap="TMemberChargingResult">
+        <include refid="selectTMemberChargingVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectTMemberChargingList" parameterType="TMemberCharging" resultMap="TMemberChargingResult">
+        <include refid="selectTMemberVo"/>
+        <where>
+            <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
+            <if test="vipLevel != null  and vipLevel != ''"> and vip_level = #{vipLevel}</if>
+            <if test="payStatus != null  and payStatus != ''"> and pay_status = #{payStatus}</if>
+            and flag = 0
+        </where>
+    </select>
+
+    <insert id="insertTMember" parameterType="TMember">
+        insert into t_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">id,</if>
+            <if test="memberId != null and memberId != ''">member_id,</if>
+            <if test="chargingTime != null ">charging_time,</if>
+            <if test="chargingPrice != null ">charging_price,</if>
+            <if test="beginTime != null ">begin_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="vipLevel != null ">vip_level,</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="payStatus != null  and payStatus != ''">pay_status,</if>
+            <if test="orderNo != null  and orderNo != ''">order_no,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">id = #{id},</if>
+            <if test="memberId != null and memberId != ''">member_id = #{memberId},</if>
+            <if test="chargingTime != null ">charging_time = #{chargingTime},</if>
+            <if test="chargingPrice != null ">charging_price = #{chargingPrice},</if>
+            <if test="beginTime != null ">begin_time = #{beginTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="vipLevel != null ">vip_level = #{vipLevel},</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no = #{serialNo},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="payStatus != null  and payStatus != ''">pay_status = #{payStatus},</if>
+            <if test="orderNo != null  and orderNo != ''">order_no = #{orderNo},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTMemberCharging" parameterType="TMemberCharging">
+        update t_member_charging
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chargingTime != null ">charging_time = #{chargingTime},</if>
+            <if test="chargingPrice != null ">charging_price = #{chargingPrice},</if>
+            <if test="beginTime != null ">begin_time = #{beginTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="vipLevel != null ">vip_level = #{vipLevel},</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no = #{serialNo},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="payStatus != null  and payStatus != ''">pay_status = #{payStatus},</if>
+            <if test="orderNo != null  and orderNo != ''">order_no = #{orderNo},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMemberChargingById" parameterType="String">
+        delete from t_member_charging where id = #{id}
+    </delete>
+
+    <delete id="deleteTMemberChargingByIds" parameterType="String">
+        delete from t_member_charging where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+</mapper>

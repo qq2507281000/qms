@@ -6,9 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.SmsUtils;
 import co.tton.qcloud.web.minio.MinioFileService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +36,10 @@ import java.util.Map;
  * 
  * @author Qcloud
  */
-@Controller
-public class CommonController
+
+@Api(value="通用Api",tags="通用Api")
+@RestController
+public class CommonController extends BaseController
 {
     private static final Logger log = LoggerFactory.getLogger(CommonController.class);
 
@@ -49,6 +55,7 @@ public class CommonController
      * @param fileName 文件名称
      * @param delete 是否删除
      */
+    @ApiOperation("文件下载")
     @GetMapping("/common/download")
     public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request)
     {
@@ -80,9 +87,10 @@ public class CommonController
     /**
      * 通用上传请求
      */
+    @ApiOperation("文件上传")
     @PostMapping("/common/upload")
     @ResponseBody
-    public AjaxResult uploadFile(MultipartFile file) throws Exception
+    public AjaxResult uploadFile(@ApiParam("文件") MultipartFile file) throws Exception
     {
         try
         {
@@ -96,9 +104,10 @@ public class CommonController
 //            ajax.put("url", url);
 //            return ajax;
             String fileName = minioFileService.upload(file);
-            AjaxResult ajax = AjaxResult.success("文件上传成功。");
-            ajax.put("fileName",fileName);
-            return ajax;
+//            AjaxResult ajax = AjaxResult.success("文件上传成功。");
+//            ajax.put("fileName",fileName);
+//            return ajax;
+            return AjaxResult.success("文件上传成功。",fileName);
         }
         catch (Exception e)
         {
@@ -111,14 +120,15 @@ public class CommonController
      * @param mobile 手机号码
      * @return
      */
-
+    @ApiOperation("发送短信")
     @PostMapping("/common/sms")
-    public AjaxResult sendSmsCode(@RequestParam("mobile") String mobile){
+    public AjaxResult sendSmsCode(@ApiParam("手机号码") @RequestParam("mobile") String mobile){
         try{
             String verifyCode = SmsUtils.send(mobile);
-            AjaxResult result = AjaxResult.success("验证码发送成功。");
-            result.put("code",verifyCode);
-            return result;
+//            AjaxResult result = AjaxResult.success("验证码发送成功。",verifyCode);
+////            result.put("code",verifyCode);
+//            return result;
+            return AjaxResult.success("验证码发送成功。",verifyCode);
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -152,8 +162,10 @@ public class CommonController
      * @param file
      * @param response
      */
+
+    @ApiOperation("通用资源显示")
     @GetMapping("/resource-file/{file}")
-    public void showImage(@PathVariable("file")String file, HttpServletResponse response){
+    public void showImage(@ApiParam("文件") @PathVariable("file")String file, HttpServletResponse response){
         if(StrUtil.isNotEmpty(file)){
             try(InputStream stream = minioFileService.show(file)){
                 response.setContentType("application/octet-stream; charset=UTF-8");

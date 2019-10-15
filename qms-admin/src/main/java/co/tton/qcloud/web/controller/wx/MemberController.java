@@ -1,19 +1,26 @@
 package co.tton.qcloud.web.controller.wx;
 
+import co.tton.qcloud.common.config.Global;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.common.utils.IpUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.util.ShiroUtils;
-import co.tton.qcloud.system.domain.SysUser;
-import co.tton.qcloud.system.domain.TMember;
-import co.tton.qcloud.system.domain.TMemberBaby;
-import co.tton.qcloud.system.domain.TMemberModel;
+import co.tton.qcloud.framework.web.service.ConfigService;
+import co.tton.qcloud.system.domain.*;
+import co.tton.qcloud.system.model.MemberChargingModel;
 import co.tton.qcloud.system.service.ITMemberBabyService;
+import co.tton.qcloud.system.service.ITMemberChargingService;
 import co.tton.qcloud.system.wxservice.ITMemberService;
+import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -37,6 +44,81 @@ public class MemberController extends BaseController {
     ITMemberService tMemberService;
     @Resource
     ITMemberBabyService tMemberBabyService;
+
+    @Autowired
+    private ConfigService configService;
+
+    @Autowired
+    private WxPayService wxService;
+
+    @Autowired
+    private ITMemberChargingService memberChargingService;
+
+    @ApiOperation("获取VIP价格")
+    @RequestMapping("/vip/price/{level}")
+    public AjaxResult getVipPrice(@ApiParam(value = "vip等级",defaultValue = "1") @RequestParam("level") int vipLevel){
+        try{
+            String result = StringUtils.nvl(configService.getKey(String.format("sys.vip.price.%s",vipLevel)),"0");
+            return AjaxResult.success("获取Vip价格成功。",result);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("获取VIP价格时发生异常。");
+            return AjaxResult.error("获取Vip价格时发生异常。",ex);
+        }
+    }
+
+    @ApiOperation("会员充值")
+    @RequestMapping(method = RequestMethod.POST, value = "/vip/charging")
+    public AjaxResult vipCharging(MemberChargingModel model){
+        try{
+            if(model == null){
+                return AjaxResult.error("参数不允许为空。");
+            }
+            else{
+                String orderNo = StringUtils.genericOrderNo();
+                TMemberCharging memberCharging = new TMemberCharging();
+                String id = StringUtils.genericId();
+                memberCharging.setId(id);
+                memberCharging.setMemeberId(model.getMemeberId());
+                memberCharging.setChargingTime(DateUtils.getNowDate());
+                memberCharging.setBeginTime(DateUtils.getNowDate());
+                memberCharging.setEndTime(DateUtils.addYears(DateUtils.getNowDate(),1));
+                memberCharging.setVipLevel(1);
+                memberCharging.setFlag(Constants.DATA_NORMAL);
+                memberCharging.setCreateBy(model.getMemeberId());
+                memberCharging.setCreateTime(DateUtils.getNowDate());
+                memberCharging.setPayStatus("UNPAY");
+                memberCharging.setOrderNo(orderNo);
+                int count = memberChargingService.insertTMemberCharging(memberCharging);
+                if(count == 1) {
+                    WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+                    request.setVersion("1.0");
+                    request.setDeviceInfo("000000000000");
+                    request.setBody("VIP会员充值");
+                    request.setAttach("VIP充值订单");
+                    request.setOutTradeNo(orderNo);
+                    request.setTotalFee((int) (model.getPrice()));
+                    request.setSpbillCreateIp(IpUtils.getHostIp());
+                    request.setTimeStart(DateUtils.dateTimeNow());
+                    request.setNotifyUrl(Global.getNotifyUrl());
+                    request.setTradeType("JSAPI");
+                    request.setOpenid(model.getOpenId());
+                    wxService.createOrder(request);
+                    return AjaxResult.success("支付中...");
+                }
+                else{
+                    return AjaxResult.error("未能创建VIP会员充值订单。");
+                }
+
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("获取VIP价格时发生异常。");
+            return AjaxResult.error("会员充值失败。",ex);
+        }
+    }
 
     /***
      *

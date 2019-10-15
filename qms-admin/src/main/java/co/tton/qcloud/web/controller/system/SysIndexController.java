@@ -47,7 +47,6 @@ public class SysIndexController extends BaseController
         if(user.getCategory() == "SHOP"){
             title = "Team互动派-商家";
         }
-
         mmap.put("title",title);
 
         return "index";

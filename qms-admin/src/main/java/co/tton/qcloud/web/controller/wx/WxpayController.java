@@ -2,8 +2,11 @@ package co.tton.qcloud.web.controller.wx;
 
 import cn.hutool.core.date.DateUtil;
 import co.tton.qcloud.common.core.controller.BaseController;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.system.domain.TMemberCharging;
 import co.tton.qcloud.system.domain.TOrder;
+import co.tton.qcloud.system.service.ITMemberChargingService;
 import co.tton.qcloud.system.service.ITOrderService;
 import com.github.binarywang.wxpay.bean.coupon.*;
 import com.github.binarywang.wxpay.bean.entpay.*;
@@ -37,6 +40,8 @@ public class WxpayController extends BaseController {
     private WxPayService wxService;
 
     private ITOrderService orderService;
+
+    private ITMemberChargingService memberChargingService;
 
     /**
      * <pre>
@@ -288,6 +293,21 @@ public class WxpayController extends BaseController {
                     order.setSerialNo(transactionId);
                     order.setPayTime(date);
                     orderService.updateTOrder(order);
+                }
+            }
+            else if(StringUtils.equals(notifyResult.getAttach(),"VIP充值订单")){
+                String orderNo = notifyResult.getOutTradeNo();
+                String transactionId = notifyResult.getTransactionId();
+                String payTime = notifyResult.getTimeEnd();
+                Date date = DateUtil.parse(payTime,"yyyyMMddHHmmss");
+                TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByOrderNo(orderNo);
+                if(memberCharging != null){
+                    memberCharging.setChargingTime(date);
+                    memberCharging.setBeginTime(date);
+                    memberCharging.setEndTime(DateUtils.addYears(date,1));
+                    memberCharging.setSerialNo(transactionId);
+                    memberCharging.setPayStatus("PAID");
+                    memberChargingService.updateTMemberCharging(memberCharging);
                 }
             }
         }
