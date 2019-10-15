@@ -268,7 +268,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ca.id
         FROM
         t_shop_courses co
-        LEFT JOIN t_category ca ON co.category_id = ca.ca.parent_id
+        LEFT JOIN t_category ca ON co.category_id = ca.parent_id
         <where>
             <if test="shopId != null  and shopId != ''"> and co.shop_id = #{shopId}</if>
             AND co.flag = 0

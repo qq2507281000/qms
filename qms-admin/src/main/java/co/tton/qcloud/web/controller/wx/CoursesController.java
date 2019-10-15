@@ -176,12 +176,19 @@ public class CoursesController extends BaseController {
   @RequestMapping(value = "/shop/category", method = RequestMethod.GET)
   @ApiOperation("获取商家所有课程分类")
   public AjaxResult<List<TShopCoursesModel>> getAllCoursesCategory(@RequestParam(value = "shopId") String shopId) {
-    TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
+
     if (StringUtils.isNotEmpty(shopId)) {
+      TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
       tShopCoursesModel.setShopId(shopId);
+      List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getAllCoursesCategory(tShopCoursesModel);
+      if(StringUtils.isNotEmpty(tShopCoursesModels)){
+        return AjaxResult.success("获取成功", tShopCoursesModels);
+      }else{
+        return AjaxResult.success("该商家没有任何分类", tShopCoursesModels);
+      }
+    }else{
+      return AjaxResult.error("参数错误");
     }
-    List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getAllCoursesCategory(tShopCoursesModel);
-    return AjaxResult.success("获取成功", tShopCoursesModels);
   }
 
 }

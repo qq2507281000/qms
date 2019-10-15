@@ -201,35 +201,34 @@ public class TShopController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @RoleScope(roleDefined={"ADMIN","SHOP"})
-    public AjaxResult addSave(TShop tShop,MultipartFile file)
+    public AjaxResult addSave(TShop tShop)
     {
         try {
             SysUser user = ShiroUtils.getSysUser();
             String id = StringUtils.genericId();
             tShop.setId(id);
-            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-                tShop.setId(user.getShopId());
-            }
+//            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+//                tShop.setId(user.getShopId());
+//            }
 //            if (tShop.getParams().containsKey("file")){
-                //新文件上传
 //                MultipartFile file = (MultipartFile)tShop.getParams().get("file");
-                if (StringUtils.isNotNull(file)){
-                    String fileName = minioFileService.upload(file);
-                    tShop.setCoverImg(fileName);
+//                if (StringUtils.isNotNull(file)){
+//                    String fileName = minioFileService.upload(file);
+//                    tShop.setCoverImg(fileName);
                     tShop.setFlag(Constants.DATA_NORMAL);
                     tShop.setCreateTime(new Date());
                     tShop.setCreateBy(user.getUserId().toString());
                     int count = tShopService.insertTShop(tShop);
                     return AjaxResult.success("数据保存成功。",count);
-                }
-                else {
-                    return AjaxResult.error("未能获取上传文件内容。");
-                }
+//                }
+//                else {
+//                    return AjaxResult.error("未能获取上传文件内容。");
+//                }
 //            }
 //            else {
-//                return AjaxResult.error("请选择图片上传。");
-//            }
-        }
+//                    return AjaxResult.error("请选择图片上传。");
+//                }
+            }
         catch (Exception ex){
             ex.printStackTrace();
             logger.error("保存商家图片时发生异常。",ex);

@@ -45,7 +45,7 @@ public class CouponController extends BaseController {
             if(StringUtils.isNotEmpty(list)){
                 return AjaxResult.success("优惠劵查询成功",list);
             }else{
-                return AjaxResult.success("查询失败");
+                return AjaxResult.success("无优惠卷");
             }
         }else{
             return AjaxResult.error("会员ID错误");
