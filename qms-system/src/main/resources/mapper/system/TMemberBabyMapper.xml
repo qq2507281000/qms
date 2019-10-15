@@ -105,14 +105,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <!--会员子女信息修改-->
-    <update id="upMemberBabyInfo">
+    <update id="upMemberBabyInfo" parameterType="TMemberBaby">
         update t_member_baby
         <trim prefix="SET" suffixOverrides=",">
             <if test="realName != null  and realName != ''">real_name = #{realName},</if>
-            <if test="birthday != null  and birthday != ''">birthday = STR_TO_DATE (#{birthday}, '%Y-%m-%d %H:%i:%s'),</if>
+            <if test="birthday != null  and birthday != ''">birthday = #{birthday},</if>
             <if test="sex != null ">sex = #{sex},</if>
         </trim>
-        where id = #{id}
+        where member_id = #{memberId}
     </update>
+
+    <select id="getTMemberBabyId" parameterType="TMemberBaby" resultMap="TMemberBabyResult">
+        <include refid="selectTMemberBabyVo"/>
+        where member_id = #{memberId}
+    </select>
 
 </mapper>

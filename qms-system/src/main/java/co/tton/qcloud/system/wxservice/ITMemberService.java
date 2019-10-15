@@ -1,10 +1,10 @@
 package co.tton.qcloud.system.wxservice;
 
 import co.tton.qcloud.system.domain.TMember;
+import co.tton.qcloud.system.domain.TMemberBaby;
 import co.tton.qcloud.system.domain.TMemberModel;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
 /**
  * 会员信息Service接口
@@ -28,7 +28,7 @@ public interface ITMemberService {
    * @param
    * @return 查询会员用户子女信息
    */
-  List<TMember> getFavourite(String memberId);
+  TMember getFavourite(String memberId);
 
   /**
    * 会员子女信息修改
@@ -36,7 +36,7 @@ public interface ITMemberService {
    * @param
    * @return 结果
    */
-  int upMemberBabyInfo(@Param("id") String memberBabyId, @Param("realName") String realName, @Param("sex") Integer sex, @Param("birthday") String birthday);
+  int upMemberBabyInfo(TMemberBaby tMemberBaby);
 
   /**
    * 根据openId查询会员信息
@@ -52,7 +52,7 @@ public interface ITMemberService {
    * @param tMember
    * @return 结果
    */
-    void saveMember(TMember tMember);
+    int saveMember(TMember tMember);
 
     /**
      * 绑定手机号
@@ -61,4 +61,12 @@ public interface ITMemberService {
      * @return 结果
      */
     int upMobile(TMember tMember);
+
+    /**
+     * 小程序会员子女查询
+     *
+     * @param memberId
+     * @return TMemberBaby
+     */
+    public TMemberBaby getTMemberBabyId(@Param("memberId") String memberId);
 }

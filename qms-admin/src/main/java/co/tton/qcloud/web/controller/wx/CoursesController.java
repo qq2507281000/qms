@@ -174,7 +174,7 @@ public class CoursesController extends BaseController {
    */
 //    @RequiresPermissions("wx:courses:suggest")
   @RequestMapping(value = "/shop/category", method = RequestMethod.GET)
-  @ApiOperation("获取商家所有课程分类接口")
+  @ApiOperation("获取商家所有课程分类")
   public AjaxResult<List<TShopCoursesModel>> getAllCoursesCategory(@RequestParam(value = "shopId") String shopId) {
     TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
     if (StringUtils.isNotEmpty(shopId)) {

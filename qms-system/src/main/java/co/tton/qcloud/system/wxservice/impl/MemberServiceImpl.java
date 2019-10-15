@@ -1,6 +1,7 @@
 package co.tton.qcloud.system.wxservice.impl;
 
 import co.tton.qcloud.system.domain.TMember;
+import co.tton.qcloud.system.domain.TMemberBaby;
 import co.tton.qcloud.system.domain.TMemberModel;
 import co.tton.qcloud.system.mapper.TMemberBabyMapper;
 import co.tton.qcloud.system.mapper.TMemberMapper;
@@ -8,7 +9,6 @@ import co.tton.qcloud.system.wxservice.ITMemberService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class MemberServiceImpl implements ITMemberService {
@@ -36,7 +36,7 @@ public class MemberServiceImpl implements ITMemberService {
    * @return 查询会员用户子女信息
    */
   @Override
-  public List<TMember> getFavourite(String memberId) {
+  public TMember getFavourite(String memberId) {
     return tMemberMapper.getFavourite(memberId);
   }
 
@@ -47,8 +47,8 @@ public class MemberServiceImpl implements ITMemberService {
    * @return 结果
    */
   @Override
-  public int upMemberBabyInfo(String memberBabyId, String realName, Integer sex, String birthday) {
-    return tMemberBabyMapper.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
+  public int upMemberBabyInfo(TMemberBaby tMemberBaby) {
+    return tMemberBabyMapper.upMemberBabyInfo(tMemberBaby);
   }
 
   /**
@@ -69,8 +69,8 @@ public class MemberServiceImpl implements ITMemberService {
      * @return 结果
      */
     @Override
-    public void saveMember(TMember tMember) {
-        tMemberMapper.saveMember(tMember);
+    public int saveMember(TMember tMember) {
+        return tMemberMapper.saveMember(tMember);
     }
 
     /**
@@ -82,5 +82,16 @@ public class MemberServiceImpl implements ITMemberService {
       @Override
       public int upMobile(TMember tMember) {
         return tMemberMapper.upMobile(tMember);
+      }
+
+    /**
+     * 小程序会员子女查询
+     *
+     * @param memberId
+     * @return TMemberBaby
+     */
+      @Override
+      public TMemberBaby getTMemberBabyId(String memberId) {
+        return tMemberBabyMapper.getTMemberBabyId(memberId);
       }
 }

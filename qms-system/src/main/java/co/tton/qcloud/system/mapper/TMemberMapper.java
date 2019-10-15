@@ -77,7 +77,7 @@ public interface TMemberMapper
      * @param
      * @return 查询会员用户子女信息
      */
-    List<TMember> getFavourite(String memberId);
+    TMember getFavourite(String memberId);
 
     /**
      * 根据openId查询会员信息
@@ -93,7 +93,7 @@ public interface TMemberMapper
      * @param tMember
      * @return 结果
      */
-    void saveMember(TMember tMember);
+    int saveMember(TMember tMember);
 
     /**
      * 登录时会员基本信息查询

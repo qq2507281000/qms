@@ -58,10 +58,10 @@ public class WxOrderDetail extends BaseEntity {
     private String address;
 
     @ApiModelProperty("商家营业开始时间")
-    private Integer shopHoursBegin;
+    private String shopHoursBegin;
 
     @ApiModelProperty("商家营业结束时间")
-    private Integer shopHoursEnd;
+    private String shopHoursEnd;
 
     @ApiModelProperty("课程标题")
     private String title;

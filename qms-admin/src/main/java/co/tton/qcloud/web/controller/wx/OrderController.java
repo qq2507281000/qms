@@ -198,8 +198,8 @@ public class OrderController extends BaseController {
     public AjaxResult<WxOrderDetail> getOrderDetail(@PathVariable("id")String orderId){
         if (StringUtils.isNotEmpty(orderId)) {
             WxOrderDetail wxOrderDetail = tOrderService.getOrderDetail(orderId);
-            if (wxOrderDetail == null){
-                return AjaxResult.error("报错：对象为空。");
+            if (StringUtils.isNull(wxOrderDetail)){
+                return AjaxResult.success("无效订单号");
             }else {
                 return AjaxResult.success("获取订单详情成功。", wxOrderDetail);
             }
@@ -213,30 +213,33 @@ public class OrderController extends BaseController {
     @ApiOperation("订单和课程评价")
     public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno")String orderNo,
                                                @RequestParam(value = "memberid")String memberId,
-                                               @RequestParam(value = "imageurl")MultipartFile file,
+                                               @RequestParam(value = "imageurl")String imageurl,
                                                @RequestParam(value = "evaluation")String evaluation,
                                                @RequestParam(value = "coursesid")String coursesId,
                                                @RequestParam(value = "star")String star) throws IOException {
-        if(StringUtils.isNotEmpty(orderNo)&&StringUtils.isNotEmpty(memberId)){
+        if(StringUtils.isNotEmpty(memberId)){
             TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
+            tOrder.setMemberId(memberId);
+            tOrder.setFlag(Constants.DATA_NORMAL);
             String id = StringUtils.genericId();
             tOrder.setId(id);
-//            if(tOrder.getParams().containsKey("file")){
-//                MultipartFile file = (MultipartFile)tOrder.getParams().get("file");
-//                if(file != null){
-            if(StringUtils.isNotNull(file)){
-                String fileName = minioFileService.upload(file);
-                tOrder.setImageUrl(fileName);
+            if(StringUtils.isNotEmpty(imageurl)){
+                tOrder.setImageUrl(imageurl);
             }
-            tOrder.setFlag(Constants.DATA_NORMAL);
-            tOrder.setOrderNo(orderNo);
-            tOrder.setMemberId(memberId);
-//            tOrder.setImageUrl(imageUrl);
-            tOrder.setEvaluation(evaluation);
-            if(!StringUtils.isNotEmpty(star)){
+            if(StringUtils.isNotEmpty(orderNo)){
+                tOrder.setOrderNo(orderNo);
+            }
+            if(StringUtils.isNotEmpty(evaluation)){
+                tOrder.setEvaluation(evaluation);
+            }
+            if(StringUtils.isNotEmpty(coursesId)){
+                tOrder.setCoursesId(coursesId);
+            }
+            if(StringUtils.isNotEmpty(star)){
+                tOrder.setStar(star);
+            }else{
                 tOrder.setStar("0");
             }
-            tOrder.setStar(star);
             int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
             if(number>0){
                 return AjaxResult.success("数据保存成功。",number);

@@ -7,7 +7,9 @@ import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.SysUser;
 import co.tton.qcloud.system.domain.TMember;
+import co.tton.qcloud.system.domain.TMemberBaby;
 import co.tton.qcloud.system.domain.TMemberModel;
+import co.tton.qcloud.system.service.ITMemberBabyService;
 import co.tton.qcloud.system.wxservice.ITMemberService;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
@@ -33,6 +35,8 @@ public class MemberController extends BaseController {
 
     @Resource
     ITMemberService tMemberService;
+    @Resource
+    ITMemberBabyService tMemberBabyService;
 
     /***
      *
@@ -70,8 +74,8 @@ public class MemberController extends BaseController {
     @RequestMapping(value="/getFavourite",method = RequestMethod.GET)
     public AjaxResult<TMember> getFavourite(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
-            List<TMember> tMemberList = tMemberService.getFavourite(memberId);
-            return AjaxResult.success("获取会员信息成功",tMemberList);
+            TMember tMember = tMemberService.getFavourite(memberId);
+            return AjaxResult.success("获取会员信息成功",tMember);
         }else{
             return AjaxResult.error("会员ID错误");
         }
@@ -79,19 +83,51 @@ public class MemberController extends BaseController {
 
     /***
      *
-     * @param memberBabyId,realName,sex,birthday
+     * @param realName,sex,birthday
      * @return
      */
     @ApiOperation("会员子女信息修改")
 //    @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
-    public AjaxResult upMemberBabyInfo(@RequestParam(value = "id") String memberBabyId,
-                                       @RequestParam(value = "realName") String realName,
+    public AjaxResult upMemberBabyInfo(@RequestParam(value = "memberid",required = false) String memberId,
+                                       @RequestParam(value = "realname") String realName,
                                        @RequestParam(value = "sex")Integer sex,
-                                       @RequestParam(value = "birthday")String birthday){
-        if(StringUtil.isNotEmpty(memberBabyId)){
-            int number = tMemberService.upMemberBabyInfo(memberBabyId,realName,sex,birthday);
-            return AjaxResult.success("修改会员子女信息成功",number);
+                                       @RequestParam(value = "birthday")Date birthday){
+        if(StringUtil.isNotEmpty(memberId)){
+            //查询会员子女表相关信息
+            TMemberBaby tMemberBaby  = tMemberService.getTMemberBabyId(memberId);
+            if(StringUtils.isNull(tMemberBaby)){
+                TMemberBaby tMemberBaby1 = new TMemberBaby();
+                SysUser user = ShiroUtils.getSysUser();
+                tMemberBaby1.setCreateBy(user.getUserId().toString());
+                tMemberBaby1.setCreateTime(new Date());
+                tMemberBaby1.setFlag(Constants.DATA_NORMAL);
+                tMemberBaby1.setId(StringUtils.genericId());
+                tMemberBaby1.setMemberId(memberId);
+                tMemberBaby1.setRealName(realName);
+                tMemberBaby1.setSex(sex);
+                tMemberBaby1.setBirthday(birthday);
+                //没有,调新增
+                int number = tMemberBabyService.insertTMemberBaby(tMemberBaby1);
+                if(number == 0){
+                    return AjaxResult.success("新增会员子女信息失败");
+                }else{
+                    return AjaxResult.success("新增会员子女信息成功",number);
+                }
+            }else{
+                //有修改
+                TMemberBaby tMemberBaby1 = new TMemberBaby();
+                tMemberBaby1.setMemberId(memberId);
+                tMemberBaby1.setRealName(realName);
+                tMemberBaby1.setSex(sex);
+                tMemberBaby1.setBirthday(birthday);
+                int number = tMemberService.upMemberBabyInfo(tMemberBaby1);
+                if(number == 0){
+                    return AjaxResult.success("修改会员子女信息失败");
+                }else{
+                    return AjaxResult.success("修改会员子女信息成功",number);
+                }
+            }
         }else{
             return AjaxResult.error("会员ID错误");
         }
@@ -143,11 +179,16 @@ public class MemberController extends BaseController {
         if(StringUtils.isNotNull(tMember)){
             SysUser user = ShiroUtils.getSysUser();
             tMember.setId(StringUtils.genericId());
+            tMember.setAccountLevel("0");
             tMember.setCreateBy(user.getUserId().toString());
             tMember.setCreateTime(new Date());
             tMember.setFlag(Constants.DATA_NORMAL);
-            tMemberService.saveMember(tMember);
-            return AjaxResult.success("保存用户成功。");
+            int number = tMemberService.saveMember(tMember);
+            if(number == 0){
+                return AjaxResult.success("新增用户失败。");
+            }else{
+                return AjaxResult.success("新增用户成功。",number);
+            }
         }else{
             return AjaxResult.error("参数错误。");
         }

@@ -67,5 +67,13 @@ public interface TMemberBabyMapper
      * @param
      * @return 结果
      */
-    int upMemberBabyInfo(@Param("id") String memberBabyId, @Param("realName") String realName, @Param("sex") Integer sex, @Param("birthday") String birthday);
+    int upMemberBabyInfo(TMemberBaby tMemberBaby);
+
+    /**
+     * 小程序会员子女查询
+     *
+     * @param memberId
+     * @return TMemberBaby
+     */
+    public TMemberBaby getTMemberBabyId(@Param("memberId") String memberId);
 }
