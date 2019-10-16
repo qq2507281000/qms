@@ -41,8 +41,8 @@
         </where>
     </select>
 
-    <insert id="insertTMember" parameterType="TMember">
-        insert into t_member
+    <insert id="insertTMemberCharging" parameterType="TMemberCharging">
+        insert into t_member_charging
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">id,</if>
             <if test="memberId != null and memberId != ''">member_id,</if>
