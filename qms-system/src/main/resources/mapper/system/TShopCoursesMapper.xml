@@ -63,6 +63,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="telephone"    column="telephone"    />
         <result property="mobile"    column="mobile"    />
         <result property="contractName"    column="contractName"    />
+        <result property="businessRegion"    column="business_region"    />
+        <result property="locationRegion"    column="location_region"    />
+        <result property="coverImage" column="cover_img"   />
     </resultMap>
 
     <sql id="selectTShopCoursesVo">
@@ -185,7 +188,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tsc.title,
             tscp.price,
             ts.address,
+            ts.business_region,
+            ts.location_region,
             ts.telephone,
+            ts.cover_img,
             ts.mobile,
             ts.`name` AS shopName,
             ts.summary,

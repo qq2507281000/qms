@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -87,7 +89,10 @@ public class TMember extends BaseEntity
     private String img;
 
     @ApiModelProperty("用户Token")
-    private String token;
+    private Serializable token;
+
+    @ApiModelProperty("微信端返回的JSON信息")
+    private String wxJson;
 
     @Override
     public String toString() {

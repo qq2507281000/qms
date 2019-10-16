@@ -2,6 +2,8 @@ package co.tton.qcloud.web.controller.wx;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import co.tton.qcloud.common.config.Global;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
@@ -18,16 +20,21 @@ import co.tton.qcloud.system.service.ITMemberChargingService;
 import co.tton.qcloud.system.wxservice.ITMemberService;
 import co.tton.qcloud.web.config.WxMaConfiguration;
 import co.tton.qcloud.web.config.WxMaProperties;
+import com.alibaba.fastjson.JSON;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,47 +65,139 @@ public class MemberController extends BaseController {
     @Autowired
     private ITMemberChargingService memberChargingService;
 
-//    @RequestMapping("/login")
-//    private AjaxResult getOpenId(@RequestParam("code") String code){
-//        try{
-//            String appId = Global.getConfig("qcloud.active-miniapp-appId");
-//            if(StringUtils.isEmpty(appId)){
-//                return AjaxResult.error("微信小程序配置错误[AppId为空]。");
-//            }
-//            else{
-//
-//            }
-//            final WxMaService wxService = WxMaConfiguration.getMaService(appId);
-//            if(wxService != null){
-//                WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
-//                if(session != null){
-//                    String openId = session.getOpenid();
-//                    String sessionKey = session.getSessionKey();
-//                    String unionId = session.getUnionid();
-//                    //根据openId到数据库中搜索，如果未找到，则获取用户信息，添加到数据库中。
-//                    TMember member = tMemberService.getMemberByOpenId(openId);
-//                    if(member == null){
-//
-//                    }
-//                    //如果存在，则直接获取用户信息返回至前端。
-//
-//                    //生成登录Token。
-//
-//                }
-//                else{
-//                    return AjaxResult.error("未能获取JSSDK返回结果。");
-//                }
-//            }
-//            else{
-//                return AjaxResult.error("微信小程序操作类实例化失败。");
-//            }
-//        }
-//        catch(Exception ex){
-//            ex.printStackTrace();
-//            logger.error("会员登录",ex);
-//            return AjaxResult.error("会员登录失败。",ex);
-//        }
-//    }
+    @ApiOperation("微信会员登录")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    private AjaxResult getOpenId(@RequestParam("code") String code,
+                                 @RequestParam("enc") String encryptedData,
+                                 @RequestParam("iv") String ivStr,
+                                 @RequestParam("raw") String rawData,
+                                 @RequestParam("sign") String signature){
+        try{
+            String appId = Global.getConfig("qcloud.active-miniapp-appId");
+            if(StringUtils.isEmpty(appId)){
+                return AjaxResult.error("微信小程序配置错误[AppId为空]。");
+            }
+            else {
+                final WxMaService wxService = WxMaConfiguration.getMaService(appId);
+                if (wxService != null) {
+                    WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+                    if (session != null) {
+                        String openId = session.getOpenid();
+                        String sessionKey = session.getSessionKey();
+                        String unionId = session.getUnionid();
+                        //根据openId到数据库中搜索，如果未找到，则获取用户信息，添加到数据库中。
+                        TMember member = tMemberService.getMemberByOpenId(openId);
+                        if (member == null) {
+                            // 用户信息校验
+                            if (!wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
+                                return AjaxResult.error("用户信息校验失败。");
+                            }
+                            // 解密用户信息
+                            WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(sessionKey, encryptedData, ivStr);
+                            if(userInfo != null){
+                                member = new TMember();
+                                String id = StringUtils.genericId();
+                                member.setId(id);
+                                member.setOpenId(openId);
+                                member.setWxName(userInfo.getNickName());
+                                //member.setMobile();
+                                member.setRegTime(DateUtils.getNowDate());
+                                //真实姓名
+                                member.setRealName("");
+                                member.setAccountLevel("0");
+                                member.setScore(0);
+                                member.setStar(0.00);
+                                member.setImg(userInfo.getAvatarUrl());
+                                member.setWxJson(JSON.toJSONString(userInfo));
+                                member.setFlag(Constants.DATA_NORMAL);
+                                member.setCreateTime(DateUtils.getNowDate());
+                                member.setCreateBy(id);
+                                tMemberService.saveMember(member);
+                                UsernamePasswordToken token = new UsernamePasswordToken(openId, "WECHAT", "0");
+                                Subject subject = SecurityUtils.getSubject();
+                                subject.login(token);
+                                Serializable tokenId = subject.getSession().getId();
+                                member.setToken(tokenId);
+                                return AjaxResult.success("微信首次登录成功。",member);
+                            }
+                            else{
+                                return AjaxResult.error("未能解析微信端返回的用户对象信息。");
+                            }
+                        }
+                        //如果存在，则直接获取用户信息返回至前端。
+                        else {
+                            UsernamePasswordToken token = new UsernamePasswordToken(openId, "WECHAT", "0");
+                            Subject subject = SecurityUtils.getSubject();
+                            subject.login(token);
+                            Serializable tokenId = subject.getSession().getId();
+                            member.setToken(tokenId);
+                            return AjaxResult.success("登录成功。", member);
+                        }
+                    } else {
+                        return AjaxResult.error("未能获取JSSDK返回结果。");
+                    }
+                } else {
+                    return AjaxResult.error("微信小程序操作类实例化失败。");
+                }
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("会员登录",ex);
+            return AjaxResult.error("会员登录失败。",ex);
+        }
+    }
+
+    @ApiOperation("获取微信绑定手机号码")
+    @RequestMapping(value = "/wx/phone",method = RequestMethod.GET)
+    public AjaxResult getWxMobile(@RequestParam("code") String code,
+                                  @RequestParam("enc") String encryptedData,
+                                  @RequestParam("iv") String ivStr,
+                                  @RequestParam("raw") String rawData,
+                                  @RequestParam("sign") String signature){
+        try{
+            String appId = Global.getConfig("qcloud.active-miniapp-appId");
+            if(StringUtils.isEmpty(appId)){
+                return AjaxResult.error("微信小程序配置错误[AppId为空]。");
+            }
+            else {
+                final WxMaService wxService = WxMaConfiguration.getMaService(appId);
+                if (wxService != null) {
+                    WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+                    if (session != null) {
+                        String openId = session.getOpenid();
+                        String sessionKey = session.getSessionKey();
+                        String unionId = session.getUnionid();
+                        // 用户信息校验
+                        if (!wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
+                            return AjaxResult.error("用户信息校验失败。");
+                        }
+                        // 解密
+                        WxMaPhoneNumberInfo phoneNoInfo = wxService.getUserService().getPhoneNoInfo(sessionKey, encryptedData, ivStr);
+                        if(phoneNoInfo == null){
+                            return AjaxResult.error("未能解析微信返回的信息。");
+                        }
+                        else{
+                            //phoneNoInfo.getPhoneNumber()
+                            //根据OpenId获取用户信息，然后将手机号码保存至数据库中。
+                            return AjaxResult.success("保存成功。");
+                        }
+                    }
+                    else{
+                        return AjaxResult.error("未能获取JSSDK返回结果。");
+                    }
+                }
+                else{
+                    return AjaxResult.error("微信小程序操作类实例化失败。");
+                }
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("获取用户手机号码时发生异常。",ex);
+            return AjaxResult.error("获取手机号码时发生异常。");
+        }
+    }
 
     @ApiOperation("获取VIP价格")
     @RequestMapping("/vip/price/{level}")
@@ -126,13 +225,13 @@ public class MemberController extends BaseController {
                 TMemberCharging memberCharging = new TMemberCharging();
                 String id = StringUtils.genericId();
                 memberCharging.setId(id);
-                memberCharging.setMemeberId(model.getMemeberId());
+                memberCharging.setMemberId(model.getMemberId());
                 memberCharging.setChargingTime(DateUtils.getNowDate());
                 memberCharging.setBeginTime(DateUtils.getNowDate());
                 memberCharging.setEndTime(DateUtils.addYears(DateUtils.getNowDate(),1));
                 memberCharging.setVipLevel(1);
                 memberCharging.setFlag(Constants.DATA_NORMAL);
-                memberCharging.setCreateBy(model.getMemeberId());
+                memberCharging.setCreateBy(model.getMemberId());
                 memberCharging.setCreateTime(DateUtils.getNowDate());
                 memberCharging.setPayStatus("UNPAY");
                 memberCharging.setOrderNo(orderNo);
@@ -186,6 +285,16 @@ public class MemberController extends BaseController {
             if(tMemberModel.getBillStatus() == null){
                 tMemberModel.setBillStatus("0");
             }
+
+            if(StringUtils.equals(tMemberModel.getAccountLevel(),"超级会员")){
+                //如果是超级会员则去获取充值记录中的数据，获取超级会员开始时间和结束时间
+                TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByMemberId(memberId);
+                if(memberCharging != null){
+                    tMemberModel.setVipBeginTime(memberCharging.getBeginTime());
+                    tMemberModel.setVipEndTime(memberCharging.getEndTime());
+                }
+            }
+
             return AjaxResult.success("获取会员信息成功",tMemberModel);
         }else{
             return AjaxResult.error("会员ID错误");

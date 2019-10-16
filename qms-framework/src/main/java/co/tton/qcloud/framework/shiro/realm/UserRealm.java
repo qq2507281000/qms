@@ -6,8 +6,10 @@ import java.util.Set;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.shiro.service.SysLoginService;
 import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.domain.TMember;
 import co.tton.qcloud.system.service.ISysMenuService;
 import co.tton.qcloud.system.service.ISysRoleService;
+import co.tton.qcloud.system.wxservice.ITMemberService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -51,6 +53,9 @@ public class UserRealm extends AuthorizingRealm
 
     @Autowired
     private SysLoginService loginService;
+
+    @Autowired
+    private ITMemberService memberService;
 
     /**
      * 授权
@@ -98,13 +103,20 @@ public class UserRealm extends AuthorizingRealm
             password = new String(upToken.getPassword());
         }
 
-//        if(StringUtils.equals(password,"WECHAT")){
-//            //微信客户端登录验证
-//            //用户OpenId
-//            String openId = username;
-//
-//        }
-//        else {
+        if(StringUtils.equals(password,"WECHAT")){
+            // 微信客户端登录验证
+            // 用户OpenId
+            String openId = username;
+            TMember member = memberService.getMemberByOpenId(openId);
+            if(member != null){
+                SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(member,openId,getName());
+                return info;
+            }
+            else{
+                throw new AuthenticationException("未能找到会员信息。");
+            }
+        }
+        else {
             SysUser user = null;
             try {
                 user = loginService.login(username, password);
@@ -126,7 +138,7 @@ public class UserRealm extends AuthorizingRealm
             }
             SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
             return info;
-//        }
+        }
     }
 
     /**

@@ -157,6 +157,15 @@ public class TShopCoursesModel extends BaseEntity {
     @ApiModelProperty("联系人姓名")
     private String contractName;
 
+    @ApiModelProperty("商业区域")
+    private String businessRegion;
+
+    @ApiModelProperty("地理位置区域")
+    private String locationRegion;
+
+    @ApiModelProperty("商家图片")
+    private String coverImage;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)

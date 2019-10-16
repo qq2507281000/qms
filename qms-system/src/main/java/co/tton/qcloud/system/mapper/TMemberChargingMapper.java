@@ -29,6 +29,13 @@ public interface TMemberChargingMapper {
      */
      List<TMemberCharging> selectTMemberChargingList(TMemberCharging tMemberCharging);
 
+    /***
+     * 获取可用的用户充值记录
+     * @param memeberId
+     * @return
+     */
+    TMemberCharging selectTMemberChargingByMemberId(String memeberId);
+
     /**
      * 新增会员充值信息
      *

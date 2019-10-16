@@ -21,6 +21,13 @@ public interface ITMemberChargingService {
      */
     TMemberCharging selectTMemberChargingByOrderNo(String orderNo);
 
+    /***
+     * 获取可用的用户充值记录
+     * @param memeberId
+     * @return
+     */
+    TMemberCharging selectTMemberChargingByMemberId(String memeberId);
+
     /**
      * 查询会员充值基本信息列表
      *

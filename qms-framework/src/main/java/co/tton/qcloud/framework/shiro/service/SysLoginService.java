@@ -3,6 +3,7 @@ package co.tton.qcloud.framework.shiro.service;
 import co.tton.qcloud.framework.manager.AsyncManager;
 import co.tton.qcloud.framework.manager.factory.AsyncFactory;
 import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.domain.TMember;
 import co.tton.qcloud.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

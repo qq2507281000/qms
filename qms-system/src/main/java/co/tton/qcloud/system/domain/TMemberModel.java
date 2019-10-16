@@ -4,6 +4,7 @@ import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -84,6 +85,12 @@ public class TMemberModel extends BaseEntity {
     @Excel(name = "订单状态", readConverterExp = "下单中、进行中、评价中、已完成")
     @ApiModelProperty(value="订单状态", allowableValues = "BOOKING,EXECUTING,EVALUATING,FINISHED",notes = "BOOKING(下单中),EXECUTING(执行中),EVALUATING(评价中),FINISHED(已完成)")
     private String billStatus;
+
+    @ApiModelProperty("VIP开始时间")
+    private Date vipBeginTime;
+
+    @ApiModelProperty("VIP结束时间")
+    private Date vipEndTime;
 
   @Override
     public String toString() {

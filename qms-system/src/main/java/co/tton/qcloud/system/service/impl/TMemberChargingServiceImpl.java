@@ -31,6 +31,11 @@ public class TMemberChargingServiceImpl implements ITMemberChargingService {
     }
 
     @Override
+    public TMemberCharging selectTMemberChargingByMemberId(String memeberId) {
+        return tMemberChargingMapper.selectTMemberChargingByMemberId(memeberId);
+    }
+
+    @Override
     public List<TMemberCharging> selectTMemberChargingList(TMemberCharging tMemberCharging) {
         return tMemberChargingMapper.selectTMemberChargingList(tMemberCharging);
     }

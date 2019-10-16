@@ -26,7 +26,7 @@ public class TMemberCharging extends BaseEntity {
     private String id;
 
     @ApiModelProperty("会员Id")
-    private String memeberId;
+    private String memberId;
 
     @ApiModelProperty("充值时间")
     private Date chargingTime;

@@ -18,7 +18,7 @@ public class MemberChargingModel {
     private String openId;
 
     @ApiModelProperty("会员Id")
-    private String memeberId;
+    private String memberId;
 
     @ApiModelProperty("支付金额")
     private double price;
