@@ -109,7 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update t_member_baby
         <trim prefix="SET" suffixOverrides=",">
             <if test="realName != null  and realName != ''">real_name = #{realName},</if>
-            <if test="birthday != null  and birthday != ''">birthday = #{birthday},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
             <if test="sex != null ">sex = #{sex},</if>
         </trim>
         where member_id = #{memberId}

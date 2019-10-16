@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.wx;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.system.domain.TOrderUseEvaluation;
 import co.tton.qcloud.system.domain.TShopCoursesImages;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
 import co.tton.qcloud.system.domain.TShopCoursesPrice;
@@ -121,9 +122,9 @@ public class CoursesController extends BaseController {
    * @param
    * @return
    */
-//    @RequiresPermissions("wx:courses:priceAll")
+//    @RequiresPermissions("wx:courses:price")
   @RequestMapping(value = "/price/id", method = RequestMethod.GET)
-  @ApiOperation("根据Id获取价格信息")
+  @ApiOperation("根据课程Id获取价格分类")
   public AjaxResult<List<TShopCoursesPrice>> getCoursesPriceById(@RequestParam(value = "coursesId", required = false) String coursesId) {
     if (StringUtils.isNotEmpty(coursesId)) {
       List<TShopCoursesPrice> tShopCoursesPrice = tShopCoursesPriceService.getCoursesPriceById(coursesId);
@@ -132,7 +133,7 @@ public class CoursesController extends BaseController {
       }
       return AjaxResult.success("查询成功", tShopCoursesPrice);
     }
-    return AjaxResult.error("错我：课程Id为空");
+    return AjaxResult.error("课程Id为空");
   }
 
   /***
@@ -191,4 +192,25 @@ public class CoursesController extends BaseController {
     }
   }
 
+  /***
+   *
+   * @param coursesId
+   * @return
+   */
+//    @RequiresPermissions("wx:courses:evaluation")
+  @RequestMapping(value = "/courses/evaluation", method = RequestMethod.GET)
+  @ApiOperation("获取课程评价")
+  public AjaxResult<List<TOrderUseEvaluation>> getCoursesCategory(@RequestParam(value = "coursesid") String coursesId) {
+
+    if (StringUtils.isNotEmpty(coursesId)) {
+      List<TOrderUseEvaluation> tShopCoursesModel = iCoursesService.getCoursesCategory(coursesId);
+      if(StringUtils.isNotEmpty(tShopCoursesModel)){
+        return AjaxResult.success("获取成功", tShopCoursesModel);
+      }else{
+        return AjaxResult.success("该课程无评价", tShopCoursesModel);
+      }
+    }else{
+      return AjaxResult.error("参数错误");
+    }
+  }
 }

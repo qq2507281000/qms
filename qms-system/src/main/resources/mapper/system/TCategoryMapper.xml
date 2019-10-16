@@ -43,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 parent_id is null or parent_id = '' AND flag = 0
             </if>
         </where>
+        ORDER BY sort_key
     </select>
 
     <select id="getChildList" parameterType="java.lang.String" resultMap="TCategoryResult">
