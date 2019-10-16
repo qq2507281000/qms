@@ -32,7 +32,7 @@
     </select>
 
     <select id="selectTMemberChargingList" parameterType="TMemberCharging" resultMap="TMemberChargingResult">
-        <include refid="selectTMemberVo"/>
+        <include refid="selectTMemberChargingVo"/>
         <where>
             <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
             <if test="vipLevel != null  and vipLevel != ''"> and vip_level = #{vipLevel}</if>
@@ -41,8 +41,8 @@
         </where>
     </select>
 
-    <insert id="insertTMember" parameterType="TMember">
-        insert into t_member
+    <insert id="insertTMemberCharging" parameterType="TMemberCharging">
+        insert into t_member_charging
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">id,</if>
             <if test="memberId != null and memberId != ''">member_id,</if>
