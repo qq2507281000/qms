@@ -54,4 +54,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
         </trim>
     </insert>
+
+    <select id="getCoursesCategory"  resultMap="TOrderUseEvaluationResult" parameterType="String">
+        <include refid="selectTOrderUseEvaluationVo"/>
+        <where>
+            <if test="_parameter!= null  and _parameter != ''"> and courses_id = #{coursesId}</if>
+            AND flag = 0
+        </where>
+    </select>
 </mapper>

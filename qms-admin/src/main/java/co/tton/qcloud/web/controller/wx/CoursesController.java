@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.wx;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.system.domain.TOrderUseEvaluation;
 import co.tton.qcloud.system.domain.TShopCoursesImages;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
 import co.tton.qcloud.system.domain.TShopCoursesPrice;
@@ -185,6 +186,28 @@ public class CoursesController extends BaseController {
         return AjaxResult.success("获取成功", tShopCoursesModels);
       }else{
         return AjaxResult.success("该商家没有任何分类", tShopCoursesModels);
+      }
+    }else{
+      return AjaxResult.error("参数错误");
+    }
+  }
+
+  /***
+   *
+   * @param coursesId
+   * @return
+   */
+//    @RequiresPermissions("wx:courses:evaluation")
+  @RequestMapping(value = "/courses/evaluation", method = RequestMethod.GET)
+  @ApiOperation("获取课程评价")
+  public AjaxResult<List<TOrderUseEvaluation>> getCoursesCategory(@RequestParam(value = "coursesid") String coursesId) {
+
+    if (StringUtils.isNotEmpty(coursesId)) {
+      List<TOrderUseEvaluation> tShopCoursesModel = iCoursesService.getCoursesCategory(coursesId);
+      if(StringUtils.isNotEmpty(tShopCoursesModel)){
+        return AjaxResult.success("获取成功", tShopCoursesModel);
+      }else{
+        return AjaxResult.success("该课程无评价", tShopCoursesModel);
       }
     }else{
       return AjaxResult.error("参数错误");

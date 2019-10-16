@@ -1,5 +1,6 @@
 package co.tton.qcloud.system.wxservice;
 
+import co.tton.qcloud.system.domain.TOrderUseEvaluation;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
 
@@ -35,5 +36,13 @@ public interface ICoursesService {
      * @return 结果
      */
     TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
+
+    /**
+     * 获取课程评价
+     *
+     * @param  coursesId 查询
+     * @return 结果
+     */
+    List<TOrderUseEvaluation> getCoursesCategory(String coursesId);
 
 }

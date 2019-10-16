@@ -1,10 +1,11 @@
 package co.tton.qcloud.system.wxservice.impl;
 
+import co.tton.qcloud.system.domain.TOrderUseEvaluation;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.mapper.TOrderUseEvaluationMapper;
 import co.tton.qcloud.system.mapper.TShopCoursesMapper;
 import co.tton.qcloud.system.wxservice.ICoursesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +16,8 @@ public class CoursesServiceImpl implements ICoursesService {
 
     @Resource
     private TShopCoursesMapper tShopCoursesMapper;
+    @Resource
+    private TOrderUseEvaluationMapper tOrderUseEvaluationMapper;
 
     @Override
     public TShopCoursesModel getCoursesDetail(String id) {
@@ -57,6 +60,17 @@ public class CoursesServiceImpl implements ICoursesService {
     @Override
     public TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses) {
         return tShopCoursesMapper.getMaxSortKeyCourses(tShopCourses);
+    }
+
+    /**
+     * 获取课程评价
+     *
+     * @param  coursesId 查询
+     * @return 结果
+     */
+    @Override
+    public List<TOrderUseEvaluation> getCoursesCategory(String coursesId) {
+        return tOrderUseEvaluationMapper.getCoursesCategory(coursesId);
     }
 
 }
