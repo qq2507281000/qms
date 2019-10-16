@@ -82,17 +82,6 @@ public class WxLoginController extends BaseController {
         }
     }
 
-    //    @RequiresPermissions("wx:order:detail")
-    @RequestMapping(value = "/codeww", method = RequestMethod.GET)
-    @ApiOperation("获取订单详情")
-    public AjaxResult<WxOrderDetail> getCode(@RequestParam("code") String code) {
-        if (StringUtils.isNotEmpty(code)) {
-            return null;
-        } else {
-            return AjaxResult.error("报错：code为空。");
-        }
-    }
-
     //    @RequiresPermissions("wx:code)
     @RequestMapping(value = "/code", method = RequestMethod.GET)
     @ApiOperation("获取code")

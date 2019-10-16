@@ -251,14 +251,4 @@ public class OrderController extends BaseController {
         }
     }
 
-
-
-
-//    @RequiresPermissions("wx:order:comment")
-//    @RequestMapping(value = "/comment",method = RequestMethod.POST)
-//    public AjaxResult comment(){
-//        return null;
-//    }
-
-
 }

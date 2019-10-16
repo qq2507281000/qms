@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -217,13 +219,15 @@ public class MemberController extends BaseController {
     @ApiOperation("会员子女信息修改")
 //    @RequiresPermissions("wx:member:orders")
     @RequestMapping(value="/upMemberBaby",method = RequestMethod.GET)
-    public AjaxResult upMemberBabyInfo(@RequestParam(value = "memberid",required = false) String memberId,
-                                       @RequestParam(value = "realname") String realName,
-                                       @RequestParam(value = "sex")Integer sex,
-                                       @RequestParam(value = "birthday")Date birthday){
+    public AjaxResult upMemberBabyInfo(@RequestParam(value = "memberid") String memberId,
+                                       @RequestParam(value = "realname",required = false) String realName,
+                                       @RequestParam(value = "sex",required = false)Integer sex,
+                                       @RequestParam(value = "birthday",required = false)String birthday) throws ParseException {
         if(StringUtil.isNotEmpty(memberId)){
             //查询会员子女表相关信息
             TMemberBaby tMemberBaby  = tMemberService.getTMemberBabyId(memberId);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse(birthday);
             if(StringUtils.isNull(tMemberBaby)){
                 TMemberBaby tMemberBaby1 = new TMemberBaby();
                 SysUser user = ShiroUtils.getSysUser();
@@ -234,7 +238,7 @@ public class MemberController extends BaseController {
                 tMemberBaby1.setMemberId(memberId);
                 tMemberBaby1.setRealName(realName);
                 tMemberBaby1.setSex(sex);
-                tMemberBaby1.setBirthday(birthday);
+                tMemberBaby1.setBirthday(date);
                 //没有,调新增
                 int number = tMemberBabyService.insertTMemberBaby(tMemberBaby1);
                 if(number == 0){
@@ -248,7 +252,7 @@ public class MemberController extends BaseController {
                 tMemberBaby1.setMemberId(memberId);
                 tMemberBaby1.setRealName(realName);
                 tMemberBaby1.setSex(sex);
-                tMemberBaby1.setBirthday(birthday);
+                tMemberBaby1.setBirthday(date);
                 int number = tMemberService.upMemberBabyInfo(tMemberBaby1);
                 if(number == 0){
                     return AjaxResult.success("修改会员子女信息失败");
