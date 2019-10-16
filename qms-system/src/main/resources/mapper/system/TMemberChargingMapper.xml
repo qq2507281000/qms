@@ -32,7 +32,7 @@
     </select>
 
     <select id="selectTMemberChargingList" parameterType="TMemberCharging" resultMap="TMemberChargingResult">
-        <include refid="selectTMemberVo"/>
+        <include refid="selectTMemberChargingVo"/>
         <where>
             <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
             <if test="vipLevel != null  and vipLevel != ''"> and vip_level = #{vipLevel}</if>
