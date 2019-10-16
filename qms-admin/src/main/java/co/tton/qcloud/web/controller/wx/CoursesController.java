@@ -121,9 +121,9 @@ public class CoursesController extends BaseController {
    * @param
    * @return
    */
-//    @RequiresPermissions("wx:courses:priceAll")
+//    @RequiresPermissions("wx:courses:price")
   @RequestMapping(value = "/price/id", method = RequestMethod.GET)
-  @ApiOperation("根据Id获取价格信息")
+  @ApiOperation("根据课程Id获取价格分类")
   public AjaxResult<List<TShopCoursesPrice>> getCoursesPriceById(@RequestParam(value = "coursesId", required = false) String coursesId) {
     if (StringUtils.isNotEmpty(coursesId)) {
       List<TShopCoursesPrice> tShopCoursesPrice = tShopCoursesPriceService.getCoursesPriceById(coursesId);
@@ -132,7 +132,7 @@ public class CoursesController extends BaseController {
       }
       return AjaxResult.success("查询成功", tShopCoursesPrice);
     }
-    return AjaxResult.error("错我：课程Id为空");
+    return AjaxResult.error("课程Id为空");
   }
 
   /***
@@ -190,5 +190,4 @@ public class CoursesController extends BaseController {
       return AjaxResult.error("参数错误");
     }
   }
-
 }
