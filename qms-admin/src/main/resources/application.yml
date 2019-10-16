@@ -14,11 +14,11 @@ qcloud:
 
   # 获取ip地址开关
   addressEnabled: true
-
   #短信接口
   sms-accessKey: LTAIVBUBSmF5xENU
   sms-accessSecret: 2zBjUTiMhq4CHBB3EZjrMzUuIZxqzI
   pay-notifyUrl: https://hdpi.ttonservice.com/api/v1.0/wx/pay/notify/order
+  active-miniapp-appId: wx979a25003d5b4c1b
 
 # 开发环境配置
 server:
@@ -142,8 +142,8 @@ xss:
 wx:
   miniapp:
     configs:
-      - appid: #微信小程序的appid
-        secret: #微信小程序的Secret
+      - appid: wx979a25003d5b4c1b #微信小程序的appid
+        secret: 13da5ae620cba1a98e1f81e8241946f5 #微信小程序的Secret
         token: #微信小程序消息服务器配置的token
         aesKey: #微信小程序消息服务器配置的EncodingAESKey
         msgDataFormat: JSON

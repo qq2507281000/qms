@@ -1,5 +1,7 @@
 package co.tton.qcloud.web.controller.wx;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import co.tton.qcloud.common.config.Global;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
@@ -14,6 +16,8 @@ import co.tton.qcloud.system.model.MemberChargingModel;
 import co.tton.qcloud.system.service.ITMemberBabyService;
 import co.tton.qcloud.system.service.ITMemberChargingService;
 import co.tton.qcloud.system.wxservice.ITMemberService;
+import co.tton.qcloud.web.config.WxMaConfiguration;
+import co.tton.qcloud.web.config.WxMaProperties;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.pagehelper.util.StringUtil;
@@ -53,6 +57,48 @@ public class MemberController extends BaseController {
 
     @Autowired
     private ITMemberChargingService memberChargingService;
+
+//    @RequestMapping("/login")
+//    private AjaxResult getOpenId(@RequestParam("code") String code){
+//        try{
+//            String appId = Global.getConfig("qcloud.active-miniapp-appId");
+//            if(StringUtils.isEmpty(appId)){
+//                return AjaxResult.error("微信小程序配置错误[AppId为空]。");
+//            }
+//            else{
+//
+//            }
+//            final WxMaService wxService = WxMaConfiguration.getMaService(appId);
+//            if(wxService != null){
+//                WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+//                if(session != null){
+//                    String openId = session.getOpenid();
+//                    String sessionKey = session.getSessionKey();
+//                    String unionId = session.getUnionid();
+//                    //根据openId到数据库中搜索，如果未找到，则获取用户信息，添加到数据库中。
+//                    TMember member = tMemberService.getMemberByOpenId(openId);
+//                    if(member == null){
+//
+//                    }
+//                    //如果存在，则直接获取用户信息返回至前端。
+//
+//                    //生成登录Token。
+//
+//                }
+//                else{
+//                    return AjaxResult.error("未能获取JSSDK返回结果。");
+//                }
+//            }
+//            else{
+//                return AjaxResult.error("微信小程序操作类实例化失败。");
+//            }
+//        }
+//        catch(Exception ex){
+//            ex.printStackTrace();
+//            logger.error("会员登录",ex);
+//            return AjaxResult.error("会员登录失败。",ex);
+//        }
+//    }
 
     @ApiOperation("获取VIP价格")
     @RequestMapping("/vip/price/{level}")

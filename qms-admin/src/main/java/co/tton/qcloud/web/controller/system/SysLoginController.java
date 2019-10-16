@@ -18,6 +18,8 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.ServletUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 
+import java.io.Serializable;
+
 /**
  * 登录验证
  * 
@@ -48,7 +50,8 @@ public class SysLoginController extends BaseController
         try
         {
             subject.login(token);
-            return success();
+            Serializable tokenId = subject.getSession().getId();
+            return AjaxResult.success("登录成功。",tokenId);
         }
         catch (AuthenticationException e)
         {

@@ -3,6 +3,7 @@ package co.tton.qcloud.framework.shiro.realm;
 import java.util.HashSet;
 import java.util.Set;
 
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.shiro.service.SysLoginService;
 import co.tton.qcloud.system.domain.SysUser;
 import co.tton.qcloud.system.service.ISysMenuService;
@@ -97,42 +98,35 @@ public class UserRealm extends AuthorizingRealm
             password = new String(upToken.getPassword());
         }
 
-        SysUser user = null;
-        try
-        {
-            user = loginService.login(username, password);
-        }
-        catch (CaptchaException e)
-        {
-            throw new AuthenticationException(e.getMessage(), e);
-        }
-        catch (UserNotExistsException e)
-        {
-            throw new UnknownAccountException(e.getMessage(), e);
-        }
-        catch (UserPasswordNotMatchException e)
-        {
-            throw new IncorrectCredentialsException(e.getMessage(), e);
-        }
-        catch (UserPasswordRetryLimitExceedException e)
-        {
-            throw new ExcessiveAttemptsException(e.getMessage(), e);
-        }
-        catch (UserBlockedException e)
-        {
-            throw new LockedAccountException(e.getMessage(), e);
-        }
-        catch (RoleBlockedException e)
-        {
-            throw new LockedAccountException(e.getMessage(), e);
-        }
-        catch (Exception e)
-        {
-            log.info("对用户[" + username + "]进行登录验证..验证未通过{}", e.getMessage());
-            throw new AuthenticationException(e.getMessage(), e);
-        }
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
-        return info;
+//        if(StringUtils.equals(password,"WECHAT")){
+//            //微信客户端登录验证
+//            //用户OpenId
+//            String openId = username;
+//
+//        }
+//        else {
+            SysUser user = null;
+            try {
+                user = loginService.login(username, password);
+            } catch (CaptchaException e) {
+                throw new AuthenticationException(e.getMessage(), e);
+            } catch (UserNotExistsException e) {
+                throw new UnknownAccountException(e.getMessage(), e);
+            } catch (UserPasswordNotMatchException e) {
+                throw new IncorrectCredentialsException(e.getMessage(), e);
+            } catch (UserPasswordRetryLimitExceedException e) {
+                throw new ExcessiveAttemptsException(e.getMessage(), e);
+            } catch (UserBlockedException e) {
+                throw new LockedAccountException(e.getMessage(), e);
+            } catch (RoleBlockedException e) {
+                throw new LockedAccountException(e.getMessage(), e);
+            } catch (Exception e) {
+                log.info("对用户[" + username + "]进行登录验证..验证未通过{}", e.getMessage());
+                throw new AuthenticationException(e.getMessage(), e);
+            }
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
+            return info;
+//        }
     }
 
     /**
