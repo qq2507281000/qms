@@ -126,13 +126,13 @@ public class MemberController extends BaseController {
                 TMemberCharging memberCharging = new TMemberCharging();
                 String id = StringUtils.genericId();
                 memberCharging.setId(id);
-                memberCharging.setMemeberId(model.getMemeberId());
+                memberCharging.setMemberId(model.getMemberId());
                 memberCharging.setChargingTime(DateUtils.getNowDate());
                 memberCharging.setBeginTime(DateUtils.getNowDate());
                 memberCharging.setEndTime(DateUtils.addYears(DateUtils.getNowDate(),1));
                 memberCharging.setVipLevel(1);
                 memberCharging.setFlag(Constants.DATA_NORMAL);
-                memberCharging.setCreateBy(model.getMemeberId());
+                memberCharging.setCreateBy(model.getMemberId());
                 memberCharging.setCreateTime(DateUtils.getNowDate());
                 memberCharging.setPayStatus("UNPAY");
                 memberCharging.setOrderNo(orderNo);
@@ -185,6 +185,13 @@ public class MemberController extends BaseController {
             }
             if(tMemberModel.getBillStatus() == null){
                 tMemberModel.setBillStatus("0");
+            }
+            if(StringUtils.equals(tMemberModel.getAccountLevel(),"")){
+                TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByMemberId(memberId);
+                if(memberCharging != null){
+                    tMemberModel.setVipBeginTime(memberCharging.getBeginTime());
+                    tMemberModel.setVipEndTime(memberCharging.getEndTime());
+                }
             }
             return AjaxResult.success("获取会员信息成功",tMemberModel);
         }else{
