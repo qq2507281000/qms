@@ -3,13 +3,11 @@ package co.tton.qcloud.web.controller.wx;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
-import co.tton.qcloud.system.domain.TOrderUseEvaluation;
-import co.tton.qcloud.system.domain.TShopCoursesImages;
-import co.tton.qcloud.system.domain.TShopCoursesModel;
-import co.tton.qcloud.system.domain.TShopCoursesPrice;
+import co.tton.qcloud.system.domain.*;
 import co.tton.qcloud.system.service.ITOrderDetailService;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import co.tton.qcloud.system.service.ITShopCoursesPriceService;
+import co.tton.qcloud.system.service.ITShopCoursesTimeService;
 import co.tton.qcloud.system.wxservice.ICoursesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +39,9 @@ public class CoursesController extends BaseController {
 
   @Autowired
   private ITShopCoursesPriceService tShopCoursesPriceService;
+
+  @Autowired
+  private ITShopCoursesTimeService shopCoursesTimeService;
 
 
   /***
@@ -104,6 +105,13 @@ public class CoursesController extends BaseController {
       }
       tShopCoursesModels.setImages(imageUrls);
       tShopCoursesModels.setCount(count);
+
+      TShopCoursesTime query = new TShopCoursesTime();
+      query.setCoursesId(id);
+
+      List<TShopCoursesTime> shopCoursesTimes = shopCoursesTimeService.selectTShopCoursesTimeList(query);
+      tShopCoursesModels.setCoursesTimeList(shopCoursesTimes);
+
       return AjaxResult.success("查询成功", tShopCoursesModels);
     } else {
       return AjaxResult.error("没有获取到课程Id");

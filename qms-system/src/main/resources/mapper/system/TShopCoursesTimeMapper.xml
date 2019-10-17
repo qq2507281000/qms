@@ -9,9 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shopId"    column="shop_id"    />
         <result property="coursesId"    column="courses_id"    />
         <result property="wkNo"    column="wk_no"    />
-        <result property="amFm"    column="am_fm"    />
+        <result property="amPm"    column="am_pm"    />
         <result property="bTime"    column="b_time"    />
         <result property="eTime"    column="e_time"    />
+        <result property="address"  column="address"  />
         <result property="flag"    column="flag"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
@@ -20,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTShopCoursesTimeVo">
-        select id, shop_id, courses_id, wk_no, am_fm, b_time, e_time, flag, create_time, create_by, update_time, update_by from t_shop_courses_time
+        select id, shop_id, courses_id, wk_no, am_pm, b_time, e_time, address, flag, create_time, create_by, update_time, update_by from t_shop_courses_time
     </sql>
 
     <select id="selectTShopCoursesTimeList" parameterType="TShopCoursesTime" resultMap="TShopCoursesTimeResult">
@@ -29,9 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId != null  and shopId != ''"> and shop_id = #{shopId}</if>
             <if test="coursesId != null  and coursesId != ''"> and courses_id = #{coursesId}</if>
             <if test="wkNo != null "> and wk_no = #{wkNo}</if>
-            <if test="amFm != null "> and am_fm = #{amFm}</if>
+            <if test="amPm != null "> and am_pm = #{amPm}</if>
             <if test="bTime != null  and bTime != ''"> and b_time = #{bTime}</if>
             <if test="eTime != null  and eTime != ''"> and e_time = #{eTime}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
             <if test="flag != null "> and flag = #{flag}</if>
             <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
             <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
@@ -50,10 +52,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId != null  and shopId != ''">shop_id,</if>
             <if test="coursesId != null  and coursesId != ''">courses_id,</if>
             <if test="wkNo != null ">wk_no,</if>
-            <if test="amFm != null ">am_fm,</if>
+            <if test="amPm != null ">am_pm,</if>
             <if test="bTime != null  and bTime != ''">b_time,</if>
             <if test="eTime != null  and eTime != ''">e_time,</if>
             <if test="flag != null ">flag,</if>
+            <if test="address != null ">address,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="updateTime != null ">update_time,</if>
@@ -64,9 +67,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId != null  and shopId != ''">#{shopId},</if>
             <if test="coursesId != null  and coursesId != ''">#{coursesId},</if>
             <if test="wkNo != null ">#{wkNo},</if>
-            <if test="amFm != null ">#{amFm},</if>
+            <if test="amPm != null ">#{amPm},</if>
             <if test="bTime != null  and bTime != ''">#{bTime},</if>
             <if test="eTime != null  and eTime != ''">#{eTime},</if>
+            <if test="address != null and address != '' ">#{address},</if>
             <if test="flag != null ">#{flag},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
@@ -81,9 +85,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId != null  and shopId != ''">shop_id = #{shopId},</if>
             <if test="coursesId != null  and coursesId != ''">courses_id = #{coursesId},</if>
             <if test="wkNo != null ">wk_no = #{wkNo},</if>
-            <if test="amFm != null ">am_fm = #{amFm},</if>
+            <if test="amPm != null ">am_pm = #{amPm},</if>
             <if test="bTime != null  and bTime != ''">b_time = #{bTime},</if>
             <if test="eTime != null  and eTime != ''">e_time = #{eTime},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
             <if test="flag != null ">flag = #{flag},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>

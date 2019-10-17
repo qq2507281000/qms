@@ -44,8 +44,8 @@ public class TShopCoursesTime extends BaseEntity
 
     /** 上午下午(0,1) */
     @Excel(name = "上午下午(0,1)")
-    @ApiModelProperty("上午下午(0,1)")
-    private Integer amFm;
+    @ApiModelProperty(value = "上午下午(AM,PM)",allowableValues = "AM,PM")
+    private String amPm;
 
     /** 开始时间(0700) */
     @Excel(name = "开始时间(0700)")
@@ -62,6 +62,9 @@ public class TShopCoursesTime extends BaseEntity
     @ApiModelProperty("结束时间(1200)")
     private Integer flag;
 
+    @ApiModelProperty("上课地点，默认为商家地点")
+    private String address;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -69,7 +72,7 @@ public class TShopCoursesTime extends BaseEntity
             .append("shopId", getShopId())
             .append("coursesId", getCoursesId())
             .append("wkNo", getWkNo())
-            .append("amFm", getAmFm())
+            .append("amFm", getAmPm())
             .append("bTime", getBTime())
             .append("eTime", getETime())
             .append("flag", getFlag())

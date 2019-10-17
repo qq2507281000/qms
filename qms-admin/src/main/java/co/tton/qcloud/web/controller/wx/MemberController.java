@@ -46,6 +46,7 @@ public class MemberController extends BaseController {
 
     @Resource
     ITMemberService tMemberService;
+
     @Resource
     ITMemberBabyService tMemberBabyService;
 
@@ -57,6 +58,12 @@ public class MemberController extends BaseController {
 
     @Autowired
     private ITMemberChargingService memberChargingService;
+
+    @Autowired
+    private co.tton.qcloud.system.service.ITMemberService memberService;
+
+    @Autowired
+    private co.tton.qcloud.system.service.ITMemberBabyService memberBabyService;
 
 //    @RequestMapping("/login")
 //    private AjaxResult getOpenId(@RequestParam("code") String code){
@@ -230,41 +237,94 @@ public class MemberController extends BaseController {
                                        @RequestParam(value = "birthday")Date birthday){
         if(StringUtil.isNotEmpty(memberId)){
             //查询会员子女表相关信息
-            TMemberBaby tMemberBaby  = tMemberService.getTMemberBabyId(memberId);
-            if(StringUtils.isNull(tMemberBaby)){
-                TMemberBaby tMemberBaby1 = new TMemberBaby();
-                SysUser user = ShiroUtils.getSysUser();
-                tMemberBaby1.setCreateBy(user.getUserId().toString());
-                tMemberBaby1.setCreateTime(new Date());
-                tMemberBaby1.setFlag(Constants.DATA_NORMAL);
-                tMemberBaby1.setId(StringUtils.genericId());
-                tMemberBaby1.setMemberId(memberId);
-                tMemberBaby1.setRealName(realName);
-                tMemberBaby1.setSex(sex);
-                tMemberBaby1.setBirthday(birthday);
-                //没有,调新增
-                int number = tMemberBabyService.insertTMemberBaby(tMemberBaby1);
-                if(number == 0){
-                    return AjaxResult.success("新增会员子女信息失败");
-                }else{
-                    return AjaxResult.success("新增会员子女信息成功",number);
+            TMemberBaby memberBaby = new TMemberBaby();
+            memberBaby.setMemberId(memberId);
+
+            int result = 0;
+
+            TMemberBaby baby = null;
+
+            List<TMemberBaby> list = memberBabyService.selectTMemberBabyList(memberBaby);
+            if(list != null){
+                baby = list.stream().filter(d->StringUtils.equals(d.getRealName(),realName))
+                        .findFirst().orElse(null);
+                if(baby != null){
+                    baby.setSex(sex);
+                    baby.setBirthday(birthday);
+                    baby.setUpdateBy(memberId);
+                    baby.setUpdateTime(DateUtils.getNowDate());
+                    result = memberBabyService.updateTMemberBaby(baby);
                 }
-            }else{
-                //有修改
-                TMemberBaby tMemberBaby1 = new TMemberBaby();
-                tMemberBaby1.setMemberId(memberId);
-                tMemberBaby1.setRealName(realName);
-                tMemberBaby1.setSex(sex);
-                tMemberBaby1.setBirthday(birthday);
-                int number = tMemberService.upMemberBabyInfo(tMemberBaby1);
-                if(number == 0){
-                    return AjaxResult.success("修改会员子女信息失败");
-                }else{
-                    return AjaxResult.success("修改会员子女信息成功",number);
+                else{
+                    String id = StringUtils.genericId();
+                    baby = new TMemberBaby();
+                    baby.setId(id);
+                    baby.setMemberId(memberId);
+                    baby.setRealName(realName);
+                    baby.setSex(sex);
+                    baby.setBirthday(birthday);
+                    baby.setFlag(Constants.DATA_NORMAL);
+                    baby.setCreateBy(memberId);
+                    baby.setCreateTime(DateUtils.getNowDate());
+                    result = memberBabyService.insertTMemberBaby(baby);
                 }
             }
+            else{
+                String id = StringUtils.genericId();
+                baby = new TMemberBaby();
+                baby.setId(id);
+                baby.setMemberId(memberId);
+                baby.setRealName(realName);
+                baby.setSex(sex);
+                baby.setBirthday(birthday);
+                baby.setFlag(Constants.DATA_NORMAL);
+                baby.setCreateBy(memberId);
+                baby.setCreateTime(DateUtils.getNowDate());
+                result = memberBabyService.insertTMemberBaby(baby);
+            }
+
+            if(result == 1){
+                return AjaxResult.success("新增或修改会员宝宝信息成功。",baby);
+            }
+            else{
+                return AjaxResult.error("新增活修改会员宝宝信息失败。");
+            }
+
+//            TMemberBaby tMemberBaby  = tMemberService.getTMemberBabyId(memberId);
+//            if(StringUtils.isNull(tMemberBaby)){
+//                TMemberBaby tMemberBaby1 = new TMemberBaby();
+//                SysUser user = ShiroUtils.getSysUser();
+//                tMemberBaby1.setCreateBy(user.getUserId().toString());
+//                tMemberBaby1.setCreateTime(new Date());
+//                tMemberBaby1.setFlag(Constants.DATA_NORMAL);
+//                tMemberBaby1.setId(StringUtils.genericId());
+//                tMemberBaby1.setMemberId(memberId);
+//                tMemberBaby1.setRealName(realName);
+//                tMemberBaby1.setSex(sex);
+//                tMemberBaby1.setBirthday(birthday);
+//                //没有,调新增
+//                int number = tMemberBabyService.insertTMemberBaby(tMemberBaby1);
+//                if(number == 0){
+//                    return AjaxResult.success("新增会员子女信息失败");
+//                }else{
+//                    return AjaxResult.success("新增会员子女信息成功",number);
+//                }
+//            }else{
+//                //有修改
+//                TMemberBaby tMemberBaby1 = new TMemberBaby();
+//                tMemberBaby1.setMemberId(memberId);
+//                tMemberBaby1.setRealName(realName);
+//                tMemberBaby1.setSex(sex);
+//                tMemberBaby1.setBirthday(birthday);
+//                int number = tMemberService.upMemberBabyInfo(tMemberBaby1);
+//                if(number == 0){
+//                    return AjaxResult.success("修改会员子女信息失败");
+//                }else{
+//                    return AjaxResult.success("修改会员子女信息成功",number);
+//                }
+//            }
         }else{
-            return AjaxResult.error("会员ID错误");
+            return AjaxResult.error("参数错误，会员Id不允许为空。");
         }
     }
 
@@ -336,15 +396,23 @@ public class MemberController extends BaseController {
     @ApiOperation("绑定手机号")
     public AjaxResult<TMember> upMobile(@RequestParam(value = "memberid") String memberid,
                                         @RequestParam(value = "mobile") String mobile){
+
         if(StringUtils.isNotEmpty(memberid)&&StringUtils.isNotEmpty(mobile)){
-            TMember tMember = new TMember();
-            tMember.setId(memberid);
-            tMember.setMobile(mobile);
-            int number = tMemberService.upMobile(tMember);
-            if(number > 0){
-                return AjaxResult.success("保存用户成功。",number);
-            }else{
-                return AjaxResult.success("修改失败。");
+            TMember tMember = memberService.selectTMemberById(memberid);
+            if(tMember == null){
+                return AjaxResult.error("未能找到会员信息。");
+            }
+            else{
+                tMember.setMobile(mobile);
+                tMember.setUpdateBy(memberid);
+                tMember.setUpdateTime(DateUtils.getNowDate());
+                int result = memberService.updateTMember(tMember);
+                if(result == 1){
+                    return AjaxResult.success("用户绑定手机号码成功。",tMember);
+                }
+                else{
+                    return AjaxResult.error("用户绑定手机号码失败。");
+                }
             }
         }else{
             return AjaxResult.error("参数错误。");

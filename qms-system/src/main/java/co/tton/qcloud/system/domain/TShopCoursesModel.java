@@ -2,12 +2,15 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -165,6 +168,9 @@ public class TShopCoursesModel extends BaseEntity {
 
     @ApiModelProperty("商家图片")
     private String coverImage;
+
+    @ApiModelProperty("上课时间和地点列表")
+    private List<TShopCoursesTime> coursesTimeList;
 
     @Override
     public String toString() {
