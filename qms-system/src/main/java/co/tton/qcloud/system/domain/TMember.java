@@ -76,6 +76,12 @@ public class TMember extends BaseEntity
     @ApiModelProperty("账户级别")
     private String accountLevel;
 
+    @ApiModelProperty("VIP开始时间")
+    private Date vipBeginTime;
+
+    @ApiModelProperty("VIP结束时间")
+    private Date vipEndTime;
+
     /** 积分 */
     @Excel(name = "积分")
     @ApiModelProperty("积分")

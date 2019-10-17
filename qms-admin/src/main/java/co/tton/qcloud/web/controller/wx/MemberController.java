@@ -183,26 +183,46 @@ public class MemberController extends BaseController {
     @RequestMapping(value = "/info",method = RequestMethod.GET)
     public AjaxResult getMemberInfo(@RequestParam(value = "id") String memberId){
         if(StringUtil.isNotEmpty(memberId)){
-            TMemberModel tMemberModel= tMemberService.getMemberInfo(memberId);
-            if(tMemberModel.getUseStatus() == null){
-                tMemberModel.setUseStatus("0");
+            TMember member = memberService.selectTMemberById(memberId);
+            if(member == null){
+                return AjaxResult.error("未能找到会员信息。");
             }
-            if(tMemberModel.getPayStatus() == null){
-                tMemberModel.setPayStatus("0");
-            }
-            if(tMemberModel.getBillStatus() == null){
-                tMemberModel.setBillStatus("0");
-            }
-            if(StringUtils.equals(tMemberModel.getAccountLevel(),"")){
-                TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByMemberId(memberId);
-                if(memberCharging != null){
-                    tMemberModel.setVipBeginTime(memberCharging.getBeginTime());
-                    tMemberModel.setVipEndTime(memberCharging.getEndTime());
+            else{
+                if(member.getFlag() == Constants.DATA_NORMAL){
+                    if(StringUtils.equals(member.getAccountLevel(),"超级会员")){
+                        TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByMemberId(memberId);
+                        if(memberCharging != null){
+                            member.setVipBeginTime(memberCharging.getBeginTime());
+                            member.setVipEndTime(memberCharging.getEndTime());
+                        }
+                    }
+                    return AjaxResult.success("获取会员信息成功。",member);
+                }
+                else{
+                    return AjaxResult.error("会员信息已被删除。");
                 }
             }
-            return AjaxResult.success("获取会员信息成功",tMemberModel);
+
+//            TMemberModel tMemberModel= tMemberService.getMemberInfo(memberId);
+//            if(tMemberModel.getUseStatus() == null){
+//                tMemberModel.setUseStatus("0");
+//            }
+//            if(tMemberModel.getPayStatus() == null){
+//                tMemberModel.setPayStatus("0");
+//            }
+//            if(tMemberModel.getBillStatus() == null){
+//                tMemberModel.setBillStatus("0");
+//            }
+//            if(StringUtils.equals(tMemberModel.getAccountLevel(),"")){
+//                TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByMemberId(memberId);
+//                if(memberCharging != null){
+//                    tMemberModel.setVipBeginTime(memberCharging.getBeginTime());
+//                    tMemberModel.setVipEndTime(memberCharging.getEndTime());
+//                }
+//            }
+//            return AjaxResult.success("获取会员信息成功",tMemberModel);
         }else{
-            return AjaxResult.error("会员ID错误");
+            return AjaxResult.error("参数错误，会员Id不允许为空。");
         }
     }
 
