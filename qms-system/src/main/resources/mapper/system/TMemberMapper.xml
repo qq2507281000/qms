@@ -178,6 +178,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t.flag = 0
             <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
+        limit 1
     </select>
 
     <select id="getMemberByOpenId" resultMap="TMemberResult">
