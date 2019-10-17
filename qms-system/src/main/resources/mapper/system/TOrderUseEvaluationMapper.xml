@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
     <resultMap type="TOrderUseEvaluation" id="TOrderUseEvaluationExtendResult" extends="TOrderUseEvaluationResult">
         <result property="wxName"    column="wx_name"    />
+        <result property="wxImg"    column="img"    />
     </resultMap>
 
 

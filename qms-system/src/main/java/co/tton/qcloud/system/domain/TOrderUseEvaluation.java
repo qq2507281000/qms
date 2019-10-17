@@ -61,6 +61,9 @@ public class TOrderUseEvaluation extends BaseEntity
     @ApiModelProperty(value="微信")
     private String  wxName;
 
+    @ApiModelProperty(value="微信头像")
+    private String  wxImg;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)

@@ -255,7 +255,7 @@ public class OrderController extends BaseController {
                 return AjaxResult.success("数据保存失败。");
             }
         }else{
-            return AjaxResult.error("参数错误");
+            return AjaxResult.error("参数错误,或会员ID为空");
         }
     }
 
