@@ -18,6 +18,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
     </resultMap>
+    <resultMap type="TOrderUseEvaluation" id="TOrderUseEvaluationExtendResult" extends="TOrderUseEvaluationResult">
+        <result property="wxName"    column="wx_name"    />
+    </resultMap>
+
 
     <sql id="selectTOrderUseEvaluationVo">
         select id, order_no, member_id, image_url, evaluation, star, courses_id, flag, create_time, create_by, update_time, update_by from t_order_use_evaluation
@@ -55,11 +59,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
     </insert>
 
-    <select id="getCoursesCategory"  resultMap="TOrderUseEvaluationResult" parameterType="String">
-        <include refid="selectTOrderUseEvaluationVo"/>
+    <select id="getCoursesCategory"  resultMap="TOrderUseEvaluationExtendResult" parameterType="String">
+        SELECT e.id, e.order_no, e.member_id, e.image_url, e.evaluation, e.star, e.courses_id, e.flag, e.create_time,m.wx_name,m.img
+        FROM t_order_use_evaluation e
+        LEFT JOIN  t_member m ON e.member_id = m.id
         <where>
-            <if test="_parameter!= null  and _parameter != ''"> and courses_id = #{coursesId}</if>
-            AND flag = 0
+            <if test="_parameter!= null  and _parameter != ''"> AND e.courses_id = #{coursesId}</if>
+            AND e.flag = 0
         </where>
+        ORDER BY e.create_time  DESC
     </select>
 </mapper>

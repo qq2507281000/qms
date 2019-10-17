@@ -211,20 +211,28 @@ public class OrderController extends BaseController {
     //    @RequiresPermissions("wx:evaluation:insert")
     @RequestMapping(value = "/evaluation",method = RequestMethod.POST)
     @ApiOperation("订单和课程评价")
-    public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno")String orderNo,
-                                               @RequestParam(value = "memberid")String memberId,
-                                               @RequestParam(value = "imageurl")String imageurl,
-                                               @RequestParam(value = "evaluation")String evaluation,
-                                               @RequestParam(value = "coursesid")String coursesId,
-                                               @RequestParam(value = "star")String star) throws IOException {
+    public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno",required = false)String orderNo,
+                                               @RequestParam(value = "memberid",required = false)String memberId,
+                                               @RequestParam(value = "imageurl",required = false)String[] imageurls,
+                                               @RequestParam(value = "evaluation",required = false)String evaluation,
+                                               @RequestParam(value = "coursesid",required = false)String coursesId,
+                                               @RequestParam(value = "star",required = false)String star) throws IOException {
         if(StringUtils.isNotEmpty(memberId)){
             TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
             tOrder.setMemberId(memberId);
             tOrder.setFlag(Constants.DATA_NORMAL);
+            tOrder.setCreateTime(DateUtils.getNowDate());
             String id = StringUtils.genericId();
             tOrder.setId(id);
-            if(StringUtils.isNotEmpty(imageurl)){
-                tOrder.setImageUrl(imageurl);
+            if(StringUtils.isNotEmpty(imageurls)){
+                StringBuilder imageurl = new StringBuilder();
+                for(int i = 0;i<imageurls.length;i++){
+                    if(i!=0){
+                        imageurl.append(',');
+                    }
+                    imageurl.append(imageurls[i]);
+                }
+                tOrder.setImageUrl(imageurl.toString());
             }
             if(StringUtils.isNotEmpty(orderNo)){
                 tOrder.setOrderNo(orderNo);

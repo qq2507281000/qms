@@ -46,7 +46,7 @@ public class TShopCoursesPrice extends BaseEntity
     private Double l1Price;
 
     /** 特殊价格_第二级别（保留） */
-    @Excel(name = "特殊价格_第二级别 超级会员价格", readConverterExp = "保留")
+    @Excel(name = "特殊价格_第二级别", readConverterExp = "超级会员价格")
     @ApiModelProperty("特殊价格_第二级别 超级会员价格")
     private Double l2Price;
 
@@ -61,8 +61,8 @@ public class TShopCoursesPrice extends BaseEntity
     private Double l4Price;
 
     /** $column.columnComment */
-    @Excel(name = "特殊价格_第五级别", readConverterExp = "$column.readConverterExp()")
-    @ApiModelProperty("特殊价格_第五级别")
+    @Excel(name = "优惠价格", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("优惠价格")
     private Double l5Price;
 
     /** $column.columnComment */
