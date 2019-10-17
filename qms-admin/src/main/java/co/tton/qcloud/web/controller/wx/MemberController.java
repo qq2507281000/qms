@@ -266,9 +266,11 @@ public class MemberController extends BaseController {
 
             List<TMemberBaby> list = memberBabyService.selectTMemberBabyList(memberBaby);
             if(list != null){
-                baby = list.stream().filter(d->StringUtils.equals(d.getRealName(),realName))
-                        .findFirst().orElse(null);
-                if(baby != null){
+//                baby = list.stream().filter(d->StringUtils.equals(d.getRealName(),realName))
+//                        .findFirst().orElse(null);
+                if(list.size() >= 1){
+                    baby = list.get(0);
+                    baby.setRealName(realName);
                     baby.setSex(sex);
                     baby.setBirthday(birthday);
                     baby.setUpdateBy(memberId);
