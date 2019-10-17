@@ -225,7 +225,7 @@ public class OrderController extends BaseController {
             String id = StringUtils.genericId();
             tOrder.setId(id);
             if(StringUtils.isNotEmpty(imageurls)){
-                StringBuilder imageurl = null;
+                StringBuilder imageurl = new StringBuilder();
                 for(int i = 0;i<imageurls.length;i++){
                     if(i!=0){
                         imageurl.append(',');
