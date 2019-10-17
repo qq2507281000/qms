@@ -56,10 +56,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <select id="getCoursesCategory"  resultMap="TOrderUseEvaluationResult" parameterType="String">
-        <include refid="selectTOrderUseEvaluationVo"/>
+        SELECT e.id, e.order_no, e.member_id, e.image_url, e.evaluation, e.star, e.courses_id, e.flag, e.create_time,m.wx_name,m.img
+        FROM t_order_use_evaluation e
+        LEFT JOIN  t_member m ON e.member_id = m.id
         <where>
-            <if test="_parameter!= null  and _parameter != ''"> and courses_id = #{coursesId}</if>
-            AND flag = 0
+            <if test="_parameter!= null  and _parameter != ''"> AND e.courses_id = #{coursesId}</if>
+            AND e.flag = 0
         </where>
+        ORDER BY e.create_time  DESC
     </select>
 </mapper>

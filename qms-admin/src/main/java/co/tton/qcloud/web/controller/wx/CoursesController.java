@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -213,6 +214,15 @@ public class CoursesController extends BaseController {
     if (StringUtils.isNotEmpty(coursesId)) {
       List<TOrderUseEvaluation> tShopCoursesModel = iCoursesService.getCoursesCategory(coursesId);
       if(StringUtils.isNotEmpty(tShopCoursesModel)){
+        for (TOrderUseEvaluation tOrderUseEvaluation : tShopCoursesModel) {
+          //获取该索引下的图片字符串
+          String str = tOrderUseEvaluation.getImageUrl();
+          if (str != null && !str.equals("")) {
+            //解析字符串
+            String[] arr = str.split(",");
+            tOrderUseEvaluation.setImageUrls(Arrays.asList(arr));
+          }
+        }
         return AjaxResult.success("获取成功", tShopCoursesModel);
       }else{
         return AjaxResult.success("该课程无评价", tShopCoursesModel);
