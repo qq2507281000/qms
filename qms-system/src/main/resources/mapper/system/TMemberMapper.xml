@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.tton.qcloud.system.mapper.TMemberMapper">
-    
+
     <resultMap type="TMember" id="TMemberResult">
         <result property="id"    column="id"    />
         <result property="openId"    column="open_id"    />
@@ -20,6 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="img"    column="img"    />
+        <result property="wxJson"    column="wx_json"    />
     </resultMap>
     <resultMap id="TMemberAndTMemberBaby" type="TMember" extends="TMemberResult">
         <collection property="TMemberBabyList" ofType="TMemberBaby" >
@@ -53,13 +56,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <sql id="selectTMemberVo">
-        select id, open_id, wx_name, mobile, reg_time, star, status, flag, real_name, account_level, score, create_time, create_by, update_time, update_by from t_member
+        select id,avatar,img,wx_json, open_id, wx_name, mobile, reg_time, star, status, flag, real_name, account_level, score, create_time, create_by, update_time, update_by from t_member
     </sql>
 
     <select id="selectTMemberList" parameterType="TMember" resultMap="TMemberResult">
         <include refid="selectTMemberVo"/>
         <where>  
             <if test="openId != null  and openId != ''"> and open_id = #{openId}</if>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="wxJson != null  and wxJson != ''"> and wx_json = #{wxJson}</if>
             <if test="wxName != null  and wxName != ''"> and wx_name like concat('%', #{wxName}, '%')</if>
             <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
             <if test="regTime != null "> and reg_time = #{regTime}</if>
@@ -83,6 +89,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into t_member
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">id,</if>
+            <if test="avatar != null  and avatar != ''">avatar,</if>
+            <if test="img != null  and img != ''">img,</if>
+            <if test="wxJson != null  and wxJson != ''">wx_json,</if>
             <if test="openId != null  and openId != ''">open_id,</if>
             <if test="wxName != null  and wxName != ''">wx_name,</if>
             <if test="mobile != null  and mobile != ''">mobile,</if>
@@ -100,6 +109,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
+            <if test="avatar != null  and avatar != ''">#{avatar},</if>
+            <if test="img != null  and img != ''">#{img},</if>
+            <if test="wxJson != null  and wxJson != ''">#{wx_json},</if>
             <if test="openId != null  and openId != ''">#{openId},</if>
             <if test="wxName != null  and wxName != ''">#{wxName},</if>
             <if test="mobile != null  and mobile != ''">#{mobile},</if>
@@ -120,6 +132,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateTMember" parameterType="TMember">
     update t_member
     <trim prefix="SET" suffixOverrides=",">
+        <if test="avatar != null  and avatar != ''">avatar = #{avatar},</if>
+        <if test="img != null  and img != ''">img = #{img},</if>
+        <if test="wxJson != null  and wxJson != ''">wx_json = #{wxJson},</if>
         <if test="openId != null  and openId != ''">open_id = #{openId},</if>
         <if test="wxName != null  and wxName != ''">wx_name = #{wxName},</if>
         <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
@@ -199,6 +214,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into t_member
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">id,</if>
+            <if test="avatar != null  and avatar != ''">avatar,</if>
+            <if test="img != null  and img != ''">img,</if>
+            <if test="wxJson != null  and wxJson != ''">wx_json,</if>
             <if test="openId != null  and openId != ''">open_id,</if>
             <if test="wxName != null  and wxName != ''">wx_name,</if>
             <if test="mobile != null  and mobile != ''">mobile,</if>
@@ -216,6 +234,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
+            <if test="avatar != null  and avatar != ''">#{avatar},</if>
+            <if test="img != null  and img != ''">#{img},</if>
+            <if test="wxJson != null  and wxJson != ''">#{wxJson},</if>
             <if test="openId != null  and openId != ''">#{openId},</if>
             <if test="wxName != null  and wxName != ''">#{wxName},</if>
             <if test="mobile != null  and mobile != ''">#{mobile},</if>
@@ -248,6 +269,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into t_member
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">id,</if>
+            <if test="avatar != null  and avatar != ''">avatar,</if>
+            <if test="img != null  and img != ''">img,</if>
+            <if test="wxJson != null  and wxJson != ''">wx_json,</if>
             <if test="openId != null  and openId != ''">open_id,</if>
             <if test="wxName != null  and wxName != ''">wx_name,</if>
             <if test="mobile != null  and mobile != ''">mobile,</if>
@@ -265,6 +289,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
+            <if test="avatar != null  and avatar != ''">#{avatar},</if>
+            <if test="img != null  and img != ''">#{img},</if>
+            <if test="wxJson != null  and wxJson != ''">#{wxJson},</if>
             <if test="openId != null  and openId != ''">#{openId},</if>
             <if test="wxName != null  and wxName != ''">#{wxName},</if>
             <if test="mobile != null  and mobile != ''">#{mobile},</if>

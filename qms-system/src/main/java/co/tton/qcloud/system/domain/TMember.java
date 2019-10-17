@@ -94,6 +94,10 @@ public class TMember extends BaseEntity
     @ApiModelProperty("微信头像")
     private String img;
 
+    @Excel(name = "")
+    @ApiModelProperty("")
+    private String avatar;
+
     @ApiModelProperty("用户Token")
     private Serializable token;
 
@@ -119,6 +123,8 @@ public class TMember extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
             .append("img", getImg())
+            .append("avatar", getAvatar())
+            .append("wxJson", getWxJson())
             .toString();
     }
 }
