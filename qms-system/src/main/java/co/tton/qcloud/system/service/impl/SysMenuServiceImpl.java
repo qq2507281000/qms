@@ -48,13 +48,12 @@ public class SysMenuServiceImpl implements ISysMenuService
     {
         List<SysMenu> menus = new LinkedList<SysMenu>();
         // 管理员显示所有菜单信息
-        if (user.isAdmin())
-        {
-            menus = menuMapper.selectMenuNormalAll();
-        }
-        else
-        {
-            menus = menuMapper.selectMenusByUserId(user.getUserId());
+        if(user != null) {
+            if (user.isAdmin()) {
+                menus = menuMapper.selectMenuNormalAll();
+            } else {
+                menus = menuMapper.selectMenusByUserId(user.getUserId());
+            }
         }
         return getChildPerms(menus, 0);
     }
