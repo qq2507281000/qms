@@ -167,10 +167,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!--查询会员详情-->
     <select id="getMemberInfo" parameterType="String" resultMap="TMemberModel">
         select
-        t.id,
-        t.avatar,
-        t.wx_name,
-        t.account_level,
+        t.*,
         count(er.order_no) as orderNo,
         sum(er.pay_status = 'UNPAY')as payStatus,
         sum(er.use_status = 'UNUSED')as useStatus,
