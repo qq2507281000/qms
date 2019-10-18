@@ -135,7 +135,7 @@ public class OrderController extends BaseController {
         }
     }
 
-    @RequestMapping("/pay")
+    @RequestMapping(value = "/pay",method = RequestMethod.POST)
     @ApiOperation("订单支付")
     public AjaxResult orderPay(@RequestParam("orderId") String orderId, @RequestParam("openId") String openId){
         try{
