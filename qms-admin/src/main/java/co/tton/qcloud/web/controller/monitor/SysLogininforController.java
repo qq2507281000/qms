@@ -23,7 +23,7 @@ import co.tton.qcloud.system.service.ISysLogininforService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/monitor/logininfor")
+@RequestMapping("/monitor/logininfor")
 public class SysLogininforController extends BaseController
 {
     private String prefix = "monitor/logininfor";

@@ -12,7 +12,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/monitor/data")
+@RequestMapping("/monitor/data")
 public class DruidController extends BaseController
 {
     private String prefix = "/druid";

@@ -25,7 +25,7 @@ import co.tton.qcloud.system.service.ISysOperLogService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/monitor/operlog")
+@RequestMapping("/monitor/operlog")
 public class SysOperlogController extends BaseController
 {
     private String prefix = "monitor/operlog";

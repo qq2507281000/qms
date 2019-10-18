@@ -14,9 +14,8 @@ import co.tton.qcloud.system.domain.*;
 import co.tton.qcloud.system.model.OrderEvaluationModel;
 import co.tton.qcloud.system.model.OrderModel;
 import co.tton.qcloud.system.model.OrderPayModel;
-import co.tton.qcloud.system.service.ITOrderService;
-import co.tton.qcloud.system.service.ITShopCoursesService;
-import co.tton.qcloud.system.service.ITShopService;
+import co.tton.qcloud.system.model.OrderResponseModel;
+import co.tton.qcloud.system.service.*;
 import co.tton.qcloud.system.wxservice.ITOrderUseEvaluationService;
 import co.tton.qcloud.web.controller.common.CommonController;
 import co.tton.qcloud.web.minio.MinioFileService;
@@ -31,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -49,79 +50,45 @@ public class OrderController extends BaseController {
     @Autowired
     private ITOrderService tOrderService;
     @Autowired
-    private MinioFileService minioFileService;
-    @Autowired
     private ITOrderUseEvaluationService tOrderUseEvaluationService;
-    @Autowired
-    private ITShopService shopService;
-    @Autowired
-    private ITShopCoursesService shopCoursesService;
     @Autowired
     private WxPayService wxService;
 
     //    @RequiresPermissions("wx:order:submit")
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @ApiOperation("提交订单")
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public AjaxResult submitOrder(OrderModel model){
         try{
             if(model == null){
                 return AjaxResult.error("参数不允许为空。");
             }
             else{
-
-                String coursesName = "";
-                String shopAddress = "";
-                String shopName = "";
-//                String serialNo = "";
-
-                TShop shop = shopService.selectTShopById(model.getShopId());
-                shopName = shop.getName();
-                shopAddress = shop.getAddress();
-
-                TShopCourses courses = shopCoursesService.selectTShopCoursesById(model.getCoursesId());
-                coursesName = courses.getTitle();
-
-                String orderNo = StringUtils.genericOrderNo();
-                TOrder order = new TOrder();
-                String id = StringUtils.genericId();
-                order.setId(id);
-                order.setOrderNo(orderNo);
-                order.setSubject("互动派课程订单-" + coursesName);
-                order.setAddress(shopAddress);
-                order.setShopId(model.getShopId());
-                order.setShopName(shopName);
-                order.setPreRealPrice(model.getOrderPrice());
-                order.setPayPrice(model.getOrderPrice());
-                order.setPaymentChannel("wechatpay");
-                if(StringUtils.isNotEmpty(model.getCouponId())){
-                    order.setHaveDiscount(1);
+                OrderResponseModel responseModel = tOrderService.submitOrder(model);
+                if(StringUtils.equals(responseModel.getStatus(),"SUCCESS")){
+                    WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+                    request.setVersion("1.0");
+                    request.setDeviceInfo("000000000000");
+                    request.setBody(responseModel.getOrder().getSubject());
+                    request.setAttach("课程订单");
+                    request.setOutTradeNo(responseModel.getOrder().getOrderNo());
+                    request.setTotalFee((int)(responseModel.getOrder().getPayPrice() * 100));
+                    request.setSpbillCreateIp(IpUtils.getHostIp());
+                    request.setTimeStart(DateUtils.dateTimeNow());
+                    request.setNotifyUrl(Global.getNotifyUrl());
+                    request.setTradeType("JSAPI");
+                    request.setOpenid(model.getOpenId());
+                    wxService.createOrder(request);
+                    return AjaxResult.success("订单创建成功，支付中...",responseModel);
                 }
                 else{
-                    order.setHaveDiscount(0);
-                }
-//                order.setSerialNo(serialNo);
-                order.setBookingTime(new Date());
-                order.setPayStatus("UNPAY");
-                order.setBillStatus("BOOKING");
-                order.setMemberId(model.getMemeberId());
-                order.setFlag(Constants.DATA_NORMAL);
-                int result = tOrderService.insertTOrder(order);
-                if(result == 1){
-                    AjaxResult ar = AjaxResult.success("订单提交成功。");
-                    ar.put("orderId",id);
-                    ar.put("orderNo",orderNo);
-                    ar.put("subject",order.getSubject());
-                    ar.put("price",model.getOrderPrice());
-                    return ar;
-                }
-                else{
-                    return AjaxResult.error("订单提交失败。");
+                    return AjaxResult.error("订单创建失败["+responseModel.getStatus()+"]。\r\n" + responseModel.getMessage());
                 }
             }
         }
         catch(Exception ex){
             ex.printStackTrace();
             logger.error("提交订单时发生异常。",ex);
-            return AjaxResult.error("提交订单时发生异常。");
+            return AjaxResult.error("提交订单时发生异常。",ex);
         }
     }
 

@@ -2,10 +2,13 @@ package co.tton.qcloud.system.domain;
 
 import co.tton.qcloud.common.annotation.Excel;
 import co.tton.qcloud.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.Date;
 
 /**
  * 【请填写功能名称】对象 t_order_detail
@@ -50,6 +53,27 @@ public class TOrderDetail extends BaseEntity
     /** $column.columnComment */
     @Excel(name = "使用状态", readConverterExp = "$column.readConverterExp()")
     private Integer flag;
+
+    @ApiModelProperty("上课时间：AM&PM")
+    private String amPm;
+
+    @ApiModelProperty("备注信息")
+    private String remark;
+
+    @ApiModelProperty("上课时间")
+    private Date coursesTime;
+
+    @ApiModelProperty("子女Id")
+    private String childId;
+
+    @ApiModelProperty("子女性别")
+    private String childSex;
+
+    @ApiModelProperty("子女姓名")
+    private String childName;
+
+    @ApiModelProperty("出生日期")
+    private Date childBirthday;
 
     @Override
     public String toString() {

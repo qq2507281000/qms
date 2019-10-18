@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @program: qms
@@ -38,14 +39,20 @@ public class OrderModel implements Serializable {
     @ApiModelProperty("优惠券Id")
     private String couponId;
 
+    @ApiModelProperty("价格Id")
+    private String priceId;
+
     @ApiModelProperty("联系人姓名")
     private String contractUser;
 
     @ApiModelProperty("联系人电话")
     private String contractMobile;
 
-    @ApiModelProperty(value = "上课时间",allowableValues = "AM,PM")
-    private String coursesTime;
+    @ApiModelProperty(value = "上课时间")
+    private Date coursesTime;
+
+    @ApiModelProperty(value="上课时间，上午&下午",allowableValues = "AM,PM")
+    private String amPm;
 
     @ApiModelProperty("备注")
     private String remark;
@@ -60,9 +67,9 @@ public class OrderModel implements Serializable {
     private String babySex;
 
     @ApiModelProperty("宝宝生日")
-    private String babyBirthday;
+    private Date babyBirthday;
 
-    @ApiModelProperty("订单实际支付金额")
+    @ApiModelProperty("订单实际应付金额")
     private double orderPrice;
 
 

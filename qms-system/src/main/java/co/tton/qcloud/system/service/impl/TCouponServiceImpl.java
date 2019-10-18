@@ -46,6 +46,16 @@ public class TCouponServiceImpl implements ITCouponService
         return tCouponMapper.selectTCouponList(tCoupon);
     }
 
+    /***
+     * 查询用户领用的优惠券信息
+     * @param memberId
+     * @return
+     */
+    @Override
+    public List<TCoupon> selectTCouponByMemberId(String memberId) {
+        return tCouponMapper.selectTCouponByMemberId(memberId);
+    }
+
     /**
      * 新增平台优惠券
      * 

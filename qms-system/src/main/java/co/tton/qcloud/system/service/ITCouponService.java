@@ -27,6 +27,13 @@ public interface ITCouponService
      */
     public List<TCoupon> selectTCouponList(TCoupon tCoupon);
 
+    /***
+     * 查询用户领用的优惠券信息
+     * @param memberId
+     * @return
+     */
+    List<TCoupon> selectTCouponByMemberId(String memberId);
+
     /**
      * 新增平台优惠券
      * 

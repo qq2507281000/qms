@@ -14,7 +14,7 @@ import co.tton.qcloud.framework.web.domain.Server;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/monitor/server")
+@RequestMapping("/monitor/server")
 public class ServerController extends BaseController
 {
     private String prefix = "monitor/server";

@@ -29,7 +29,7 @@ import co.tton.qcloud.common.utils.poi.ExcelUtil;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/monitor/job")
+@RequestMapping("/monitor/job")
 public class SysJobController extends BaseController
 {
     private String prefix = "monitor/job";

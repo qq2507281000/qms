@@ -33,7 +33,7 @@ import co.tton.qcloud.generator.service.IGenTableService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/tool/gen")
+@RequestMapping("/tool/gen")
 public class GenController extends BaseController
 {
     private String prefix = "tool/gen";

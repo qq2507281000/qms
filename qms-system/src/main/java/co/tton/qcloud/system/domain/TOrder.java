@@ -119,6 +119,15 @@ public class TOrder extends BaseEntity
     @ApiModelProperty(value="小程序订单状态")
     private String wxStatus;
 
+    @ApiModelProperty("订单备注")
+    private String commentNote;
+
+    @ApiModelProperty("订单联系人姓名")
+    private String memberName;
+
+    @ApiModelProperty("联系电话")
+    private String mobile;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

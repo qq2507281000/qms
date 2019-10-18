@@ -3,6 +3,8 @@ package co.tton.qcloud.system.service;
 import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.domain.TOrderModel;
 import co.tton.qcloud.system.domain.WxOrderDetail;
+import co.tton.qcloud.system.model.OrderModel;
+import co.tton.qcloud.system.model.OrderResponseModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -108,4 +110,11 @@ public interface ITOrderService
      * @return 结果
      */
     List<TOrderModel> getBillStatusCourses(TOrder tOrder);
+
+    /***
+     * 提交订单
+     * @return
+     */
+    OrderResponseModel submitOrder(OrderModel orderModel);
+
 }

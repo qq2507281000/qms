@@ -45,6 +45,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="batchNo != null  and batchNo != ''"> and batch_no = #{batchNo}</if>
         </where>
     </select>
+
+    <select id="selectTCouponByMemberId" parameterType="TCoupon" resultMap="TCouponResult">
+        <include refid="selectTCouponVo"/>
+        <where>
+            LEFT INNER JOIN t_coupon_receive_log rec ON t_coupon.id = rec.coupon_id
+            WHERE rec.member_id = #{memberId}
+            AND t_coupon.use_status = 'UNUSE'
+            AND t_coupon.receive_status = 'RECEIVED'
+            AND t_coupon.status = 'AVALIABLE'
+            AND t_coupon.flag = 0
+            AND rec.flag = 0
+        </where>
+    </select>
     
     <select id="selectTCouponById" parameterType="String" resultMap="TCouponResult">
         <include refid="selectTCouponVo"/>

@@ -292,6 +292,8 @@ public class WxpayController extends BaseController {
                     order.setVerifyStatus("UNCONFIRM");
                     order.setSerialNo(transactionId);
                     order.setPayTime(date);
+                    order.setUpdateBy(order.getMemberId());
+                    order.setUpdateTime(DateUtils.getNowDate());
                     orderService.updateTOrder(order);
                 }
             }

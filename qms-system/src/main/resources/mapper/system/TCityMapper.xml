@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TCityMapper">
+    
+    <resultMap type="TCity" id="TCityResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="avaliable"    column="avaliable"    />
+        <result property="flag"    column="flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTCityVo">
+        select id, name, avaliable, flag, create_by, create_time, update_by, update_time from t_city
+    </sql>
+
+    <select id="selectTCityList" parameterType="TCity" resultMap="TCityResult">
+        <include refid="selectTCityVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="avaliable != null "> and avaliable = #{avaliable}</if>
+            <if test="flag != null "> and flag = #{flag}</if>
+        </where>
+    </select>
+    
+    <select id="selectTCityById" parameterType="String" resultMap="TCityResult">
+        <include refid="selectTCityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTCity" parameterType="TCity">
+        insert into t_city
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="avaliable != null ">avaliable,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="avaliable != null ">#{avaliable},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTCity" parameterType="TCity">
+        update t_city
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="avaliable != null ">avaliable = #{avaliable},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTCityById" parameterType="String">
+        delete from t_city where id = #{id}
+    </delete>
+
+    <delete id="deleteTCityByIds" parameterType="String">
+        delete from t_city where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

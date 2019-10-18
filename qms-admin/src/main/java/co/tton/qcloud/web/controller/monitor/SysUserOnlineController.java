@@ -27,7 +27,7 @@ import co.tton.qcloud.system.service.ISysUserOnlineService;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/monitor/online")
+@RequestMapping("/monitor/online")
 public class SysUserOnlineController extends BaseController
 {
     private String prefix = "monitor/online";
