@@ -1,5 +1,6 @@
 package co.tton.qcloud.web.controller.wx;
 
+import cn.hutool.core.date.DateUtil;
 import co.tton.qcloud.common.config.Global;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
@@ -14,17 +15,17 @@ import co.tton.qcloud.system.model.MemberChargingModel;
 import co.tton.qcloud.system.service.ITMemberBabyService;
 import co.tton.qcloud.system.service.ITMemberChargingService;
 import co.tton.qcloud.system.wxservice.ITMemberService;
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -123,9 +124,44 @@ public class MemberController extends BaseController {
     }
   }
 
+  @ApiOperation("会员充值回调接口")
+  @RequestMapping(value = "/vip/charging/notify",method = RequestMethod.POST)
+  public AjaxResult parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
+    try{
+      final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
+      String orderNo = notifyResult.getOutTradeNo();
+      String transactionId = notifyResult.getTransactionId();
+      String payTime = notifyResult.getTimeEnd();
+      Date date = DateUtil.parse(payTime,"yyyyMMddHHmmss");
+      TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByOrderNo(orderNo);
+      if(memberCharging != null){
+        memberCharging.setChargingTime(date);
+        memberCharging.setBeginTime(date);
+        memberCharging.setEndTime(DateUtils.addYears(date,1));
+        memberCharging.setSerialNo(transactionId);
+        memberCharging.setPayStatus("PAID");
+        int result = memberChargingService.updateTMemberCharging(memberCharging);
+        if(result == 1){
+          return AjaxResult.success("会员充值回调成功。");
+        }
+        else{
+          return AjaxResult.error("会员充值回调失败。");
+        }
+      }
+      else{
+        return AjaxResult.error("未能找到会员充值信息。");
+      }
+    }
+    catch(Exception ex){
+      ex.printStackTrace();
+      logger.error("订单支付回调接口异常。");
+      return error("订单支付回调接口异常。\r\n" + ex.getMessage());
+    }
+  }
+
   @ApiOperation("会员充值")
   @RequestMapping(method = RequestMethod.POST, value = "/vip/charging")
-  public AjaxResult vipCharging(MemberChargingModel model) {
+  public AjaxResult vipCharging(@RequestBody MemberChargingModel model) {
     try {
       if (model == null) {
         return AjaxResult.error("参数不允许为空。");
@@ -155,11 +191,11 @@ public class MemberController extends BaseController {
           request.setTotalFee((int) (model.getPrice()));
           request.setSpbillCreateIp(IpUtils.getHostIp());
           request.setTimeStart(DateUtils.dateTimeNow());
-          request.setNotifyUrl(Global.getNotifyUrl());
+          request.setNotifyUrl(Global.getChargingPayNotifyUrl());
           request.setTradeType("JSAPI");
           request.setOpenid(model.getOpenId());
-          wxService.createOrder(request);
-          return AjaxResult.success("支付中...");
+          WxPayMpOrderResult orderResult = wxService.createOrder(request);
+          return AjaxResult.success("支付中...",orderResult);
         } else {
           return AjaxResult.error("未能创建VIP会员充值订单。");
         }
@@ -167,7 +203,7 @@ public class MemberController extends BaseController {
       }
     } catch (Exception ex) {
       ex.printStackTrace();
-      logger.error("获取VIP价格时发生异常。");
+      logger.error("会员充值失败。",ex);
       return AjaxResult.error("会员充值失败。", ex);
     }
   }

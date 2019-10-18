@@ -19,8 +19,10 @@ import co.tton.qcloud.system.service.*;
 import co.tton.qcloud.system.wxservice.ITOrderUseEvaluationService;
 import co.tton.qcloud.web.controller.common.CommonController;
 import co.tton.qcloud.web.minio.MinioFileService;
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,6 +56,46 @@ public class OrderController extends BaseController {
     private ITOrderUseEvaluationService tOrderUseEvaluationService;
     @Autowired
     private WxPayService wxService;
+    @Autowired
+    private ITOrderService orderService;
+
+    @ApiOperation("订单支付回调接口")
+    @RequestMapping(value = "/pay/notify",method = RequestMethod.POST)
+    public AjaxResult parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
+        try{
+            final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
+            String orderNo = notifyResult.getOutTradeNo();
+            String transactionId = notifyResult.getTransactionId();
+            String payTime = notifyResult.getTimeEnd();
+            Date date = DateUtil.parse(payTime,"yyyyMMddHHmmss");
+            TOrder order = orderService.selectTOrderByNo(orderNo);
+            if(order != null) {
+                order.setPayStatus("PAID");
+                order.setUseStatus("UNUSED");
+                order.setBillStatus("EXECUTING");
+                order.setVerifyStatus("UNCONFIRM");
+                order.setSerialNo(transactionId);
+                order.setPayTime(date);
+                order.setUpdateBy(order.getMemberId());
+                order.setUpdateTime(DateUtils.getNowDate());
+                int result = orderService.updateTOrder(order);
+                if(result == 1){
+                    return AjaxResult.success("支付回调成功。");
+                }
+                else{
+                    return AjaxResult.error("支付回调失败。");
+                }
+            }
+            else{
+                return AjaxResult.error("未能找到订单信息。");
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("订单支付回调接口异常。");
+            return error("订单支付回调接口异常。\r\n" + ex.getMessage());
+        }
+    }
 
     //    @RequiresPermissions("wx:order:submit")
     @ApiOperation("提交订单")
@@ -75,7 +117,7 @@ public class OrderController extends BaseController {
                     request.setTotalFee((int)(responseModel.getOrder().getPayPrice() * 100));
                     request.setSpbillCreateIp(IpUtils.getHostIp());
                     request.setTimeStart(DateUtils.dateTimeNow());
-                    request.setNotifyUrl(Global.getNotifyUrl());
+                    request.setNotifyUrl(Global.getOrderPayNotifyUrl());
                     request.setTradeType("JSAPI");
                     request.setOpenid(model.getOpenId());
                     WxPayMpOrderResult orderResult = wxService.createOrder(request);
@@ -93,36 +135,36 @@ public class OrderController extends BaseController {
         }
     }
 
-    @PostMapping("/pay")
-    @ApiOperation("订单支付")
-    public AjaxResult orderPay(OrderPayModel model){
-        try{
-            if(model == null){
-                return AjaxResult.error("订单支付参数不允许为空。");
-            }
-            else{
-                WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
-                request.setVersion("1.0");
-                request.setDeviceInfo("000000000000");
-                request.setBody(model.getSubject());
-                request.setAttach("课程订单");
-                request.setOutTradeNo(model.getOrderNo());
-                request.setTotalFee((int)(model.getPrice()*100));
-                request.setSpbillCreateIp(IpUtils.getHostIp());
-                request.setTimeStart(DateUtils.dateTimeNow());
-                request.setNotifyUrl(Global.getNotifyUrl());
-                request.setTradeType("JSAPI");
-                request.setOpenid(model.getOpenId());
-                wxService.createOrder(request);
-                return AjaxResult.success("支付中...");
-            }
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-            logger.error("订单支付时发生异常。",ex);
-            return AjaxResult.error("订单支付时发生异常。");
-        }
-    }
+//    @PostMapping("/pay")
+//    @ApiOperation("订单支付")
+//    public AjaxResult orderPay(OrderPayModel model){
+//        try{
+//            if(model == null){
+//                return AjaxResult.error("订单支付参数不允许为空。");
+//            }
+//            else{
+//                WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+//                request.setVersion("1.0");
+//                request.setDeviceInfo("000000000000");
+//                request.setBody(model.getSubject());
+//                request.setAttach("课程订单");
+//                request.setOutTradeNo(model.getOrderNo());
+//                request.setTotalFee((int)(model.getPrice()*100));
+//                request.setSpbillCreateIp(IpUtils.getHostIp());
+//                request.setTimeStart(DateUtils.dateTimeNow());
+//                request.setNotifyUrl(Global.getOrderPayNotifyUrl());
+//                request.setTradeType("JSAPI");
+//                request.setOpenid(model.getOpenId());
+//                wxService.createOrder(request);
+//                return AjaxResult.success("支付中...");
+//            }
+//        }
+//        catch(Exception ex){
+//            ex.printStackTrace();
+//            logger.error("订单支付时发生异常。",ex);
+//            return AjaxResult.error("订单支付时发生异常。");
+//        }
+//    }
 
     /***
      *

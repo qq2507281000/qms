@@ -92,8 +92,12 @@ public class Global
         return StringUtils.nvl(getConfig("qcloud.sms-accessSecret"),"");
     }
 
-    public static String getNotifyUrl(){
-        return StringUtils.nvl(getConfig("qcloud.pay-notifyUrl"),"");
+    public static String getOrderPayNotifyUrl(){
+        return StringUtils.nvl(getConfig("qcloud.order-pay-notifyUrl"),"");
+    }
+
+    public static String getChargingPayNotifyUrl(){
+        return StringUtils.nvl(getConfig("qcloud.charging-pay-notifyUrl"),"");
     }
 
     /**

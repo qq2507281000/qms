@@ -44,6 +44,7 @@
         var editFlag = [[${@permission.hasPermi('system:city:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:city:remove')}]];
         var prefix = ctx + "system/city";
+        var available_status = [[${@dict.getType('available')}]];
 
         $(function() {
             var options = {
