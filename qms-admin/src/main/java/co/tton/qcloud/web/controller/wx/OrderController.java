@@ -135,6 +135,49 @@ public class OrderController extends BaseController {
         }
     }
 
+    @RequestMapping("/pay")
+    @ApiOperation("订单支付")
+    public AjaxResult orderPay(@RequestParam("orderId") String orderId, @RequestParam("openId") String openId){
+        try{
+            if(StringUtils.isEmpty(orderId)){
+                return AjaxResult.error("参数错误，orderId不允许为空。");
+            }
+            else{
+                TOrder order = orderService.selectTOrderById(orderId);
+                if(order == null){
+                    return AjaxResult.error("未能找到订单信息。");
+                }
+                else{
+                    if(StringUtils.equalsAnyIgnoreCase(order.getPayStatus(),"UNPAY")){
+                        //订单状态为未支付。
+                        WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+                        request.setVersion("1.0");
+                        request.setDeviceInfo("000000000000");
+                        request.setBody(order.getSubject());
+                        request.setAttach("课程订单");
+                        request.setOutTradeNo(order.getOrderNo());
+                        request.setTotalFee((int)(order.getPayPrice() * 100));
+                        request.setSpbillCreateIp(IpUtils.getHostIp());
+                        request.setTimeStart(DateUtils.dateTimeNow());
+                        request.setNotifyUrl(Global.getOrderPayNotifyUrl());
+                        request.setTradeType("JSAPI");
+                        request.setOpenid(openId);
+                        WxPayMpOrderResult orderResult = wxService.createOrder(request);
+                        return AjaxResult.success("订单支付中...",orderResult);
+                    }
+                    else{
+                        return AjaxResult.error("当前订单["+order.getOrderNo()+"]已经支付。");
+                    }
+                }
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("订单支付时发生异常。", ex);
+            return AjaxResult.error("订单支付时发生异常。");
+        }
+    }
+
 //    @PostMapping("/pay")
 //    @ApiOperation("订单支付")
 //    public AjaxResult orderPay(OrderPayModel model){
