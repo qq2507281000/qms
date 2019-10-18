@@ -341,8 +341,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tsc.title,
             too.comment_note
         FROM
-            t_order_detail tod
-            INNER JOIN t_order too ON too.id = tod.order_id
+            t_order too
+            INNER JOIN t_order_detail tod ON too.id = tod.order_id
             INNER JOIN t_order_use_log toul ON tod.order_id = toul.order_id
             INNER JOIN t_member tm ON tm.id = toul.member_id
             INNER JOIN t_member_baby tmb ON tmb.id = toul.child_id
