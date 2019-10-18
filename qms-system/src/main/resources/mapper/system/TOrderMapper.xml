@@ -322,6 +322,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getOrderDetail" resultMap="WxOrderDetailResult">
         SELECT
+            pr.l5_price,
             too.id,
             tmb.real_name AS babyRealName,
             tmb.nick_name AS babyNickName,
@@ -331,27 +332,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tm.mobile,
             too.pay_price,
             too.pre_real_price,
-            toc.face_value,
             too.order_no,
-            too.booking_time,
-            tod.confirm_no,
             too.address,
-            ts.shop_hours_begin,
-            ts.shop_hours_end,
+            too.booking_time,
+            tod.courses_time,
             tsc.title,
             too.comment_note
         FROM
             t_order too
-            INNER JOIN t_order_detail tod ON too.id = tod.order_id
-            INNER JOIN t_order_use_log toul ON tod.order_id = toul.order_id
-            INNER JOIN t_member tm ON tm.id = toul.member_id
-            INNER JOIN t_member_baby tmb ON tmb.id = toul.child_id
-            INNER JOIN t_order_coupon toc ON toc.order_id = tod.order_id
-            INNER JOIN t_shop ts ON ts.id = too.shop_id
-            INNER JOIN t_shop_courses tsc ON tsc.id = tod.courses_id
+        LEFT JOIN t_order_detail tod ON too.id = tod.order_id
+        LEFT JOIN t_member tm ON too.member_id = tm.id
+        LEFT JOIN t_member_baby tmb ON tmb.member_id = tm.id
+        LEFT JOIN t_shop_courses tsc ON tsc.id = tod.courses_id
+        LEFT JOIN t_shop_courses_price pr ON pr.shop_id = too.shop_id
         WHERE
-            tod.order_id = #{orderId}
-            AND tod.flag = 0
+            too.flag = 0
+        AND too.id = #{id}
     </select>
 
     <select id="getCountOrder" parameterType="TOrderModel" resultMap="WxstatusCount">
