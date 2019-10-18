@@ -29,6 +29,32 @@ public class SysIndexController extends BaseController
     @Autowired
     private ISysMenuService menuService;
 
+    @GetMapping("")
+    @RoleScope(roleDefined={"ADMIN","SHOP"})
+    public String defaultPage(ModelMap mmap){
+        SysUser user = ShiroUtils.getSysUser();
+        if(user == null){
+            return "login";
+        }
+        else{
+            // 根据用户id取出菜单
+            List<SysMenu> menus = menuService.selectMenusByUser(user);
+            mmap.put("menus", menus);
+            mmap.put("user", user);
+            mmap.put("copyrightYear", Global.getCopyrightYear());
+            mmap.put("demoEnabled", Global.isDemoEnabled());
+            String title = "Team互动派";
+            if(user != null) {
+                if (user.getCategory() == "SHOP") {
+                    title = "Team互动派-商家";
+                }
+            }
+            mmap.put("title",title);
+
+            return "index";
+        }
+    }
+
     // 系统首页
     @GetMapping("/index")
     @RoleScope(roleDefined={"ADMIN","SHOP"})
@@ -42,10 +68,11 @@ public class SysIndexController extends BaseController
         mmap.put("user", user);
         mmap.put("copyrightYear", Global.getCopyrightYear());
         mmap.put("demoEnabled", Global.isDemoEnabled());
-
         String title = "Team互动派";
-        if(user.getCategory() == "SHOP"){
-            title = "Team互动派-商家";
+        if(user != null) {
+            if (user.getCategory() == "SHOP") {
+                title = "Team互动派-商家";
+            }
         }
         mmap.put("title",title);
 

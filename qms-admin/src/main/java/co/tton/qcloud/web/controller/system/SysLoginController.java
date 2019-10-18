@@ -65,9 +65,9 @@ public class SysLoginController extends BaseController
     }
 
     @GetMapping("/logout")
-    public AjaxResult ajaxLogout(){
+    public String ajaxLogout(){
         ShiroUtils.logout();
-        return success();
+        return "login";
     }
 
     @GetMapping("/unauth")

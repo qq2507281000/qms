@@ -3,12 +3,15 @@ package co.tton.qcloud.web.controller.system;
 import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
+import co.tton.qcloud.framework.util.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,6 +91,9 @@ public class TCityController extends BaseController
     public AjaxResult addSave(TCity tCity)
     {
         tCity.setId(StringUtils.genericId());
+        tCity.setFlag(Constants.DATA_NORMAL);
+        tCity.setCreateBy(ShiroUtils.getLoginName());
+        tCity.setCreateTime(DateUtils.getNowDate());
         return toAjax(tCityService.insertTCity(tCity));
     }
 

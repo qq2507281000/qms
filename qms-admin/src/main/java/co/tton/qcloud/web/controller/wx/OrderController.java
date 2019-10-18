@@ -19,6 +19,7 @@ import co.tton.qcloud.system.service.*;
 import co.tton.qcloud.system.wxservice.ITOrderUseEvaluationService;
 import co.tton.qcloud.web.controller.common.CommonController;
 import co.tton.qcloud.web.minio.MinioFileService;
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.service.WxPayService;
 import io.swagger.annotations.Api;
@@ -77,8 +78,8 @@ public class OrderController extends BaseController {
                     request.setNotifyUrl(Global.getNotifyUrl());
                     request.setTradeType("JSAPI");
                     request.setOpenid(model.getOpenId());
-                    wxService.createOrder(request);
-                    return AjaxResult.success("订单创建成功，支付中...",responseModel);
+                    WxPayMpOrderResult orderResult = wxService.createOrder(request);
+                    return AjaxResult.success("订单创建成功，支付中...", orderResult);
                 }
                 else{
                     return AjaxResult.error("订单创建失败["+responseModel.getStatus()+"]。\r\n" + responseModel.getMessage());
