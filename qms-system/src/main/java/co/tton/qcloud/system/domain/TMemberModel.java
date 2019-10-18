@@ -22,50 +22,50 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("小程序会员对象")
-public class TMemberModel extends BaseEntity {
+public class TMemberModel extends TMember {
 
     @ApiModelProperty("主键")
     private String id;
 
-    @ApiModelProperty("会员微信Id")
-    @Excel(name = "会员微信Id")
-    private String openId;
-
-    @ApiModelProperty("微信名")
-    @Excel(name = "微信名")
-    private String wxName;
-
-    @Excel(name = "手机号码")
-    @ApiModelProperty("手机号码")
-    private String mobile;
-
-    @Excel(name = "注册时间")
-    @ApiModelProperty("注册时间")
-    private Date regTime;
-
-    @Excel(name = "星级")
-    @ApiModelProperty("星级")
-    private Double star;
-
-    @Excel(name = "账户状态")
-    @ApiModelProperty("账户状态")
-    private String status;
-
-    @Excel(name = "数据状态", readConverterExp = "$column.readConverterExp()")
-    @ApiModelProperty("数据状态")
-    private Integer flag;
-
-    @Excel(name = "真实姓名", readConverterExp = "$column.readConverterExp()")
-    @ApiModelProperty("真实姓名")
-    private String realName;
-
-    @Excel(name = "账户级别")
-    @ApiModelProperty("账户级别")
-    private String accountLevel;
-
-    @Excel(name = "积分")
-    @ApiModelProperty("积分")
-    private Integer score;
+//    @ApiModelProperty("会员微信Id")
+//    @Excel(name = "会员微信Id")
+//    private String openId;
+//
+//    @ApiModelProperty("微信名")
+//    @Excel(name = "微信名")
+//    private String wxName;
+//
+//    @Excel(name = "手机号码")
+//    @ApiModelProperty("手机号码")
+//    private String mobile;
+//
+//    @Excel(name = "注册时间")
+//    @ApiModelProperty("注册时间")
+//    private Date regTime;
+//
+//    @Excel(name = "星级")
+//    @ApiModelProperty("星级")
+//    private Double star;
+//
+//    @Excel(name = "账户状态")
+//    @ApiModelProperty("账户状态")
+//    private String status;
+//
+//    @Excel(name = "数据状态", readConverterExp = "$column.readConverterExp()")
+//    @ApiModelProperty("数据状态")
+//    private Integer flag;
+//
+//    @Excel(name = "真实姓名", readConverterExp = "$column.readConverterExp()")
+//    @ApiModelProperty("真实姓名")
+//    private String realName;
+//
+//    @Excel(name = "账户级别")
+//    @ApiModelProperty("账户级别")
+//    private String accountLevel;
+//
+//    @Excel(name = "积分")
+//    @ApiModelProperty("积分")
+//    private Integer score;
 
     @Excel(name = "订单编号")
     @ApiModelProperty("订单编号")
@@ -86,11 +86,11 @@ public class TMemberModel extends BaseEntity {
     @ApiModelProperty(value="订单状态", allowableValues = "BOOKING,EXECUTING,EVALUATING,FINISHED",notes = "BOOKING(下单中),EXECUTING(执行中),EVALUATING(评价中),FINISHED(已完成)")
     private String billStatus;
 
-    @ApiModelProperty("VIP开始时间")
-    private Date vipBeginTime;
-
-    @ApiModelProperty("VIP结束时间")
-    private Date vipEndTime;
+//    @ApiModelProperty("VIP开始时间")
+//    private Date vipBeginTime;
+//
+//    @ApiModelProperty("VIP结束时间")
+//    private Date vipEndTime;
 
   @Override
     public String toString() {
