@@ -57,7 +57,7 @@ public class OrderController extends BaseController {
     //    @RequiresPermissions("wx:order:submit")
     @ApiOperation("提交订单")
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public AjaxResult submitOrder(OrderModel model){
+    public AjaxResult submitOrder(@RequestBody OrderModel model){
         try{
             if(model == null){
                 return AjaxResult.error("参数不允许为空。");
