@@ -316,7 +316,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM
             t_order too
             INNER JOIN t_order_detail tod ON tod.order_id = too.id
-            INNER JOIN t_shop_courses	tsc ON tsc.id = tod.courses_id
+            INNER JOIN t_shop_courses tsc ON tsc.id = tod.courses_id
             INNER JOIN t_shop_courses_images tsci ON tsci.courses_id = tod.courses_id
         WHERE
             too.flag = 0
@@ -345,7 +345,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tsc.title,
             too.comment_note,
             tod.courses_time,
-            toc.face_value
+            toc.face_value,
+            toc.deduction_value
         FROM
             t_order too
         LEFT JOIN t_order_coupon toc on too.id = toc.order_id
