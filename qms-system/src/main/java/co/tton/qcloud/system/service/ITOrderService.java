@@ -85,7 +85,7 @@ public interface ITOrderService
      * @param
      * @return 结果
      */
-    List<TOrder> getOrderList(TOrder tOrder);
+    List<TOrderModel> getOrderList(TOrderModel tOrderModel);
 
     /**
      * 微信小程序 查询所有订单详情

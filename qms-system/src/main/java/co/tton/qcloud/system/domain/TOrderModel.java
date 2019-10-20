@@ -140,4 +140,13 @@ public class TOrderModel extends TOrder {
      */
     private String categoryName;
 
+    /***
+     * 上课时间
+     */
+    private String coursesTime;
+
+    /***
+     * 课程标题
+     */
+    private String coursesTitle;
 }

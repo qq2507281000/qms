@@ -56,8 +56,11 @@ public class CoursesController extends BaseController {
   public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "loc", required = false) String location,
                                                                @RequestParam(value = "category", required = false) String categoryId,
                                                                @RequestParam(value = "shopId", required = false) String shopId) {
-    if (StringUtils.isNotEmpty(location) && location.equals("大连")) {
       TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
+      if (StringUtils.isNotEmpty(location)) {
+        tShopCoursesModel.setAddress(location);
+      }
+
       if (StringUtils.isNotEmpty(shopId)) {
         tShopCoursesModel.setShopId(shopId);
       }
@@ -65,24 +68,25 @@ public class CoursesController extends BaseController {
         tShopCoursesModel.setCategoryId(categoryId);
       }
       List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
-      for (TShopCoursesModel tModel : tShopCoursesModels) {
-        String id = tModel.getId();
-        //匹配图片
-        String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
-        if (imageUrl != null) {
-          tModel.setImageUrl(imageUrl);
+      if (StringUtils.isNotNull(tShopCoursesModels)){
+        for (TShopCoursesModel tModel : tShopCoursesModels) {
+          String id = tModel.getId();
+          //匹配图片
+          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+          if (imageUrl != null) {
+            tModel.setImageUrl(imageUrl);
+          }
+          //月销
+          String count = tOrderDetailService.getOrderMon(id);
+          if (count != null) {
+            tModel.setCount(count);
+          }
         }
-        //月销
-        String count = tOrderDetailService.getOrderMon(id);
-        if (count != null) {
-          tModel.setCount(count);
-        }
+        return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
+      }else{
+        return AjaxResult.success("无推荐课程", tShopCoursesModels);
       }
-      return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
-    } else {
       //不是大连 回传报错
-      return AjaxResult.error("错误：所属地location");
-    }
   }
 
   /***

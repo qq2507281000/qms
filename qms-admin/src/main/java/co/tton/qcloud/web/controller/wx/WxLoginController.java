@@ -3,14 +3,13 @@ package co.tton.qcloud.web.controller.wx;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TMember;
-import co.tton.qcloud.system.domain.WxOrderDetail;
 import co.tton.qcloud.system.service.ITMemberService;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,9 +69,12 @@ public class WxLoginController extends BaseController {
                 tMemberOne.setMobile(mobile);
                 tMemberOne.setWxName(realName);
                 tMemberOne.setImg(img);
+                tMemberOne.setCreateTime(DateUtils.getNowDate());
                 int number = itMemberService.insertloginInfo(tMemberOne);
-                if (number > 0) {
+                if (number == 1) {
                     return AjaxResult.success("新增用户插入成功。", number);
+                }else{
+                    return AjaxResult.success("新增用户插入失败。", number);
                 }
             }
             return AjaxResult.success("获取信息成功。", tMember);
@@ -123,25 +124,4 @@ public class WxLoginController extends BaseController {
             return AjaxResult.error("报错：code为空。");
         }
     }
-
-//    public AjaxResult<TMember> wxLogin(@RequestParam(value = "openId") String openId,
-//                                       @RequestParam(value = "mobile",required = false) String mobile,
-//                                       @RequestParam(value = "realName",required = false) String realName,
-//                                       @RequestParam(value = "avatar",required = false) String avatar){
-//        if(StringUtils.isEmpty(openId)){
-//            return AjaxResult.error("微信端OpenId不允许为空。");
-//        }
-//        else{
-//            TMember member = itMemberService.loginInfo(openId);
-//
-//            if(member == null){
-//                //如果OpenId为空，则向数据库中插入数据。
-//            }
-//            else{
-//
-//            }
-//        }
-//    }
-
-
 }

@@ -176,7 +176,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         t_member t
         left join t_order er on t.id = er.member_id
         <where>
-            t.flag = 0
+            er.flag = 0
             <if test="_parameter != null and _parameter != ''">and t.id = #{id}</if>
         </where>
     </select>

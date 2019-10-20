@@ -151,8 +151,8 @@ public class TOrderServiceImpl implements ITOrderService
      * @return 结果
      */
     @Override
-    public List<TOrder> getOrderList(TOrder tOrder) {
-        return tOrderMapper.getOrderList(tOrder);
+    public List<TOrderModel> getOrderList(TOrderModel tOrderModel) {
+        return tOrderMapper.getOrderList(tOrderModel);
     }
 
     /**

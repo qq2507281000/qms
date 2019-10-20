@@ -38,6 +38,8 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
+import static co.tton.qcloud.common.utils.DateUtils.parseDate;
+
 /**
  * @program: qms
  * @description:
@@ -217,12 +219,12 @@ public class OrderController extends BaseController {
 //    @RequiresPermissions("wx:order:list")
     @RequestMapping(value="",method = RequestMethod.GET)
     @ApiOperation("获取所有订单列表,根据状态获取订单列表")
-    public AjaxResult<List<TOrder>> getOrderList(@RequestParam(value = "memberid")String memberId,
+    public AjaxResult<List<TOrderModel>> getOrderList(@RequestParam(value = "memberid")String memberId,
                                                  @RequestParam(value = "billstatus",required = false)String billStatus,
                                                  @RequestParam(value = "paystatus",required = false)String payStatus,
                                                  @RequestParam(value = "usestatus",required = false)String useStatus){
         if(StringUtils.isNotEmpty(memberId)){
-            TOrder tOrderNew = new TOrder();
+            TOrderModel tOrderNew = new TOrderModel();
             tOrderNew.setMemberId(memberId);
             if(StringUtils.isNotEmpty(billStatus)){
                 tOrderNew.setBillStatus(billStatus);
@@ -233,8 +235,12 @@ public class OrderController extends BaseController {
             if(StringUtils.isNotEmpty(useStatus)){
                 tOrderNew.setUseStatus(useStatus);
             }
-            List<TOrder> tOrders =tOrderService.getOrderList(tOrderNew);
-            return AjaxResult.success("获取分类成功。",tOrders);
+            List<TOrderModel> tOrders =tOrderService.getOrderList(tOrderNew);
+            if(StringUtils.isNotEmpty(tOrders)){
+                return AjaxResult.success("获取成功",tOrders);
+            }else{
+                return AjaxResult.success("会员无订单",tOrders);
+            }
         }else{
             return AjaxResult.error("参数错误");
         }
@@ -274,7 +280,8 @@ public class OrderController extends BaseController {
             TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
             tOrder.setMemberId(memberId);
             tOrder.setFlag(Constants.DATA_NORMAL);
-            tOrder.setCreateTime(DateUtils.getNowDate());
+            Date str = parseDate(DateUtils.getDate());
+            tOrder.setCreateTime(str);
             String id = StringUtils.genericId();
             tOrder.setId(id);
             if(StringUtils.isNotEmpty(imageurls)){
@@ -302,10 +309,10 @@ public class OrderController extends BaseController {
                 tOrder.setStar("0");
             }
             int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
-            if(number>0){
+            if(number == 1){
                 return AjaxResult.success("数据保存成功。",number);
             }else{
-                return AjaxResult.success("数据保存失败。");
+                return AjaxResult.success("数据保存失败。",number);
             }
         }else{
             return AjaxResult.error("参数错误,或会员ID为空");

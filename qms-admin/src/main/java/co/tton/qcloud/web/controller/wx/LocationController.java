@@ -31,12 +31,13 @@ public class LocationController extends BaseController {
      * @param
      * @return
      */
-//    @RequiresPermissions("wx:location")
+//    @RequiresPermissions("wx:location")大连，哈尔滨，厦门，重庆
     @RequestMapping(value="/list",method = RequestMethod.GET)
     @ApiOperation("获取城市")
     public AjaxResult getLocaltions(){
         //TODO:获取所有城市列表信息
         List<Object> list1 = new ArrayList<>();
+
         List<Object> list2 = new ArrayList<>();
         Map<String,Object> map = new HashMap();
         Map<String,Object> map1 = new HashMap();
@@ -45,6 +46,35 @@ public class LocationController extends BaseController {
         map1.put("name","大连");
         list2.add(map1);
         list1.add(map);
+
+
+        List<Object> list4 = new ArrayList<>();
+        Map<String,Object> map2 = new HashMap();
+        Map<String,Object> map3 = new HashMap();
+        map2.put("code","H");
+        map2.put("city",list4);
+        map3.put("name","哈尔滨");
+        list4.add(map3);
+        list1.add(map2);
+
+        List<Object> list6 = new ArrayList<>();
+        Map<String,Object> map4 = new HashMap();
+        Map<String,Object> map5 = new HashMap();
+        map4.put("code","X");
+        map4.put("city",list6);
+        map5.put("name","厦门");
+        list6.add(map5);
+        list1.add(map4);
+
+        List<Object> list8 = new ArrayList<>();
+        Map<String,Object> map6 = new HashMap();
+        Map<String,Object> map7 = new HashMap();
+        map6.put("code","C");
+        map6.put("city",list8);
+        map7.put("name","重庆");
+        list8.add(map7);
+        list1.add(map6);
+
 
 
         return AjaxResult.success("获取所有城市列表信息成功。",list1);
