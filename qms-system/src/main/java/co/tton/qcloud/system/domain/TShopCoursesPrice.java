@@ -41,23 +41,23 @@ public class TShopCoursesPrice extends BaseEntity
     private Double price;
 
     /** 特殊价格_第一级别 */
-    @Excel(name = "特殊价格_第一级别 首次价格")
-    @ApiModelProperty("特殊价格_第一级别 首次价格")
+    @Excel(name = "特殊价格_第一级别")
+    @ApiModelProperty("特殊价格_第一级别")
     private Double l1Price;
 
     /** 特殊价格_第二级别（保留） */
-    @Excel(name = "特殊价格_第二级别", readConverterExp = "超级会员价格")
-    @ApiModelProperty("特殊价格_第二级别 超级会员价格")
+    @Excel(name = "特殊价格_第二级别", readConverterExp = "保留")
+    @ApiModelProperty("特殊价格_第二级别")
     private Double l2Price;
 
     /** $column.columnComment */
-    @Excel(name = "第三级别", readConverterExp = "$column.readConverterExp()")
-    @ApiModelProperty("第三级别")
+    @Excel(name = "特殊价格_第三级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第三级别")
     private Double l3Price;
 
     /** $column.columnComment */
-    @Excel(name = "第四级别", readConverterExp = "$column.readConverterExp()")
-    @ApiModelProperty("第四级别")
+    @Excel(name = "特殊价格_第四级别", readConverterExp = "$column.readConverterExp()")
+    @ApiModelProperty("特殊价格_第四级别")
     private Double l4Price;
 
     /** $column.columnComment */
@@ -91,23 +91,23 @@ public class TShopCoursesPrice extends BaseEntity
     private Integer specialPriceLevel;
 
     /** 一级标题 */
-    @Excel(name = "一级标题 首次价格标题")
-    @ApiModelProperty("一级标题 首次价格标题")
+    @Excel(name = "一级标题")
+    @ApiModelProperty("一级标题")
     private String subTitleOne;
 
     /** 二级标题 */
-    @Excel(name = "二级标题 超级会员价格标题")
-    @ApiModelProperty("二级标题 超级会员价格标题")
+    @Excel(name = "二级标题")
+    @ApiModelProperty("二级标题")
     private String subTitleTwo;
 
     /** 三级标题 */
-    @Excel(name = "三级标题 第三价格(半年卡价格)")
-    @ApiModelProperty("三级标题 第三价格(半年卡价格)")
+    @Excel(name = "补充标题")
+    @ApiModelProperty("补充标题")
     private String subTitleThree;
 
     /** 四级标题 */
-    @Excel(name = "四级标题 第四价格(年卡价格)")
-    @ApiModelProperty("四级标题 第四价格(年卡价格)")
+    @Excel(name = "四级标题")
+    @ApiModelProperty("四级标题")
     private String subTitleFour;
 
     /** 限制每人购买数量，-1为不限制。 */
