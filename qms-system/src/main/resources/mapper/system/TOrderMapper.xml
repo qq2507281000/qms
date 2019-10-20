@@ -70,6 +70,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="avaEndTime" column="ava_end_time"/>
         <result property="useStatus" column="use_status"/>
         <result property="lessionTime"    column="lession_time"    />
+        <result property="coursesTime"    column="courses_time"    />
+        <result property="coursesTitle"    column="title"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
@@ -89,6 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="title"    column="title"    />
         <result property="commentNote"    column="comment_note"    />
         <result property="lessionTime"    column="lession_time"    />
+        <result property="coursesTime"    column="courses_time"    />
     </resultMap>
 
     <resultMap type="TOrderModel" id="WxstatusCount" extends="TOrderResult">
@@ -297,19 +300,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <select id="getOrderList" parameterType="TOrder" resultMap="TOrderModelResult">
+    <select id="getOrderList" parameterType="TOrderModel" resultMap="TOrderModelResult">
         SELECT
-            tod.lession_time,
+            tod.courses_time,
             too.`subject`,
+            too.booking_time,
             too.order_no,
             too.pay_price,
+            too.pre_real_price,
             tsci.image_url,
             too.use_status,
             too.bill_status,
-            too.pay_status
+            too.pay_status,
+            tsc.title
         FROM
-            t_order_detail tod
-            INNER JOIN t_order too ON tod.order_id = too.id
+            t_order too
+            INNER JOIN t_order_detail tod ON tod.order_id = too.id
+            INNER JOIN t_shop_courses	tsc ON tsc.id = tod.courses_id
             INNER JOIN t_shop_courses_images tsci ON tsci.courses_id = tod.courses_id
         WHERE
             too.flag = 0
@@ -336,14 +343,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             too.booking_time,
             tod.courses_time,
             tsc.title,
-            too.comment_note
+            too.comment_note,
+            tod.courses_time,
+            toc.face_value
         FROM
             t_order too
+        LEFT JOIN t_order_coupon toc on too.id = toc.order_id
         LEFT JOIN t_order_detail tod ON too.id = tod.order_id
         LEFT JOIN t_member tm ON too.member_id = tm.id
         LEFT JOIN t_member_baby tmb ON tmb.member_id = tm.id
         LEFT JOIN t_shop_courses tsc ON tsc.id = tod.courses_id
-        LEFT JOIN t_shop_courses_price pr ON pr.shop_id = too.shop_id
+        LEFT JOIN t_shop_courses_price pr ON pr.courses_id = tsc.id
         WHERE
             too.flag = 0
         AND too.id = #{id}
