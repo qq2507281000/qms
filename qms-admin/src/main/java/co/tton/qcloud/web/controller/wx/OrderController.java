@@ -38,6 +38,8 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
+import static co.tton.qcloud.common.utils.DateUtils.parseDate;
+
 /**
  * @program: qms
  * @description:
@@ -278,7 +280,8 @@ public class OrderController extends BaseController {
             TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
             tOrder.setMemberId(memberId);
             tOrder.setFlag(Constants.DATA_NORMAL);
-            tOrder.setCreateTime(DateUtils.getNowDate());
+            Date str = parseDate(DateUtils.getDate());
+            tOrder.setCreateTime(str);
             String id = StringUtils.genericId();
             tOrder.setId(id);
             if(StringUtils.isNotEmpty(imageurls)){
