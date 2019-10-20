@@ -191,12 +191,12 @@
 
 /** 绿色主题 skin-green **/
 .skin-green .navbar {
-	background-color: #42C6A4;
+	background-color: #00a65a;
 }
 
 .skin-green .navbar-default .nav>li.selected>a,
 .skin-green .navbar-default .nav>li.selected>a:focus {
-	background-color: #43D2AB;
+	background-color: #52c41a;
     color: rgba(255,255,255,1);
 }
 
@@ -233,7 +233,7 @@
 }
 
 .skin-green .navbar .sidebar-toggle:hover {
-	background-color: #3BAF90
+	background-color: #008d4c
 }
 
 @media ( max-width :767px) {
@@ -244,22 +244,22 @@
 		color: #fff
 	}
 	.skin-green .navbar .dropdown-menu li a:hover {
-		background: #3BAF90
+		background: #008d4c
 	}
 }
 
 .skin-green .logo {
-	background-color: #3BAF90;
+	background-color: #008d4c;
 	color: #fff;
 	border-bottom: 0 solid transparent
 }
 
 .skin-green .logo:hover {
-	background-color: #34C9A3
+	background-color: #008749
 }
 
 .skin-green li.user-header {
-	background-color: #42C6A4
+	background-color: #00a65a
 }
 
 .skin-green .content-header {
@@ -285,7 +285,7 @@
 .skin-green .nav>li.active {
 	color: #fff;
 	background: #293846;
-	border-left: 3px solid #42C6A4;
+	border-left: 3px solid #00a65a;
 }
 
 .skin-green .nav>li.active>ul li.active {
@@ -910,7 +910,7 @@
 }
 
 .theme-light.skin-green .navbar-default .nav>li.active>a {
-	color: #43D2AB;
+	color: #52c41a;
 }
 
 .theme-light.skin-green .navbar-default .nav>li.selected>a,

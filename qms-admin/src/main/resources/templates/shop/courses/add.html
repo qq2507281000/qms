@@ -4,6 +4,7 @@
     <th:block th:include="include :: header('新增课程基本信息')" />
     <th:block th:include="include :: summernote-css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: select2-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -17,9 +18,33 @@
 
                             <form class="form-horizontal m" id="form-courses-add">
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">商家名称</label>
+                                    <div class="col-sm-10">
+                                        <select class='form-control' id="shopId" name='shopId' style="width: 100%" required>
+                                            <option value="">---请选择---</option>
+                                            <option th:each="column : ${shop}" th:text="${column.name}" th:value="${column.id + '|' + column.name}" th:field="*{shop}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">课程标题</label>
                                     <div class="col-sm-10">
                                         <input type="text" name="title" placeholder="请输入课程标题" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程副标题</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="subTitle" placeholder="请输入课程副标题" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程分类</label>
+                                    <div class="col-sm-10">
+                                        <select class='form-control' id="categoryId" name='categoryId' style="width: 100%" required>
+                                            <option value="">---请选择---</option>
+                                            <option th:each="column : ${categories}" th:text="${column.name}" th:value="${column.id}" th:field="*{categories}"></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -30,11 +55,22 @@
                                         <span class="help-block m-b-none">库存数量为-1的情况下，则不限制销售数量。</span>
                                     </div>
                                 </div>
+
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程排序</label>
                                     <div class="col-sm-10">
                                         <input type="text" name="sortKey" placeholder="请输入课程排序" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程轮播图片</label>
+                                    <div class="col-sm-10">
+                                        <div id="imgUploadPanel">
+                                            <input id="imgUpload" type="file" multiple />
+                                            <input id="imgUploadFileId" th:type="hidden" />
+                                        </div>
+                                        <input id="img" type="hidden" />
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -109,15 +145,17 @@
             </div>
 
         <div class="row text-center" style="padding:15px;">
-            <button class="btn btn-primary btn-xl" onclick="addCourses()"><i class="fa fa-save"></i> 保存</button>
+            <button class="btn btn-primary btn-xl" onclick="submitHandler()"><i class="fa fa-save"></i> 保存</button>
             <button class="btn btn-danger btn-xl" onclick="closeItem()"><i class="fa fa-close"></i> 取消</button>
         </div>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: summernote-js" />
+    <th:block th:include="include :: select2-js" />
     <th:block th:include="include :: bootstrap-fileinput-js" />
     <script type="text/javascript">
         var prefix = "/shop/courses"
+
         $("#form-courses-add").validate({
             focusCleanup: true
         });
@@ -131,28 +169,93 @@
             });
         });
 
-        function addCourses() {
+        $(function(){
+            $("#imgUpload").fileinput({
+                // 'theme': 'explorer-fas',
+                uploadUrl: '/file/upload',
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                maxFileCount: 8
+                // initialPreview: [
+                //     "/img/profile.jpg"
+                // ]
+            });
+
+            $("#imgUpload").on("fileuploaded", function (event, data, previewId, index) {
+                // var content = JSON.stringify(data);
+                var code = data.response.code;
+                var message = data.response.message;
+                var list = data.response.data;
+                if(code == 0){
+                    //文件上传成功。
+                    $.modal.alertSuccess(message);
+                    var fileName = list[0];
+                    if($.common.isEmpty($('#img').val())){
+                        $("#img").val(fileName);
+                    }
+                    else{
+                        var url = $("#img").val();
+                        url += "|" + fileName;
+                        $("#img").val(url);
+                    }
+                }
+                else if(code == 500){
+                    $.modal.alertError(message);
+                }
+                // console.log(content);
+                console.log(code);
+                console.log(message);
+                console.log(list[0]);
+            })
+        });
+
+        function submitHandler() {
+
+            var note = $('.summernote').summernote('code');
+            // var chtml = $.common.encode(note);
+            if($.common.isEmpty($('#img').val())){
+                $.modal.alertError("请先上传图片文件。");
+                return;
+            }
             if ($.validate.form()) {
-                //$.operate.saveAndUpload(prefix + "/add", $('#form-courses-add'));
-                var note = $('.summernote').summernote('code');
-                // var data = $('#form-courses-add').serialize();
-                // var formData = new FormData();
-                // // formData.append("params[file]", file);
-                // data.split('&').forEach(function(item){
-                //     var is = item.split('=');
-                //     var name = decodeURIComponent(is[0]);
-                //     var val = decodeURIComponent(is[1]);
-                //     console.log("name["+name+"]-->value["+val+"]");
-                //     formData.append(name,val);
-                // });
-                // data += "&contentHtml=" + note;
-                // formData.append("contentHtml",note);
-                // console.log(data);
-                //formData.append("content_html",decodeURI(note));
-                //$.operate.save(prefix+"/add",formData);
-                $.operate.saveHtml(prefix+"/add",$('#form-courses-add'),"contentHtml",note);
+                // $.operate.save(prefix+"/add", $('#form-shop-add').serialize());
+                var data = $("#form-courses-add").serializeArray();
+                // var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
+                // var roleIds = $.form.selectCheckeds("role");
+                // var postIds = $.form.selectSelects("post");
+                // data.push({"name": "status", "value": status});
+                // data.push({"name": "roleIds", "value": roleIds});
+                // data.push({"name": "postIds", "value": postIds});
+                data.push({"name": "contentHtml", "value": note});
+                data.push({"name": "params[img]", "value": $('#img').val()});
+                console.log(JSON.stringify(data));
+                $.operate.saveTab(prefix + "/add", data);
+
             }
         }
+
+        // function addCourses() {
+        //     if ($.validate.form()) {
+        //         //$.operate.saveAndUpload(prefix + "/add", $('#form-courses-add'));
+        //         var note = $('.summernote').summernote('code');
+        //         // var data = $('#form-courses-add').serialize();
+        //         // var formData = new FormData();
+        //         // // formData.append("params[file]", file);
+        //         // data.split('&').forEach(function(item){
+        //         //     var is = item.split('=');
+        //         //     var name = decodeURIComponent(is[0]);
+        //         //     var val = decodeURIComponent(is[1]);
+        //         //     console.log("name["+name+"]-->value["+val+"]");
+        //         //     formData.append(name,val);
+        //         // });
+        //         // data += "&contentHtml=" + note;
+        //         // formData.append("contentHtml",note);
+        //         // console.log(data);
+        //         //formData.append("content_html",decodeURI(note));
+        //         //$.operate.save(prefix+"/add",formData);
+        //         $.operate.saveHtml(prefix+"/add",$('#form-courses-add'),"contentHtml",note);
+        //     }
+        // }
 
 
 

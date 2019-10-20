@@ -28,8 +28,9 @@
         var removeFlag = [[${@permission.hasPermi('conf:banner:remove')}]];
         var prefix = "/conf/banner";
 
-        var available_status = [[${@dict.getType('thd_available_status')}]];
+        var available_status = [[${@dict.getType('available')}]];
         var redirect_status = [[${@dict.getType('thd_redirect_type')}]];
+        var operation_city = [[${@dict.getType('operation_city')}]];
 
         $(function() {
             var options = {
@@ -56,13 +57,23 @@
                 },
                 {
                     field : 'url', 
-                    title : '跳转URL'
+                    title : '跳转URL',
+                    formatter: function(value, row, index) {
+                        return '<a href="'+value+'" target="_BLANK">'+value+'</a>';
+                    }
                 },
                 {
                     field : 'targetType', 
                     title : '跳转类型',
                     formatter: function(value, row, index) {
                         return $.table.selectDictLabel(redirect_status, value);
+                    }
+                },
+                {
+                    field : 'cityId',
+                    title : '发布城市',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(operation_city, value);
                     }
                 },
                 {

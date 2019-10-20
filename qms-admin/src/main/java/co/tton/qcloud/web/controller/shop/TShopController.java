@@ -1,7 +1,9 @@
 package co.tton.qcloud.web.controller.shop;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
@@ -75,7 +77,7 @@ public class TShopController extends BaseController
         startPage();
         SysUser user = ShiroUtils.getSysUser();
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-            tShop.setId(user.getShopId());
+            tShop.setId(user.getBusinessId());
         }
         else{
             if(StringUtils.isNotEmpty(tShop.getId())){
@@ -151,6 +153,10 @@ public class TShopController extends BaseController
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
         TShop tShop = tShopService.selectTShopById(id);
+        String times = tShop.getShopHoursBegin() + " - " + tShop.getShopHoursEnd();
+        Map<String,Object> map = new HashMap<>();
+        map.put("times",times);
+        tShop.setParams(map);
         mmap.put("tShop", tShop);
         return prefix + "/edit";
     }
@@ -167,8 +173,14 @@ public class TShopController extends BaseController
     public AjaxResult editSave(TShop tShop)
     {
         SysUser user = ShiroUtils.getSysUser();
+        String times = tShop.getParams().get("times").toString();
+        if(StringUtils.isNotEmpty(times)){
+            String[] ts = StringUtils.split(times,"-");
+            tShop.setShopHoursBegin(ts[0].trim());
+            tShop.setShopHoursEnd(ts[1].trim());
+        }
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-            if(user.getShopId().equals(tShop.getId())){
+            if(user.getBusinessId().equals(tShop.getId())){
                 return toAjax(tShopService.updateTShop(tShop));
             }else{
                 return error("不能修改其他商家信息。");
@@ -191,7 +203,6 @@ public class TShopController extends BaseController
         return toAjax(tShopService.deleteTShopByIds(ids));
     }
 
-
     /**
      * 新增保存商家信息
      */
@@ -207,32 +218,27 @@ public class TShopController extends BaseController
             SysUser user = ShiroUtils.getSysUser();
             String id = StringUtils.genericId();
             tShop.setId(id);
-//            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-//                tShop.setId(user.getShopId());
-//            }
-//            if (tShop.getParams().containsKey("file")){
-//                MultipartFile file = (MultipartFile)tShop.getParams().get("file");
-//                if (StringUtils.isNotNull(file)){
-//                    String fileName = minioFileService.upload(file);
-//                    tShop.setCoverImg(fileName);
-                    tShop.setFlag(Constants.DATA_NORMAL);
-                    tShop.setCreateTime(new Date());
-                    tShop.setCreateBy(user.getUserId().toString());
-                    int count = tShopService.insertTShop(tShop);
-                    return AjaxResult.success("数据保存成功。",count);
-//                }
-//                else {
-//                    return AjaxResult.error("未能获取上传文件内容。");
-//                }
-//            }
-//            else {
-//                    return AjaxResult.error("请选择图片上传。");
-//                }
+            String times = tShop.getParams().get("times").toString();
+            if(StringUtils.isNotEmpty(times)){
+                String[] ts = StringUtils.split(times,"-");
+                tShop.setShopHoursBegin(ts[0].trim());
+                tShop.setShopHoursEnd(ts[1].trim());
             }
+            tShop.setSortKey(1);
+            tShop.setLevel(1);
+            tShop.setStars(Long.parseLong("0"));
+            tShop.setWechatShow(0);
+            tShop.setAvailable(0);
+            tShop.setFlag(Constants.DATA_NORMAL);
+            tShop.setCreateTime(new Date());
+            tShop.setCreateBy(user.getUserId().toString());
+            int count = tShopService.insertTShop(tShop);
+            return AjaxResult.success("商家信息保存成功。",count);
+        }
         catch (Exception ex){
             ex.printStackTrace();
-            logger.error("保存商家图片时发生异常。",ex);
-            return AjaxResult.error("保存商家图片时发生异常。");
+            logger.error("保存商家信息时发生异常。",ex);
+            return AjaxResult.error("保存商家信息时发生异常。");
         }
     }
 }

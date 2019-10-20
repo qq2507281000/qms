@@ -72,7 +72,7 @@ public class SysUser extends BaseEntity
     /***
      * 如果用户分类为SHOP的时候，则填入ShopId
      */
-    private String shopId;
+    private String businessId;
 
     /** 盐加密 */
     private String salt;
@@ -336,12 +336,12 @@ public class SysUser extends BaseEntity
         this.postIds = postIds;
     }
 
-    public String getShopId() {
-        return shopId;
+    public String getBusinessId() {
+        return businessId;
     }
 
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
     }
 
     @Override

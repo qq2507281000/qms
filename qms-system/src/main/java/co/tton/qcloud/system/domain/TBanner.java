@@ -57,6 +57,12 @@ public class TBanner extends BaseEntity
     @Excel(name = "排序键值")
     private Integer flag;
 
+    @ApiModelProperty("城市Id")
+    private String cityId;
+
+    @ApiModelProperty("城市名称")
+    private String cityName;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

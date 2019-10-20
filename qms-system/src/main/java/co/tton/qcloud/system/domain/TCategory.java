@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +66,7 @@ public class TCategory extends BaseEntity
 
     @Excel(name = "子级分类数据")
     @ApiModelProperty("子级分类数据")
-    private List<TCategory> childTCategoryList;
+    private List<TCategory> children = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -82,7 +83,7 @@ public class TCategory extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
             .append("parentName", getParentName())
-            .append("childTCategoryList", getChildTCategoryList())
+            .append("childTCategoryList", getChildren())
             .toString();
     }
 }

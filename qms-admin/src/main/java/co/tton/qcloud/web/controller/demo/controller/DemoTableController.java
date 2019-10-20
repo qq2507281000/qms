@@ -24,7 +24,7 @@ import co.tton.qcloud.common.utils.StringUtils;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/demo/table")
+@RequestMapping("/demo/table")
 public class DemoTableController extends BaseController
 {
     private String prefix = "demo/table";

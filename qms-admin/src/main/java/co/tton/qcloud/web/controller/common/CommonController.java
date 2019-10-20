@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.common;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpUtils;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;

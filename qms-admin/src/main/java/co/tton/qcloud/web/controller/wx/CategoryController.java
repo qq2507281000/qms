@@ -63,7 +63,7 @@ public class CategoryController extends BaseController {
         tAllCategories.forEach(parent ->{
             //根据一级分类获取二级分类
             List<TCategory> childList = tCategoryService.getChildList(parent.getId());
-            parent.setChildTCategoryList(childList);
+            parent.setChildren(childList);
         });
         return AjaxResult.success("获取所有分类信息成功。",tAllCategories);
     }

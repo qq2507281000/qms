@@ -29,7 +29,7 @@ import co.tton.qcloud.web.controller.demo.domain.UserOperateModel;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/demo/operate")
+@RequestMapping("/demo/operate")
 public class DemoOperateController extends BaseController
 {
     private String prefix = "demo/operate";

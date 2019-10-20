@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shopHoursEnd"    column="shop_hours_end"    />
         <result property="level"    column="level"    />
         <result property="stars"    column="stars"    />
-        <result property="htmlContent"    column="html_content"    />
+        <result property="htmlContent"    column="html_content"  typeHandler="co.tton.qcloud.common.utils.BlobTypeConvertHandler"   />
         <result property="telephone"    column="telephone"    />
         <result property="mobile"    column="mobile"    />
         <result property="contractName"    column="contract_name"    />

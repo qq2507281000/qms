@@ -2,20 +2,34 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('新增首页滚动广告')" />
-    <th:block th:include="include :: jasny-bootstrap-css" />
-    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">
+    <!--<th:block th:include="include :: jasny-bootstrap-css" />-->
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">-->
+    <!--<link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">-->
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content ibox-content">
         <form id="form-banner-add" class="form-horizontal m" enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>广告图片：</label>
-                <div id="img_fileupload" class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">
-                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                    <span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input name="file" type="file"></span>
-                    <a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
+                <!--<div id="img_fileupload" class="col-sm-8 fileinput fileinput-new input-group" data-provides="fileinput" style="padding-left:15px;padding-right:15px;margin-bottom:0px;">-->
+                    <!--<div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>-->
+                    <!--<span class="input-group-addon btn btn-white btn-file"><span class="fileinput-new">选择文件</span><span class="fileinput-exists">更改</span><input id="imgFile" name="file" type="file"></span>-->
+                    <!--<a href="#" class="input-group-addon btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>-->
+                    <!--</div>-->
+                <div id="imgUploadPanel" class="col-sm-8">
+                    <input id="imgUpload" type="file" />
+                    <input id="imgUploadFileId" th:type="hidden" />
                 </div>
+                <input id="img" name="img" type="hidden">
             </div>
+
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-3"></label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<img class="fileinput-preview img-thumbnail" data-trigger="fileinput" src="https://placehold.it/672x286&text=672*286" style="width:80%;background:rgba(216,216,216,1);border-radius:16px;" alt="广告图片"/>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="form-group">
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转类型：</label>
@@ -36,61 +50,87 @@
             </div>
 
             <div class="form-group">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>发布城市：</label>
+                <div class="col-sm-8">
+                    <select name="cityId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>排序键值：</label>
                 <div class="col-sm-8">
                     <input name="sortKey" placeholder="请输入排序键值" class="form-control" type="text" required>
                 </div>
             </div>
 
-            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>是否可用：</label>
-            <div class="col-sm-8" style="padding-left:6px;padding-top:3px;">
-                <label class="toggle-switch switch-solid">
-                    <input type="checkbox" name="params[availableText]" checked required>
-                    <span></span>
-                </label>
-                <!--<input id="available-status" name="params[availableText]" type="checkbox" checked>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">是否可用：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('available')}">
+                        <input type="radio" th:id="${dict.dictCode}" name="available" th:value="${dict.dictValue}" th:checked="${dict.default}">
+                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
-    <th:block th:include="include :: jasny-bootstrap-js" />
-    <script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
+    <!--<th:block th:include="include :: jasny-bootstrap-js" />-->
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <!--<script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>-->
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/js/jasny-bootstrap.min.js"></script>-->
     <script type="text/javascript">
         var prefix = "/conf/banner";
         $("#form-banner-add").validate({
             focusCleanup: true
         });
 
-        // $('#img_fileupload').fileinput({
-        //     language: 'zh', //设置语言
-        //     uploadUrl: '/conf/banner/img/upload', //上传的地址
-        //     allowedFileExtensions : ['jpg', 'png','gif'],//接收的文件后缀
-        //     showUpload: false, //是否显示上传按钮
-        //     showCaption: false,//是否显示标题
-        //     enctype: 'multipart/form-data',
-        //     browseClass: "btn btn-primary", //按钮样式
-        //     previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-        // });
-
-        // $('.fileinput').fileinput();
-
-        // $('#available-status').bootstrapSwitch({    //初始化按钮
-        //     onText:"可用",
-        //     offText:"不可用",
-        //     onColor:"success",
-        //     offColor:"info",
-        //     size:"small"
-        // });
-
         function submitHandler() {
+            if($.common.isEmpty($('#img').val())){
+                $.modal.alertError("请先上传图片文件。");
+                return;
+            }
             if ($.validate.form()) {
-                // var file = $("input[name='file']")[0];
-                // var formData = new FormData();
-                // formData.append("params[file]",file);
-                // $.operate.save(prefix + "/add", formData);
-                $.operate.saveAndUpload(prefix+"/add",$('#form-banner-add'));
+                // $.operate.saveAndUpload(prefix+"/add",$('#form-banner-add'));
+                // console.log($('#form-banner-add').serialize());
+                $.operate.save(prefix+"/add",$('#form-banner-add').serialize());
             }
         }
+
+        $(function(){
+            $("#imgUpload").fileinput({
+                // 'theme': 'explorer-fas',
+                uploadUrl: '/file/upload',
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                maxFileCount: 1
+                // initialPreview: [
+                //     "/img/profile.jpg"
+                // ]
+            });
+            $("#imgUpload").on("fileuploaded", function (event, data, previewId, index) {
+                // var content = JSON.stringify(data);
+                var code = data.response.code;
+                var message = data.response.message;
+                var list = data.response.data;
+                if(code == 0){
+                    //文件上传成功。
+                    $.modal.alertSuccess(message);
+                    var fileName = list[0];
+                    $("#img").val(fileName);
+                }
+                else if(code == 500){
+                    $.modal.alertError(message);
+                }
+                // console.log(content);
+                console.log(code);
+                console.log(message);
+                console.log(list[0]);
+            })
+        });
+
     </script>
 </body>
 </html>

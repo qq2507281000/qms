@@ -28,7 +28,6 @@ public class SysIndexController extends BaseController
 {
     @Autowired
     private ISysMenuService menuService;
-
     @GetMapping("")
     @RoleScope(roleDefined={"ADMIN","SHOP"})
     public String defaultPage(ModelMap mmap){

@@ -67,11 +67,12 @@ public class TCategoryController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("查询课程分类信息")
-    public TableDataInfo list(TCategory tCategory)
+    public List<TCategory> list(TCategory tCategory)
     {
-        startPage();
+//        startPage();
         List<TCategory> list = tCategoryService.selectTCategoryList(tCategory);
-        return getDataTable(list);
+//        return getDataTable(list);
+        return list;
     }
 
     /**

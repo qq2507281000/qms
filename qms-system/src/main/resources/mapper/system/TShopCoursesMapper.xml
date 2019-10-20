@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shopId"    column="shop_id"    />
         <result property="title"    column="title"    />
         <result property="subTitle"    column="sub_title"    />
-        <result property="contentHtml"    column="content_html"    />
+        <result property="contentHtml"    column="content_html" typeHandler="co.tton.qcloud.common.utils.BlobTypeConvertHandler"    />
         <result property="suggest"    column="suggest"    />
         <result property="salesCount"    column="sales_count"    />
         <result property="available"    column="available"    />

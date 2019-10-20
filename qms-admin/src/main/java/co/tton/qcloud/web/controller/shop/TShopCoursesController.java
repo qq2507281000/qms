@@ -1,8 +1,10 @@
 package co.tton.qcloud.web.controller.shop;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
@@ -11,22 +13,25 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import co.tton.qcloud.framework.util.ShiroUtils;
-import co.tton.qcloud.system.domain.SysUser;
-import co.tton.qcloud.system.domain.TShopCoursesImages;
+import co.tton.qcloud.system.domain.*;
+import co.tton.qcloud.system.service.ITCategoryService;
+import co.tton.qcloud.system.service.ITShopCoursesImagesService;
+import co.tton.qcloud.system.service.ITShopService;
 import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.bytebuddy.asm.Advice;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.service.ITShopCoursesService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,7 +52,16 @@ public class TShopCoursesController extends BaseController
     private ITShopCoursesService tShopCoursesService;
 
     @Autowired
+    private ITShopService tShopService;
+
+    @Autowired
     private MinioFileService minioFileService;
+
+    @Autowired
+    private ITShopCoursesImagesService shopCoursesImagesService;
+
+    @Autowired
+    private ITCategoryService categoryService;
 
     @RequiresPermissions("shop:courses:view")
     @GetMapping()
@@ -57,7 +71,7 @@ public class TShopCoursesController extends BaseController
         mmap.put("shopId", "");
         SysUser user = ShiroUtils.getSysUser();
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-            mmap.put("shopId",user.getShopId());
+            mmap.put("shopId",user.getBusinessId());
         }
         else{
             if(StringUtils.isNotEmpty(shopId)){
@@ -80,7 +94,7 @@ public class TShopCoursesController extends BaseController
         startPage();
         SysUser user = ShiroUtils.getSysUser();
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-            tShopCourses.setShopId(user.getShopId());
+            tShopCourses.setShopId(user.getBusinessId());
         }
         else{
             if(StringUtils.isNotEmpty(shopId)){
@@ -108,9 +122,32 @@ public class TShopCoursesController extends BaseController
      * 新增课程基本信息
      */
     @GetMapping("/add")
-    @RoleScope(roleDefined={"ADMIN","SHOP"})
-    public String add()
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
+    public String add(ModelMap mmap)
     {
+        TShop shop = new TShop();
+        shop.setFlag(Constants.DATA_NORMAL);
+        SysUser user = ShiroUtils.getSysUser();
+        List<TShop> list = new ArrayList<>();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"ADMIN")){
+
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            shop.setId(user.getBusinessId());
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
+            shop.setRegionName(user.getBusinessId());
+        }
+        list = tShopService.selectTShopList(shop);
+        mmap.put("shop",list);
+
+
+        TCategory category = new TCategory();
+        category.setFlag(Constants.DATA_NORMAL);
+        List<TCategory> categories = new ArrayList<>();
+        categories = categoryService.selectTCategoryList(category).stream().filter(d->StringUtils.isNotEmpty(d.getParentId())).collect(Collectors.toList());
+        mmap.put("categories",categories);
+
         return prefix + "/add";
     }
 
@@ -131,29 +168,36 @@ public class TShopCoursesController extends BaseController
             tShopCourses.setId(id);
 
             if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-                tShopCourses.setShopId(user.getShopId());
+                tShopCourses.setShopId(user.getBusinessId());
             }
+
+            String[] shopArgs = StringUtils.split(tShopCourses.getShopId(),"|");
+            String shopId = shopArgs[0];
+            String shopName = shopArgs[1];
+
+            if(tShopCourses.getParams().containsKey("img")){
+                String img = tShopCourses.getParams().get("img").toString();
+                String[] imgs = StringUtils.split(img,"|");
+                for (String im:imgs) {
+                    TShopCoursesImages cimg = new TShopCoursesImages();
+                    cimg.setId(StringUtils.genericId());
+                    cimg.setCoursesId(id);
+                    cimg.setShopId(shopId);
+                    cimg.setImageUrl(im);
+                    cimg.setFlag(Constants.DATA_NORMAL);
+                    cimg.setSortKey(0);
+                    cimg.setCreateTime(DateUtils.getNowDate());
+                    cimg.setCreateBy(user.getUserId().toString());
+                    shopCoursesImagesService.insertTShopCoursesImages(cimg);
+                }
+            }
+
+            tShopCourses.setShopId(shopId);
+            tShopCourses.setShopName(shopName);
             tShopCourses.setFlag(Constants.DATA_NORMAL);
             tShopCourses.setCreateTime(new Date());
             tShopCourses.setCreateBy(user.getUserId().toString());
             return toAjax(tShopCoursesService.insertTShopCourses(tShopCourses));
-
-//            if (tShopCourses.getParams().containsKey("file")){
-//                //新文件上传
-//                MultipartFile file = (MultipartFile)tShopCourses.getParams().get("file");
-//                if (file !=null){
-//                    String fileName = minioFileService.upload(file);
-//                    TShopCoursesImages tShopCoursesImages = new TShopCoursesImages();
-//                    tShopCoursesImages.setImageUrl(fileName);
-//                    return AjaxResult.success("数据保存成功。");
-//                }
-//                else {
-//                    return AjaxResult.error("未能获取上传文件内容。");
-//                }
-//            }
-//            else {
-//                return AjaxResult.error("请选择图片上传。");
-//            }
         }
         catch (Exception ex){
             ex.printStackTrace();

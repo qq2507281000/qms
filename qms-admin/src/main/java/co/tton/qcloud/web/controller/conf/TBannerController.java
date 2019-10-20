@@ -1,6 +1,7 @@
 package co.tton.qcloud.web.controller.conf;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.hutool.core.date.DateUtil;
@@ -74,7 +75,22 @@ public class TBannerController extends BaseController
     public TableDataInfo list(TBanner tBanner)
     {
         startPage();
-        List<TBanner> list = tBannerService.selectTBannerList(tBanner);
+        List<TBanner> list = new ArrayList<>();
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        if(StringUtils.isNotEmpty(category)){
+            if(StringUtils.equalsAnyIgnoreCase(category,"SHOP")){
+                String shopId = user.getBusinessId();
+            }
+            else if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                String regionId = user.getBusinessId();
+                tBanner.setCityId(regionId);
+                list = tBannerService.selectTBannerList(tBanner);
+            }
+            else{
+                list = tBannerService.selectTBannerList(tBanner);
+            }
+        }
         return getDataTable(list);
     }
 
@@ -99,38 +115,43 @@ public class TBannerController extends BaseController
     public AjaxResult addSave(TBanner tBanner)
     {
         try {
-
             SysUser currentUser = ShiroUtils.getSysUser();
-
             String id = StringUtils.genericId();
             tBanner.setId(id);
-
-            if(tBanner.getParams().containsKey("file")){
-                //有新文件上传
-                MultipartFile file = (MultipartFile)tBanner.getParams().get("file");
-                if(file != null){
-                    String fileName = minioFileService.upload(file);
-                    tBanner.setImg(fileName);
-
-                    //是否可用
-                    if(tBanner.getParams().containsKey("availableText")){
-                        String avaiableText = tBanner.getParams().get("availableText").toString();
-                        int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
-                        tBanner.setAvailable(avaiable);
-                    }
-                    tBanner.setFlag(Constants.DATA_NORMAL);
-                    tBanner.setCreateBy(currentUser.getUserId().toString());
-                    tBanner.setCreateTime(DateUtil.date());
-                    tBannerService.insertTBanner(tBanner);
-                    return AjaxResult.success("数据保存成功。");
-                }
-                else{
-                    return AjaxResult.error("未能获取上传文件内容。");
-                }
+//            if(tBanner.getParams().containsKey("file")){
+//                //有新文件上传
+//                MultipartFile file = (MultipartFile)tBanner.getParams().get("file");
+//                if(file != null){
+//                    String fileName = minioFileService.upload(file);
+//                    tBanner.setImg(fileName);
+//
+//                    //是否可用
+//                    if(tBanner.getParams().containsKey("availableText")){
+//                        String avaiableText = tBanner.getParams().get("availableText").toString();
+//                        int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
+//                        tBanner.setAvailable(avaiable);
+//                    }
+//                    tBanner.setFlag(Constants.DATA_NORMAL);
+//                    tBanner.setCreateBy(currentUser.getUserId().toString());
+//                    tBanner.setCreateTime(DateUtil.date());
+//                    tBannerService.insertTBanner(tBanner);
+//                    return AjaxResult.success("数据保存成功。");
+//                }
+//                else{
+//                    return AjaxResult.error("未能获取上传文件内容。");
+//                }
+//            }
+//            else{
+//                return AjaxResult.error("请选择图片上传。");
+//            }
+            if(StrUtil.isEmpty(tBanner.getImg())){
+                return AjaxResult.error("未能上传图片。");
             }
-            else{
-                return AjaxResult.error("请选择图片上传。");
-            }
+            tBanner.setFlag(Constants.DATA_NORMAL);
+            tBanner.setCreateBy(currentUser.getUserId().toString());
+            tBanner.setCreateTime(DateUtil.date());
+            tBannerService.insertTBanner(tBanner);
+            return AjaxResult.success("数据保存成功。");
         }
         catch(Exception ex){
             ex.printStackTrace();

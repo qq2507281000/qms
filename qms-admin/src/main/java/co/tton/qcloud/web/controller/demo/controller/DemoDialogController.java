@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Qcloud
  */
 @Controller
-@RequestMapping("/admin/demo/modal")
+@RequestMapping("/demo/modal")
 public class DemoDialogController
 {
     private String prefix = "demo/modal";

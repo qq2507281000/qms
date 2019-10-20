@@ -16,23 +16,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
+        <result property="cityId" column="city_id" />
+        <result property="cityName" column="city_name"/>
     </resultMap>
 
     <sql id="selectTBannerVo">
-        select id, img, url, target_type, available, sort_key, flag, create_time, create_by, update_time, update_by from t_banner
+        select id, img, url, target_type, available, sort_key, flag, create_time, create_by, update_time, update_by,city_id,city_name from t_banner
     </sql>
 
     <select id="selectTBannerList" parameterType="TBanner" resultMap="TBannerResult">
         <include refid="selectTBannerVo"/>
-        <where>  
-            <if test="img != null  and img != ''"> and img = #{img}</if>
-            <if test="url != null  and url != ''"> and url = #{url}</if>
-            <if test="targetType != null  and targetType != ''"> and target_type = #{targetType}</if>
+        <where>
+            flag = 0
+            <if test="cityId != null  and cityId != ''"> and city_id = #{cityId}</if>
             <if test="available != null "> and available = #{available}</if>
             <if test="sortKey != null "> and sort_key = #{sortKey}</if>
-            <if test="flag != null "> and flag = #{flag}</if>
-            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
-            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
         </where>
     </select>
     
@@ -55,6 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="updateTime != null ">update_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="cityId != null  and cityId != ''">city_id,</if>
+            <if test="cityName != null  and cityName != ''">city_name,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
@@ -68,6 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="cityId != null  and cityId != ''">#{cityId},</if>
+            <if test="cityName != null  and cityName != ''">#{cityName},</if>
          </trim>
     </insert>
 

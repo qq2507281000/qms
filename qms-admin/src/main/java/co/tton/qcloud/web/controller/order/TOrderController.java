@@ -50,7 +50,7 @@ public class TOrderController extends BaseController
         mmap.put("shopId", "");
         SysUser user = ShiroUtils.getSysUser();
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-            mmap.put("shopId",user.getShopId());
+            mmap.put("shopId",user.getBusinessId());
         }
         else{
             if(StringUtils.isNotEmpty(shopId)){
@@ -73,7 +73,7 @@ public class TOrderController extends BaseController
         startPage();
         SysUser user = ShiroUtils.getSysUser();
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-            tOrder.setShopId(user.getShopId());
+            tOrder.setShopId(user.getBusinessId());
         }
         else{
             if(StringUtils.isNotEmpty(shopId)){

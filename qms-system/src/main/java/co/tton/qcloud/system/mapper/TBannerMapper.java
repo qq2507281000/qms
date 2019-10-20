@@ -27,6 +27,7 @@ public interface TBannerMapper
      */
     public List<TBanner> selectTBannerList(TBanner tBanner);
 
+
     /**
      * 新增首页滚动广告
      * 
