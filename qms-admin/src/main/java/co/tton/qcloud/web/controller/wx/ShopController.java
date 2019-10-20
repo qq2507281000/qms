@@ -44,16 +44,16 @@ public class ShopController extends BaseController {
                                      @RequestParam(value="category",required = false)String categoryId,
                                      @RequestParam(value="suggest",required = false)Integer suggest)
     {
-        if(StringUtils.isNotEmpty(location)){
           TShop tShop = new TShop();
           tShop.setAddress(location);
           tShop.setCategoryId(categoryId);
           tShop.setSuggest(suggest);
           List<TShop> listTShop=tShopService.getSuggestShop(tShop);
-                return AjaxResult.success("获取商家信息成功。",listTShop);
-        }else{
-            return AjaxResult.error("地点错误。");
-        }
+          if(StringUtils.isNotNull(listTShop)){
+            return AjaxResult.success("获取商家信息成功。",listTShop);
+          }else{
+            return AjaxResult.success("获取商家信息失败。",listTShop);
+          }
     }
 
   /***
