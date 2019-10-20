@@ -47,14 +47,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectTCouponByMemberId" parameterType="TCoupon" resultMap="TCouponResult">
-        <include refid="selectTCouponVo"/>
+        SELECT
+            tc.id,
+            tc.category_lib,
+            tc.sno,
+            tc.shop_level,
+            tc.face_value,
+            tc.ava_begin_time,
+            tc.ava_end_time,
+            tc.use_status,
+            tc.receive_status,
+            tc. STATUS,
+            tc.flag,
+            tc.batch_no,
+            rec.face_value
+        FROM
+            t_coupon tc
+        INNER JOIN t_coupon_receive_log rec ON tc.id = rec.coupon_id
         <where>
-            LEFT INNER JOIN t_coupon_receive_log rec ON t_coupon.id = rec.coupon_id
-            WHERE rec.member_id = #{memberId}
-            AND t_coupon.use_status = 'UNUSE'
-            AND t_coupon.receive_status = 'RECEIVED'
-            AND t_coupon.status = 'AVALIABLE'
-            AND t_coupon.flag = 0
+            rec.member_id = #{memberId}
+            AND tc.use_status = 'UNUSE'
+            AND tc.receive_status = 'RECEIVED'
+            AND tc. STATUS = 'AVALIABLE'
+            AND tc.flag = 0
             AND rec.flag = 0
         </where>
     </select>

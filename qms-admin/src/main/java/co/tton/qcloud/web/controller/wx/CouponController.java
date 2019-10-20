@@ -53,12 +53,15 @@ public class CouponController extends BaseController {
     @ApiOperation("会员用户优惠劵查询")
 //    @RequiresPermissions("wx:coupon:list")
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public AjaxResult<List<TCoupon>> getCouponList(@RequestParam(value = "memberId") String memberId,
-                                                   @RequestParam(value = "shopId",required = false) String shopId){
+    public AjaxResult<List<TCoupon>> getCouponList(@RequestParam(value = "memberId") String memberId){
         try {
             if (StrUtil.isNotEmpty(memberId)) {
                 List<TCoupon> list = couponService.selectTCouponByMemberId(memberId);
-                return AjaxResult.success("获取会员优惠券成功。",list);
+                if(StringUtils.isNotEmpty(list)){
+                    return AjaxResult.success("获取会员优惠券成功。",list);
+                }else{
+                    return AjaxResult.success("该用户没有优惠卷。",list);
+                }
             }
             else{
                 return error("会员Id不允许为空。");

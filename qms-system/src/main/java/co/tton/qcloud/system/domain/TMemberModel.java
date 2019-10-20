@@ -86,11 +86,11 @@ public class TMemberModel extends TMember {
     @ApiModelProperty(value="订单状态", allowableValues = "BOOKING,EXECUTING,EVALUATING,FINISHED",notes = "BOOKING(下单中),EXECUTING(执行中),EVALUATING(评价中),FINISHED(已完成)")
     private String billStatus;
 
-//    @ApiModelProperty("VIP开始时间")
-//    private Date vipBeginTime;
-//
-//    @ApiModelProperty("VIP结束时间")
-//    private Date vipEndTime;
+    @ApiModelProperty("VIP开始时间")
+    private Date vipBeginTime;
+
+    @ApiModelProperty("VIP结束时间")
+    private Date vipEndTime;
 
   @Override
     public String toString() {

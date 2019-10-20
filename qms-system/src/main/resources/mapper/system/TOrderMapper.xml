@@ -345,6 +345,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tsc.title,
             too.comment_note,
             tod.courses_time,
+            tod.confirm_no,
             toc.face_value,
             toc.deduction_value
         FROM

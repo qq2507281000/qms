@@ -285,10 +285,10 @@ public class MemberController extends BaseController {
   @ApiOperation("会员子女信息修改")
 //    @RequiresPermissions("wx:member:orders")
   @RequestMapping(value = "/upMemberBaby", method = RequestMethod.GET)
-  public AjaxResult upMemberBabyInfo(@RequestParam(value = "memberid", required = false) String memberId,
-                                     @RequestParam(value = "realname") String realName,
-                                     @RequestParam(value = "sex") Integer sex,
-                                     @RequestParam(value = "birthday") Date birthday) {
+  public AjaxResult upMemberBabyInfo(@RequestParam(value = "memberid") String memberId,
+                                     @RequestParam(value = "realname", required = false) String realName,
+                                     @RequestParam(value = "sex", required = false) Integer sex,
+                                     @RequestParam(value = "birthday", required = false) Date birthday) {
     if (StringUtil.isNotEmpty(memberId)) {
       //查询会员子女表相关信息
       TMemberBaby memberBaby = new TMemberBaby();
@@ -431,7 +431,7 @@ public class MemberController extends BaseController {
       tMember.setFlag(Constants.DATA_NORMAL);
       int number = tMemberService.saveMember(tMember);
       if (number == 0) {
-        return AjaxResult.success("新增用户失败。");
+        return AjaxResult.success("新增用户失败。", number);
       } else {
         return AjaxResult.success("新增用户成功。", number);
       }
