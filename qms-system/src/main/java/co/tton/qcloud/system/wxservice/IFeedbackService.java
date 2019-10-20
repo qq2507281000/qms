@@ -4,5 +4,5 @@ import co.tton.qcloud.system.domain.TFeedback;
 
 public interface IFeedbackService {
 
-    void saveFeedback(TFeedback tFeedback);
+    int saveFeedback(TFeedback tFeedback);
 }

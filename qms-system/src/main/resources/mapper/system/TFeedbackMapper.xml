@@ -5,8 +5,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="co.tton.qcloud.system.mapper.TFeedbackMapper">
 
 	<resultMap type="TFeedback" id="TFeedbackResult">
-		<id     property="id"     column="id"     />
-		<id     property="content"     column="content"     />
+		<result property="id"     	  column="id"     />
+		<result property="flag"    	  column="flag"     />
+		<result property="memberId"   column="member_id"     />
+		<result property="content"    column="content"     />
 		<result property="createBy"   column="create_by"   />
 		<result property="createTime" column="create_time" />
 		<result property="updateBy"   column="update_by"   />
@@ -14,10 +16,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 
-	<insert id="saveFeedback">
+	<insert id="saveFeedback" parameterType="TFeedback">
 		insert into t_feedback
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null  and id != ''">id,</if>
+			<if test="memberId != null  and memberId != ''">member_id,</if>
+			<if test="flag != null">flag,</if>
 			<if test="content != null  and content != ''">content,</if>
 			<if test="createTime != null ">create_time,</if>
 			<if test="createBy != null  and createBy != ''">create_by,</if>
@@ -26,6 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null  and id != ''">#{id},</if>
+			<if test="memberId != null  and memberId != ''">#{memberId},</if>
+			<if test="flag != null ">#{flag},</if>
 			<if test="content != null  and content != ''">#{content},</if>
 			<if test="createTime != null ">#{createTime},</if>
 			<if test="createBy != null  and createBy != ''">#{createBy},</if>

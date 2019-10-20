@@ -10,5 +10,5 @@ public interface TFeedbackMapper {
      * @param tFeedback
      * @return
      */
-    void saveFeedback(TFeedback tFeedback);
+    int saveFeedback(TFeedback tFeedback);
 }
