@@ -72,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="lessionTime"    column="lession_time"    />
         <result property="coursesTime"    column="courses_time"    />
         <result property="coursesTitle"    column="title"    />
+        <result property="coursesImg"    column="image_url"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">

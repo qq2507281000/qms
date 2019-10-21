@@ -149,4 +149,9 @@ public class TOrderModel extends TOrder {
      * 课程标题
      */
     private String coursesTitle;
+
+    /***
+     * 课程图片
+     */
+    private String coursesImg;
 }
