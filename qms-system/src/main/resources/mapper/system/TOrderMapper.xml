@@ -74,6 +74,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="coursesTitle"    column="title"    />
         <result property="coursesImg"    column="image_url"    />
         <result property="confirmNo"    column="confirm_no"    />
+        <result property="amPm"    column="am_pm"    />
+        <result property="memberName"    column="member_name"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
@@ -94,6 +96,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="commentNote"    column="comment_note"    />
         <result property="lessionTime"    column="lession_time"    />
         <result property="coursesTime"    column="courses_time"    />
+        <result property="amPm"    column="am_pm"    />
+        <result property="memberName"    column="member_name"    />
+        <result property="mobile"    column="mobile"    />
     </resultMap>
 
     <resultMap type="TOrderModel" id="WxstatusCount" extends="TOrderResult">
@@ -305,7 +310,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getOrderList" parameterType="TOrderModel" resultMap="TOrderModelResult">
         SELECT
             too.id,
+            too.mobile,
+            too.member_name,
             tod.courses_time,
+            tod.am_pm,
             tod.confirm_no,
             too.`subject`,
             too.booking_time,
@@ -334,21 +342,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             pr.l5_price,
             too.id,
+            too.member_name,
+            too.mobile,
             tmb.real_name AS babyRealName,
             tmb.nick_name AS babyNickName,
             tmb.sex,
             tmb.birthday,
-            tm.real_name AS adultName,
-            tm.mobile,
             too.pay_price,
             too.pre_real_price,
             too.order_no,
             too.address,
             too.booking_time,
             tod.courses_time,
+            tod.am_pm,
             tsc.title,
             too.comment_note,
-            tod.courses_time,
             tod.confirm_no,
             toc.face_value,
             toc.deduction_value

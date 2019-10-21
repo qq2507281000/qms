@@ -159,4 +159,10 @@ public class TOrderModel extends TOrder {
      * 核销编码
      */
     private String confirmNo;
+
+    /***
+     * 上午_下午
+     */
+    private String amPm;
+
 }

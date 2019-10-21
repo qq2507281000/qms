@@ -75,6 +75,11 @@ public class WxOrderDetail extends BaseEntity {
     @ApiModelProperty("上课时间")
     private Date coursesTime;
 
+    @ApiModelProperty("上午_下午")
+    private String amPm;
+
+    @ApiModelProperty("联系人")
+    private String memberName;
 
     @Override
     public String toString() {
