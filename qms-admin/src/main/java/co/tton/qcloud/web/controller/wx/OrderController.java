@@ -269,42 +269,35 @@ public class OrderController extends BaseController {
 
     //    @RequiresPermissions("wx:evaluation:insert")
     @RequestMapping(value = "/evaluation",method = RequestMethod.POST)
-    @ApiOperation("订单和课程评价")
-    public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno",required = false)String orderNo,
-                                               @RequestParam(value = "memberid",required = false)String memberId,
-                                               @RequestParam(value = "imageurl",required = false)String[] imageurls,
-                                               @RequestParam(value = "evaluation",required = false)String evaluation,
-                                               @RequestParam(value = "coursesid",required = false)String coursesId,
-                                               @RequestParam(value = "star",required = false)String star) throws IOException {
-        if(StringUtils.isNotEmpty(memberId)){
-            TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
-            tOrder.setMemberId(memberId);
+    @ApiOperation("订单评价")
+//    public AjaxResult insertOrderUseEvaluation(@RequestParam(value = "orderno",required = false)String orderNo,
+//                                               @RequestParam(value = "memberid",required = false)String memberId,
+//                                               @RequestParam(value = "imageurl",required = false)String[] imageurls,
+//                                               @RequestParam(value = "evaluation",required = false)String evaluation,
+//                                               @RequestParam(value = "coursesid",required = false)String coursesId,
+//                                               @RequestParam(value = "star",required = false)String star) throws IOException {
+//
+    public AjaxResult insertOrderUseEvaluation(@RequestBody TOrderUseEvaluation tOrder) throws IOException {
+        if(StringUtils.isNotNull(tOrder)){
             tOrder.setFlag(Constants.DATA_NORMAL);
             Date str = parseDate(DateUtils.getDate());
             tOrder.setCreateTime(str);
             String id = StringUtils.genericId();
             tOrder.setId(id);
-            if(StringUtils.isNotEmpty(imageurls)){
+            String [] strArray = tOrder.getImageArray();
+            if(StringUtils.isNotEmpty(strArray)){
+                //解析图片数组成字符串
                 StringBuilder imageurl = new StringBuilder();
-                for(int i = 0;i<imageurls.length;i++){
+                for(int i = 0;i<strArray.length;i++){
                     if(i!=0){
                         imageurl.append(',');
                     }
-                    imageurl.append(imageurls[i]);
+                    imageurl.append(strArray[i]);
                 }
                 tOrder.setImageUrl(imageurl.toString());
             }
-            if(StringUtils.isNotEmpty(orderNo)){
-                tOrder.setOrderNo(orderNo);
-            }
-            if(StringUtils.isNotEmpty(evaluation)){
-                tOrder.setEvaluation(evaluation);
-            }
-            if(StringUtils.isNotEmpty(coursesId)){
-                tOrder.setCoursesId(coursesId);
-            }
-            if(StringUtils.isNotEmpty(star)){
-                tOrder.setStar(star);
+            if(StringUtils.isNotEmpty(tOrder.getStar())){
+                tOrder.setStar(tOrder.getStar());
             }else{
                 tOrder.setStar("0");
             }
@@ -319,4 +312,57 @@ public class OrderController extends BaseController {
         }
     }
 
-}
+
+
+
+
+
+
+
+
+
+    }
+//        if(StringUtils.isNotEmpty(memberId)){
+//            TOrderUseEvaluation tOrder = new TOrderUseEvaluation();
+//            tOrder.setMemberId(memberId);
+//            tOrder.setFlag(Constants.DATA_NORMAL);
+//            Date str = parseDate(DateUtils.getDate());
+//            tOrder.setCreateTime(str);
+//            String id = StringUtils.genericId();
+//            tOrder.setId(id);
+//            if(StringUtils.isNotEmpty(imageurls)){
+//                StringBuilder imageurl = new StringBuilder();
+//                for(int i = 0;i<imageurls.length;i++){
+//                    if(i!=0){
+//                        imageurl.append(',');
+//                    }
+//                    imageurl.append(imageurls[i]);
+//                }
+//                tOrder.setImageUrl(imageurl.toString());
+//            }
+//            if(StringUtils.isNotEmpty(orderNo)){
+//                tOrder.setOrderNo(orderNo);
+//            }
+//            if(StringUtils.isNotEmpty(evaluation)){
+//                tOrder.setEvaluation(evaluation);
+//            }
+//            if(StringUtils.isNotEmpty(coursesId)){
+//                tOrder.setCoursesId(coursesId);
+//            }
+//            if(StringUtils.isNotEmpty(star)){
+//                tOrder.setStar(star);
+//            }else{
+//                tOrder.setStar("0");
+//            }
+//            int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
+//            if(number == 1){
+//                return AjaxResult.success("数据保存成功。",number);
+//            }else{
+//                return AjaxResult.success("数据保存失败。",number);
+//            }
+//        }else{
+//            return AjaxResult.error("参数错误,或会员ID为空");
+//        }
+//    }
+
+//}
