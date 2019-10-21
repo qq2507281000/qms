@@ -72,6 +72,11 @@ public class WxLoginController extends BaseController {
                 tMemberOne.setImg(img);
                 tMemberOne.setCreateTime(DateUtils.getNowDate());
                 tMemberOne.setFlag(Constants.DATA_NORMAL);
+                tMemberOne.setAccountLevel("普通会员");
+                tMemberOne.setScore(0);
+                tMemberOne.setStar(0.00);
+                tMemberOne.setStatus("可用");
+                tMemberOne.setRegTime(DateUtils.getNowDate());
                 int number = itMemberService.insertloginInfo(tMemberOne);
                 if (number == 1) {
                     return AjaxResult.success("新增用户插入成功。", number);

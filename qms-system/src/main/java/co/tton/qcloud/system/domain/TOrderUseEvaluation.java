@@ -84,6 +84,8 @@ public class TOrderUseEvaluation extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
             .append("memberId", getMemberId())
+            .append("wxName", getWxName())
+            .append("wxImg", getWxImg())
             .toString();
     }
 }
