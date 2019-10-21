@@ -86,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         d.create_by,
         d.update_time,
         d.update_by,
+        d.am_pm,
         c.title,
         c.sub_title,
         c.suggest AS is_suggest,
@@ -99,15 +100,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         cp.l7_price,
         cp.l8_price,
         cp.l9_price,
-        ct.wk_no,
-        ct.am_fm,
-        ct.b_time,
-        ct.e_time,
         d.lession_time
         FROM
         t_order_detail d
         LEFT JOIN t_shop_courses c ON d.courses_id = c.id
-        LEFT JOIN t_shop_courses_time ct ON ct.id = d.time_id
         LEFT JOIN t_shop_courses_price cp ON cp.id = d.price_id
         WHERE d.order_id = #{order_id}
     </select>

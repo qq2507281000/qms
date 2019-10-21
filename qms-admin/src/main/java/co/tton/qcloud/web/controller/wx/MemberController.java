@@ -142,6 +142,12 @@ public class MemberController extends BaseController {
         memberCharging.setPayStatus("PAID");
         int result = memberChargingService.updateTMemberCharging(memberCharging);
         if(result == 1){
+
+          String memberId = memberCharging.getMemberId();
+          TMember member = memberService.selectTMemberById(memberId);
+          member.setAccountLevel("超级会员");
+          memberService.updateTMember(member);
+
           return AjaxResult.success("会员充值回调成功。");
         }
         else{
