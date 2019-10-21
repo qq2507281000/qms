@@ -75,6 +75,9 @@ public class TOrderDetail extends BaseEntity
     @ApiModelProperty("出生日期")
     private Date childBirthday;
 
+    @ApiModelProperty("课程码")
+    private String confirmNo;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

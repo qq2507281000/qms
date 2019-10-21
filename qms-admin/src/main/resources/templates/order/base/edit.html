@@ -240,9 +240,11 @@
                         align : 'center',
                         formatter:function(value,row,index){
                             var apm = $.common.isEmpty(row.apm)?"":row.apm;
-                            var beginTime = row.beginTime;
-                            var endTime = row.endTime;
-                            return '<span>'+apm + ' ' + beginTime + ' ~ ' + endTime+'</span>';
+                            var str = $.common.equals(apm,'AM')?"上午":"下午";
+                            return '<span>' + str + '</span>';
+                            // var beginTime = row.beginTime;
+                            // var endTime = row.endTime;
+                            // return '<span>'+apm + ' ' + beginTime + ' ~ ' + endTime+'</span>';
                         }
                     },
                     {

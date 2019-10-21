@@ -127,6 +127,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="updateTime != null ">update_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="amPm != null  and amPm != ''">am_pm,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="coursesTime != null  and coursesTime != ''">courses_time,</if>
+            <if test="childId != null  and childId != ''">child_id,</if>
+            <if test="childSex != null  and childSex != ''">child_sex,</if>
+            <if test="childBirthday != null  and childBirthday != ''">child_birthday,</if>
+            <if test="confirmNo != null  and confirmNo != ''">confirm_no,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
@@ -141,6 +148,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="amPm != null  and amPm != ''">#{amPm},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="coursesTime != null  and coursesTime != ''">#{coursesTime},</if>
+            <if test="childId != null  and childId != ''">#{childId},</if>
+            <if test="childSex != null  and childSex != ''">#{childSex},</if>
+            <if test="childBirthday != null  and childBirthday != ''">#{childBirthday},</if>
+            <if test="confirmNo != null  and confirmNo != ''">#{confirmNo},</if>
          </trim>
     </insert>
 

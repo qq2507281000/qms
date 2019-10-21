@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+import sun.swing.StringUIClientPropertyKey;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -324,7 +325,6 @@ public class TOrderServiceImpl implements ITOrderService
                 couponUseLog.setCreateBy(memberId);
                 couponUseLogService.insertTCouponUseLog(couponUseLog);
             }
-
             TOrderDetail orderDetail = new TOrderDetail();
             orderDetail.setId(StringUtils.genericId());
             orderDetail.setOrderId(orderId);
@@ -338,6 +338,7 @@ public class TOrderServiceImpl implements ITOrderService
             orderDetail.setCreateBy(memberId);
             orderDetail.setCreateTime(DateUtils.getNowDate());
             orderDetail.setUseStatus("UNUSE");
+            orderDetail.setConfirmNo(StringUtils.randomCode());
             orderDetail.setChildId(orderModel.getBabyId());
             orderDetail.setChildSex(orderModel.getBabySex());
             orderDetail.setChildName(orderModel.getBabyName());
