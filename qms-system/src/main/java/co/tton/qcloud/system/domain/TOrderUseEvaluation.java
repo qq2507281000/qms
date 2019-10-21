@@ -58,6 +58,9 @@ public class TOrderUseEvaluation extends BaseEntity
     @ApiModelProperty(value="评价图片地址集合")
     private List<String> imageUrls;
 
+    @ApiModelProperty(value="评价图片地址数组")
+    private String[] imageArray;
+
     @ApiModelProperty(value="微信")
     private String  wxName;
 
