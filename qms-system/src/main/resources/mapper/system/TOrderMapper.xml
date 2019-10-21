@@ -79,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="confirmNo"    column="confirm_no"    />
         <result property="amPm"    column="am_pm"    />
         <result property="memberName"    column="member_name"    />
+        <result property="coursesId"    column="courses_id"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
@@ -102,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="amPm"    column="am_pm"    />
         <result property="memberName"    column="member_name"    />
         <result property="mobile"    column="mobile"    />
+        <result property="coursesId"    column="courses_id"    />
     </resultMap>
 
     <resultMap type="TOrderModel" id="WxstatusCount" extends="TOrderResult">
@@ -327,6 +329,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tod.courses_time,
             tod.am_pm,
             tod.confirm_no,
+            tod.courses_id,
             too.`subject`,
             too.booking_time,
             too.order_no,
@@ -367,6 +370,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             too.booking_time,
             tod.courses_time,
             tod.am_pm,
+            tod.courses_id,
             tsc.title,
             too.comment_note,
             tod.confirm_no,

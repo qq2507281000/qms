@@ -165,4 +165,9 @@ public class TOrderModel extends TOrder {
      */
     private String amPm;
 
+    /***
+     * 课程ID
+     */
+    private String coursesId;
+
 }
