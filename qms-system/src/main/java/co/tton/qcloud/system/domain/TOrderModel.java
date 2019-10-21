@@ -116,6 +116,11 @@ public class TOrderModel extends TOrder {
     private String receivedStatus;
 
     /***
+     * 优惠券领用日期
+     */
+    private Date receivedTime;
+
+    /***
      * 订单详情
      */
     private List<TOrderDetailModel> details;

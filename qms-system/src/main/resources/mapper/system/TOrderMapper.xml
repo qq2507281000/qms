@@ -80,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="amPm"    column="am_pm"    />
         <result property="memberName"    column="member_name"    />
         <result property="coursesId"    column="courses_id"    />
+        <result property="receivedTime"    column="received_time"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
@@ -192,7 +193,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         full_coupon.ava_end_time,
         full_coupon.use_status as coupon_use_status,
         full_coupon.received_member_id,
-        full_coupon.receive_status as received_status
+        full_coupon.receive_status as received_status,
+        full_coupon.received_time as received_time
         FROM
         t_order o
         LEFT JOIN t_shop s ON o.shop_id = s.id
@@ -272,12 +274,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
             <if test="memberId != null  and memberId != ''">#{memberId},</if>
-            <if test="commentNote != null  and commentNote != ''">comment_note,</if>
-            <if test="memberName != null  and memberName != ''">member_name,</if>
-            <if test="mobile != null  and mobile != ''">mobile,</if>
+            <if test="commentNote != null  and commentNote != ''">#{commentNote},</if>
+            <if test="memberName != null  and memberName != ''">#{memberName},</if>
+            <if test="mobile != null  and mobile != ''">#{mobile},</if>
          </trim>
     </insert>
-
     <update id="updateTOrder" parameterType="TOrder">
         update t_order
         <trim prefix="SET" suffixOverrides=",">

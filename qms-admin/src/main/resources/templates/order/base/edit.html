@@ -45,7 +45,7 @@
                             <ul class="list-unstyled">
                                 <li><strong>支付通道:</strong> <span th:text="*{paymentChannel}"></span></li>
                                 <li><strong>流水号:</strong> <span th:text="*{serialNo}"></span></li>
-                                <li><strong>支付时间:</strong> <span th:text="${#dates.format(order.payTime, 'yyyy-MM-dd')}"></span></li>
+                                <li><strong>支付时间:</strong> <span th:text="${#dates.format(order.payTime, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
                                 <li><strong>支付金额:</strong> <span th:text="*{payPrice}"></span></li>
                             </ul>
                         </div>
@@ -74,18 +74,11 @@
                         <div class="tag-box tag-box-v3 no-margin-bottom">
                             <h2>优惠券信息:</h2>
                             <ul class="list-unstyled">
-                                <li><strong>是否使用:</strong> <span th:text="*{haveDiscount}"></span></li>
+                                <li><strong>是否使用:</strong> <span th:text="*{haveDiscount==0?'是':'否'}"></span></li>
                                 <li><strong>券编码:</strong> <span th:text="*{couponNo}"></span></li>
-                                <li><strong>发放时间:</strong> CANADA</li>
-                                <li><strong>领用时间:</strong> YYYY/MM/DD</li>
+                                <li><strong>发放时间:</strong> <span th:text="*{receivedTime}"></span></li>
+                                <li><strong>领用时间:</strong> <span th:text="*{receivedTime}"></span></li>
                             </ul>
-                            <!--<address class="no-margin-bottom">-->
-                                <!--<br>-->
-                                <!--California, US <br>-->
-                                <!--Phone: 800 123 3456 <br>-->
-                                <!--Fax: 800 123 3456 <br>-->
-                                <!--Email: <a href="mailto:info@example.com">info@example.com</a>-->
-                            <!--</address>-->
                         </div>
                     </div>
                     <div class="col-xs-6 text-right">
@@ -156,9 +149,14 @@
                 </div>
                 <div class="hr-line-dashed"></div>
                 <div class="row text-right" style="padding:15px;">
-                    <button class="btn btn-default btn-xl"><i class="fa fa-circle-o-notch"></i> 取消</button>
-                    <button class="btn btn-primary btn-xl"><i class="fa fa-save"></i> 确认修改</button>
-                    <button class="btn btn-danger btn-xl"><i class="fa fa-close"></i> 订单作废</button>
+                    <th:block th:if="*{payStatus=='UNPAY'}">
+                        <button class="btn btn-default btn-xl" onclick="closeItem()"><i class="fa fa-circle-o-notch"></i> 取消</button>
+                        <button class="btn btn-primary btn-xl"><i class="fa fa-save"></i> 确认修改</button>
+                        <button class="btn btn-danger btn-xl"><i class="fa fa-close"></i> 订单作废</button>
+                    </th:block>
+                    <th:block th:if="*{payStatus=='PAID'}">
+                        <button class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i> 关 闭</button>
+                    </th:block>
                 </div>
                 <!--End Invoice Footer-->
             </div><!--/container-->
