@@ -67,13 +67,16 @@ public class TOrderController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("获取订单列表")
-    @RoleScope(roleDefined={"ADMIN","SHOP"})
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
     public TableDataInfo list(@RequestParam(value="shop-id",required = false) String shopId, @ApiParam("订单实体对象") TOrder tOrder)
     {
         startPage();
         SysUser user = ShiroUtils.getSysUser();
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
             tOrder.setShopId(user.getBusinessId());
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
+            tOrder.setRegionId(user.getBusinessId());
         }
         else{
             if(StringUtils.isNotEmpty(shopId)){
@@ -92,7 +95,7 @@ public class TOrderController extends BaseController
     @PostMapping("/export")
     @ResponseBody
     @ApiOperation("导出订单信息列表")
-    @RoleScope(roleDefined={"ADMIN","SHOP"})
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
     public AjaxResult export(@ApiParam("订单实体对象") TOrder tOrder)
     {
         List<TOrder> list = tOrderService.selectTOrderList(tOrder);
@@ -109,6 +112,19 @@ public class TOrderController extends BaseController
         return prefix + "/add";
     }
 
+    /***
+     * 确认
+     * @param id
+     * @param mmap
+     * @return
+     */
+    @GetMapping("/confirm/{id}")
+    public String confirm(@PathVariable("id") String id, ModelMap mmap){
+        TOrderModel orderModel = tOrderService.selectFullOrderById(id);
+        mmap.put("order",orderModel);
+        return prefix + "/confirm";
+    }
+
     /**
      * 新增保存订单信息
      */
@@ -117,7 +133,7 @@ public class TOrderController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("保存订单信息")
-    @RoleScope(roleDefined={"ADMIN","SHOP"})
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
     public AjaxResult addSave(@ApiParam("订单实体对象") TOrder tOrder)
     {
         return toAjax(tOrderService.insertTOrder(tOrder));

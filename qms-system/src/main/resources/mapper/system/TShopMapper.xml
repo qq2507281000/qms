@@ -35,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="categoryId"    column="category_id"    />
+        <result property="regionId"    column="region_id"    />
     </resultMap>
     <resultMap id="TShopAll" type="co.tton.qcloud.system.domain.TShop" extends="TShopResult">
         <collection property="tCategoryList" ofType="co.tton.qcloud.system.domain.TCategory">
@@ -50,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTShopVo"/>
         <where>
             <if test="categoryId != null">and category_id = #{categoryId}</if>
+            <if test="regionId != null and regionId != ''">and region_id = #{regionId}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
@@ -112,6 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatPlatformImg != null  and wechatPlatformImg != ''">wechat_platform_img,</if>
             <if test="wechatShow != null ">wechat_show,</if>
             <if test="available != null ">available,</if>
+            <if test="regionId != null  and regionId != ''">region_id,</if>
             <if test="flag != null ">flag,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
@@ -144,6 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatPlatformImg != null  and wechatPlatformImg != ''">#{wechatPlatformImg},</if>
             <if test="wechatShow != null ">#{wechatShow},</if>
             <if test="available != null ">#{available},</if>
+            <if test="regionId != null and regionId != ''">#{regionId},</if>
             <if test="flag != null ">#{flag},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
@@ -179,6 +183,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatPlatformImg != null  and wechatPlatformImg != ''">wechat_platform_img = #{wechatPlatformImg},</if>
             <if test="wechatShow != null ">wechat_show = #{wechatShow},</if>
             <if test="available != null ">available = #{available},</if>
+            <if test="regionId != null and regionId != ''">region_id = #{regionId},</if>
             <if test="flag != null ">flag = #{flag},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>

@@ -31,6 +31,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="commentNote" column="comment_note" />
         <result property="memberName" column="member_name" />
         <result property="mobile"     column="mobile" />
+        <result property="regionId"   column="region_id" />
+        <result property="regionName" column="region_name" />
     </resultMap>
 
     <resultMap type="TOrderModel" id="TOrderModelResult">
@@ -118,12 +120,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectTOrderList" parameterType="TOrder" resultMap="TOrderResult">
-        <include refid="selectTOrderVo"/>
+        SELECT
+        o.id,
+        order_no,
+        o.SUBJECT,
+        o.address,
+        shop_id,
+        pre_real_price,
+        pay_price,
+        payment_channel,
+        serial_no,
+        have_discount,
+        booking_time,
+        pay_time,
+        pay_status,
+        use_status,
+        bill_status,
+        verify_status,
+        o.flag,
+        o.create_time,
+        o.create_by,
+        o.update_time,
+        o.update_by,
+        member_id,
+        p.name as shop_name,
+        p.region_id,
+        p.region_name
+        FROM
+        t_order o
+        LEFT JOIN t_shop p ON o.shop_id = p.id
         <where>  
             <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="address != null  and address != ''"> and address = #{address}</if>
             <if test="shopId != null  and shopId != ''"> and shop_id = #{shopId}</if>
+            <if test="regionId != null  and regionId != ''"> and region_id = #{regionId}</if>
             <if test="preRealPrice != null "> and pre_real_price = #{preRealPrice}</if>
             <if test="payPrice != null "> and pay_price = #{payPrice}</if>
             <if test="paymentChannel != null  and paymentChannel != ''"> and payment_channel = #{paymentChannel}</if>
@@ -135,9 +166,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useStatus != null  and useStatus != ''"> and use_status = #{useStatus}</if>
             <if test="billStatus != null  and billStatus != ''"> and bill_status = #{billStatus}</if>
             <if test="verifyStatus != null  and verifyStatus != ''"> and verify_status = #{verifyStatus}</if>
-            <if test="flag != null "> and flag = #{flag}</if>
-            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
-            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
             <if test="memberId != null  and memberId != ''"> and member_id = #{memberId}</if>
         </where>
     </select>

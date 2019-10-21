@@ -128,6 +128,12 @@ public class TOrder extends BaseEntity
     @ApiModelProperty("联系电话")
     private String mobile;
 
+    @ApiModelProperty("区域Id")
+    private String regionId;
+
+    @ApiModelProperty("区域名称")
+    private String regionName;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

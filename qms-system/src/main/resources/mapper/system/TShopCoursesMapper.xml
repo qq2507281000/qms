@@ -22,6 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sku"    column="sku"    />
         <result property="useDiscount"    column="use_discount"    />
         <result property="categoryId"  column="category_id" />
+        <result property="shopName"  column="shopName" />
+        <result property="regionName"  column="region_name" />
+        <result property="regionId"  column="region_id" />
     </resultMap>
 
     <resultMap type="TShopCoursesModel" id="TShopCoursesModelResult">
@@ -76,7 +79,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTShopCoursesList" parameterType="TShopCourses" resultMap="TShopCoursesResult">
         SELECT
             tsc.*,
-            ts.`name` AS shopName
+            ts.`name` AS shopName,
+            ts.region_name,
+            ts.region_id
         FROM
             t_shop_courses tsc
         LEFT JOIN t_shop ts ON tsc.shop_id = ts.id
@@ -84,7 +89,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
             <if test="title != null  and title != ''"> and tsc.title = #{title}</if>
             <if test="subTitle != null  and subTitle != ''"> and tsc.sub_title = #{subTitle}</if>
-            <if test="contentHtml != null  and contentHtml != ''"> and tsc.content_html = #{contentHtml}</if>
             <if test="suggest != null "> and tsc.suggest = #{suggest}</if>
             <if test="salesCount != null "> and tsc.sales_count = #{salesCount}</if>
             <if test="available != null "> and tsc.available = #{available}</if>
@@ -94,6 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''"> and tsc.update_by = #{updateBy}</if>
             <if test="sku != null  and sku != ''"> and tsc.sku = #{sku}</if>
             <if test="useDiscount != null "> and tsc.use_discount = #{useDiscount}</if>
+            <if test="regionId != null  and regionId != ''"> and ts.region_id = #{regionId}</if>
         </where>
     </select>
     

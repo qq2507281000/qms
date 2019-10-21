@@ -42,9 +42,11 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">运营城市：</label>
                     <div class="col-sm-8">
-                        <select name="regionName" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
+
+                        <select id="regionId" name="regionId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
                             <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                         </select>
+
                     </div>
                 </div>
             </div>
@@ -328,6 +330,17 @@
         });
     });
 
+    $(function () {
+        var userCategory = '[[${@user.getCurrentUserCategory()}]]';
+        if($.common.equals(userCategory,"REGION")){
+            $('#regionId').attr("disabled","disabled");
+        }
+        else if($.common.equals(userCategory,"ADMIN")){
+            $('#regionId').removeAttr("disabled");
+        }
+
+    });
+
     // function addCourses() {
     //     if ($.validate.form()) {
     //         //$.operate.saveAndUpload(prefix + "/add", $('#form-courses-add'));
@@ -401,6 +414,7 @@
         if ($.validate.form()) {
             // $.operate.save(prefix+"/add", $('#form-shop-add').serialize());
             var data = $("#form-shop-add").serializeArray();
+            var regionName = $("#regionId").find("option:selected").text();
             // var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
             // var roleIds = $.form.selectCheckeds("role");
             // var postIds = $.form.selectSelects("post");
@@ -408,6 +422,7 @@
             // data.push({"name": "roleIds", "value": roleIds});
             // data.push({"name": "postIds", "value": postIds});
             data.push({"name": "htmlContent", "value": note});
+            data.push({"name": "regionName", "value": regionName});
             console.log(JSON.stringify(data));
             $.operate.saveTab(prefix + "/add", data);
 

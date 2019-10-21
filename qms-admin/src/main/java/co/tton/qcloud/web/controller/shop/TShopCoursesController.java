@@ -66,7 +66,7 @@ public class TShopCoursesController extends BaseController
 
     @RequiresPermissions("shop:courses:view")
     @GetMapping()
-    @RoleScope(roleDefined={"ADMIN","SHOP"})
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
     public String courses(@RequestParam(value = "shop-id",required = false) String shopId, ModelMap mmap)
     {
         mmap.put("shopId", "");
@@ -89,7 +89,7 @@ public class TShopCoursesController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     @ApiOperation("获取课程基本信息")
-    @RoleScope(roleDefined={"ADMIN","SHOP"})
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
     public TableDataInfo list(@RequestParam(value="shop-id",required = false)String shopId, @ApiParam("课程基本信息实体对象")TShopCourses tShopCourses)
     {
         startPage();
@@ -97,12 +97,16 @@ public class TShopCoursesController extends BaseController
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
             tShopCourses.setShopId(user.getBusinessId());
         }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
+            tShopCourses.setRegionId(user.getBusinessId());
+        }
         else{
             if(StringUtils.isNotEmpty(shopId)){
                 tShopCourses.setShopId(shopId);
             }
         }
         List<TShopCourses> list = tShopCoursesService.selectTShopCoursesList(tShopCourses);
+
         return getDataTable(list);
     }
 
@@ -137,11 +141,10 @@ public class TShopCoursesController extends BaseController
             shop.setId(user.getBusinessId());
         }
         else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
-            shop.setRegionName(user.getBusinessId());
+            shop.setRegionId(user.getBusinessId());
         }
         list = tShopService.selectTShopList(shop);
         mmap.put("shop",list);
-
         TCategory category = new TCategory();
         category.setFlag(Constants.DATA_NORMAL);
         List<TCategory> categories = new ArrayList<>();

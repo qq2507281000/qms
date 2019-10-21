@@ -79,6 +79,9 @@ public class TShopController extends BaseController
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
             tShop.setId(user.getBusinessId());
         }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
+            tShop.setRegionId(user.getBusinessId());
+        }
         else{
             if(StringUtils.isNotEmpty(tShop.getId())){
                 tShop.setId(tShop.getId());
