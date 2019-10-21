@@ -61,7 +61,7 @@ public class TOrderDetailServiceImpl implements ITOrderDetailService
     @Override
     public int insertTOrderDetail(TOrderDetail tOrderDetail)
     {
-        tOrderDetail.setCreateTime(DateUtils.getNowDate());
+//        tOrderDetail.setCreateTime(DateUtils.getNowDate());
         return tOrderDetailMapper.insertTOrderDetail(tOrderDetail);
     }
 
