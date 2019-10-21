@@ -66,21 +66,21 @@
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null and id != ''">id = #{id},</if>
-            <if test="memberId != null and memberId != ''">member_id = #{memberId},</if>
-            <if test="chargingTime != null ">charging_time = #{chargingTime},</if>
-            <if test="chargingPrice != null ">charging_price = #{chargingPrice},</if>
-            <if test="beginTime != null ">begin_time = #{beginTime},</if>
-            <if test="endTime != null ">end_time = #{endTime},</if>
-            <if test="vipLevel != null ">vip_level = #{vipLevel},</if>
-            <if test="serialNo != null  and serialNo != ''">serial_no = #{serialNo},</if>
-            <if test="flag != null ">flag = #{flag},</if>
-            <if test="payStatus != null  and payStatus != ''">pay_status = #{payStatus},</if>
-            <if test="orderNo != null  and orderNo != ''">order_no = #{orderNo},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
-            <if test="updateTime != null ">update_time = #{updateTime},</if>
-            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="id != null and id != ''">#{id},</if>
+            <if test="memberId != null and memberId != ''">#{memberId},</if>
+            <if test="chargingTime != null ">#{chargingTime},</if>
+            <if test="chargingPrice != null ">#{chargingPrice},</if>
+            <if test="beginTime != null ">#{beginTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="vipLevel != null ">#{vipLevel},</if>
+            <if test="serialNo != null  and serialNo != ''">#{serialNo},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="payStatus != null  and payStatus != ''">#{payStatus},</if>
+            <if test="orderNo != null  and orderNo != ''">#{orderNo},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
         </trim>
     </insert>
 
@@ -96,8 +96,6 @@
             <if test="flag != null ">flag = #{flag},</if>
             <if test="payStatus != null  and payStatus != ''">pay_status = #{payStatus},</if>
             <if test="orderNo != null  and orderNo != ''">order_no = #{orderNo},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
         </trim>

@@ -173,8 +173,9 @@ public class MemberController extends BaseController {
         memberCharging.setMemberId(model.getMemberId());
         memberCharging.setChargingTime(DateUtils.getNowDate());
         memberCharging.setBeginTime(DateUtils.getNowDate());
-        memberCharging.setEndTime(DateUtils.addYears(DateUtils.getNowDate(), 1));
+        memberCharging.setEndTime(DateUtils.addDays(DateUtils.addYears(DateUtils.getNowDate(), 1),-1));
         memberCharging.setVipLevel(1);
+        memberCharging.setChargingPrice(model.getPrice());
         memberCharging.setFlag(Constants.DATA_NORMAL);
         memberCharging.setCreateBy(model.getMemberId());
         memberCharging.setCreateTime(DateUtils.getNowDate());
@@ -188,7 +189,7 @@ public class MemberController extends BaseController {
           request.setBody("VIP会员充值");
           request.setAttach("VIP充值订单");
           request.setOutTradeNo(orderNo);
-          request.setTotalFee((int) (model.getPrice()));
+          request.setTotalFee((int) (model.getPrice()*100));
           request.setSpbillCreateIp(IpUtils.getHostIp());
           request.setTimeStart(DateUtils.dateTimeNow());
           request.setNotifyUrl(Global.getChargingPayNotifyUrl());
