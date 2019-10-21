@@ -173,8 +173,9 @@ public class MemberController extends BaseController {
         memberCharging.setMemberId(model.getMemberId());
         memberCharging.setChargingTime(DateUtils.getNowDate());
         memberCharging.setBeginTime(DateUtils.getNowDate());
-        memberCharging.setEndTime(DateUtils.addYears(DateUtils.getNowDate(), 1));
+        memberCharging.setEndTime(DateUtils.addDays(DateUtils.addYears(DateUtils.getNowDate(), 1),-1));
         memberCharging.setVipLevel(1);
+        memberCharging.setChargingPrice(model.getPrice());
         memberCharging.setFlag(Constants.DATA_NORMAL);
         memberCharging.setCreateBy(model.getMemberId());
         memberCharging.setCreateTime(DateUtils.getNowDate());
