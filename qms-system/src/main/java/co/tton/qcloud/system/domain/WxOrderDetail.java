@@ -51,7 +51,7 @@ public class WxOrderDetail extends BaseEntity {
     @ApiModelProperty("下单时间")
     private Date bookingTime;
 
-    @ApiModelProperty("课程券Id")
+    @ApiModelProperty("核销编码")
     private String confirmNo;
 
     @ApiModelProperty("上课地址")

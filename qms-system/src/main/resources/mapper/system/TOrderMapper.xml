@@ -73,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="coursesTime"    column="courses_time"    />
         <result property="coursesTitle"    column="title"    />
         <result property="coursesImg"    column="image_url"    />
+        <result property="confirmNo"    column="confirm_no"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
@@ -305,6 +306,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             too.id,
             tod.courses_time,
+            tod.confirm_no,
             too.`subject`,
             too.booking_time,
             too.order_no,

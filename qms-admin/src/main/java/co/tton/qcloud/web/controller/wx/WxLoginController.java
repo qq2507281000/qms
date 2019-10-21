@@ -1,6 +1,7 @@
 package co.tton.qcloud.web.controller.wx;
 
 
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.DateUtils;
@@ -70,6 +71,7 @@ public class WxLoginController extends BaseController {
                 tMemberOne.setWxName(realName);
                 tMemberOne.setImg(img);
                 tMemberOne.setCreateTime(DateUtils.getNowDate());
+                tMemberOne.setFlag(Constants.DATA_NORMAL);
                 int number = itMemberService.insertloginInfo(tMemberOne);
                 if (number == 1) {
                     return AjaxResult.success("新增用户插入成功。", number);
