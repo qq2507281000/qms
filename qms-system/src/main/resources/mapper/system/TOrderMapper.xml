@@ -28,6 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="memberId"    column="member_id"    />
         <result property="shopName"    column="shop_name"/>
+        <result property="commentNote" column="comment_note" />
+        <result property="memberName" column="member_name" />
+        <result property="mobile"     column="mobile" />
     </resultMap>
 
     <resultMap type="TOrderModel" id="TOrderModelResult">
@@ -240,6 +243,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
             <if test="memberId != null  and memberId != ''">member_id,</if>
+            <if test="commentNote != null  and commentNote != ''">comment_note,</if>
+            <if test="memberName != null  and memberName != ''">member_name,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
@@ -264,6 +270,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
             <if test="memberId != null  and memberId != ''">#{memberId},</if>
+            <if test="commentNote != null  and commentNote != ''">comment_note,</if>
+            <if test="memberName != null  and memberName != ''">member_name,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
          </trim>
     </insert>
 
@@ -291,6 +300,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
             <if test="memberId != null  and memberId != ''">member_id = #{memberId},</if>
+            <if test="commentNote != null  and commentNote != ''">comment_note = #{commentNote},</if>
+            <if test="memberName != null  and memberName != ''">member_name = #{memberName},</if>
+            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
         </trim>
         where id = #{id}
     </update>
