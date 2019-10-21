@@ -118,4 +118,15 @@ public class TMemberServiceImpl implements ITMemberService
     public int insertloginInfo(TMember tMember) {
         return tMemberMapper.insertloginInfo(tMember);
     }
+
+    /**
+     * 修改会员基本信息
+     *
+     * @param tMember 会员基本信息
+     * @return 结果
+     */
+    @Override
+    public int updateTMemberOpenId(TMember tMember) {
+        return tMemberMapper.updateTMemberOpenId(tMember);
+    }
 }
