@@ -189,7 +189,7 @@ public class MemberController extends BaseController {
           request.setBody("VIP会员充值");
           request.setAttach("VIP充值订单");
           request.setOutTradeNo(orderNo);
-          request.setTotalFee((int) (model.getPrice()));
+          request.setTotalFee((int) (model.getPrice()*100));
           request.setSpbillCreateIp(IpUtils.getHostIp());
           request.setTimeStart(DateUtils.dateTimeNow());
           request.setNotifyUrl(Global.getChargingPayNotifyUrl());

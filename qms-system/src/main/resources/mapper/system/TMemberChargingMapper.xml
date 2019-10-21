@@ -75,7 +75,7 @@
             <if test="vipLevel != null ">#{vipLevel},</if>
             <if test="serialNo != null  and serialNo != ''">#{serialNo},</if>
             <if test="flag != null ">#{flag},</if>
-            <if test="payStatus != null  and payStatus != ''">p#{payStatus},</if>
+            <if test="payStatus != null  and payStatus != ''">#{payStatus},</if>
             <if test="orderNo != null  and orderNo != ''">#{orderNo},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
