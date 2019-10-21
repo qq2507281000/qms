@@ -2,9 +2,11 @@ package co.tton.qcloud.web.controller.common;
 
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.web.minio.MinioFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +58,24 @@ public class FileController extends BaseController {
             ex.printStackTrace();
             log.error("文件上传错误。",ex);
             return error("文件上传错误。");
+        }
+    }
+
+    @RequestMapping(value="/{file}",method = RequestMethod.DELETE)
+    public AjaxResult delete(@PathVariable("file")String fileName,HttpServletRequest request) throws Exception {
+        try{
+            if(StringUtils.isEmpty(fileName)){
+                return error("文件名为空。");
+            }
+            else{
+                minioFileService.delete(fileName);
+                return success("文件删除成功。");
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            log.error("文件删除错误。",ex);
+            return error("文件删除错误。");
         }
     }
 }

@@ -22,7 +22,7 @@
                                     <div class="col-sm-10">
                                         <select class='form-control' id="shopId" name='shopId' style="width: 100%" required>
                                             <option value="">---请选择---</option>
-                                            <option th:each="column : ${shop}" th:text="${column.name}" th:value="${column.id + '|' + column.name}" th:field="*{shop}"></option>
+                                            <option th:each="column : ${shop}" th:text="${column.name}" th:value="${column.id}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                                     <div class="col-sm-10">
                                         <select class='form-control' id="categoryId" name='categoryId' style="width: 100%" required>
                                             <option value="">---请选择---</option>
-                                            <option th:each="column : ${categories}" th:text="${column.name}" th:value="${column.id}" th:field="*{categories}"></option>
+                                            <option th:each="column : ${categories}" th:text="${column.name}" th:value="${column.id}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -77,61 +77,33 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">是否推荐：</label>
                                     <div class="col-sm-10">
-                                        <!--                    <input name="suggest" th:field="*{suggest}" class="form-control" type="text">-->
-
-                                            <div class="radio check-box">
-                                                <label>
-                                                    <input type="radio" value="1" name="suggest"> <i></i> 是</label>
-                                            </div>
-                                            <div class="radio check-box">
-                                                <label>
-                                                    <input type="radio" checked="" value="0" name="suggest"> <i></i> 否</label>
-                                            </div>
-
+                                        <div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">
+                                            <input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}">
+                                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">是否可用：</label>
                                     <div class="col-sm-10">
-
-                                            <div class="radio check-box">
-                                                <label>
-                                                    <input type="radio" value="1" name="available"> <i></i> 是</label>
-                                            </div>
-                                            <div class="radio check-box">
-                                                <label>
-                                                    <input type="radio" checked="" value="0" name="available"> <i></i> 否</label>
-                                            </div>
-
+                                        <div class="radio-box" th:each="dict : ${@dict.getType('available')}">
+                                            <input type="radio" th:id="${dict.dictCode}" name="available" th:value="${dict.dictValue}" th:checked="${dict.default}">
+                                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">是否允许使用优惠券：</label>
+                                    <label class="col-sm-2 control-label">是否使用优惠券：</label>
                                     <div class="col-sm-10">
-
-                                            <div class="radio check-box">
-                                                <label>
-                                                    <input type="radio" value="0" name="useDiscount"> <i></i> 是</label>
-                                            </div>
-                                            <div class="radio check-box">
-                                                <label>
-                                                    <input type="radio" checked="" value="1" name="useDiscount"> <i></i> 否</label>
-                                            </div>
-
+                                        <div class="radio-box" th:each="dict : ${@dict.getType('useDiscount')}">
+                                            <input type="radio" th:id="${dict.dictCode}" name="useDiscount" th:value="${dict.dictValue}" th:checked="${dict.default}">
+                                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                                        </div>
                                     </div>
                                 </div>
-                                <!--<div class="hr-line-dashed"></div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-sm-12">-->
-                                        <!--<h4 class="form-header h4">课程图片</h4>-->
-                                        <!--<div class="file-loading">-->
-                                            <!--<input id="courses-img" class="file" type="file" multiple data-theme="fas">-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="hr-line-dashed"></div>-->
+                                <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <h4 class="form-header h4">课程详情</h4>
                                     <div id="summernote" class="summernote">
@@ -175,6 +147,7 @@
                 uploadUrl: '/file/upload',
                 overwriteInitial: false,
                 initialPreviewAsData: true,
+                deleteUrl: '/file/',
                 maxFileCount: 8
                 // initialPreview: [
                 //     "/img/profile.jpg"

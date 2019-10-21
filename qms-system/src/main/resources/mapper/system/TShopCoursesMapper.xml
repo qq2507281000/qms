@@ -21,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="sku"    column="sku"    />
         <result property="useDiscount"    column="use_discount"    />
+        <result property="categoryId"  column="category_id" />
     </resultMap>
 
     <resultMap type="TShopCoursesModel" id="TShopCoursesModelResult">
@@ -69,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTShopCoursesVo">
-        select id, shop_id, title, sub_title, content_html, suggest, sales_count, available, sort_key, flag, create_time, create_by, update_time, update_by, sku, use_discount from t_shop_courses
+        select id, shop_id, title, sub_title, content_html, suggest, sales_count, available, sort_key, flag, create_time, create_by, update_time, update_by, sku, use_discount,category_id from t_shop_courses
     </sql>
 
     <select id="selectTShopCoursesList" parameterType="TShopCourses" resultMap="TShopCoursesResult">
@@ -125,6 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
             <if test="sku != null  and sku != ''">sku,</if>
             <if test="useDiscount != null ">use_discount,</if>
+            <if test="categoryId != null and categoryId != ''">category_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">#{id},</if>
@@ -143,6 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
             <if test="sku != null  and sku != ''">#{sku},</if>
             <if test="useDiscount != null ">#{useDiscount},</if>
+            <if test="categoryId != null and categoryId != ''">#{categoryId},</if>
          </trim>
     </insert>
 
@@ -164,6 +167,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
             <if test="sku != null  and sku != ''">sku = #{sku},</if>
             <if test="useDiscount != null ">use_discount = #{useDiscount},</if>
+            <if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
         </trim>
         where id = #{id}
     </update>
@@ -197,7 +201,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ts.summary,
             tsc.content_html,
             tsc.id,
-            tsc.shop_id
+            tsc.shop_id,
+            tsc.category_id
         FROM
             t_shop_courses tsc
             INNER JOIN t_shop ts ON tsc.shop_id = ts.id

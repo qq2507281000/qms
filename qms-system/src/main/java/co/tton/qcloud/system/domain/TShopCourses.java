@@ -87,6 +87,9 @@ public class TShopCourses extends BaseEntity
     @ApiModelProperty("商家名称")
     private String shopName;
 
+    @ApiModelProperty("分类Id")
+    private String categoryId;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

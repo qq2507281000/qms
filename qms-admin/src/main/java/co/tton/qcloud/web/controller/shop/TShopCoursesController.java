@@ -22,6 +22,7 @@ import co.tton.qcloud.system.service.ITCategoryService;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import co.tton.qcloud.system.service.ITShopService;
 import co.tton.qcloud.web.minio.MinioFileService;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -141,7 +142,6 @@ public class TShopCoursesController extends BaseController
         list = tShopService.selectTShopList(shop);
         mmap.put("shop",list);
 
-
         TCategory category = new TCategory();
         category.setFlag(Constants.DATA_NORMAL);
         List<TCategory> categories = new ArrayList<>();
@@ -163,25 +163,25 @@ public class TShopCoursesController extends BaseController
     public AjaxResult addSave(TShopCourses tShopCourses) throws IOException {
         try {
             SysUser user = ShiroUtils.getSysUser();
-
             String id = StringUtils.genericId();
             tShopCourses.setId(id);
-
             if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
                 tShopCourses.setShopId(user.getBusinessId());
             }
-
-            String[] shopArgs = StringUtils.split(tShopCourses.getShopId(),"|");
-            String shopId = shopArgs[0];
-            String shopName = shopArgs[1];
-
+            String shopId = tShopCourses.getShopId();
+//            tShopCourses.setShopId(shopId);
+//            tShopCourses.setShopName(shopName);
+            tShopCourses.setFlag(Constants.DATA_NORMAL);
+            tShopCourses.setCreateTime(new Date());
+            tShopCourses.setCreateBy(user.getUserId().toString());
+            int result = tShopCoursesService.insertTShopCourses(tShopCourses);
             if(tShopCourses.getParams().containsKey("img")){
                 String img = tShopCourses.getParams().get("img").toString();
                 String[] imgs = StringUtils.split(img,"|");
                 for (String im:imgs) {
                     TShopCoursesImages cimg = new TShopCoursesImages();
                     cimg.setId(StringUtils.genericId());
-                    cimg.setCoursesId(id);
+                    cimg.setCoursesId(tShopCourses.getId());
                     cimg.setShopId(shopId);
                     cimg.setImageUrl(im);
                     cimg.setFlag(Constants.DATA_NORMAL);
@@ -191,13 +191,12 @@ public class TShopCoursesController extends BaseController
                     shopCoursesImagesService.insertTShopCoursesImages(cimg);
                 }
             }
-
-            tShopCourses.setShopId(shopId);
-            tShopCourses.setShopName(shopName);
-            tShopCourses.setFlag(Constants.DATA_NORMAL);
-            tShopCourses.setCreateTime(new Date());
-            tShopCourses.setCreateBy(user.getUserId().toString());
-            return toAjax(tShopCoursesService.insertTShopCourses(tShopCourses));
+            if(result == 1){
+                return success("保存成功。");
+            }
+            else{
+                return error("保存失败。");
+            }
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -214,8 +213,36 @@ public class TShopCoursesController extends BaseController
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
         TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesById(id);
-        System.out.println("========>>>"+tShopCourses.getContentHtml());
         mmap.put("tShopCourses", tShopCourses);
+
+        TShopCoursesImages query = new TShopCoursesImages();
+        query.setCoursesId(id);
+
+        List<TShopCoursesImages> images = shopCoursesImagesService.selectTShopCoursesImagesList(query);
+        mmap.put("coursesImages", JSON.toJSON(images));
+
+        TShop shop = new TShop();
+        shop.setFlag(Constants.DATA_NORMAL);
+        SysUser user = ShiroUtils.getSysUser();
+        List<TShop> list = new ArrayList<>();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"ADMIN")){
+
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            shop.setId(user.getBusinessId());
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
+            shop.setRegionName(user.getBusinessId());
+        }
+        list = tShopService.selectTShopList(shop);
+        mmap.put("shop",list);
+
+        TCategory category = new TCategory();
+        category.setFlag(Constants.DATA_NORMAL);
+        List<TCategory> categories = new ArrayList<>();
+        categories = categoryService.selectTCategoryList(category).stream().filter(d->StringUtils.isNotEmpty(d.getParentId())).collect(Collectors.toList());
+        mmap.put("categories",categories);
+
         return prefix + "/edit";
     }
 

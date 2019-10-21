@@ -54,14 +54,25 @@ public class MinioFileService {
 
             String fileName = StringUtils.genericId() + DateUtil.format(new Date(), DatePattern.PURE_DATE_FORMAT) + StrUtil.DOT + extName;
 //            if(minioTemplate == null) {
-//                minioTemplate = SpringContextHolder.getBean(MinioTemplate.class);
-//            }
+////                minioTemplate = SpringContextHolder.getBean(MinioTemplate.class);
+////            }
             minioTemplate.putObject(_DEFAULT_BUCKET_NAME,fileName,file.getInputStream());
             return fileName;
         }
         catch(Exception ex){
             ex.printStackTrace();
             logger.error("文件上传时发生异常。",ex);
+            throw new IOException(ex.getMessage());
+        }
+    }
+
+    public void delete(String fileName) throws IOException{
+        try{
+            minioTemplate.removeObject(_DEFAULT_BUCKET_NAME,fileName);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("文件删除时发生异常。",ex);
             throw new IOException(ex.getMessage());
         }
     }
