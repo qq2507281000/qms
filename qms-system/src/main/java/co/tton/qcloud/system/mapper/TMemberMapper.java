@@ -118,4 +118,12 @@ public interface TMemberMapper
      * @return 结果
      */
     int upMobile(TMember tMember);
+
+    /**
+     * 修改会员基本信息
+     *
+     * @param tMember 会员基本信息
+     * @return 结果
+     */
+    public int updateTMemberOpenId(TMember tMember);
 }

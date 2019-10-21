@@ -74,4 +74,12 @@ public interface ITMemberService
      * @return 结果
      */
     public int insertloginInfo(TMember tMember);
+
+    /**
+     * 修改会员基本信息
+     *
+     * @param tMember 会员基本信息
+     * @return 结果
+     */
+    public int updateTMemberOpenId(TMember tMember);
 }

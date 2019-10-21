@@ -305,4 +305,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
         </trim>
     </insert>
+
+    <update id="updateTMemberOpenId" parameterType="TMember">
+        update t_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="avatar != null  and avatar != ''">avatar = #{avatar},</if>
+            <if test="img != null  and img != ''">img = #{img},</if>
+            <if test="wxJson != null  and wxJson != ''">wx_json = #{wxJson},</if>
+            <if test="openId != null  and openId != ''">open_id = #{openId},</if>
+            <if test="wxName != null  and wxName != ''">wx_name = #{wxName},</if>
+            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
+            <if test="regTime != null ">reg_time = #{regTime},</if>
+            <if test="star != null ">star = #{star},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="realName != null  and realName != ''">real_name = #{realName},</if>
+            <if test="accountLevel != null  and accountLevel != ''">account_level = #{accountLevel},</if>
+            <if test="score != null ">score = #{score},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+        where open_id = #{openId}
+    </update>
 </mapper>

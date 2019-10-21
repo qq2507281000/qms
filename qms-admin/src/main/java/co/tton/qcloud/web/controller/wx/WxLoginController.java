@@ -53,7 +53,7 @@ public class WxLoginController extends BaseController {
      * </pre>
      */
     @GetMapping("/info")
-    @ApiOperation("返回个人信息和token")
+    @ApiOperation("返回个人信息")
 //    @RequiresPermissions("wx:member:openId")
     public AjaxResult<List> loginInfo(@RequestParam(value = "openId") String openId,
                                       @RequestParam(value = "mobile", required = false) String mobile,
@@ -78,8 +78,20 @@ public class WxLoginController extends BaseController {
                 }else{
                     return AjaxResult.success("新增用户插入失败。", number);
                 }
+            }else {
+                TMember tMemberOne = new TMember();
+                tMemberOne.setUpdateTime(DateUtils.getNowDate());
+                tMemberOne.setOpenId(openId);
+                tMemberOne.setMobile(mobile);
+                tMemberOne.setWxName(realName);
+                tMemberOne.setImg(img);
+                int number = itMemberService.updateTMemberOpenId(tMemberOne);
+                if(number == 1){
+                    return AjaxResult.success("修改信息成功。", tMember);
+                }else {
+                    return AjaxResult.success("修改信息失败。", tMember);
+                }
             }
-            return AjaxResult.success("获取信息成功。", tMember);
         } else {
             return AjaxResult.error("openId错误。");
         }
