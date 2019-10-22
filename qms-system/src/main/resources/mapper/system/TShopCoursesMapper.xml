@@ -273,7 +273,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         <where>
             <if test="shopId != null  and shopId != ''"> and ts.id = #{shopId}</if>
-            <if test="categoryId != null  and categoryId != ''"> and ts.category_id = #{categoryId}</if>
+            <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
             AND tsc.flag = 0
         </where>
     </select>
