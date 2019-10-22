@@ -49,7 +49,7 @@ public class ShopController extends BaseController {
           tShop.setCategoryId(categoryId);
           tShop.setSuggest(suggest);
           List<TShop> listTShop=tShopService.getSuggestShop(tShop);
-          if(StringUtils.isNotNull(listTShop)){
+          if(StringUtils.isNotNull(listTShop) && (listTShop.size() != 0)){
             return AjaxResult.success("获取商家信息成功。",listTShop);
           }else{
             return AjaxResult.success("获取商家信息失败。",listTShop);
