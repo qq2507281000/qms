@@ -60,7 +60,6 @@ public class CoursesController extends BaseController {
       if (StringUtils.isNotEmpty(location)) {
         tShopCoursesModel.setAddress(location);
       }
-
       if (StringUtils.isNotEmpty(shopId)) {
         tShopCoursesModel.setShopId(shopId);
       }

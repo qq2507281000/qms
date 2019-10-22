@@ -112,8 +112,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t_shop_courses_images
         WHERE
             courses_id = #{courses_id}
-            AND sort_key = 1
             AND flag = 0
+        ORDER BY sort_key limit 1
     </select>
 
     <select id="getImagesByid" resultMap="TShopCoursesImagesResult">
