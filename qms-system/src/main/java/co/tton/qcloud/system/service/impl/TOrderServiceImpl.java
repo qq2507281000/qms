@@ -280,6 +280,7 @@ public class TOrderServiceImpl implements ITOrderService
             order.setPayPrice(price);
             order.setMemberName(orderModel.getContractUser());
             order.setMobile(orderModel.getContractMobile());
+            order.setCommentNote(orderModel.getCommentNote());
             order.setPaymentChannel("wechatpay");
             if(StringUtils.isNotEmpty(orderModel.getCouponId())){
                 order.setHaveDiscount(1);
