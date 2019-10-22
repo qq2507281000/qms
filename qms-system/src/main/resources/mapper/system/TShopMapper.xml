@@ -228,16 +228,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!--查询商家详情-->
     <select id="getShopDetail" parameterType="TShop" resultMap="TShopResult">
         select
-        shop.id,
-        shop. NAME,
-        shop.summary,
-        shop.region_name,
-        shop.cover_img,
-        shop.address,
-        shop.telephone,
-        shop.mobile,
-        shop.shop_hours_begin,
-        shop.shop_hours_end,
+        shop.*,
         count(de.order_no) as shopCount,
         ca.name as shopCategoryName
         from
