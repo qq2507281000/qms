@@ -338,7 +338,8 @@ public class TOrderServiceImpl implements ITOrderService
             orderDetail.setCreateBy(memberId);
             orderDetail.setCreateTime(DateUtils.getNowDate());
             orderDetail.setUseStatus("UNUSE");
-            orderDetail.setConfirmNo(StringUtils.randomCode());
+            String str = StringUtils.substring(StringUtils.randomCode(),-17,-1);
+            orderDetail.setConfirmNo(str);
             orderDetail.setChildId(orderModel.getBabyId());
             orderDetail.setChildSex(orderModel.getBabySex());
             orderDetail.setChildName(orderModel.getBabyName());
