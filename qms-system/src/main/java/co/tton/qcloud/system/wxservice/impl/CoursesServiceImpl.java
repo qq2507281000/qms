@@ -73,4 +73,15 @@ public class CoursesServiceImpl implements ICoursesService {
         return tOrderUseEvaluationMapper.getCoursesCategory(coursesId);
     }
 
+    /**
+     * 小程序搜索框收藏课程
+     *
+     * @param  coursesName 根据coursesName查询
+     * @return 结果
+     */
+    @Override
+    public List<TShopCoursesModel> getcollectionCourses(String coursesName) {
+        return tShopCoursesMapper.getcollectionCourses(coursesName);
+    }
+
 }

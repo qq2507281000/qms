@@ -169,6 +169,9 @@ public class TShopCoursesModel extends BaseEntity {
     @ApiModelProperty("商家图片")
     private String coverImage;
 
+    @ApiModelProperty("收藏ID")
+    private String collectionId;
+
     @ApiModelProperty("上课时间和地点列表")
     private List<TShopCoursesTime> coursesTimeList;
 

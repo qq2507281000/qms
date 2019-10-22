@@ -70,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="businessRegion"    column="business_region"    />
         <result property="locationRegion"    column="location_region"    />
         <result property="coverImage" column="cover_img"   />
+        <result property="collectionId" column="collectionId"   />
     </resultMap>
 
     <sql id="selectTShopCoursesVo">
@@ -310,5 +311,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tsc.flag = 0 and tsc.suggest = 0
         order by tsc.sort_key
         limit 1
+    </select>
+
+    <select id="getcollectionCourses"  resultMap="TShopCoursesModelResult" parameterType="String">
+        SELECT
+        tsc.id,
+        ts.`name`,
+        tscp.price,
+        tsc.title,
+        tsc.suggest,
+        tc.id AS collectionId
+        FROM
+        t_collection tc
+        INNER JOIN t_shop_courses tsc ON tsc.id = tc.courses_id
+        INNER JOIN t_shop ts ON tsc.shop_id = ts.id
+        INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
+        <where>
+            <if test="_parameter != null  and _parameter != ''"> tsc.title like concat('%', #{title}, '%')</if>
+            AND tsc.flag = 0
+        </where>
     </select>
 </mapper>

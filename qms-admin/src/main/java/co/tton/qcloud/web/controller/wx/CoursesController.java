@@ -242,4 +242,31 @@ public class CoursesController extends BaseController {
       return AjaxResult.error("参数错误");
     }
   }
+
+  @ApiOperation("收藏课程搜索框查询")
+//  @RequiresPermissions("wx:courses:name")
+  @RequestMapping(value="/name",method = RequestMethod.GET)
+  public AjaxResult<List> getNameShop(@RequestParam(value="coursestitle")String coursesName){
+    if(StringUtils.isNotNull(coursesName)){
+      List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getcollectionCourses(coursesName);
+      if(StringUtils.isNotEmpty(tShopCoursesModels)){
+        for (TShopCoursesModel tModel : tShopCoursesModels) {
+          String id = tModel.getId();
+          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+          if (imageUrl != null) {
+            tModel.setImageUrl(imageUrl);
+          }
+          String count = tOrderDetailService.getOrderMon(id);
+          if (count != null) {
+            tModel.setCount(count);
+          }
+        }
+        return AjaxResult.success("获取成功", tShopCoursesModels);
+      }else{
+        return AjaxResult.success("该参数下无查询结果",tShopCoursesModels);
+      }
+    }else{
+      return AjaxResult.error("参数错误");
+    }
+  }
 }
