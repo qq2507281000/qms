@@ -71,7 +71,11 @@ public class ShopController extends BaseController {
           tShop.setId(shopId);
           tShop.setAddress(location);
           List list=tShopService.getShopDetail(tShop);
-          return AjaxResult.success("获取商家详情成功。",list);
+          if(StringUtils.isNotEmpty(list)){
+            return AjaxResult.success("获取商家详情成功。",list);
+          }else{
+            return AjaxResult.success("获取商家详情失败。",list);
+          }
         }else{
           return AjaxResult.error("商家ID错误。");
         }

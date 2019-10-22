@@ -166,19 +166,27 @@ public class CoursesController extends BaseController {
     if (StringUtils.isNotEmpty(categoryId)) {
       tShopCoursesModel.setCategoryId(categoryId);
     }
-    List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getShopCategoryCourses(tShopCoursesModel);
-    for (TShopCoursesModel tModel : tShopCoursesModels) {
-      String id = tModel.getId();
-      String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
-      if (imageUrl != null) {
-        tModel.setImageUrl(imageUrl);
+    if(StringUtils.isNotNull(tShopCoursesModel)){
+      List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getShopCategoryCourses(tShopCoursesModel);
+      if(StringUtils.isNotEmpty(tShopCoursesModels)){
+        for (TShopCoursesModel tModel : tShopCoursesModels) {
+          String id = tModel.getId();
+          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+          if (imageUrl != null) {
+            tModel.setImageUrl(imageUrl);
+          }
+          String count = tOrderDetailService.getOrderMon(id);
+          if (count != null) {
+            tModel.setCount(count);
+          }
+        }
+        return AjaxResult.success("获取成功", tShopCoursesModels);
+      }else{
+        return AjaxResult.success("该参数下无查询结果",tShopCoursesModels);
       }
-      String count = tOrderDetailService.getOrderMon(id);
-      if (count != null) {
-        tModel.setCount(count);
-      }
+    }else{
+      return AjaxResult.error("参数错误");
     }
-    return AjaxResult.success("获取成功", tShopCoursesModels);
   }
 
   /***
