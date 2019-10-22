@@ -128,12 +128,14 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService {
                     String count = tOrderDetailService.getOrderMon(tShopCoursesList.get(i).getId());
                     //图片
                     List<TShopCoursesImages> images = tShopCoursesImagesService.getImagesByid(tShopCoursesList.get(i).getId());
-                    String[] imageUrls = new String[images.size()];
-                    if(StringUtils.isNotEmpty(images.get(i).getImageUrl())){
-                        for (int j = 0; j < images.size(); j++) {
-                            imageUrls[i] = images.get(j).getImageUrl();
+                    if (StringUtils.isNotEmpty(images)&& images.size() == 0){
+                        String[] imageUrls = new String[images.size()];
+                        if(StringUtils.isNotEmpty(images.get(i).getImageUrl())){
+                            for (int j = 0; j < images.size(); j++) {
+                                imageUrls[i] = images.get(j).getImageUrl();
+                            }
+                            tShopCoursesList.get(i).setImages(imageUrls);
                         }
-                        tShopCoursesList.get(i).setImages(imageUrls);
                     }
                     tShopCoursesList.get(i).setCount(count);
                 }

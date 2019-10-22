@@ -91,13 +91,21 @@ public class ShopController extends BaseController {
         //查询商家表
         List listTShop=tShopService.getNameShop(name);
         List list = new ArrayList();
-        list.add(listTShop);
+        if(StringUtils.isNotEmpty(listTShop)){
+          list.add(listTShop);
+        }
         //查询课程表
         List listTShopCourses=tShopCoursesService.getNameShopCourses(name);
-        list.add(listTShopCourses);
-        return AjaxResult.success("获取信息成功。",list);
+        if(StringUtils.isNotEmpty(listTShopCourses)){
+          list.add(listTShopCourses);
+        }
+        if(StringUtils.isNotEmpty(list)){
+          return AjaxResult.success("获取信息成功。",list);
+        }else{
+          return AjaxResult.success("无数据。",list);
+        }
       }else{
-        return AjaxResult.error("名称错误");
+        return AjaxResult.error("无数据。");
       }
   }
 
