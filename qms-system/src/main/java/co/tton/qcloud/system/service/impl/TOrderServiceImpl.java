@@ -65,6 +65,8 @@ public class TOrderServiceImpl implements ITOrderService
     @Autowired
     private TransactionTemplate transactionTemplate;
 
+    @Autowired
+    private ITCouponService tCouponService;
 
     /**
      * 查询【请填写功能名称】
@@ -280,7 +282,6 @@ public class TOrderServiceImpl implements ITOrderService
             order.setPayPrice(price);
             order.setMemberName(orderModel.getContractUser());
             order.setMobile(orderModel.getContractMobile());
-            order.setCommentNote(orderModel.getCommentNote());
             order.setPaymentChannel("wechatpay");
             if(StringUtils.isNotEmpty(orderModel.getCouponId())){
                 order.setHaveDiscount(1);
@@ -325,6 +326,14 @@ public class TOrderServiceImpl implements ITOrderService
                 couponUseLog.setCreateTime(DateUtils.getNowDate());
                 couponUseLog.setCreateBy(memberId);
                 couponUseLogService.insertTCouponUseLog(couponUseLog);
+
+                TCoupon tCoupon = new TCoupon();
+                tCoupon.setId(orderModel.getCouponId());
+                tCoupon.setFlag(1);
+                tCoupon.setUpdateTime(DateUtils.getNowDate());
+                tCoupon.setUpdateBy(memberId);
+                tCoupon.setUseStatus("USE");
+                tCouponService.updateTCoupon(tCoupon);
             }
             TOrderDetail orderDetail = new TOrderDetail();
             orderDetail.setId(StringUtils.genericId());

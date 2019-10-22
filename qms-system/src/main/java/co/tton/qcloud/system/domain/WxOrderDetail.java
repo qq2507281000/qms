@@ -69,6 +69,9 @@ public class WxOrderDetail extends BaseEntity {
     @ApiModelProperty("备注")
     private String commentNote;
 
+    @ApiModelProperty("备注")
+    private String remark;
+
     @ApiModelProperty("课程时间")
     private Date lessionTime;
 
@@ -106,6 +109,7 @@ public class WxOrderDetail extends BaseEntity {
                 .append("commentNote", getCommentNote())
                 .append("lessionTime", getLessionTime())
                 .append("coursesId", getCoursesId())
+                .append("remark", getRemark())
                 .toString();
     }
 }
