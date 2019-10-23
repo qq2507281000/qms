@@ -18,6 +18,13 @@ public interface ISysUserService
      */
     public List<SysUser> selectUserList(SysUser user);
 
+    /***
+     * 根据OpenId获取用户信息
+     * @param openId
+     * @return
+     */
+    public SysUser selectUserByOpenId(String openId);
+
     /**
      * 根据条件分页查询已分配用户角色列表
      * 

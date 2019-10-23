@@ -20,6 +20,8 @@ qcloud:
   order-pay-notifyUrl: https://web.hdpi.ttonservice.com/api/v1.0/order/pay/notify
   charging-pay-notifyUrl: https://web.hdpi.ttonservice.com/api/v1.0/member/vip/charging/notify
   active-miniapp-appId: wx979a25003d5b4c1b
+  active-wp-appId: wxfc56faaa62b1910c
+  auth-url: https://web.hdpi.ttonservice.com/mp/shop/cert
 
 # 开发环境配置
 server:
@@ -155,6 +157,12 @@ wx:
     subAppId: #服务商模式下的子商户公众账号ID
     subMchId: #服务商模式下的子商户号
     keyPath: # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+  wp:
+    configs:
+      - appId: wxfc56faaa62b1910c
+        secret: 4077509e26c01991873c49118a37a25a
+        token: qcloud_team_hdpi
+        aesKey: JTO6k0Lbpoxs4hJs1dIyUnMEJ9cScwy98tcxrKzDady
 
 #minio:
 #  url: http://192.168.1.133:9000

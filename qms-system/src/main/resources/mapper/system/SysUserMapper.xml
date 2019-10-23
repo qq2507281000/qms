@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
 		<result property="category"     column="category"     />
+		<result property="openId"       column="open_id"     />
 		<result property="businessId"       column="business_id"     />
 		<association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
@@ -52,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
        		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
        		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status,
-       		    u.category, u.business_id
+       		    u.category, u.business_id, u.open_id
 		from sys_user u
 			 left join sys_dept d on u.dept_id = d.dept_id
 			 left join sys_user_role ur on u.user_id = ur.user_id
@@ -127,6 +128,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <include refid="selectUserVo"/>
 		where u.login_name = #{userName}
 	</select>
+
+	<select id="selectUserByOpenId" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.open_id = #{openId}
+	</select>
 	
 	<select id="selectUserByPhoneNumber" parameterType="String" resultMap="SysUserResult">
 		<include refid="selectUserVo"/>
@@ -182,6 +188,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
  			<if test="loginDate != null">login_date = #{loginDate},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="openId != null and openId != ''">open_id = #{openId},</if>
  			<if test="remark != null">remark = #{remark},</if>
  			update_time = sysdate()
  		</set>

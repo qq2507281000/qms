@@ -4,15 +4,19 @@ import java.util.List;
 
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import co.tton.qcloud.framework.util.ShiroUtils;
-import co.tton.qcloud.system.domain.SysUser;
-import co.tton.qcloud.system.domain.TOrderModel;
+import co.tton.qcloud.system.domain.*;
+import co.tton.qcloud.system.model.OrderConfirmModel;
+import co.tton.qcloud.system.service.ITOrderDetailService;
+import co.tton.qcloud.system.service.ITOrderUseLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.service.ITOrderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +45,12 @@ public class TOrderController extends BaseController
 
     @Autowired
     private ITOrderService tOrderService;
+
+    @Autowired
+    private ITOrderDetailService orderDetailService;
+
+    @Autowired
+    private ITOrderUseLogService orderUseLogService;
 
     @RequiresPermissions("order:view")
     @GetMapping()
@@ -123,6 +132,68 @@ public class TOrderController extends BaseController
         TOrderModel orderModel = tOrderService.selectFullOrderById(id);
         mmap.put("order",orderModel);
         return prefix + "/confirm";
+    }
+
+    @PostMapping("/confirm")
+    public AjaxResult confirmOrder(OrderConfirmModel model){
+        try{
+            SysUser user = ShiroUtils.getSysUser();
+            if(model == null){
+                return error("参数错误，对象不允许为空。");
+            }
+            else{
+                TOrder order = tOrderService.selectTOrderById(model.getId());
+                if(order == null){
+                    return error("未能搜索到订单数据。");
+                }
+                else{
+                    if(StringUtils.equalsAnyIgnoreCase(order.getPayStatus(),"PAID")){
+                        if(StringUtils.equalsAnyIgnoreCase(order.getUseStatus(),"UNUSED")
+                        && StringUtils.equalsAnyIgnoreCase(order.getVerifyStatus(),"UNCONFIRM")){
+
+                            TOrderDetail query = new TOrderDetail();
+                            query.setOrderId(model.getId());
+                            List<TOrderDetail> orderDetails = orderDetailService.selectTOrderDetailList(query);
+
+                            order.setUseStatus("USED");
+                            order.setVerifyStatus("CONFIRMED");
+                            order.setBillStatus("EVALUATING");
+                            order.setUpdateTime(DateUtils.getNowDate());
+                            order.setUpdateBy(user.getUserId().toString());
+                            tOrderService.updateTOrder(order);
+
+                            TOrderUseLog useLog = new TOrderUseLog();
+                            useLog.setId(StringUtils.genericId());
+                            useLog.setOrderId(order.getId());
+                            useLog.setCoursesId("");
+                            useLog.setUseTime(DateUtils.getNowDate());
+                            useLog.setMemberId(order.getMemberId());
+                            useLog.setChildId("");
+                            useLog.setShopId(order.getShopId());
+                            useLog.setFlag(Constants.DATA_NORMAL);
+                            useLog.setCreateBy(user.getUserId().toString());
+                            useLog.setCreateTime(DateUtils.getNowDate());
+
+                            orderUseLogService.insertTOrderUseLog(useLog);
+
+                            return success("核销成功。");
+
+                        }
+                        else{
+                            return error("订单已使用或已核销。");
+                        }
+                    }
+                    else{
+                        return error("订单状态未支付，不允许核销。");
+                    }
+                }
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("订单核销时发生异常。",ex);
+            return error("订单核销时发生异常。");
+        }
     }
 
     /**

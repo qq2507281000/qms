@@ -66,6 +66,13 @@ public interface SysUserMapper
      */
     public SysUser selectUserById(Long userId);
 
+    /***
+     * 通过用户Id获取用户信息
+     * @param openId
+     * @return
+     */
+    public SysUser selectUserByOpenId(String openId);
+
     /**
      * 通过用户ID删除用户
      * 

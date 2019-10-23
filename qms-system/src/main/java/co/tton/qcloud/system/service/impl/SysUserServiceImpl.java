@@ -67,6 +67,16 @@ public class SysUserServiceImpl implements ISysUserService
         return userMapper.selectUserList(user);
     }
 
+    /***
+     * 根据OpenId获取用户信息
+     * @param openId
+     * @return
+     */
+    @Override
+    public SysUser selectUserByOpenId(String openId) {
+        return userMapper.selectUserByOpenId(openId);
+    }
+
     /**
      * 根据条件分页查询已分配用户角色列表
      * 
