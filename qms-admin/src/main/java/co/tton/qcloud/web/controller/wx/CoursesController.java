@@ -85,7 +85,6 @@ public class CoursesController extends BaseController {
       }else{
         return AjaxResult.success("无推荐课程", tShopCoursesModels);
       }
-      //不是大连 回传报错
   }
 
   /***

@@ -42,9 +42,13 @@ public class BannerController extends BaseController {
 //    @RequiresPermissions("wx:banner")
     @RequestMapping(value = "",method = RequestMethod.GET)
     public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc",required = false)String location){
-        if(StringUtils.isNotEmpty(location) && location.equals("大连")){
-            List<TBanner> listTBanner=tBannerService.getBanner();
-            return AjaxResult.success("获取广告成功。",listTBanner);
+        if(StringUtils.isNotEmpty(location)){
+            List<TBanner> listTBanner=tBannerService.getBanner(location);
+            if(StringUtils.isNotEmpty(listTBanner)){
+                return AjaxResult.success("获取广告成功。",listTBanner);
+            }else {
+                return AjaxResult.error("获取广告失败。");
+            }
         }else{
             return AjaxResult.error("地点错误。");
         }
