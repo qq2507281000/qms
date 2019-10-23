@@ -77,6 +77,7 @@ public class OrderController extends BaseController {
         order.setUpdateTime(DateUtils.getNowDate());
         int result = orderService.updateTOrder(order);
         if (result == 1) {
+          setCouponStatus(order);//优惠卷逻辑删除
           return AjaxResult.success("支付回调成功。");
         } else {
           return AjaxResult.error("支付回调失败。");
@@ -152,10 +153,10 @@ public class OrderController extends BaseController {
             request.setTradeType("JSAPI");
             request.setOpenid(openId);
             WxPayMpOrderResult orderResult = wxService.createOrder(request);
-            setCouponStatus(order);
+//            setCouponStatus(order);
             return AjaxResult.success("订单支付中...", orderResult);
           } else {
-            setCouponStatus(order);
+//            setCouponStatus(order);
             return AjaxResult.error("当前订单[" + order.getOrderNo() + "]已经支付。");
           }
         }
@@ -168,10 +169,11 @@ public class OrderController extends BaseController {
   }
 
   //优惠卷销毁
-  public int setCouponStatus(TOrder order) {
+  private int setCouponStatus(TOrder order) {
     TOrderCoupon tOrderCoupon = new TOrderCoupon();
     tOrderCoupon.setOrderId(order.getId());
     tOrderCoupon.setFlag(0);
+    //查询为了获取优惠卷ID
     List<TOrderCoupon> tOrderCoupons = tOrderCouponService.selectTOrderCouponList(tOrderCoupon);
 
     TCoupon tCoupon = new TCoupon();
@@ -180,7 +182,7 @@ public class OrderController extends BaseController {
     tCoupon.setUpdateTime(DateUtils.getNowDate());
     tCoupon.setUpdateBy(order.getMemberId());
     tCoupon.setUseStatus("USE");
-    int count = tCouponService.updateTCoupon(tCoupon);
+    int count = tCouponService.updateTCoupon(tCoupon);//优惠卷逻辑删除
     return count;
   }
 
@@ -208,11 +210,12 @@ public class OrderController extends BaseController {
       if (StringUtils.isNotEmpty(useStatus)) {
         tOrderNew.setUseStatus(useStatus);
       }
+      //条件memberId是获取所有订单列表，其他状态获取订单列表
       List<TOrderModel> tOrders = tOrderService.getOrderList(tOrderNew);
       if (StringUtils.isNotEmpty(tOrders)) {
         return AjaxResult.success("获取成功", tOrders);
       } else {
-        return AjaxResult.success("会员无订单", tOrders);
+        return AjaxResult.error("会员无订单");
       }
     } else {
       return AjaxResult.error("参数错误");
@@ -229,14 +232,14 @@ public class OrderController extends BaseController {
   @ApiOperation("获取订单详情")
   public AjaxResult<WxOrderDetail> getOrderDetail(@PathVariable("id") String orderId) {
     if (StringUtils.isNotEmpty(orderId)) {
-      WxOrderDetail wxOrderDetail = tOrderService.getOrderDetail(orderId);
+      WxOrderDetail wxOrderDetail = tOrderService.getOrderDetail(orderId);//查询订单详情
       if (StringUtils.isNull(wxOrderDetail)) {
-        return AjaxResult.success("无效订单号");
+        return AjaxResult.error("无效订单号");
       } else {
         return AjaxResult.success("获取订单详情成功。", wxOrderDetail);
       }
     } else {
-      return AjaxResult.error("报错：orderId为空。");
+      return AjaxResult.error("参数错误。");
     }
   }
 
@@ -267,7 +270,7 @@ public class OrderController extends BaseController {
       } else {
         tOrder.setStar("0");
       }
-      int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);
+      int number = tOrderUseEvaluationService.insertOrderUseEvaluation(tOrder);//插入订单评价
       if (number == 1) {
         return AjaxResult.success("数据保存成功。", number);
       } else {

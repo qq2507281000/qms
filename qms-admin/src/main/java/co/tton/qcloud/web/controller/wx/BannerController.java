@@ -7,9 +7,6 @@ import co.tton.qcloud.system.domain.TBanner;
 import co.tton.qcloud.system.wxservice.ITBannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,33 +22,28 @@ import java.util.List;
  * @create: 2019-09-18 18:16
  */
 
-@Api(value = "小程序首页广告信息",tags="小程序首页广告信息")
+@Api(value = "小程序首页广告信息", tags = "小程序首页广告信息")
 @RestController
 @RequestMapping("/api/v1.0/banner")
 public class BannerController extends BaseController {
 
-    @Autowired
-    private ITBannerService tBannerService;
+  @Autowired
+  private ITBannerService tBannerService;
 
-    /***
-     *
-     * @param location
-     * @return
-     */
-    @ApiOperation("查询首页滚动广告")
+  @ApiOperation("查询首页滚动广告")
 //    @RequiresPermissions("wx:banner")
-    @RequestMapping(value = "",method = RequestMethod.GET)
-    public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc",required = false)String location){
-        if(StringUtils.isNotEmpty(location)){
-            List<TBanner> listTBanner=tBannerService.getBanner(location);
-            if(StringUtils.isNotEmpty(listTBanner)){
-                return AjaxResult.success("获取广告成功。",listTBanner);
-            }else {
-                return AjaxResult.error("获取广告失败。");
-            }
-        }else{
-            return AjaxResult.error("地点错误。");
-        }
+  @RequestMapping(value = "", method = RequestMethod.GET)
+  public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc", required = false) String location) {
+    if (StringUtils.isNotEmpty(location)) {
+      List<TBanner> listTBanner = tBannerService.getBanner(location);
+      if (StringUtils.isNotEmpty(listTBanner)) {
+        return AjaxResult.success("获取广告成功。", listTBanner);
+      } else {
+        return AjaxResult.error("无此地点数据。");
+      }
+    } else {
+      return AjaxResult.error("参数错误。");
     }
+  }
 
 }

@@ -125,23 +125,23 @@ public class MemberController extends BaseController {
   }
 
   @ApiOperation("会员充值回调接口")
-  @RequestMapping(value = "/vip/charging/notify",method = RequestMethod.POST)
+  @RequestMapping(value = "/vip/charging/notify", method = RequestMethod.POST)
   public AjaxResult parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
-    try{
+    try {
       final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
       String orderNo = notifyResult.getOutTradeNo();
       String transactionId = notifyResult.getTransactionId();
       String payTime = notifyResult.getTimeEnd();
-      Date date = DateUtil.parse(payTime,"yyyyMMddHHmmss");
+      Date date = DateUtil.parse(payTime, "yyyyMMddHHmmss");
       TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByOrderNo(orderNo);
-      if(memberCharging != null){
+      if (memberCharging != null) {
         memberCharging.setChargingTime(date);
         memberCharging.setBeginTime(date);
-        memberCharging.setEndTime(DateUtils.addYears(date,1));
+        memberCharging.setEndTime(DateUtils.addYears(date, 1));
         memberCharging.setSerialNo(transactionId);
         memberCharging.setPayStatus("PAID");
         int result = memberChargingService.updateTMemberCharging(memberCharging);
-        if(result == 1){
+        if (result == 1) {
 
           String memberId = memberCharging.getMemberId();
           TMember member = memberService.selectTMemberById(memberId);
@@ -149,16 +149,13 @@ public class MemberController extends BaseController {
           memberService.updateTMember(member);
 
           return AjaxResult.success("会员充值回调成功。");
-        }
-        else{
+        } else {
           return AjaxResult.error("会员充值回调失败。");
         }
-      }
-      else{
+      } else {
         return AjaxResult.error("未能找到会员充值信息。");
       }
-    }
-    catch(Exception ex){
+    } catch (Exception ex) {
       ex.printStackTrace();
       logger.error("订单支付回调接口异常。");
       return error("订单支付回调接口异常。\r\n" + ex.getMessage());
@@ -179,7 +176,7 @@ public class MemberController extends BaseController {
         memberCharging.setMemberId(model.getMemberId());
         memberCharging.setChargingTime(DateUtils.getNowDate());
         memberCharging.setBeginTime(DateUtils.getNowDate());
-        memberCharging.setEndTime(DateUtils.addDays(DateUtils.addYears(DateUtils.getNowDate(), 1),-1));
+        memberCharging.setEndTime(DateUtils.addDays(DateUtils.addYears(DateUtils.getNowDate(), 1), -1));
         memberCharging.setVipLevel(1);
         memberCharging.setChargingPrice(model.getPrice());
         memberCharging.setFlag(Constants.DATA_NORMAL);
@@ -195,14 +192,14 @@ public class MemberController extends BaseController {
           request.setBody("VIP会员充值");
           request.setAttach("VIP充值订单");
           request.setOutTradeNo(orderNo);
-          request.setTotalFee((int) (model.getPrice()*100));
+          request.setTotalFee((int) (model.getPrice() * 100));
           request.setSpbillCreateIp(IpUtils.getHostIp());
           request.setTimeStart(DateUtils.dateTimeNow());
           request.setNotifyUrl(Global.getChargingPayNotifyUrl());
           request.setTradeType("JSAPI");
           request.setOpenid(model.getOpenId());
           WxPayMpOrderResult orderResult = wxService.createOrder(request);
-          return AjaxResult.success("支付中...",orderResult);
+          return AjaxResult.success("支付中...", orderResult);
         } else {
           return AjaxResult.error("未能创建VIP会员充值订单。");
         }
@@ -210,28 +207,23 @@ public class MemberController extends BaseController {
       }
     } catch (Exception ex) {
       ex.printStackTrace();
-      logger.error("会员充值失败。",ex);
+      logger.error("会员充值失败。", ex);
       return AjaxResult.error("会员充值失败。", ex);
     }
   }
 
-  /***
-   *
-   * @param memberId
-   * @return
-   */
   @ApiOperation("查询会员信息")
 //    @RequiresPermissions("wx:member:info")
   @RequestMapping(value = "/info", method = RequestMethod.GET)
   public AjaxResult getMemberInfo(@RequestParam(value = "id") String memberId) {
     if (StringUtil.isNotEmpty(memberId)) {
-//            TMember member = memberService.selectTMemberById(memberId);
-      TMemberModel member = itMemberService.getMemberInfo(memberId);
+      TMemberModel member = itMemberService.getMemberInfo(memberId);//查询会员信息
       if (member == null) {
         return AjaxResult.error("未能找到会员信息。");
       } else {
         if (member.getFlag() == Constants.DATA_NORMAL) {
           if (StringUtils.equals(member.getAccountLevel(), "超级会员")) {
+            //查询超级会员有效期
             TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByMemberId(memberId);
             if (memberCharging != null) {
               member.setVipBeginTime(memberCharging.getBeginTime());
@@ -243,72 +235,44 @@ public class MemberController extends BaseController {
           return AjaxResult.error("会员信息已被删除。");
         }
       }
-
-      //            TMemberModel tMemberModel= tMemberService.getMemberInfo(memberId);
-//            if(tMemberModel.getUseStatus() == null){
-//                tMemberModel.setUseStatus("0");
-//            }
-//            if(tMemberModel.getPayStatus() == null){
-//                tMemberModel.setPayStatus("0");
-//            }
-//            if(tMemberModel.getBillStatus() == null){
-//                tMemberModel.setBillStatus("0");
-//            }
-//            if(StringUtils.equals(tMemberModel.getAccountLevel(),"")){
-//                TMemberCharging memberCharging = memberChargingService.selectTMemberChargingByMemberId(memberId);
-//                if(memberCharging != null){
-//                    tMemberModel.setVipBeginTime(memberCharging.getBeginTime());
-//                    tMemberModel.setVipEndTime(memberCharging.getEndTime());
-//                }
-//            }
-//            return AjaxResult.success("获取会员信息成功",tMemberModel);
     } else {
       return AjaxResult.error("参数错误，会员Id不允许为空。");
     }
   }
 
-  /***
-   *
-   * @param memberId
-   * @return
-   */
   @ApiOperation("查询会员用户子女信息")
-//    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:member:baby")
   @RequestMapping(value = "/getFavourite", method = RequestMethod.GET)
   public AjaxResult<TMember> getFavourite(@RequestParam(value = "id") String memberId) {
     if (StringUtil.isNotEmpty(memberId)) {
-      TMember tMember = tMemberService.getFavourite(memberId);
-      return AjaxResult.success("获取会员信息成功", tMember);
+      TMember tMember = tMemberService.getFavourite(memberId);//查询会员用户子女信息
+      if (StringUtils.isNotNull(tMember)) {
+        return AjaxResult.success("获取会员信息成功", tMember);
+      } else {
+        return AjaxResult.error("该会员无子女信息");
+      }
     } else {
-      return AjaxResult.error("会员ID错误");
+      return AjaxResult.error("参数错误");
     }
   }
 
-  /***
-   *
-   * @param realName,sex,birthday
-   * @return
-   */
   @ApiOperation("会员子女信息修改")
-//    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:memberbaby:updade")
   @RequestMapping(value = "/upMemberBaby", method = RequestMethod.GET)
   public AjaxResult upMemberBabyInfo(@RequestParam(value = "memberid") String memberId,
                                      @RequestParam(value = "realname", required = false) String realName,
                                      @RequestParam(value = "sex", required = false) Integer sex,
                                      @RequestParam(value = "birthday", required = false) Date birthday) {
     if (StringUtil.isNotEmpty(memberId)) {
-      //查询会员子女表相关信息
       TMemberBaby memberBaby = new TMemberBaby();
       memberBaby.setMemberId(memberId);
-
       int result = 0;
-
       TMemberBaby baby = null;
 
+      //查询会员子女表相关信息
       List<TMemberBaby> list = memberBabyService.selectTMemberBabyList(memberBaby);
       if (list != null) {
-//                baby = list.stream().filter(d->StringUtils.equals(d.getRealName(),realName))
-//                        .findFirst().orElse(null);
+        //如果会员子女信息存在就修改，反之null,0,插入
         if (list.size() >= 1) {
           baby = list.get(0);
           baby.setRealName(realName);
@@ -316,7 +280,7 @@ public class MemberController extends BaseController {
           baby.setBirthday(birthday);
           baby.setUpdateBy(memberId);
           baby.setUpdateTime(DateUtils.getNowDate());
-          result = memberBabyService.updateTMemberBaby(baby);
+          result = memberBabyService.updateTMemberBaby(baby);//修改
         } else {
           String id = StringUtils.genericId();
           baby = new TMemberBaby();
@@ -328,7 +292,7 @@ public class MemberController extends BaseController {
           baby.setFlag(Constants.DATA_NORMAL);
           baby.setCreateBy(memberId);
           baby.setCreateTime(DateUtils.getNowDate());
-          result = memberBabyService.insertTMemberBaby(baby);
+          result = memberBabyService.insertTMemberBaby(baby);//插入
         }
       } else {
         String id = StringUtils.genericId();
@@ -341,7 +305,7 @@ public class MemberController extends BaseController {
         baby.setFlag(Constants.DATA_NORMAL);
         baby.setCreateBy(memberId);
         baby.setCreateTime(DateUtils.getNowDate());
-        result = memberBabyService.insertTMemberBaby(baby);
+        result = memberBabyService.insertTMemberBaby(baby);//插入
       }
 
       if (result == 1) {
@@ -349,83 +313,42 @@ public class MemberController extends BaseController {
       } else {
         return AjaxResult.error("新增活修改会员宝宝信息失败。");
       }
-
-//            TMemberBaby tMemberBaby  = tMemberService.getTMemberBabyId(memberId);
-//            if(StringUtils.isNull(tMemberBaby)){
-//                TMemberBaby tMemberBaby1 = new TMemberBaby();
-//                SysUser user = ShiroUtils.getSysUser();
-//                tMemberBaby1.setCreateBy(user.getUserId().toString());
-//                tMemberBaby1.setCreateTime(new Date());
-//                tMemberBaby1.setFlag(Constants.DATA_NORMAL);
-//                tMemberBaby1.setId(StringUtils.genericId());
-//                tMemberBaby1.setMemberId(memberId);
-//                tMemberBaby1.setRealName(realName);
-//                tMemberBaby1.setSex(sex);
-//                tMemberBaby1.setBirthday(birthday);
-//                //没有,调新增
-//                int number = tMemberBabyService.insertTMemberBaby(tMemberBaby1);
-//                if(number == 0){
-//                    return AjaxResult.success("新增会员子女信息失败");
-//                }else{
-//                    return AjaxResult.success("新增会员子女信息成功",number);
-//                }
-//            }else{
-//                //有修改
-//                TMemberBaby tMemberBaby1 = new TMemberBaby();
-//                tMemberBaby1.setMemberId(memberId);
-//                tMemberBaby1.setRealName(realName);
-//                tMemberBaby1.setSex(sex);
-//                tMemberBaby1.setBirthday(birthday);
-//                int number = tMemberService.upMemberBabyInfo(tMemberBaby1);
-//                if(number == 0){
-//                    return AjaxResult.success("修改会员子女信息失败");
-//                }else{
-//                    return AjaxResult.success("修改会员子女信息成功",number);
-//                }
-//            }
     } else {
       return AjaxResult.error("参数错误，会员Id不允许为空。");
     }
   }
 
-  /***
-   *
-   * @param
-   * @return
-   */
   @ApiOperation("会员年费信息暂时写固定值")
-//    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:member:years")
   @RequestMapping(value = "/getMemberYearMoney", method = RequestMethod.GET)
   public AjaxResult<List> upMemberBabyInfo() {
     //会员年费97.00和会员描述暂时写固定值
-    //会员年费
-    double memberYearMoney = 97.00F;
-    //会员描述
-    String member = "12月年费超级VIP";
-    List memberYearList = new ArrayList();
-    memberYearList.add(memberYearMoney);
-    memberYearList.add(member);
-    return AjaxResult.success("修改会员子女信息成功", memberYearList);
+    double memberYearMoney = 97.00F;//会员年费
+    String member = "12月年费超级VIP";//会员描述
+    List list = new ArrayList();
+    list.add(memberYearMoney);
+    list.add(member);
+    return AjaxResult.success("修改会员子女信息成功", list);
   }
 
   @ApiOperation("根据openId查询会员信息")
-//    @RequiresPermissions("wx:member:orders")
+//    @RequiresPermissions("wx:member:openid")
   @RequestMapping(value = "/getMemberByOpenId", method = RequestMethod.GET)
   public AjaxResult<TMember> getMemberByOpenId(@RequestParam(value = "openId") String openId) {
     if (StringUtils.isNotEmpty(openId)) {
-      TMember tMember = tMemberService.getMemberByOpenId(openId);
-      if (tMember == null) {
-        return AjaxResult.error("错误：不存在该用户");
+      TMember tMember = tMemberService.getMemberByOpenId(openId);//查询会员信息
+      if (StringUtils.isNotNull(tMember)) {
+        return AjaxResult.error("该用户不存在");
       } else {
         return AjaxResult.success("查询会员信息成功", tMember);
       }
     } else {
-      return AjaxResult.error("错误：openId为空");
+      return AjaxResult.error("参数错误");
     }
   }
 
 
-  //    @RequiresPermissions("wx:feedback")
+  //    @RequiresPermissions("wx:info")
   @RequestMapping(value = "/info", method = RequestMethod.POST)
   @ApiOperation("新增用户信息")
   public AjaxResult<TMember> saveMember(TMember tMember) {
@@ -436,17 +359,15 @@ public class MemberController extends BaseController {
       tMember.setCreateBy(user.getUserId().toString());
       tMember.setCreateTime(new Date());
       tMember.setFlag(Constants.DATA_NORMAL);
-      int number = tMemberService.saveMember(tMember);
+      int number = tMemberService.saveMember(tMember);//新增用户信息
       if (number == 0) {
-        return AjaxResult.success("新增用户失败。", number);
+        return AjaxResult.error("新增用户失败。");
       } else {
         return AjaxResult.success("新增用户成功。", number);
       }
     } else {
       return AjaxResult.error("参数错误。");
     }
-
-
   }
 
   //    @RequiresPermissions("wx:mobile")
@@ -454,7 +375,6 @@ public class MemberController extends BaseController {
   @ApiOperation("绑定手机号")
   public AjaxResult<TMember> upMobile(@RequestParam(value = "memberid") String memberid,
                                       @RequestParam(value = "mobile") String mobile) {
-
     if (StringUtils.isNotEmpty(memberid) && StringUtils.isNotEmpty(mobile)) {
       TMember tMember = memberService.selectTMemberById(memberid);
       if (tMember == null) {

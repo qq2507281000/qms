@@ -44,64 +44,55 @@ public class CoursesController extends BaseController {
   @Autowired
   private ITShopCoursesTimeService shopCoursesTimeService;
 
-
-  /***
-   *
-   * @param location,categoryId,shopId
-   * @return
-   */
-//    @RequiresPermissions("wx:courses:suggest")
+  //    @RequiresPermissions("wx:courses:suggest")
   @RequestMapping(value = "suggest", method = RequestMethod.GET)
   @ApiOperation("获取推荐课程")
   public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "loc", required = false) String location,
                                                                @RequestParam(value = "category", required = false) String categoryId,
                                                                @RequestParam(value = "shopId", required = false) String shopId) {
-      TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
-      if (StringUtils.isNotEmpty(location)) {
-        tShopCoursesModel.setAddress(location);
-      }
-      if (StringUtils.isNotEmpty(shopId)) {
-        tShopCoursesModel.setShopId(shopId);
-      }
-      if (StringUtils.isNotEmpty(categoryId)) {
-        tShopCoursesModel.setCategoryId(categoryId);
-      }
-      List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
-      if (StringUtils.isNotNull(tShopCoursesModels)){
-        for (TShopCoursesModel tModel : tShopCoursesModels) {
-          String id = tModel.getId();
-          //匹配图片
-          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
-          if (imageUrl != null) {
-            tModel.setImageUrl(imageUrl);
-          }
-          //月销
-          String count = tOrderDetailService.getOrderMon(id);
-          if (count != null) {
-            tModel.setCount(count);
-          }
+    TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
+    if (StringUtils.isNotEmpty(location)) {
+      tShopCoursesModel.setAddress(location);
+    }
+    if (StringUtils.isNotEmpty(shopId)) {
+      tShopCoursesModel.setShopId(shopId);
+    }
+    if (StringUtils.isNotEmpty(categoryId)) {
+      tShopCoursesModel.setCategoryId(categoryId);
+    }
+    //查出推荐课程
+    List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
+    if (StringUtils.isNotNull(tShopCoursesModels)) {
+      for (TShopCoursesModel tModel : tShopCoursesModels) {
+        String id = tModel.getId();
+        //匹配图片
+        String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+        if (imageUrl != null) {
+          tModel.setImageUrl(imageUrl);
         }
-        return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
-      }else{
-        return AjaxResult.success("无推荐课程", tShopCoursesModels);
+        //月销
+        String count = tOrderDetailService.getOrderMon(id);
+        if (count != null) {
+          tModel.setCount(count);
+        }
       }
+      return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
+    } else {
+      return AjaxResult.success("无推荐课程", tShopCoursesModels);
+    }
   }
 
-  /***
-   *
-   * @param id
-   * @return
-   */
-//    @RequiresPermissions("wx:courses:detail")
+  //    @RequiresPermissions("wx:courses:detail")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   @ApiOperation("课程详细信息")
   public AjaxResult<TShopCoursesModel> getCoursesDetail(@PathVariable("id") String id) {
     if (StringUtils.isNotEmpty(id)) {
-      TShopCoursesModel tShopCoursesModels = iCoursesService.getCoursesDetail(id);
-      String count = tOrderDetailService.getOrderMon(id);
-      List<TShopCoursesImages> images = tShopCoursesImagesService.getImagesByid(id);
+      TShopCoursesModel tShopCoursesModels = iCoursesService.getCoursesDetail(id);//查询课程详情
+      String count = tOrderDetailService.getOrderMon(id);//计算月销
+      List<TShopCoursesImages> images = tShopCoursesImagesService.getImagesByid(id);//查询出图片
       String[] imageUrls = new String[images.size()];
       int i = 0;
+      //匹配图片
       for (TShopCoursesImages image : images) {
         imageUrls[i] = image.getImageUrl();
         i++;
@@ -112,47 +103,31 @@ public class CoursesController extends BaseController {
       TShopCoursesTime query = new TShopCoursesTime();
       query.setCoursesId(id);
 
+      //查询上课时间
       List<TShopCoursesTime> shopCoursesTimes = shopCoursesTimeService.selectTShopCoursesTimeList(query);
       tShopCoursesModels.setCoursesTimeList(shopCoursesTimes);
 
       return AjaxResult.success("查询成功", tShopCoursesModels);
     } else {
-      return AjaxResult.error("没有获取到课程Id");
+      return AjaxResult.error("参数错误");
     }
   }
 
-  //    @RequiresPermissions("wx:courses:detail")
-  @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
-  public AjaxResult getCoursesComment(@PathVariable("id") String id) {
-    return null;
-  }
-
-
-  /***
-   *查询所有价格信息
-   * @param
-   * @return
-   */
-//    @RequiresPermissions("wx:courses:price")
+  //    @RequiresPermissions("wx:courses:price")
   @RequestMapping(value = "/price/id", method = RequestMethod.GET)
   @ApiOperation("根据课程Id获取价格分类")
   public AjaxResult<List<TShopCoursesPrice>> getCoursesPriceById(@RequestParam(value = "coursesId", required = false) String coursesId) {
     if (StringUtils.isNotEmpty(coursesId)) {
-      List<TShopCoursesPrice> tShopCoursesPrice = tShopCoursesPriceService.getCoursesPriceById(coursesId);
+      List<TShopCoursesPrice> tShopCoursesPrice = tShopCoursesPriceService.getCoursesPriceById(coursesId);//查询价格信息
       if (tShopCoursesPrice.size() == 0) {
         return AjaxResult.error("获取失败");
       }
       return AjaxResult.success("查询成功", tShopCoursesPrice);
     }
-    return AjaxResult.error("课程Id为空");
+    return AjaxResult.error("参数错误");
   }
 
-  /***
-   *
-   * @param categoryId,shopId
-   * @return
-   */
-//    @RequiresPermissions("wx:courses:suggest")
+  //    @RequiresPermissions("wx:shop:category")
   @RequestMapping(value = "/category/id", method = RequestMethod.GET)
   @ApiOperation("获取某商家某分类下课程接口")
   public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "categoryid", required = false) String categoryId,
@@ -164,35 +139,29 @@ public class CoursesController extends BaseController {
     if (StringUtils.isNotEmpty(categoryId)) {
       tShopCoursesModel.setCategoryId(categoryId);
     }
-    if(StringUtils.isNotNull(tShopCoursesModel)){
+    {
+      //获取某商家某分类下课程信息
       List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getShopCategoryCourses(tShopCoursesModel);
-      if(StringUtils.isNotEmpty(tShopCoursesModels)){
+      if (StringUtils.isNotEmpty(tShopCoursesModels)) {
         for (TShopCoursesModel tModel : tShopCoursesModels) {
           String id = tModel.getId();
-          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);//匹配图片
           if (imageUrl != null) {
             tModel.setImageUrl(imageUrl);
           }
-          String count = tOrderDetailService.getOrderMon(id);
+          String count = tOrderDetailService.getOrderMon(id);//匹配月销
           if (count != null) {
             tModel.setCount(count);
           }
         }
         return AjaxResult.success("获取成功", tShopCoursesModels);
-      }else{
-        return AjaxResult.success("该参数下无查询结果",tShopCoursesModels);
+      } else {
+        return AjaxResult.success("该参数下无查询结果", tShopCoursesModels);
       }
-    }else{
-      return AjaxResult.error("参数错误");
     }
   }
 
-  /***
-   *
-   * @param shopId
-   * @return
-   */
-//    @RequiresPermissions("wx:courses:suggest")
+  //    @RequiresPermissions("wx:shop:all:category")
   @RequestMapping(value = "/shop/category", method = RequestMethod.GET)
   @ApiOperation("获取商家所有课程分类")
   public AjaxResult<List<TShopCoursesModel>> getAllCoursesCategory(@RequestParam(value = "shopId") String shopId) {
@@ -200,30 +169,27 @@ public class CoursesController extends BaseController {
     if (StringUtils.isNotEmpty(shopId)) {
       TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
       tShopCoursesModel.setShopId(shopId);
+      //获取商家所有课程分类
       List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getAllCoursesCategory(tShopCoursesModel);
-      if(StringUtils.isNotEmpty(tShopCoursesModels)){
+      if (StringUtils.isNotEmpty(tShopCoursesModels)) {
         return AjaxResult.success("获取成功", tShopCoursesModels);
-      }else{
-        return AjaxResult.success("该商家没有任何分类", tShopCoursesModels);
+      } else {
+        return AjaxResult.error("该商家没有任何分类");
       }
-    }else{
+    } else {
       return AjaxResult.error("参数错误");
     }
   }
 
-  /***
-   *
-   * @param coursesId
-   * @return
-   */
-//    @RequiresPermissions("wx:courses:evaluation")
+  //    @RequiresPermissions("wx:courses:evaluation")
   @RequestMapping(value = "/courses/evaluation", method = RequestMethod.GET)
   @ApiOperation("获取课程评价")
   public AjaxResult<List<TOrderUseEvaluation>> getCoursesCategory(@RequestParam(value = "coursesid") String coursesId) {
 
     if (StringUtils.isNotEmpty(coursesId)) {
+      //查询课程评价信息
       List<TOrderUseEvaluation> tShopCoursesModel = iCoursesService.getCoursesCategory(coursesId);
-      if(StringUtils.isNotEmpty(tShopCoursesModel)){
+      if (StringUtils.isNotEmpty(tShopCoursesModel)) {
         for (TOrderUseEvaluation tOrderUseEvaluation : tShopCoursesModel) {
           //获取该索引下的图片字符串
           String str = tOrderUseEvaluation.getImageUrl();
@@ -234,37 +200,38 @@ public class CoursesController extends BaseController {
           }
         }
         return AjaxResult.success("获取成功", tShopCoursesModel);
-      }else{
-        return AjaxResult.success("该课程无评价", tShopCoursesModel);
+      } else {
+        return AjaxResult.error("该课程无评价");
       }
-    }else{
+    } else {
       return AjaxResult.error("参数错误");
     }
   }
 
   @ApiOperation("收藏课程搜索框查询")
 //  @RequiresPermissions("wx:courses:name")
-  @RequestMapping(value="/name",method = RequestMethod.GET)
-  public AjaxResult<List> getNameShop(@RequestParam(value="coursestitle")String coursesName){
-    if(StringUtils.isNotNull(coursesName)){
+  @RequestMapping(value = "/name", method = RequestMethod.GET)
+  public AjaxResult<List> getNameShop(@RequestParam(value = "coursestitle") String coursesName) {
+    if (StringUtils.isNotNull(coursesName)) {
+      //收藏表收藏课程查询
       List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getcollectionCourses(coursesName);
-      if(StringUtils.isNotEmpty(tShopCoursesModels)){
+      if (StringUtils.isNotEmpty(tShopCoursesModels)) {
         for (TShopCoursesModel tModel : tShopCoursesModels) {
           String id = tModel.getId();
-          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);//匹配图片
           if (imageUrl != null) {
             tModel.setImageUrl(imageUrl);
           }
-          String count = tOrderDetailService.getOrderMon(id);
+          String count = tOrderDetailService.getOrderMon(id);//月销
           if (count != null) {
             tModel.setCount(count);
           }
         }
         return AjaxResult.success("获取成功", tShopCoursesModels);
-      }else{
-        return AjaxResult.success("该参数下无查询结果",tShopCoursesModels);
+      } else {
+        return AjaxResult.error("该参数下无查询结果");
       }
-    }else{
+    } else {
       return AjaxResult.error("参数错误");
     }
   }

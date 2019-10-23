@@ -62,7 +62,7 @@ public interface TShopCoursesPriceMapper
     /**
      * 根据Id查询价格信息
      *
-     * @param coursesId
+     * @param coursesId 查询条件
      * @return 结果
      */
     List<TShopCoursesPrice> getCoursesPriceById(String coursesId);

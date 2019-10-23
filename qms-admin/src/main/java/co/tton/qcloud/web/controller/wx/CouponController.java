@@ -38,33 +38,26 @@ public class CouponController extends BaseController {
 
     @Autowired
     private ITCouponService couponService;
-
     @Autowired
     private ITShopCoursesService coursesService;
-
     @Autowired
     private ITShopCoursesPriceService coursesPriceService;
 
-    /***
-     *
-     * @param memberId
-     * @return
-     */
     @ApiOperation("会员用户优惠劵查询")
 //    @RequiresPermissions("wx:coupon:list")
     @RequestMapping(value = "",method = RequestMethod.GET)
     public AjaxResult<List<TCoupon>> getCouponList(@RequestParam(value = "memberId") String memberId){
         try {
             if (StrUtil.isNotEmpty(memberId)) {
-                List<TCoupon> list = couponService.selectTCouponByMemberId(memberId);
+                List<TCoupon> list = couponService.selectTCouponByMemberId(memberId);//查询满足状态的优惠卷
                 if(StringUtils.isNotEmpty(list)){
                     return AjaxResult.success("获取会员优惠券成功。",list);
                 }else{
-                    return AjaxResult.success("该用户没有优惠卷。",list);
+                    return AjaxResult.error("该用户没有优惠卷。");
                 }
             }
             else{
-                return error("会员Id不允许为空。");
+                return error("参数错误。");
             }
         }
         catch(Exception ex){
@@ -87,10 +80,10 @@ public class CouponController extends BaseController {
                 }
                 else{
                     TShopCoursesPrice coursesPrice = coursesPriceService.selectTShopCoursesPriceById(priceId);
-                    double price = coursesPrice.getPrice();
+                    double price = coursesPrice.getPrice();//查出默认基准价格
                     TCoupon coupon = couponService.selectTCouponById(couponId);
-                    double faceValue = coupon.getFaceValue();
-                    double realPrice = price - faceValue;
+                    double faceValue = coupon.getFaceValue();//查出优惠卷面值
+                    double realPrice = price - faceValue;//计算出应付价格
                     OrderPriceModel priceModel = new OrderPriceModel();
                     priceModel.setCoursesId(coursesId);
                     priceModel.setPriceId(priceId);
