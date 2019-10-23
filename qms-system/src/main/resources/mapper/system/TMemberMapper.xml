@@ -202,11 +202,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             open_id = #{openId}
     </select>
 
-    <update id="upMobile" parameterType="TMember">
-        update t_member set mobile = #{mobile}
-        where id = #{id}
-    </update>
-
     <insert id="saveMember" parameterType="TMember">
         insert into t_member
         <trim prefix="(" suffix=")" suffixOverrides=",">

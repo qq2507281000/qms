@@ -4,7 +4,6 @@ import java.util.List;
 
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TMemberMapper;
 import co.tton.qcloud.system.domain.TMember;

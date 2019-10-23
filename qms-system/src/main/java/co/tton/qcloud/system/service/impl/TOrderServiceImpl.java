@@ -80,6 +80,11 @@ public class TOrderServiceImpl implements ITOrderService
         return tOrderMapper.selectTOrderById(id);
     }
 
+    /***
+     * 根据订单编号获取订单详情
+     * @param no
+     * @return
+     */
     @Override
     public TOrder selectTOrderByNo(String no) {
         return tOrderMapper.selectTOrderByNo(no);
@@ -262,7 +267,6 @@ public class TOrderServiceImpl implements ITOrderService
                 model.setMessage("参数错误，priceId不允许为空。");
                 return model;
             }
-//            TMember member = memberService.selectTMemberById(memberId);
             TShop shop = shopService.selectTShopById(shopId);
             TShopCourses courses = coursesService.selectTShopCoursesById(coursesId);
             TShopCoursesPrice coursesPrice = coursesPriceService.selectTShopCoursesPriceById(priceId);
@@ -285,7 +289,7 @@ public class TOrderServiceImpl implements ITOrderService
             order.setPaymentChannel("wechatpay");
             if(StringUtils.isNotEmpty(orderModel.getCouponId())){
                 order.setHaveDiscount(1);
-                coupon = couponService.selectTCouponById(orderModel.getCouponId());
+                coupon = couponService.selectTCouponById(orderModel.getCouponId());//查询优惠卷
             }
             else{
                 order.setHaveDiscount(0);
@@ -310,7 +314,7 @@ public class TOrderServiceImpl implements ITOrderService
                 orderCoupon.setFlag(Constants.DATA_NORMAL);
                 orderCoupon.setCreateBy(memberId);
                 orderCoupon.setCreateTime(DateUtils.getNowDate());
-                orderCouponService.insertTOrderCoupon(orderCoupon);
+                orderCouponService.insertTOrderCoupon(orderCoupon);//生成订单优惠卷
 
                 TCouponUseLog couponUseLog = new TCouponUseLog();
                 couponUseLog.setId(StringUtils.genericId());
@@ -325,7 +329,7 @@ public class TOrderServiceImpl implements ITOrderService
                 couponUseLog.setFlag(Constants.DATA_NORMAL);
                 couponUseLog.setCreateTime(DateUtils.getNowDate());
                 couponUseLog.setCreateBy(memberId);
-                couponUseLogService.insertTCouponUseLog(couponUseLog);
+                couponUseLogService.insertTCouponUseLog(couponUseLog);//生成优惠卷使用记录
             }
             TOrderDetail orderDetail = new TOrderDetail();
             orderDetail.setId(StringUtils.genericId());
@@ -340,13 +344,13 @@ public class TOrderServiceImpl implements ITOrderService
             orderDetail.setCreateBy(memberId);
             orderDetail.setCreateTime(DateUtils.getNowDate());
             orderDetail.setUseStatus("UNUSE");
-            String str = StringUtils.substring(StringUtils.randomCode(),-17,-1);
+            String str = StringUtils.substring(StringUtils.randomCode(),-17,-1);//生成核销编码并截取成16位
             orderDetail.setConfirmNo(str);
             orderDetail.setChildId(orderModel.getBabyId());
             orderDetail.setChildSex(orderModel.getBabySex());
             orderDetail.setChildName(orderModel.getBabyName());
             orderDetail.setChildBirthday(orderModel.getBabyBirthday());
-            orderDetailService.insertTOrderDetail(orderDetail);
+            orderDetailService.insertTOrderDetail(orderDetail);//插入订单详情
 
             model.setStatus("SUCCESS");
             model.setOrder(order);

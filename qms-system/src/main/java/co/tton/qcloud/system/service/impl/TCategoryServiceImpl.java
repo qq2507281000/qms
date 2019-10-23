@@ -77,7 +77,7 @@ public class TCategoryServiceImpl implements ITCategoryService
     /**
      * 删除分类基础对象
      * 
-     * @param ids 需要删除的数据ID
+     * @param id 需要删除的数据ID
      * @return 结果
      */
     @Override

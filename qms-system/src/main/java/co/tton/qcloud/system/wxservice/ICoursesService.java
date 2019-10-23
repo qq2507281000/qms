@@ -8,9 +8,20 @@ import java.util.List;
 
 public interface ICoursesService {
 
-
+    /**
+     * 小程序课程基本信息
+     *
+     * @param id 根据Id查询有关课程的详细信息
+     * @return 结果
+     */
     TShopCoursesModel getCoursesDetail(String id);
 
+    /**
+     * 小程序查询推荐课程
+     *
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
     List<TShopCoursesModel> getSuggestCourses(TShopCoursesModel tShopCoursesModel);
 
     /**

@@ -25,7 +25,7 @@ public interface TShopCoursesMapper
     /**
      * 查询课程基本信息
      *
-     * @param id 课程基本信息ID
+     * @param shopId 课程基本信息ID
      * @return 课程基本信息
      */
     public TShopCourses selectTShopCoursesByShopId(String shopId);

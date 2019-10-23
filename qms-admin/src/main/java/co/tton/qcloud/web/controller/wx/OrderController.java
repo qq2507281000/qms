@@ -77,8 +77,11 @@ public class OrderController extends BaseController {
         order.setUpdateTime(DateUtils.getNowDate());
         int result = orderService.updateTOrder(order);
         if (result == 1) {
-          setCouponStatus(order);//优惠卷逻辑删除
-          return AjaxResult.success("支付回调成功。");
+          int count = setCouponStatus(order);//优惠卷逻辑删除
+          if(count == 0) {
+            return AjaxResult.error("销毁失败。");
+          }
+          return AjaxResult.success(" ，支付回调成功。");
         } else {
           return AjaxResult.error("支付回调失败。");
         }
@@ -153,10 +156,8 @@ public class OrderController extends BaseController {
             request.setTradeType("JSAPI");
             request.setOpenid(openId);
             WxPayMpOrderResult orderResult = wxService.createOrder(request);
-//            setCouponStatus(order);
             return AjaxResult.success("订单支付中...", orderResult);
           } else {
-//            setCouponStatus(order);
             return AjaxResult.error("当前订单[" + order.getOrderNo() + "]已经支付。");
           }
         }

@@ -69,11 +69,4 @@ public interface TMemberBabyMapper
      */
     int upMemberBabyInfo(TMemberBaby tMemberBaby);
 
-    /**
-     * 小程序会员子女查询
-     *
-     * @param memberId
-     * @return TMemberBaby
-     */
-    public TMemberBaby getTMemberBabyId(@Param("memberId") String memberId);
 }

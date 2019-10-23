@@ -54,19 +54,4 @@ public interface ITMemberService {
    */
     int saveMember(TMember tMember);
 
-    /**
-     * 绑定手机号
-     *
-     * @param tMember
-     * @return 结果
-     */
-    int upMobile(TMember tMember);
-
-    /**
-     * 小程序会员子女查询
-     *
-     * @param memberId
-     * @return TMemberBaby
-     */
-    public TMemberBaby getTMemberBabyId(@Param("memberId") String memberId);
 }

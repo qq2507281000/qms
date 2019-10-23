@@ -73,25 +73,4 @@ public class MemberServiceImpl implements ITMemberService {
         return tMemberMapper.saveMember(tMember);
     }
 
-    /**
-     * 绑定手机号
-     *
-     * @param tMember
-     * @return 结果
-     */
-      @Override
-      public int upMobile(TMember tMember) {
-        return tMemberMapper.upMobile(tMember);
-      }
-
-    /**
-     * 小程序会员子女查询
-     *
-     * @param memberId
-     * @return TMemberBaby
-     */
-      @Override
-      public TMemberBaby getTMemberBabyId(String memberId) {
-        return tMemberBabyMapper.getTMemberBabyId(memberId);
-      }
 }

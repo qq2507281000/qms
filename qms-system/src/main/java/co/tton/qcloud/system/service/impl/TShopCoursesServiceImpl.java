@@ -3,7 +3,6 @@ package co.tton.qcloud.system.service.impl;
 import java.util.List;
 
 import co.tton.qcloud.common.constant.Constants;
-import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;

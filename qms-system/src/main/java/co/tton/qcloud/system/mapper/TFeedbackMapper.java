@@ -8,7 +8,7 @@ public interface TFeedbackMapper {
      * 存储反馈
      *
      * @param tFeedback
-     * @return
+     * @return 结果
      */
     int saveFeedback(TFeedback tFeedback);
 }

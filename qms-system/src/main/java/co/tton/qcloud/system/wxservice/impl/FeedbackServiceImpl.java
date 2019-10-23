@@ -13,6 +13,12 @@ public class FeedbackServiceImpl implements IFeedbackService {
     @Resource
     private TFeedbackMapper tFeedbackMapper;
 
+    /**
+     * 存储反馈
+     *
+     * @param tFeedback
+     * @return 结果
+     */
     @Override
     public int saveFeedback(TFeedback tFeedback) {
         return tFeedbackMapper.saveFeedback(tFeedback);

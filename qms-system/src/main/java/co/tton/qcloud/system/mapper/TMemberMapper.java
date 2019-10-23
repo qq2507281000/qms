@@ -112,14 +112,6 @@ public interface TMemberMapper
     int insertloginInfo(TMember tMember);
 
     /**
-     * 绑定手机号
-     *
-     * @param tMember
-     * @return 结果
-     */
-    int upMobile(TMember tMember);
-
-    /**
      * 修改会员基本信息
      *
      * @param tMember 会员基本信息

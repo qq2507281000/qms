@@ -19,11 +19,23 @@ public class CoursesServiceImpl implements ICoursesService {
     @Resource
     private TOrderUseEvaluationMapper tOrderUseEvaluationMapper;
 
+    /**
+     * 小程序课程基本信息
+     *
+     * @param id 根据Id查询有关课程的详细信息
+     * @return 结果
+     */
     @Override
     public TShopCoursesModel getCoursesDetail(String id) {
         return tShopCoursesMapper.getCoursesDetail(id);
     }
 
+    /**
+     * 小程序查询推荐课程
+     *
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
     @Override
     public List<TShopCoursesModel> getSuggestCourses(TShopCoursesModel tShopCoursesModel) {
         return tShopCoursesMapper.getSuggestCourses(tShopCoursesModel);

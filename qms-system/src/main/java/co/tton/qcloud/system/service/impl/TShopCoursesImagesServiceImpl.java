@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
-import co.tton.qcloud.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TShopCoursesImagesMapper;
@@ -99,6 +98,11 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
         return tShopCoursesImagesMapper.deleteTShopCoursesImagesById(id);
     }
 
+    /***
+     * 根据课程Id获取课程图片地址
+     * @param courses_id
+     * @return 结果
+     */
     @Override
     public List<String> getCoursesImages(String courses_id){
         TShopCoursesImages coursesImages = new TShopCoursesImages();
@@ -112,6 +116,11 @@ public class TShopCoursesImagesServiceImpl implements ITShopCoursesImagesService
         return null;
     }
 
+    /***
+     * 根据课程Id获取课程标题，商家名称，课程价格
+     * @param id
+     * @return 结果
+     */
     @Override
     public String getSuggestCoursesImages(String id) {
         return tShopCoursesImagesMapper.getSuggestCoursesImages(id);
