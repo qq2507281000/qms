@@ -32,13 +32,10 @@ public class FeedbackController extends BaseController {
 //    @RequiresPermissions("wx:feedback")
     @RequestMapping(value = "/saveFeedback",method = RequestMethod.POST)
     @ApiOperation("新增反馈信息")
-    public AjaxResult saveFeedback(@RequestParam("memberid") String memberId, @RequestParam("content") String content){
-        if(StringUtils.isNotEmpty(memberId)){
-            TFeedback tFeedback = new TFeedback();
-            tFeedback.setMemberId(memberId);
-            tFeedback.setContent(content);
+    public AjaxResult saveFeedback(@RequestBody TFeedback tFeedback){
+        if(StringUtils.isNotNull(tFeedback)){
             tFeedback.setId(StringUtils.genericId());
-            tFeedback.setCreateBy(memberId);
+            tFeedback.setCreateBy(tFeedback.getMemberId());
             tFeedback.setCreateTime(new Date());
             tFeedback.setFlag(Constants.DATA_NORMAL);
             int number = iFeedbackService.saveFeedback(tFeedback);
@@ -51,5 +48,4 @@ public class FeedbackController extends BaseController {
             return AjaxResult.error("参数错误");
         }
     }
-
 }

@@ -83,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="memberName"    column="member_name"    />
         <result property="coursesId"    column="courses_id"    />
         <result property="receivedTime"    column="received_time"    />
+        <result property="commentNote"    column="comment_note"    />
     </resultMap>
 
     <resultMap type="WxOrderDetail" id="WxOrderDetailResult">
@@ -107,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="memberName"    column="member_name"    />
         <result property="mobile"    column="mobile"    />
         <result property="coursesId"    column="courses_id"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 
     <resultMap type="TOrderModel" id="WxstatusCount" extends="TOrderResult">
@@ -353,6 +355,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getOrderList" parameterType="TOrderModel" resultMap="TOrderModelResult">
         SELECT
             too.id,
+            too.comment_note,
             too.mobile,
             too.member_name,
             tod.courses_time,
@@ -400,6 +403,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tod.courses_time,
             tod.am_pm,
             tod.courses_id,
+            tod.remark,
             tsc.title,
             too.comment_note,
             tod.confirm_no,

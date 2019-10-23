@@ -72,5 +72,6 @@ public class OrderModel implements Serializable {
     @ApiModelProperty("订单实际应付金额")
     private double orderPrice;
 
-
+    @ApiModelProperty("备注")
+    private String commentNote;
 }

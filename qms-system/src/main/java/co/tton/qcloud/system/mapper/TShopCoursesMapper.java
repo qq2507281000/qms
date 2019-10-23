@@ -117,4 +117,12 @@ public interface TShopCoursesMapper
      * @return 结果
      */
     TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
+
+    /**
+     * 小程序搜索框收藏课程
+     *
+     * @param  coursesName 根据coursesName查询
+     * @return 结果
+     */
+    List<TShopCoursesModel> getcollectionCourses(String coursesName);
 }

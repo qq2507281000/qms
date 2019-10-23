@@ -49,7 +49,7 @@ public class ShopController extends BaseController {
           tShop.setCategoryId(categoryId);
           tShop.setSuggest(suggest);
           List<TShop> listTShop=tShopService.getSuggestShop(tShop);
-          if(StringUtils.isNotNull(listTShop)){
+          if(StringUtils.isNotNull(listTShop) && (listTShop.size() != 0)){
             return AjaxResult.success("获取商家信息成功。",listTShop);
           }else{
             return AjaxResult.success("获取商家信息失败。",listTShop);
@@ -71,7 +71,11 @@ public class ShopController extends BaseController {
           tShop.setId(shopId);
           tShop.setAddress(location);
           List list=tShopService.getShopDetail(tShop);
-          return AjaxResult.success("获取商家详情成功。",list);
+          if(StringUtils.isNotEmpty(list)){
+            return AjaxResult.success("获取商家详情成功。",list);
+          }else{
+            return AjaxResult.success("获取商家详情失败。",list);
+          }
         }else{
           return AjaxResult.error("商家ID错误。");
         }
@@ -84,20 +88,28 @@ public class ShopController extends BaseController {
    */
   @ApiOperation("搜索框查询")
 //  @RequiresPermissions("wx:shop:suggest")
-  @RequestMapping(value="/name",method = RequestMethod.GET)
+  @RequestMapping(value="/getName",method = RequestMethod.GET)
   public AjaxResult<List> getNameShop(@RequestParam(value="name")String name)
   {
       if(StringUtils.isNotEmpty(name)){
         //查询商家表
         List listTShop=tShopService.getNameShop(name);
         List list = new ArrayList();
-        list.add(listTShop);
+        if(StringUtils.isNotEmpty(listTShop)){
+          list.add(listTShop);
+        }
         //查询课程表
         List listTShopCourses=tShopCoursesService.getNameShopCourses(name);
-        list.add(listTShopCourses);
-        return AjaxResult.success("获取信息成功。",list);
+        if(StringUtils.isNotEmpty(listTShopCourses)){
+          list.add(listTShopCourses);
+        }
+        if(StringUtils.isNotEmpty(list)){
+          return AjaxResult.success("获取信息成功。",list);
+        }else{
+          return AjaxResult.success("无数据。",list);
+        }
       }else{
-        return AjaxResult.error("名称错误");
+        return AjaxResult.error("无数据。");
       }
   }
 

@@ -18,5 +18,5 @@ public interface ITBannerService {
    * @param
    * @return 首页滚动广告集合
    */
-  List<TBanner> getBanner();
+  List<TBanner> getBanner(String location);
 }

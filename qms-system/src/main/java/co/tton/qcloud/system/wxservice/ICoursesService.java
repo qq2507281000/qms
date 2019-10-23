@@ -45,4 +45,11 @@ public interface ICoursesService {
      */
     List<TOrderUseEvaluation> getCoursesCategory(String coursesId);
 
+    /**
+     * 小程序搜索框收藏课程
+     *
+     * @param  coursesName 根据coursesName查询
+     * @return 结果
+     */
+    List<TShopCoursesModel> getcollectionCourses(String coursesName);
 }
