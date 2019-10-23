@@ -88,7 +88,7 @@ public class ShopController extends BaseController {
    */
   @ApiOperation("搜索框查询")
 //  @RequiresPermissions("wx:shop:suggest")
-  @RequestMapping(value="/name",method = RequestMethod.GET)
+  @RequestMapping(value="/getName",method = RequestMethod.GET)
   public AjaxResult<List> getNameShop(@RequestParam(value="name")String name)
   {
       if(StringUtils.isNotEmpty(name)){

@@ -60,6 +60,10 @@ public class OrderController extends BaseController {
     private WxPayService wxService;
     @Autowired
     private ITOrderService orderService;
+    @Autowired
+    private ITOrderCouponService tOrderCouponService;
+    @Autowired
+    private ITCouponService tCouponService;
 
     @ApiOperation("订单支付回调接口")
     @RequestMapping(value = "/pay/notify",method = RequestMethod.POST)
@@ -82,7 +86,23 @@ public class OrderController extends BaseController {
                 order.setUpdateTime(DateUtils.getNowDate());
                 int result = orderService.updateTOrder(order);
                 if(result == 1){
-                    return AjaxResult.success("支付回调成功。");
+                    TOrderCoupon tOrderCoupon = new TOrderCoupon();
+                    tOrderCoupon.setOrderId(order.getId());
+                    tOrderCoupon.setFlag(0);
+                    List<TOrderCoupon> tOrderCoupons=tOrderCouponService.selectTOrderCouponList(tOrderCoupon);
+
+                    TCoupon tCoupon = new TCoupon();
+                    tCoupon.setId(tOrderCoupons.get(0).getCouponId());
+                    tCoupon.setFlag(1);
+                    tCoupon.setUpdateTime(DateUtils.getNowDate());
+                    tCoupon.setUpdateBy(order.getMemberId());
+                    tCoupon.setUseStatus("USE");
+                    int count=tCouponService.updateTCoupon(tCoupon);
+                    if(count == 1){
+                        return AjaxResult.success("支付回调成功。");
+                    }else{
+                        return AjaxResult.error("优惠卷销毁失败。");
+                    }
                 }
                 else{
                     return AjaxResult.error("支付回调失败。");
