@@ -46,10 +46,11 @@ public class CoursesController extends BaseController {
 
   //    @RequiresPermissions("wx:courses:suggest")
   @RequestMapping(value = "suggest", method = RequestMethod.GET)
-  @ApiOperation("获取推荐课程")
+  @ApiOperation("获取推荐课程,查询所有课程")
   public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "loc", required = false) String location,
                                                                @RequestParam(value = "category", required = false) String categoryId,
-                                                               @RequestParam(value = "shopId", required = false) String shopId) {
+                                                               @RequestParam(value = "shopId", required = false) String shopId,
+                                                               @RequestParam(value = "suggest", required = false) Integer suggest) {
     TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
     if (StringUtils.isNotEmpty(location)) {
       tShopCoursesModel.setAddress(location);
@@ -60,7 +61,8 @@ public class CoursesController extends BaseController {
     if (StringUtils.isNotEmpty(categoryId)) {
       tShopCoursesModel.setCategoryId(categoryId);
     }
-    //查出推荐课程
+      tShopCoursesModel.setSuggest(suggest);
+    //查出课程
     List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
     if (StringUtils.isNotNull(tShopCoursesModels)) {
       for (TShopCoursesModel tModel : tShopCoursesModels) {
