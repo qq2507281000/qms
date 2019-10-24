@@ -328,8 +328,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN t_shop ts ON tsc.shop_id = ts.id
         INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         <where>
-            <if test="_parameter != null  and _parameter != ''"> tsc.title like concat('%', #{title}, '%')</if>
-            AND tsc.flag = 0
+            tsc.flag = 0
+            <if test="memberId != null  and memberId != ''"> AND tc.member_id = #{memberId}</if>
+            <if test="title != null  and title != ''"> AND tsc.title like concat('%', #{title}, '%')</if>
         </where>
     </select>
 </mapper>

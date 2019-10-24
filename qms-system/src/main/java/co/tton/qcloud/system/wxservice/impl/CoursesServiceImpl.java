@@ -88,12 +88,12 @@ public class CoursesServiceImpl implements ICoursesService {
     /**
      * 小程序搜索框收藏课程
      *
-     * @param  coursesName 根据coursesName查询
+     * @param  coursesName memberId 根据coursesName查询
      * @return 结果
      */
     @Override
-    public List<TShopCoursesModel> getcollectionCourses(String coursesName) {
-        return tShopCoursesMapper.getcollectionCourses(coursesName);
+    public List<TShopCoursesModel> getcollectionCourses(String coursesName,String memberId) {
+        return tShopCoursesMapper.getcollectionCourses(coursesName,memberId);
     }
 
 }

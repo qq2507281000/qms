@@ -121,8 +121,8 @@ public interface TShopCoursesMapper
     /**
      * 小程序搜索框收藏课程
      *
-     * @param  coursesName 根据coursesName查询
+     * @param  coursesName memberId 根据coursesName查询
      * @return 结果
      */
-    List<TShopCoursesModel> getcollectionCourses(String coursesName);
+    List<TShopCoursesModel> getcollectionCourses(@Param("title") String coursesName,@Param("memberId") String memberId);
 }

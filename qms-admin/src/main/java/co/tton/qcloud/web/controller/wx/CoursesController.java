@@ -213,10 +213,11 @@ public class CoursesController extends BaseController {
   @ApiOperation("收藏课程搜索框查询")
 //  @RequiresPermissions("wx:courses:name")
   @RequestMapping(value = "/name", method = RequestMethod.GET)
-  public AjaxResult<List> getNameShop(@RequestParam(value = "coursestitle") String coursesName) {
-    if (StringUtils.isNotNull(coursesName)) {
+  public AjaxResult<List> getNameShop(@RequestParam(value = "coursestitle") String coursesName,
+                                      @RequestParam(value = "memberid") String memberId) {
+    if (StringUtils.isNotEmpty(memberId)&&StringUtils.isNotEmpty(coursesName)) {
       //收藏表收藏课程查询
-      List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getcollectionCourses(coursesName);
+      List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getcollectionCourses(coursesName,memberId);
       if (StringUtils.isNotEmpty(tShopCoursesModels)) {
         for (TShopCoursesModel tModel : tShopCoursesModels) {
           String id = tModel.getId();
