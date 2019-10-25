@@ -71,6 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="locationRegion"    column="location_region"    />
         <result property="coverImage" column="cover_img"   />
         <result property="collectionId" column="collectionId"   />
+        <result property="memberId" column="mermber_id"   />
     </resultMap>
 
     <sql id="selectTShopCoursesVo">
@@ -321,7 +322,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         tscp.price,
         tsc.title,
         tsc.suggest,
-        tc.id AS collectionId
+        tc.id AS collectionId,
+        tc.member_id
         FROM
         t_collection tc
         INNER JOIN t_shop_courses tsc ON tsc.id = tc.courses_id

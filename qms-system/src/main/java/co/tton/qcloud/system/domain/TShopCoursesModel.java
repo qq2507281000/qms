@@ -172,6 +172,9 @@ public class TShopCoursesModel extends BaseEntity {
     @ApiModelProperty("收藏ID")
     private String collectionId;
 
+    @ApiModelProperty("会员ID")
+    private String memberId;
+
     @ApiModelProperty("上课时间和地点列表")
     private List<TShopCoursesTime> coursesTimeList;
 
@@ -204,6 +207,7 @@ public class TShopCoursesModel extends BaseEntity {
                 .append("telephone", getImages())
                 .append("mobile", getImages())
                 .append("contractName", getImages())
+                .append("memberid", getMemberId())
                 .toString();
     }
 }
