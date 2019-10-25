@@ -60,7 +60,7 @@ public class CoursesController extends BaseController {
       tShopCoursesModel.setSuggest(suggest);
     //查出课程
     List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
-    if (StringUtils.isNotNull(tShopCoursesModels)) {
+    if (StringUtils.isNotEmpty(tShopCoursesModels)) {
       for (TShopCoursesModel tModel : tShopCoursesModels) {
         String id = tModel.getId();
         //匹配图片

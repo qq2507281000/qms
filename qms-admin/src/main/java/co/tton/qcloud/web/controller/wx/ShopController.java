@@ -4,6 +4,9 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TShop;
+import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.service.ITOrderDetailService;
+import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import co.tton.qcloud.system.service.ITShopCoursesService;
 import co.tton.qcloud.system.wxservice.ITShopService;
 import io.swagger.annotations.Api;
@@ -30,6 +33,10 @@ public class ShopController extends BaseController {
   private ITShopService tShopService;
   @Autowired
   private ITShopCoursesService tShopCoursesService;
+  @Autowired
+  private ITShopCoursesImagesService tShopCoursesImagesService;
+  @Autowired
+  private ITOrderDetailService tOrderDetailService;
 
   @ApiOperation("首页推荐商家查询，查询所有商家，根据分类查商家")
 //    @RequiresPermissions("wx:shop:suggest")
@@ -78,12 +85,25 @@ public class ShopController extends BaseController {
       List listTShop = tShopService.getNameShop(name);
       List list = new ArrayList();
       if (StringUtils.isNotEmpty(listTShop)) {
-        list.add(listTShop);
+        list.add(0,listTShop);
       }
       //查询课程表
-      List listTShopCourses = tShopCoursesService.getNameShopCourses(name);
+      List<TShopCoursesModel> listTShopCourses = tShopCoursesService.getNameShopCourses(name);
       if (StringUtils.isNotEmpty(listTShopCourses)) {
-        list.add(listTShopCourses);
+        for (TShopCoursesModel tModel : listTShopCourses) {
+          String id = tModel.getId();
+          //匹配图片
+          String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+          if (imageUrl != null) {
+            tModel.setImageUrl(imageUrl);
+          }
+          //月销
+          String count = tOrderDetailService.getOrderMon(id);
+          if (count != null) {
+            tModel.setCount(count);
+          }
+        }
+        list.add(1,listTShopCourses);
       }
       if (StringUtils.isNotEmpty(list)) {
         return AjaxResult.success("获取信息成功。", list);
