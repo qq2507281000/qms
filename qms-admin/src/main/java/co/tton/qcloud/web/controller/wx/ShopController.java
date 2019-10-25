@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -84,8 +86,9 @@ public class ShopController extends BaseController {
       //查询商家表
       List listTShop = tShopService.getNameShop(name);
       List list = new ArrayList();
+      Map<String,List> map = new HashMap();
       if (StringUtils.isNotEmpty(listTShop)) {
-        list.add(0,listTShop);
+        map.put("shop",listTShop);
       }
       //查询课程表
       List<TShopCoursesModel> listTShopCourses = tShopCoursesService.getNameShopCourses(name);
@@ -103,7 +106,8 @@ public class ShopController extends BaseController {
             tModel.setCount(count);
           }
         }
-        list.add(1,listTShopCourses);
+        map.put("courses",listTShopCourses);
+        list.add(map);
       }
       if (StringUtils.isNotEmpty(list)) {
         return AjaxResult.success("获取信息成功。", list);
