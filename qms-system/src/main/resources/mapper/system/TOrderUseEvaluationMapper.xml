@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="orderNo"    column="order_no"    />
         <result property="memberId"    column="member_id"    />
+        <result property="memberid"    column="member_id"    />
         <result property="imageUrl"    column="image_url"    />
         <result property="evaluation"    column="evaluation"    />
         <result property="star"    column="star"    />
@@ -34,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null  and id != ''">id,</if>
             <if test="orderNo != null  and orderNo != ''">order_no,</if>
             <if test="memberId != null  and memberId != ''">member_id,</if>
+            <if test="memberid != null  and memberid != ''">member_id,</if>
             <if test="imageUrl != null  and imageUrl != ''">image_url,</if>
             <if test="evaluation != null and evaluation != ''">evaluation,</if>
             <if test="star != null  and star != ''">star,</if>
@@ -48,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null  and id != ''">#{id},</if>
             <if test="orderNo != null  and orderNo != ''">#{orderNo},</if>
             <if test="memberId != null  and memberId != ''">#{memberId},</if>
+            <if test="memberid != null  and memberid != ''">#{memberid},</if>
             <if test="imageUrl != null and imageUrl != ''">#{imageUrl},</if>
             <if test="evaluation != null and evaluation != ''">#{evaluation},</if>
             <if test="star != null  and star != ''">#{star},</if>

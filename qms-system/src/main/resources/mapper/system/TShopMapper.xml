@@ -244,15 +244,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="getNameShop" parameterType="String" resultMap="TShopResult">
-        select
-        id,
-        name,
-        summary,
-        region_name,
-        cover_img,
-        address
-        from
-        t_shop shop
+        <include refid="selectTShopVo"/>
         <where>
             flag = 0
             <if test="_parameter != null  and _parameter  != ''">and name like concat('%', #{name}, '%')</if>

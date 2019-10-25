@@ -67,12 +67,14 @@ public class TOrderUseEvaluation extends BaseEntity
     @ApiModelProperty(value="微信头像")
     private String  wxImg;
 
+    @ApiModelProperty(value="评价会员Id")
+    private String memberid;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("orderNo", getOrderNo())
-            .append("memberId", getMemberId())
             .append("imageUrl", getImageUrl())
             .append("imageUrls", getImageUrls())
             .append("evaluation", getEvaluation())
@@ -84,6 +86,7 @@ public class TOrderUseEvaluation extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
             .append("memberId", getMemberId())
+            .append("memberid", getMemberId())
             .append("wxName", getWxName())
             .append("wxImg", getWxImg())
             .toString();

@@ -31,16 +31,12 @@ public class CoursesController extends BaseController {
 
   @Autowired
   private ICoursesService iCoursesService;
-
   @Autowired
   private ITShopCoursesImagesService tShopCoursesImagesService;
-
   @Autowired
   private ITOrderDetailService tOrderDetailService;
-
   @Autowired
   private ITShopCoursesPriceService tShopCoursesPriceService;
-
   @Autowired
   private ITShopCoursesTimeService shopCoursesTimeService;
 
@@ -210,10 +206,10 @@ public class CoursesController extends BaseController {
     }
   }
 
-  @ApiOperation("收藏课程搜索框查询")
+  @ApiOperation("收藏搜索框课程查询")
 //  @RequiresPermissions("wx:courses:name")
   @RequestMapping(value = "/name", method = RequestMethod.GET)
-  public AjaxResult<List> getNameShop(@RequestParam(value = "coursestitle") String coursesName,
+  public AjaxResult<List> getCollectionCourses(@RequestParam(value = "coursestitle") String coursesName,
                                       @RequestParam(value = "memberid") String memberId) {
     if (StringUtils.isNotEmpty(memberId)&&StringUtils.isNotEmpty(coursesName)) {
       //收藏表收藏课程查询
@@ -238,4 +234,5 @@ public class CoursesController extends BaseController {
       return AjaxResult.error("参数错误");
     }
   }
+
 }

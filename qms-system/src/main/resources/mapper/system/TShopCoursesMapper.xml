@@ -233,7 +233,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
             <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
             <if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>
-            <if test="suggest != null and suggest != ''">and tsc.suggest = #{suggest}</if>
+            <if test="suggest != null">and tsc.suggest = #{suggest}</if>
             AND tsc.flag = 0
         </where>
     </select>

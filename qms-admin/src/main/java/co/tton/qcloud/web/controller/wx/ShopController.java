@@ -69,10 +69,10 @@ public class ShopController extends BaseController {
     }
   }
 
-  @ApiOperation("搜索框查询")
-//  @RequiresPermissions("wx:shop:suggest")
+  @ApiOperation("搜索框课程商家查询")
+//  @RequiresPermissions("wx:name")
   @RequestMapping(value = "/getName", method = RequestMethod.GET)
-  public AjaxResult<List> getNameShop(@RequestParam(value = "name") String name) {
+  public AjaxResult<List> getName(@RequestParam(value = "name") String name) {
     if (StringUtils.isNotEmpty(name)) {
       //查询商家表
       List listTShop = tShopService.getNameShop(name);
