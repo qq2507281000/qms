@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="locationRegion"    column="location_region"    />
         <result property="coverImage" column="cover_img"   />
         <result property="collectionId" column="collectionId"   />
-        <result property="memberId" column="mermber_id"   />
+        <result property="memberId" column="member_id"   />
     </resultMap>
 
     <sql id="selectTShopCoursesVo">
