@@ -4,10 +4,13 @@
     <th:block th:include="include :: header('修改首页滚动广告')" />
     <!--<th:block th:include="include :: jasny-bootstrap-css" />-->
     <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: select2-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content ibox-content">
         <form id="form-banner-edit" class="form-horizontal m" enctype="multipart/form-data" th:object="${tBanner}">
+
+            <input name="id" th:field="*{id}" type="hidden">
 
             <div class="form-group">
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>广告图片：</label>
@@ -52,18 +55,21 @@
                 </div>
             </div>
 
-            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>是否可用：</label>
-            <div class="col-sm-8">
-                <label class="toggle-switch switch-solid">
-                    <input type="checkbox" name="params[availableText]" checked required>
-                    <span></span>
-                </label>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">是否可用：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('available')}">
+                        <input type="radio" th:id="${dict.dictCode}" name="available" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{available}">
+                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <!--<th:block th:include="include :: jasny-bootstrap-js" />-->
     <th:block th:include="include :: bootstrap-fileinput-js" />
+    <th:block th:include="include :: select2-js" />
     <script type="text/javascript">
         var prefix = "/conf/banner";
         $("#form-banner-edit").validate({
@@ -75,8 +81,13 @@
                 $.modal.alertError("请先上传图片文件。");
                 return;
             }
+
             if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-banner-edit').serialize());
+                var data = $("#form-banner-add").serializeArray();
+                var cityName = $("#cityId").find("option:selected").text();
+                data.push({"name": "cityName", "value": cityName});
+                $.operate.save(prefix+"/edit",data);
+                // $.operate.save(prefix + "/edit", $('#form-banner-edit').serialize());
             }
         }
 

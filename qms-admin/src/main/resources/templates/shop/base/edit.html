@@ -2,24 +2,10 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('修改商家信息')" />
-    <!--<th:block th:include="include :: summernote-css" />-->
-    <!--<link href="/qcloud/css/cityLayout.css" type="text/css" rel="stylesheet">-->
-    <!--<th:block th:include="include :: jasny-bootstrap-css" />-->
-    <!--<link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet">-->
-    <!--<th:block th:include="include :: bootstrap-fileinput-css" />-->
-    <!--<th:block th:include="include :: datetimepicker-css" />-->
-    <!--<link href="http://localhost/ajax/libs/datapicker/bootstrap-timepicker.min.css" rel="stylesheet">-->
     <th:block th:include="include :: summernote-css" />
     <th:block th:include="include :: bootstrap-fileinput-css" />
     <th:block th:include="include :: datetimepicker-css" />
-    <script th:inline="javascript">
-        /*<![CDATA[*/
 
-        var htmlContent = '[[${tShop.htmlContent}]]';
-        console.log("------>>>" + htmlContent);
-
-        /*]]>*/
-    </script>
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -136,7 +122,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">个人微信号：</label>
                     <div class="col-sm-8">
-                        <input name="wechatNo" th:field="*{wechatNo}" class="form-control" type="text" maxlength="30" required>
+                        <input name="wechatNo" th:field="*{wechatNo}" class="form-control" type="text" maxlength="30">
                     </div>
                 </div>
             </div>
@@ -147,7 +133,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">微信公众平台：</label>
                     <div class="col-sm-8">
-                        <input name="wechatPlatform" th:field="*{wechatPlatform}" class="form-control" type="text" maxlength="30" required>
+                        <input name="wechatPlatform" th:field="*{wechatPlatform}" class="form-control" type="text" maxlength="30">
                     </div>
                 </div>
             </div>
@@ -181,7 +167,17 @@
 <!--<script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.zh-CN.js}"></script>-->
 
 <!--<script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.js}"></script>-->
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var htmlContent = '[[${tShop.htmlContent}]]';
+    console.log("------>>>" + htmlContent);
+
+    /*]]>*/
+</script>
 <script type="text/javascript">
+
     var prefix = "/shop";
     $("#form-shop-edit").validate({
         focusCleanup: true
@@ -194,8 +190,9 @@
             placeholder: '请输入商家详细信息。',
             height: 300
         });
-        // var htmlContent = "'" + [[${tShop.htmlContent}]] + "'";
         $('.summernote').summernote("code",htmlContent);
+
+        console.log("htmlcontent finished.");
     });
 
     $(function(){

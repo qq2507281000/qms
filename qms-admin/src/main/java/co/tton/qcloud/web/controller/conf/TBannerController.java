@@ -14,6 +14,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
+import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.SysUser;
@@ -71,7 +72,7 @@ public class TBannerController extends BaseController
     @RequiresPermissions("conf:banner:list")
     @PostMapping("/list")
     @ResponseBody
-    @RoleScope(roleDefined={"ADMIN"})
+    @RoleScope(roleDefined={"ADMIN","REGION"})
     public TableDataInfo list(TBanner tBanner)
     {
         startPage();
@@ -111,47 +112,21 @@ public class TBannerController extends BaseController
     @Log(title = "首页滚动广告", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    @RoleScope(roleDefined={"ADMIN"})
+    @RoleScope(roleDefined={"ADMIN","REGION"})
     public AjaxResult addSave(TBanner tBanner)
     {
         try {
             SysUser currentUser = ShiroUtils.getSysUser();
             String id = StringUtils.genericId();
             tBanner.setId(id);
-//            if(tBanner.getParams().containsKey("file")){
-//                //有新文件上传
-//                MultipartFile file = (MultipartFile)tBanner.getParams().get("file");
-//                if(file != null){
-//                    String fileName = minioFileService.upload(file);
-//                    tBanner.setImg(fileName);
-//
-//                    //是否可用
-//                    if(tBanner.getParams().containsKey("availableText")){
-//                        String avaiableText = tBanner.getParams().get("availableText").toString();
-//                        int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
-//                        tBanner.setAvailable(avaiable);
-//                    }
-//                    tBanner.setFlag(Constants.DATA_NORMAL);
-//                    tBanner.setCreateBy(currentUser.getUserId().toString());
-//                    tBanner.setCreateTime(DateUtil.date());
-//                    tBannerService.insertTBanner(tBanner);
-//                    return AjaxResult.success("数据保存成功。");
-//                }
-//                else{
-//                    return AjaxResult.error("未能获取上传文件内容。");
-//                }
-//            }
-//            else{
-//                return AjaxResult.error("请选择图片上传。");
-//            }
             if(StrUtil.isEmpty(tBanner.getImg())){
                 return AjaxResult.error("未能上传图片。");
             }
             tBanner.setFlag(Constants.DATA_NORMAL);
             tBanner.setCreateBy(currentUser.getUserId().toString());
             tBanner.setCreateTime(DateUtil.date());
-            tBannerService.insertTBanner(tBanner);
-            return AjaxResult.success("数据保存成功。");
+            return toAjax(tBannerService.insertTBanner(tBanner));
+//            return AjaxResult.success("数据保存成功。");
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -180,9 +155,12 @@ public class TBannerController extends BaseController
     @Log(title = "首页滚动广告", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    @RoleScope(roleDefined={"ADMIN"})
+    @RoleScope(roleDefined={"ADMIN","REGION"})
     public AjaxResult editSave(TBanner tBanner)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        tBanner.setUpdateBy(user.getUserId().toString());
+        tBanner.setUpdateTime(DateUtils.getNowDate());
         return toAjax(tBannerService.updateTBanner(tBanner));
     }
 

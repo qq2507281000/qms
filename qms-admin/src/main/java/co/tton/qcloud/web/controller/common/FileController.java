@@ -5,6 +5,7 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.web.minio.MinioFileService;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,7 @@ public class FileController extends BaseController {
                     MultipartFile file = d.get(0);
                     if(file != null){
                         try {
+//                            Thumbnails.of(file.getInputStream()).scale(0.3).toOutputStream();
                             String fileName = minioFileService.upload(file);
                             fileNameList.add(fileName);
                         }

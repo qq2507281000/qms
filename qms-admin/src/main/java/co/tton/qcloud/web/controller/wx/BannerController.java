@@ -31,7 +31,7 @@ public class BannerController extends BaseController {
   private ITBannerService tBannerService;
 
   @ApiOperation("查询首页滚动广告")
-//    @RequiresPermissions("wx:banner")
+//    @RequiresPermissions("wx:banner")0
   @RequestMapping(value = "", method = RequestMethod.GET)
   public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc", required = false) String location) {
     if (StringUtils.isNotEmpty(location)) {

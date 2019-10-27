@@ -129,7 +129,7 @@
                         return { rows: res.rows, total: res.total };
                     }
                 } else {
-                    $.modal.alertWarning(res.msg);
+                    $.modal.alertWarning(res.message);
                     return { rows: [], total: 0 };
                 }
             },
@@ -306,11 +306,11 @@
 	    			$.modal.loading("正在导出数据，请稍后...");
 	    			$.post($.table._option.exportUrl, $("#" + currentId).serializeArray(), function(result) {
 	    				if (result.code == web_status.SUCCESS) {
-	    			        window.location.href = "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+	    			        window.location.href = "common/download?fileName=" + encodeURI(result.message) + "&delete=" + true;
 	    				} else if (result.code == web_status.WARNING) {
-	                        $.modal.alertWarning(result.msg)
+	                        $.modal.alertWarning(result.message)
 	                    } else {
-	    					$.modal.alertError(result.msg);
+	    					$.modal.alertError(result.message);
 	    				}
 	    				$.modal.closeLoading();
 	    			});
@@ -320,11 +320,11 @@
     		importTemplate: function() {
     			$.get($.table._option.importTemplateUrl, function(result) {
     				if (result.code == web_status.SUCCESS) {
-    			        window.location.href = "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+    			        window.location.href = "common/download?fileName=" + encodeURI(result.message) + "&delete=" + true;
     				} else if (result.code == web_status.WARNING) {
-                        $.modal.alertWarning(result.msg)
+                        $.modal.alertWarning(result.message)
                     } else {
-    					$.modal.alertError(result.msg);
+    					$.modal.alertError(result.message);
     				}
     			});
             },
@@ -346,7 +346,7 @@
             		btn1: function(index, layero){
             			var file = layero.find('#file').val();
             			if (file == '' || (!$.common.endWith(file, '.xls') && !$.common.endWith(file, '.xlsx'))){
-            				$.modal.msgWarning("请选择后缀为 “xls”或“xlsx”的文件。");
+            				$.modal.messageWarning("请选择后缀为 “xls”或“xlsx”的文件。");
             				return false;
             			}
             			var index = layer.load(2, {shade: false});
@@ -364,16 +364,16 @@
             				success: function (result) {
             					if (result.code == web_status.SUCCESS) {
             						$.modal.closeAll();
-            						$.modal.alertSuccess(result.msg);
+            						$.modal.alertSuccess(result.message);
             						$.table.refresh();
             					} else if (result.code == web_status.WARNING) {
             						layer.close(index);
             						$.modal.enable();
-        	                        $.modal.alertWarning(result.msg)
+        	                        $.modal.alertWarning(result.message)
         	                    } else {
             						layer.close(index);
             						$.modal.enable();
-            						$.modal.alertError(result.msg);
+            						$.modal.alertError(result.message);
             					}
             				}
             			});
@@ -503,7 +503,7 @@
             // 请求获取数据后处理回调函数，校验异常状态提醒
             responseHandler: function(data) {
             	if (data.code != undefined && data.code != 0) {
-            		$.modal.alertWarning(data.msg);
+            		$.modal.alertWarning(data.message);
             		return [];
                 } else {
                     return data;
@@ -560,24 +560,24 @@
         	    return icon;
             },
     		// 消息提示
-            msg: function(content, type) {
+            message: function(content, type) {
             	if (type != undefined) {
-                    layer.msg(content, { icon: $.modal.icon(type), time: 1000, shift: 5 });
+                    layer.message(content, { icon: $.modal.icon(type), time: 1000, shift: 5 });
                 } else {
-                    layer.msg(content);
+                    layer.message(content);
                 }
             },
             // 错误消息
-            msgError: function(content) {
-            	$.modal.msg(content, modal_status.FAIL);
+            messageError: function(content) {
+            	$.modal.message(content, modal_status.FAIL);
             },
             // 成功消息
-            msgSuccess: function(content) {
-            	$.modal.msg(content, modal_status.SUCCESS);
+            messageSuccess: function(content) {
+            	$.modal.message(content, modal_status.SUCCESS);
             },
             // 警告消息
-            msgWarning: function(content) {
-            	$.modal.msg(content, modal_status.WARNING);
+            messageWarning: function(content) {
+            	$.modal.message(content, modal_status.WARNING);
             },
     		// 弹出提示
             alert: function(content, type) {
@@ -589,8 +589,8 @@
         	    });
             },
             // 消息提示并刷新父窗体
-            msgReload: function(msg, type) {
-            	layer.msg(msg, {
+            messageReload: function(message, type) {
+            	layer.message(message, {
             	    icon: $.modal.icon(type),
             	    time: 500,
             	    shade: [0.1, '#8F8F8F']
@@ -1144,11 +1144,11 @@
         	        	    callback(result);
         	        	}
         	        	if (result.code == web_status.SUCCESS) {
-	                        $.modal.alertSuccess(result.msg)
+	                        $.modal.alertSuccess(result.message)
 	                    } else if (result.code == web_status.WARNING) {
-	                        $.modal.alertWarning(result.msg)
+	                        $.modal.alertWarning(result.message)
 	                    } else {
-	                    	$.modal.alertError(result.msg);
+	                    	$.modal.alertError(result.message);
 	                    }
         	        	$.modal.closeLoading();
         	        }
@@ -1174,51 +1174,52 @@
         	    };
         	    $.ajax(config)
             },
-            // 保存结果弹出msg刷新table表格
+            // 保存结果弹出message刷新table表格
             ajaxSuccess: function (result) {
             	if (result.code == web_status.SUCCESS && $.table._option.type == table_type.bootstrapTable) {
-                	$.modal.msgSuccess(result.msg);
+                	$.modal.messageSuccess(result.message);
             		$.table.refresh();
                 } else if (result.code == web_status.SUCCESS && $.table._option.type == table_type.bootstrapTreeTable) {
-                	$.modal.msgSuccess(result.msg);
+                	$.modal.messageSuccess(result.message);
                 	$.treeTable.refresh();
                 } else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 }  else {
-                	$.modal.alertError(result.msg);
+                	$.modal.alertError(result.message);
                 }
             	$.modal.closeLoading();
             },
-            // 成功结果提示msg（父窗体全局更新）
+            // 成功结果提示message（父窗体全局更新）
             saveSuccess: function (result) {
             	if (result.code == web_status.SUCCESS) {
-            		$.modal.msgReload("保存成功,正在刷新数据请稍后……", modal_status.SUCCESS);
+            		$.modal.messageReload("保存成功,正在刷新数据请稍后……", modal_status.SUCCESS);
                 } else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 }  else {
-                	$.modal.alertError(result.msg);
+                	$.modal.alertError(result.message);
                 }
             	$.modal.closeLoading();
             },
             // 成功回调执行事件（父窗体静默更新）
             successCallback: function(result) {
+        		console.log(JSON.stringify(result));
                 if (result.code == web_status.SUCCESS) {
                 	var parent = window.parent;
                     if (parent.$.table._option.type == table_type.bootstrapTable) {
                         $.modal.close();
-                        parent.$.modal.msgSuccess(result.msg);
+                        parent.$.modal.messageSuccess(result.message);
                         parent.$.table.refresh();
                     } else if (parent.$.table._option.type == table_type.bootstrapTreeTable) {
                         $.modal.close();
-                        parent.$.modal.msgSuccess(result.msg);
+                        parent.$.modal.messageSuccess(result.message);
                         parent.$.treeTable.refresh();
                     } else {
-                        $.modal.msgReload("保存成功,正在刷新数据请稍后……", modal_status.SUCCESS);
+                        $.modal.messageReload("保存成功,正在刷新数据请稍后……", modal_status.SUCCESS);
                     }
                 } else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 }  else {
-                    $.modal.alertError(result.msg);
+                    $.modal.alertError(result.message);
                 }
                 $.modal.closeLoading();
                 $.modal.enable();
@@ -1230,7 +1231,7 @@
     	            var currentId = $('.page-tabs-content', topWindow).find('.active').attr('data-panel');
     	            var $contentWindow = $('.RuoYi_iframe[data-id="' + currentId + '"]', topWindow)[0].contentWindow;
     	            $.modal.close();
-    	            $contentWindow.$.modal.msgSuccess(result.msg);
+    	            $contentWindow.$.modal.messageSuccess(result.message);
     	            $contentWindow.$(".layui-layer-padding").removeAttr("style");
     	            if ($contentWindow.$.table._option.type == table_type.bootstrapTable) {
     	        		$contentWindow.$.table.refresh();
@@ -1239,9 +1240,9 @@
                     }
     	            $.modal.closeTab();
                 } else if (result.code == web_status.WARNING) {
-                    $.modal.alertWarning(result.msg)
+                    $.modal.alertWarning(result.message)
                 } else {
-                    $.modal.alertError(result.msg);
+                    $.modal.alertError(result.message);
                 }
                 $.modal.closeLoading();
             }
@@ -1398,16 +1399,16 @@
         	notAllowParents: function(_tree) {
     		    var nodes = _tree.getSelectedNodes();
     		    if(nodes.length == 0){
-                    $.modal.msgError("请选择节点后提交");
+                    $.modal.messageError("请选择节点后提交");
                     return false;
 				}
     		    for (var i = 0; i < nodes.length; i++) {
     		        if (nodes[i].level == 0) {
-    		            $.modal.msgError("不能选择根节点（" + nodes[i].name + "）");
+    		            $.modal.messageError("不能选择根节点（" + nodes[i].name + "）");
     		            return false;
     		        }
     		        if (nodes[i].isParent) {
-    		            $.modal.msgError("不能选择父节点（" + nodes[i].name + "）");
+    		            $.modal.messageError("不能选择父节点（" + nodes[i].name + "）");
     		            return false;
     		        }
     		    }
@@ -1418,7 +1419,7 @@
     		    var nodes = _tree.getSelectedNodes();
     		    for (var i = 0; i < nodes.length; i++) {
                     if (!nodes[i].isParent) {
-    		    		$.modal.msgError("不能选择最后层级节点（" + nodes[i].name + "）");
+    		    		$.modal.messageError("不能选择最后层级节点（" + nodes[i].name + "）");
     		            return false;
     		        }
     		    }
