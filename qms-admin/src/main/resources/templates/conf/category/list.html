@@ -42,17 +42,13 @@
                 url: prefix + "/list",
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
-                removeUrl: prefix + "/remove",
+                removeUrl: prefix + "/remove/{id}",
                 modalName: "分类管理",
                 columns: [{
                         field: 'selectItem',
                         radio: true
                     },
-                    {
-                        field : 'id',
-                        title : 'ID',
-                        visible: false
-                    },
+
                     // {
                     //     field : 'parentId',
                     //     title : '父级分类'
@@ -74,7 +70,19 @@
                     // },
                     {
                         field : 'name',
-                        title : '分类名称'
+                        title : '分类名称',
+                        formatter: function(value, row, index) {
+                            if ($.common.isEmpty(row.icon)) {
+                                return row.name;
+                            } else {
+                                return '<i class="' + row.icon + '"></i> <span class="nav-label">' + row.name + '</span>';
+                            }
+                        }
+                    },
+                    {
+                        field : 'id',
+                        title : 'ID',
+                        visible: false
                     },
                     {
                         field : 'sortKey',

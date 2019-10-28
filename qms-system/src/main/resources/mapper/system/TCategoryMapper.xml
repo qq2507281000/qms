@@ -40,8 +40,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getAllCategoryByMap" parameterType="java.util.Map" resultMap="TCategoryResult">
         <include refid="selectTCategoryVo"/>
         <where>
+            flag = 0
             <if test="parent != null">
-                parent_id is null or parent_id = '' AND flag = 0
+                AND  parent_id is null or parent_id = ''
             </if>
         </where>
         ORDER BY sort_key

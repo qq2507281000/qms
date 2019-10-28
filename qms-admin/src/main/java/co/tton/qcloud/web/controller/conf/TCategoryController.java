@@ -166,7 +166,39 @@ public class TCategoryController extends BaseController
     @ApiOperation("修改课程分类信息")
     public AjaxResult editSave(TCategory tCategory)
     {
-        return toAjax(tCategoryService.updateTCategory(tCategory));
+        try {
+            SysUser currentUser = ShiroUtils.getSysUser();
+
+            if (tCategory.getParams().containsKey("file")){
+                MultipartFile file = (MultipartFile)tCategory.getParams().get("file");
+                if (file != null){
+                    String fileName = minioFileService.upload(file);
+                    tCategory.setIcon(fileName);
+
+                    if (tCategory.getParams().containsKey("availableText")){
+                        String avaiableText = tCategory.getParams().get("availableText").toString();
+                        int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
+                        tCategory.setAvailable(avaiable);
+                    }
+                    tCategory.setUpdateBy(currentUser.getUserId().toString());
+                    tCategory.setUpdateTime(DateUtil.date());
+                    tCategoryService.updateTCategory(tCategory);
+                    return AjaxResult.success("数据修改成功。");
+                }
+                else {
+                    return AjaxResult.error("未能获取上传文件内容。");
+                }
+            }
+            else {
+                return AjaxResult.error("请选择图片上传。");
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("保存课程分类图片时发生异常。",ex);
+            return AjaxResult.error("保存课程分类图片时发生异常。");
+        }
+//        return toAjax(tCategoryService.updateTCategory(tCategory));
     }
 
     /**
@@ -174,7 +206,7 @@ public class TCategoryController extends BaseController
      */
     @RequiresPermissions("conf:category:remove")
     @Log(title = "分类基础", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @GetMapping( "/remove/{ids}")
     @ResponseBody
     @ApiOperation("删除课程分类信息")
     public AjaxResult remove(String ids)

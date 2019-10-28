@@ -562,9 +562,9 @@
     		// 消息提示
             message: function(content, type) {
             	if (type != undefined) {
-                    layer.message(content, { icon: $.modal.icon(type), time: 1000, shift: 5 });
+                    layer.msg(content, { icon: $.modal.icon(type), time: 1000, shift: 5 });
                 } else {
-                    layer.message(content);
+                    layer.msg(content);
                 }
             },
             // 错误消息
