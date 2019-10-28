@@ -4,6 +4,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.*;
+import co.tton.qcloud.system.model.ShopCoursesListModel;
 import co.tton.qcloud.system.service.ITOrderDetailService;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import co.tton.qcloud.system.service.ITShopCoursesPriceService;
@@ -11,9 +12,11 @@ import co.tton.qcloud.system.service.ITShopCoursesTimeService;
 import co.tton.qcloud.system.wxservice.ICoursesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -233,6 +236,29 @@ public class CoursesController extends BaseController {
     } else {
       return AjaxResult.error("参数错误");
     }
+  }
+
+  /***
+   * 获取月销课程数据
+   * @param location 位置信息
+   * @return
+   */
+  @ApiOperation("获取月销课程数据")
+  @RequestMapping(value = "/latest",method = RequestMethod.GET)
+  public AjaxResult<List<ShopCoursesListModel>> getLatestCourses(@ApiParam("城市名称") @RequestParam(value = "loc",required = false) String location){
+    List<ShopCoursesListModel> list = new ArrayList<>();
+
+    ShopCoursesListModel model = new ShopCoursesListModel();
+    model.setShopId("438cfa5de661430a910d04c15ef24360");
+    model.setCoursesId("409c597d36b23d055a34b85751115dc0");
+    model.setCoverImage("42f8484165b34258939f761605efb52620190927.jpg");
+    model.setShopName("大连致纯足球");
+    model.setSaleCount(29);
+    model.setStartPrice(2.99);
+    model.setTitle("攀岩");
+    list.add(model);
+
+    return AjaxResult.success("获取月销成功。", list);
   }
 
 }
