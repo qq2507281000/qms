@@ -6,8 +6,12 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.model.ShopCenterModel;
 import co.tton.qcloud.system.model.ShopCertModel;
+import co.tton.qcloud.system.model.ShopOrderModel;
 import co.tton.qcloud.system.service.ISysUserService;
+import co.tton.qcloud.system.service.ITOrderService;
+import co.tton.qcloud.system.service.ITShopService;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -20,6 +24,7 @@ import org.springframework.web.util.HtmlUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @program: qms
@@ -37,6 +42,10 @@ public class WpLoginController extends BaseController {
     private final String prefix = "wp/";
 
     private ISysUserService userService;
+
+    private ITShopService shopService;
+
+    private ITOrderService orderService;
 
     @RequestMapping(value = "/shop/journey",method = RequestMethod.GET)
     public void redirectUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -62,7 +71,8 @@ public class WpLoginController extends BaseController {
                 String openId = user.getOpenId();
                 //去数据库查询OpenId对应的Shop是否已经绑定
                 SysUser sysUser = userService.selectUserByOpenId(openId);
-                if(user == null){
+//                if(user == null){
+                if(sysUser == null){
                     return prefix + "shop-cert";
                 }
                 else{
@@ -93,26 +103,68 @@ public class WpLoginController extends BaseController {
         try{
             if(model == null){
                 return error("参数错误，对象不允许为空。");
-            }
-            else{
+            } else {
                 String openId = model.getOpenId();
                 String mobile = model.getMobile();
 
                 SysUser user = userService.selectUserByPhoneNumber(mobile);
                 if(user == null){
                     return error("未能找到用户对象信息。");
-                }
-                else{
+                } else {
                     user.setOpenId(openId);
                     user.setUpdateTime(DateUtils.getNowDate());
                     int result = userService.updateUser(user);
-                    if(result == 1){
-                        return success("商家认证成功。");
-                    }
-                    else{
+                    if (result == 1) {
+                        return AjaxResult.success("商家认证成功。", user.getBusinessId());
+                    }else{
                         return error("商家认证失败。");
                     }
                 }
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("获取商机订单信息时发生异常。");
+            return error("获取商机订单信息时发生异常。");
+        }
+    }
+
+    /***
+     * 商家信息接口
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/shop/center",method = RequestMethod.GET)
+    public String selectShopCenter(ModelMap model){
+        try{
+            String id = "a34e61e8d282875c98e383af65e2c732";
+            ShopCenterModel center = shopService.selectWPShopCenterById(id);
+            model.put("center",center);
+            return prefix + "shop-center";
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return redirect("/wp/err");
+        }
+    }
+
+
+    /**
+     *微信公众号商户订单列表
+     * @param shopId
+     * @param type
+     * @return
+     */
+    @RequestMapping(value = "/shop/order",method = RequestMethod.POST)
+    @PostMapping("/shop/order")
+    @ResponseBody
+    public AjaxResult selectShopOrder(String shopId,String type){
+        try{
+            if(shopId == null){
+                return error("参数错误，对象不允许为空。");
+            } else {
+                List<ShopOrderModel> order = orderService.selectWPOrderByShopId(shopId,type);
+                return AjaxResult.success(order);
             }
         }
         catch(Exception ex){
@@ -126,5 +178,8 @@ public class WpLoginController extends BaseController {
     public String error(ModelMap map){
         return prefix + "shop-error";
     }
+
+
+
 
 }

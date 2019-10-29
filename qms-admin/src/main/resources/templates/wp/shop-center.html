@@ -1,17 +1,192 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <meta name="renderer" content="webkit">
     <title>Title</title>
+    <link th:href="@{/style/weui.css}" rel="stylesheet"/>
+    <link th:href="@{/style/example.css}" rel="stylesheet"/>
+    <link th:href="@{/style/weui1.css}" rel="stylesheet"/>
+    <!--<link href="../../static/style/weui1.css" rel="stylesheet"/>-->
+    <!--<link href="../../static/style/example.css" rel="stylesheet"/>-->
+    <style>
+        .weui-form__text-area {
+            padding: 20px 32px;
+            color: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            background: url(../../img/WechatIMG3.jpeg) no-repeat;
+        }
+        .weui-form {
+            padding: 0;
+            background-color: transparent;
+        }
+        .weui-form-preview__hd .weui-form-preview__value {
+            font-size:14px;
+        }
+    </style>
 </head>
 <body>
-<div class="page">
+<div class="page navbar js_show">
+    <input id="shopId" th:value="*{center.shopId}" hidden>
     <div class="weui-form">
         <div class="weui-form__text-area">
-            <h2 class="weui-form__title">表单结构</h2>
-            <div class="weui-form__desc">展示表单页面的信息结构样式, 分别由头部区域/控件区域/提示区域/操作区域和底部信息区域组成。</div>
+            <!--<h2 class="weui-form__title"></h2>-->
+            <img class="weui-form__title" th:src="'/resource-file/' + *{center.coverImg}" style="width: 100px;height: 100px;">
+            <div class="weui-form__desc" th:text="*{center.shopName}">商家名称</div>
+        </div>
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <div class="weui-navbar__item weui-bar__item_on" onclick="order(0)">
+                    全部订单
+                </div>
+                <div class="weui-navbar__item" onclick="order(1)">
+                    待核销
+                </div>
+                <div class="weui-navbar__item" onclick="order(2)">
+                    已完成
+                </div>
+                <div class="weui-navbar__item" onclick="order(3)">
+                    异常订单
+                </div>
+            </div>
+            <div class="weui-tab__panel">
+                <!--<br>-->
+                <!--<div class="weui-form-preview">-->
+                    <!--<div class="weui-form-preview__hd">-->
+                        <!--<div class="weui-form-preview__item">-->
+                            <!--<label class="weui-form-preview__label">订单编号</label>-->
+                            <!--<label class="weui-form-preview__value">联系会员</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="weui-form-preview__bd">-->
+                        <!--<div class="weui-form-preview__item">-->
+                                <!--<label class="weui-form-preview__label" style="color:#000000;font-size: 1.6em;">订单主题</label>-->
+                        <!--</div>-->
+                        <!--<div class="weui-form-preview__item">-->
+                            <!--<label class="weui-form-preview__label">课程标题</label>-->
+                            <!--&lt;!&ndash;<span class="weui-form-preview__value">名字名字名字</span>&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--<div class="weui-form-preview__item">-->
+                            <!--<label class="weui-form-preview__label">预约时间(上午/下午)</label>-->
+                            <!--&lt;!&ndash;<span class="weui-form-preview__value">很长很长的名字很长很长的名字很长很长的名字很长很长的名字很长很长的名字</span>&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--<div class="weui-form-preview__item">-->
+                            <!--<label class="weui-form-preview__label">-->
+                                <!--<a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">已支付</a>-->
+                                <!--<a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_warn">未使用</a>-->
+                            <!--</label>-->
+                            <!--<span class="weui-form-preview__value">合计:</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="weui-form-preview__ft">-->
+                        <!--<a class="weui-form-preview__btn weui-form-preview__btn_default" href="javascript:">确认核销</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
         </div>
     </div>
+
 </div>
+<script th:src="@{/style/zepto.min.js}"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:inline="javascript">
+    $(function(){
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
+
+        order(0);
+    });
+
+    function order(type) {
+        //Ajax提交数据
+        $.ajax({
+            url:"/wp/shop/order",
+            type:"post",
+            data:{
+                type:type,
+                shopId:$("#shopId").val(),
+            },
+            success:function(result){
+                var html = "";
+                for (var i = 0; i < result.data.length; i++) {
+                    var ampm = "";
+                    if (result.data[i].orderNo == "AM") {
+                        ampm = "上午";
+                    } else {
+                        ampm = "下午";
+                    }
+                    var useStatus = ""
+                    if (result.data[i].useStatus == "UNUSED") {
+                        useStatus = "未使用";
+                    }
+                    if (result.data[i].useStatus == "USED") {
+                        useStatus = "已使用";
+                    }
+                    if (result.data[i].useStatus == "EXPIRED") {
+                        useStatus = "已过期";
+                    }
+                    var payStatus = ""
+                    if (result.data[i].useStatus == "UNPAY") {
+                        payStatus = "未支付";
+                    } else {
+                        payStatus = "已支付"
+                    }
+
+                    var verifyStatus = ""
+                    if( result.data[i].verifyStatus == "UNCONFIRM") {
+                        verifyStatus = "<div class=\"weui-form-preview__ft\">"+
+                        "<a class=\"weui-form-preview__btn weui-form-preview__btn_default\" href=\"javascript:\">确认核销</a>"+
+                        "</div>";
+                    }
+
+                    html = html +
+                       "<br>"+
+                       "<div class=\"weui-form-preview\">"+
+                       "<div class=\"weui-form-preview__hd\">"+
+                       "<div class=\"weui-form-preview__item\">"+
+                       "<label class=\"weui-form-preview__label\">"+result.data[i].orderNo+"</label>"+
+                       "<label class=\"weui-form-preview__value\">联系会员</label>"+
+                       "</div>"+
+                       "</div>"+
+                       "<div class=\"weui-form-preview__bd\">"+
+                       "<div class=\"weui-form-preview__item\">"+
+                       "<label class=\"weui-form-preview__label\" style=\"color:#000000;font-size: 1.6em;\">"+result.data[i].subject+"</label>"+
+                       "</div>"+
+                       "<div class=\"weui-form-preview__item\">"+
+                       "<label class=\"weui-form-preview__label\">"+result.data[i].coursesTitle+"</label>"+
+                       "</div>"+
+                        "<div class=\"weui-form-preview__item\">"+
+                        "<label class=\"weui-form-preview__label\">"+result.data[i].lessionTime + "(" + ampm +")"+"</label>"+
+                        "</div>"+
+                        "<div class=\"weui-form-preview__item\">"+
+                        "<label class=\"weui-form-preview__label\">"+
+                        "<a href=\"javascript:;\" class=\"weui-btn weui-btn_mini weui-btn_primary\">"+ payStatus +"</a>"+
+                        "<a href=\"javascript:;\" class=\"weui-btn weui-btn_mini weui-btn_warn\">"+useStatus+"</a>"+
+                        "</label>"+
+                        "<span class=\"weui-form-preview__value\">合计:¥"+result.data[i].payPrice+"</span>"+
+                    "</div>"+
+                    "</div>"+
+                        verifyStatus +
+                        "</div>";
+                }
+
+                $(".weui-tab__panel").empty();
+                $(".weui-tab__panel").append(html);
+
+            },
+            error:function () {
+                $fail.fadeIn(100);
+                setTimeout(function () {
+                    $fail.fadeOut(100);
+                }, 2000);
+            }});
+
+    }
+
+</script>
 </body>
 </html>

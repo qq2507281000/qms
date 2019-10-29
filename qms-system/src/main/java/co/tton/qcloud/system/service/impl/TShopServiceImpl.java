@@ -4,6 +4,7 @@ import java.util.List;
 
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import co.tton.qcloud.system.model.ShopCenterModel;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TShopMapper;
 import co.tton.qcloud.system.domain.TShop;
@@ -96,4 +97,16 @@ public class TShopServiceImpl implements ITShopService
     {
         return tShopMapper.deleteTShopById(id);
     }
+
+    /**
+     * 微信公众号查询商户信息
+     * @param id id
+     * @return
+     */
+    @Override
+    public ShopCenterModel selectWPShopCenterById(String id) {
+        return tShopMapper.selectWPShopCenterById(id);
+    }
+
+
 }

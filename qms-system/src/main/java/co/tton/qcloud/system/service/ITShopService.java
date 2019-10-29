@@ -1,6 +1,8 @@
 package co.tton.qcloud.system.service;
 
 import co.tton.qcloud.system.domain.TShop;
+import co.tton.qcloud.system.model.ShopCenterModel;
+
 import java.util.List;
 
 /**
@@ -58,4 +60,11 @@ public interface ITShopService
      * @return 结果
      */
     public int deleteTShopById(String id);
+
+    /**
+     * 微信公众号查询商户信息
+     * @param id id
+     * @return
+     */
+    public ShopCenterModel selectWPShopCenterById(String id);
 }

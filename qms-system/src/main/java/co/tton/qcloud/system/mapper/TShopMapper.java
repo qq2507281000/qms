@@ -1,6 +1,7 @@
 package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TShop;
+import co.tton.qcloud.system.model.ShopCenterModel;
 
 import java.util.List;
 
@@ -83,4 +84,11 @@ public interface TShopMapper
      * @return 获取商家详情
      */
     List<TShop> getNameShop(String name);
+
+    /**
+     * 微信公众号查询商户信息
+     * @param id
+     * @return
+     */
+    ShopCenterModel selectWPShopCenterById(String id);
 }

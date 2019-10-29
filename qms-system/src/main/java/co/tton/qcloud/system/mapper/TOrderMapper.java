@@ -3,6 +3,8 @@ package co.tton.qcloud.system.mapper;
 import co.tton.qcloud.system.domain.TOrder;
 import co.tton.qcloud.system.domain.TOrderModel;
 import co.tton.qcloud.system.domain.WxOrderDetail;
+import co.tton.qcloud.system.model.ShopOrderModel;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -108,4 +110,12 @@ public interface TOrderMapper
      * @return 结果
      */
     List<TOrderModel> getBillStatusCourses(TOrder tOrder);
+
+    /**
+     *微信公众号商户订单列表
+     * @param shopId
+     * @param type
+     * @return
+     */
+    List<ShopOrderModel> selectWPOrderByShopId(@Param("shopId") String shopId, @Param("type") String type);
 }

@@ -11,6 +11,7 @@ import co.tton.qcloud.system.domain.*;
 import co.tton.qcloud.system.mapper.*;
 import co.tton.qcloud.system.model.OrderModel;
 import co.tton.qcloud.system.model.OrderResponseModel;
+import co.tton.qcloud.system.model.ShopOrderModel;
 import co.tton.qcloud.system.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.transaction.Transaction;
@@ -378,5 +379,16 @@ public class TOrderServiceImpl implements ITOrderService
         List<TOrderDetailModel> details = detailService.selectTOrderDetailModelList(id);
         orderModel.setDetails(details);
         return orderModel;
+    }
+
+    /**
+     *微信公众号商户订单列表
+     * @param shopId
+     * @param type
+     * @return
+     */
+    @Override
+    public List<ShopOrderModel> selectWPOrderByShopId(String shopId, String type) {
+        return tOrderMapper.selectWPOrderByShopId(shopId,type);
     }
 }

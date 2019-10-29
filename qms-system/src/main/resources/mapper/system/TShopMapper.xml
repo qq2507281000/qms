@@ -251,4 +251,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by sort_key
     </select>
+
+
+    <!--<resultMap type="co.tton.qcloud.system.model.ShopCenterModel" id="WPShopCenterMap">-->
+        <!--<id column="shopId" property="shopId" />-->
+        <!--<result column="coverImg" property="coverImg" />-->
+        <!--<result column="shopName" property="shopName" />-->
+        <!--<collection property="mobile" ofType="co.tton.qcloud.system.model.ShopOrderModel" javaType="java.util.List">-->
+            <!--<id column="orderId" property="orderId" />-->
+            <!--<result column="orderNo" property="orderNo" />-->
+            <!--<result column="mobile" property="mobile" />-->
+            <!--<result column="subject" property="subject" />-->
+            <!--<result column="coursesTitle" property="coursesTitle" />-->
+            <!--<result column="lessionTime" property="lessionTime" />-->
+            <!--<result column="ampm" property="ampm" />-->
+            <!--<result column="payStatus" property="payStatus" />-->
+            <!--<result column="useStatus" property="useStatus" />-->
+            <!--<result column="preRealPrice" property="preRealPrice" />-->
+            <!--<result column="payPrice" property="payPrice" />-->
+            <!--<result column="verifyStatus" property="verifyStatus" />-->
+            <!--<result column="billStatus" property="billStatus" />-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
+    <!--&lt;!&ndash; 微信公众号查询商户信息 &ndash;&gt;-->
+    <!--<select id="selectWPShopCenterById" resultMap="WPShopCenterMap">-->
+        <!--select-->
+        <!--ts.id as shopId,-->
+        <!--ts.cover_img as coverImg,-->
+        <!--ts.`name` as shopName,-->
+        <!--tor.id as orderId,-->
+        <!--tor.order_no as orderNo,-->
+        <!--tor.mobile as mobile,-->
+        <!--tor.`subject` as `subject`,-->
+        <!--tod.courses_time as coursesTitle,-->
+        <!--tod.lession_time as lessionTime,-->
+        <!--tod.am_pm as ampm,-->
+        <!--tor.pay_status as payStatus,-->
+        <!--tor.use_status as useStatus,-->
+        <!--tor.pre_real_price as preRealPrice,-->
+        <!--tor.pay_price as payPrice,-->
+        <!--tor.verify_status as verifyStatus,-->
+        <!--tor.bill_status as billStatus-->
+        <!--from-->
+        <!--t_shop ts-->
+        <!--LEFT JOIN t_order tor on tor.shop_id = ts.id -->
+        <!--LEFT JOIN t_order_detail tod on tod.order_id = tor.id-->
+        <!--where -->
+        <!--ts.id = #{id}-->
+    <!--</select>-->
+
+    <!--查询商家详情-->
+    <select id="selectWPShopCenterById" resultType="co.tton.qcloud.system.model.ShopCenterModel">
+        select
+        id as shopId,
+        cover_img as coverImg,
+        `name` as shopName
+        from
+        t_shop
+        <where>
+            flag = 0
+            and id = #{id}
+        </where>
+    </select>
 </mapper>

@@ -5,6 +5,7 @@ import co.tton.qcloud.system.domain.TOrderModel;
 import co.tton.qcloud.system.domain.WxOrderDetail;
 import co.tton.qcloud.system.model.OrderModel;
 import co.tton.qcloud.system.model.OrderResponseModel;
+import co.tton.qcloud.system.model.ShopOrderModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -116,5 +117,13 @@ public interface ITOrderService
      * @return
      */
     OrderResponseModel submitOrder(OrderModel orderModel);
+
+    /**
+     *微信公众号商户订单列表
+     * @param shopId
+     * @param type
+     * @return
+     */
+    List<ShopOrderModel> selectWPOrderByShopId(String shopId,String type);
 
 }

@@ -452,4 +452,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND o.bill_status = 'BOOKING'
         </where>
     </select>
+
+
+
+    <select id="selectWPOrderByShopId" resultType="co.tton.qcloud.system.model.ShopOrderModel">
+        select
+        tor.id as orderId,
+        tor.order_no as orderNo,
+        tor.mobile as mobile,
+        tor.`subject` as `subject`,
+        tsc.title as coursesTitle,
+        tod.courses_time as lessionTime,
+        tod.am_pm as ampm,
+        tor.pay_status as payStatus,
+        tor.use_status as useStatus,
+        tor.pre_real_price as preRealPrice,
+        tor.pay_price as payPrice,
+        tor.verify_status as verifyStatus,
+        tor.bill_status as billStatus
+        from
+        t_order tor
+        LEFT JOIN t_order_detail tod on tod.order_id = tor.id
+        LEFT JOIN t_shop_courses tsc on tsc.id = tod.courses_id
+        <where>
+            tor.shop_id = #{shopId}
+            <if test="type == 1">and tor.verify_status = "UNCONFIRM"</if>
+            <if test="type == 2">and tor.verify_status = "CONFIRMED"</if>
+            <if test="type == 3">and tor.verify_status = "UNCONFIRM"</if>
+        </where>
+    </select>
+
 </mapper>
