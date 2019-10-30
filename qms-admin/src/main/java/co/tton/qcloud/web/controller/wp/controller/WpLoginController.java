@@ -1,17 +1,19 @@
 package co.tton.qcloud.web.controller.wp.controller;
 
 import co.tton.qcloud.common.config.Global;
+import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.domain.TOrder;
+import co.tton.qcloud.system.domain.TOrderDetail;
+import co.tton.qcloud.system.domain.TOrderUseLog;
 import co.tton.qcloud.system.model.ShopCenterModel;
 import co.tton.qcloud.system.model.ShopCertModel;
 import co.tton.qcloud.system.model.ShopOrderModel;
-import co.tton.qcloud.system.service.ISysUserService;
-import co.tton.qcloud.system.service.ITOrderService;
-import co.tton.qcloud.system.service.ITShopService;
+import co.tton.qcloud.system.service.*;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -47,6 +49,10 @@ public class WpLoginController extends BaseController {
 
     private ITOrderService orderService;
 
+    private ITOrderDetailService orderDetailService;
+
+    private ITOrderUseLogService orderUseLogService;
+
     @RequestMapping(value = "/shop/journey",method = RequestMethod.GET)
     public void redirectUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String appId = Global.getConfig("qcloud.active-wp-appId");
@@ -69,7 +75,7 @@ public class WpLoginController extends BaseController {
                 WxMpUser user = wxService.oauth2getUserInfo(accessToken, null);
                 map.put("user", user);
                 String openId = user.getOpenId();
-                //去数据库查询OpenId对应的Shop是否已经绑定
+//                去数据库查询OpenId对应的Shop是否已经绑定
                 SysUser sysUser = userService.selectUserByOpenId(openId);
 //                if(user == null){
                 if(sysUser == null){
@@ -98,7 +104,9 @@ public class WpLoginController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/shop/cert",method = RequestMethod.POST)
+//    @RequestMapping(value = "/shop/attestation",method = RequestMethod.POST)
+    @PostMapping("/shop/attestation")
+    @ResponseBody
     public AjaxResult saveShopAdminCert(ShopCertModel model){
         try{
             if(model == null){
@@ -115,7 +123,10 @@ public class WpLoginController extends BaseController {
                     user.setUpdateTime(DateUtils.getNowDate());
                     int result = userService.updateUser(user);
                     if (result == 1) {
-                        return AjaxResult.success("商家认证成功。", user.getBusinessId());
+                        //去数据库查询OpenId对应的Shop是否已经绑定
+                        SysUser sysUser = userService.selectUserByOpenId(openId);
+                        getSession().setAttribute("sysUser",sysUser);
+                        return success("商家认证成功。");
                     }else{
                         return error("商家认证失败。");
                     }
@@ -137,7 +148,8 @@ public class WpLoginController extends BaseController {
     @RequestMapping(value = "/shop/center",method = RequestMethod.GET)
     public String selectShopCenter(ModelMap model){
         try{
-            String id = "a34e61e8d282875c98e383af65e2c732";
+            SysUser sysUser = (SysUser) getSession().getAttribute("sysUser");
+            String id = sysUser.getBusinessId();
             ShopCenterModel center = shopService.selectWPShopCenterById(id);
             model.put("center",center);
             return prefix + "shop-center";
@@ -155,7 +167,6 @@ public class WpLoginController extends BaseController {
      * @param type
      * @return
      */
-    @RequestMapping(value = "/shop/order",method = RequestMethod.POST)
     @PostMapping("/shop/order")
     @ResponseBody
     public AjaxResult selectShopOrder(String shopId,String type){
@@ -171,6 +182,81 @@ public class WpLoginController extends BaseController {
             ex.printStackTrace();
             logger.error("保存商家认证信息时发生异常。");
             return error("保存商家认证信息时发生异常。");
+        }
+    }
+
+    /**
+     * 微信公众号订单核销
+     * @param orderId
+     * @return
+     */
+    @PostMapping("/shop/examine")
+    @ResponseBody
+    public AjaxResult examine(String orderId) {
+        try{
+            SysUser user = (SysUser) getSession().getAttribute("sysUser");
+            if(orderId == null){
+                return error("参数错误，对象不允许为空。");
+            }
+            else{
+                TOrder order = orderService.selectTOrderById(orderId);
+                if(order == null){
+                    return error("未能搜索到订单数据。");
+                }
+                else{
+                    if(StringUtils.equalsAnyIgnoreCase(order.getPayStatus(),"PAID")){
+                        if(StringUtils.equalsAnyIgnoreCase(order.getUseStatus(),"UNUSED")
+                            && StringUtils.equalsAnyIgnoreCase(order.getVerifyStatus(),"UNCONFIRM")){
+
+                            TOrderDetail query = new TOrderDetail();
+                            query.setOrderId(orderId);
+                            List<TOrderDetail> orderDetails = orderDetailService.selectTOrderDetailList(query);
+
+                            order.setUseStatus("USED");
+                            order.setVerifyStatus("CONFIRMED");
+                            order.setBillStatus("EVALUATING");
+                            order.setUpdateTime(DateUtils.getNowDate());
+                            order.setUpdateBy(user.getUserId().toString());
+                            orderService.updateTOrder(order);
+
+                            for (TOrderDetail t : orderDetails){
+                                t.setUseStatus("USED");
+                                t.setUpdateBy(user.getUserId().toString());
+                                t.setUpdateTime(DateUtils.getNowDate());
+                                orderDetailService.updateTOrderDetail(t);
+                            }
+
+                            TOrderUseLog useLog = new TOrderUseLog();
+                            useLog.setId(StringUtils.genericId());
+                            useLog.setOrderId(order.getId());
+                            useLog.setCoursesId("");
+                            useLog.setUseTime(DateUtils.getNowDate());
+                            useLog.setMemberId(order.getMemberId());
+                            useLog.setChildId("");
+                            useLog.setShopId(order.getShopId());
+                            useLog.setFlag(Constants.DATA_NORMAL);
+                            useLog.setCreateBy(user.getUserId().toString());
+                            useLog.setCreateTime(DateUtils.getNowDate());
+
+                            orderUseLogService.insertTOrderUseLog(useLog);
+
+                            return success("核销成功。");
+
+                        }
+                        else{
+                            return error("订单已使用或已核销。");
+                        }
+                    }
+                    else{
+                        return error("订单状态未支付，不允许核销。");
+                    }
+                }
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            logger.error("订单核销时发生异常。",ex);
+            return error("订单核销时发生异常。");
         }
     }
 

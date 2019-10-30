@@ -21,7 +21,7 @@ public class ShopOrderModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("订单ID")
-    private String id;
+    private String orderId;
 
     @ApiModelProperty("订单编号")
     private String orderNo;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
     <meta name="renderer" content="webkit">
-    <title>Title</title>
+    <title>商家中心</title>
     <link th:href="@{/style/weui.css}" rel="stylesheet"/>
     <link th:href="@{/style/example.css}" rel="stylesheet"/>
     <link th:href="@{/style/weui1.css}" rel="stylesheet"/>
@@ -15,7 +15,7 @@
             padding: 20px 32px;
             color: rgba(0, 0, 0, 0.9);
             text-align: center;
-            background: url(../../img/WechatIMG3.jpeg) no-repeat;
+            background: url(../../img/bg_wecat.png) no-repeat;
         }
         .weui-form {
             padding: 0;
@@ -33,7 +33,7 @@
         <div class="weui-form__text-area">
             <!--<h2 class="weui-form__title"></h2>-->
             <img class="weui-form__title" th:src="'/resource-file/' + *{center.coverImg}" style="width: 100px;height: 100px;">
-            <div class="weui-form__desc" th:text="*{center.shopName}">商家名称</div>
+            <div class="weui-form__desc" th:text="*{center.shopName}" style="color: #ffffff">商家名称</div>
         </div>
         <div class="weui-tab">
             <div class="weui-navbar">
@@ -86,6 +86,20 @@
             </div>
         </div>
     </div>
+    <div id="js_toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content" >核销成功</p>
+        </div>
+    </div>
+    <div id="js_fail" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-cancel weui-icon_toast"></i>
+            <p class="weui-toast__content">核销失败</p>
+        </div>
+    </div>
 
 </div>
 <script th:src="@{/style/zepto.min.js}"></script>
@@ -94,14 +108,21 @@
 <script th:src="@{/js/jquery.min.js}"></script>
 <script th:inline="javascript">
     $(function(){
+
+
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
 
         order(0);
+
+
     });
 
+    var $type = 0;
+
     function order(type) {
+        $type = type;
         //Ajax提交数据
         $.ajax({
             url:"/wp/shop/order",
@@ -119,7 +140,7 @@
                     } else {
                         ampm = "下午";
                     }
-                    var useStatus = ""
+                    var useStatus = "未知"
                     if (result.data[i].useStatus == "UNUSED") {
                         useStatus = "未使用";
                     }
@@ -139,26 +160,26 @@
                     var verifyStatus = ""
                     if( result.data[i].verifyStatus == "UNCONFIRM") {
                         verifyStatus = "<div class=\"weui-form-preview__ft\">"+
-                        "<a class=\"weui-form-preview__btn weui-form-preview__btn_default\" href=\"javascript:\">确认核销</a>"+
-                        "</div>";
+                            "<a class=\"weui-form-preview__btn weui-form-preview__btn_default\" href=\"javascript:\" onclick=\"examine('"+ result.data[i].orderId +"')\">确认核销</a>"+
+                            "</div>";
                     }
 
                     html = html +
-                       "<br>"+
-                       "<div class=\"weui-form-preview\">"+
-                       "<div class=\"weui-form-preview__hd\">"+
-                       "<div class=\"weui-form-preview__item\">"+
-                       "<label class=\"weui-form-preview__label\">"+result.data[i].orderNo+"</label>"+
-                       "<label class=\"weui-form-preview__value\">联系会员</label>"+
-                       "</div>"+
-                       "</div>"+
-                       "<div class=\"weui-form-preview__bd\">"+
-                       "<div class=\"weui-form-preview__item\">"+
-                       "<label class=\"weui-form-preview__label\" style=\"color:#000000;font-size: 1.6em;\">"+result.data[i].subject+"</label>"+
-                       "</div>"+
-                       "<div class=\"weui-form-preview__item\">"+
-                       "<label class=\"weui-form-preview__label\">"+result.data[i].coursesTitle+"</label>"+
-                       "</div>"+
+                        "<br>"+
+                        "<div class=\"weui-form-preview\">"+
+                        "<div class=\"weui-form-preview__hd\">"+
+                        "<div class=\"weui-form-preview__item\">"+
+                        "<label class=\"weui-form-preview__label\">"+result.data[i].orderNo+"</label>"+
+                        "<a href=\"tel:"+result.data[i].mobile+"\"><label class=\"weui-form-preview__value\"  >联系会员<img src=\"../../img/icon-phone@2x.png\" style=\"width: 12px;height: 12px;\" /></label></a>"+
+                        "</div>"+
+                        "</div>"+
+                        "<div class=\"weui-form-preview__bd\">"+
+                        "<div class=\"weui-form-preview__item\">"+
+                        "<label class=\"weui-form-preview__label\" style=\"color:#000000;font-size: 1.6em;\">"+result.data[i].subject+"</label>"+
+                        "</div>"+
+                        "<div class=\"weui-form-preview__item\">"+
+                        "<label class=\"weui-form-preview__label\">"+result.data[i].coursesTitle+"</label>"+
+                        "</div>"+
                         "<div class=\"weui-form-preview__item\">"+
                         "<label class=\"weui-form-preview__label\">"+result.data[i].lessionTime + "(" + ampm +")"+"</label>"+
                         "</div>"+
@@ -168,8 +189,8 @@
                         "<a href=\"javascript:;\" class=\"weui-btn weui-btn_mini weui-btn_warn\">"+useStatus+"</a>"+
                         "</label>"+
                         "<span class=\"weui-form-preview__value\">合计:¥"+result.data[i].payPrice+"</span>"+
-                    "</div>"+
-                    "</div>"+
+                        "</div>"+
+                        "</div>"+
                         verifyStatus +
                         "</div>";
                 }
@@ -179,13 +200,42 @@
 
             },
             error:function () {
-                $fail.fadeIn(100);
+            }});
+
+    }
+
+    function examine(orderId) {
+        //认证
+        $.ajax({
+            url:"/wp/shop/examine",
+            type:"post",
+            data:{
+                orderId:orderId
+            },
+            success:function(result){
+                if (result.code == 500) {
+                    $('#js_fail').fadeIn(100);
+                    setTimeout(function () {
+                        $('#js_fail').fadeOut(100);
+                    }, 2000);
+                } else {
+                    $('#js_toast').fadeIn(100);
+                    setTimeout(function () {
+                        $('#js_toast').fadeOut(100);
+                    }, 2000);
+                    order($type);
+                }
+
+            },
+            error:function () {
+                $('#js_fail').fadeIn(100);
                 setTimeout(function () {
-                    $fail.fadeOut(100);
+                    $('#js_fail').fadeOut(100);
                 }, 2000);
             }});
 
     }
+
 
 </script>
 </body>
