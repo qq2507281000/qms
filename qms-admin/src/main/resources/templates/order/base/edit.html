@@ -254,16 +254,18 @@
                         // formatter: function(value, row, index) {
                         //     var lessionDate = ${#dates.format(value, 'yyyy-MM-dd')};
                         // }
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        formatter: function(value, row, index) {
-                            var actions = [];
-                            actions.push('<a class="btn btn-danger btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="ajaxPostInfo(\'' + row.id + '\')"><i class="fa fa-battery-0"></i> 无货</a> ');
-                            return actions.join('');
-                        }
-                    }]
+                    }
+//                    ,
+//                    {
+//                        title: '操作',
+//                        align: 'center',
+//                        formatter: function(value, row, index) {
+//                            var actions = [];
+//                            actions.push('<a class="btn btn-danger btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="ajaxPostInfo(\'' + row.id + '\')"><i class="fa fa-battery-0"></i> 无货</a> ');
+//                            return actions.join('');
+//                        }
+//                    }
+                    ]
             };
             $.table.init(options);
 

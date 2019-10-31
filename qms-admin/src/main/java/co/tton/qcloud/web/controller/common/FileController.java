@@ -65,6 +65,29 @@ public class FileController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/summernote/upload",method = RequestMethod.POST)
+    public AjaxResult summernoteUpload( MultipartFile file,String type) throws Exception{
+        try {
+            String fileName = "";
+            if(file != null){
+                try {
+//                            Thumbnails.of(file.getInputStream()).scale(0.3).toOutputStream();
+                    fileName = minioFileService.upload(file);
+                }
+                catch(IOException e){
+                    e.printStackTrace();
+                    log.error("文件上传错误。");
+                }
+            }
+            return AjaxResult.success("文件上传成功。",fileName);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            log.error("文件上传错误。",ex);
+            return error("文件上传错误。");
+        }
+    }
+
     @RequestMapping(value="/{file}",method = RequestMethod.DELETE)
     public AjaxResult delete(@PathVariable("file")String fileName,HttpServletRequest request) throws Exception {
         try{
