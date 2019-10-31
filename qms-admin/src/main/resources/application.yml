@@ -21,7 +21,7 @@ qcloud:
   charging-pay-notifyUrl: https://web.hdpi.ttonservice.com/api/v1.0/member/vip/charging/notify
   active-miniapp-appId: wx979a25003d5b4c1b
   active-wp-appId: wxfc56faaa62b1910c
-  auth-url: https://web.hdpi.ttonservice.com/mp/shop/cert
+  auth-url: https://web.hdpi.ttonservice.com/wp/shop/cert
 
 # 开发环境配置
 server:
