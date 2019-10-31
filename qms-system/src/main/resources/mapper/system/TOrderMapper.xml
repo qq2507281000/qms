@@ -224,7 +224,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         full_coupon.use_status as coupon_use_status,
         full_coupon.received_member_id,
         full_coupon.receive_status as received_status,
-        full_coupon.received_time as received_time
+        full_coupon.received_time as received_time,
+        tod.courses_time,
+        tod.lession_time,
+        tod.confirm_no,
+        tod.am_pm,
+        tsc.title as title
         FROM
         t_order o
         LEFT JOIN t_shop s ON o.shop_id = s.id
@@ -249,6 +254,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             LEFT JOIN t_coupon c ON oc.coupon_id = c.id
         LEFT JOIN t_coupon_receive_log crl ON oc.coupon_id = crl.coupon_id
         ) AS full_coupon ON full_coupon.order_id = o.id
+        LEFT JOIN  t_order_detail tod on tod.order_id = o.id
+        LEFT JOIN t_shop_courses tsc on tsc.id = tod.courses_id
         WHERE o.id = #{id}
     </select>
         
