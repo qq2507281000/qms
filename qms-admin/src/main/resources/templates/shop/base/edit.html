@@ -209,9 +209,12 @@
 
     //富文本输入框
     $(document).ready(function () {
-        $('.summernote').summernote({
+        $("#summernote").summernote({
             lang: 'zh-CN',
             placeholder: '请输入商家详细信息。',
+            // 对话框显示在body而非summernote
+            dialogsInBody: true,
+            dialogsFade:true,
             height: 300,
             callbacks: {
                 onImageUpload: function(files, editor, welEditable) {
@@ -224,7 +227,7 @@
             }
         });
 //        $('.summernote').summernote("code",htmlContent);
-        $('.summernote').summernote("code",$("#htmlContent").val());
+        $("#summernote").summernote("code",$("#htmlContent").val());
 
         console.log("htmlcontent finished.");
     });
@@ -264,7 +267,7 @@
 
     function submitHandler() {
 
-        var note = $('.summernote').summernote('code');
+        var note = $("#summernote").summernote('code');
         // var chtml = $.common.encode(note);
         if($.common.isEmpty($('#img').val())){
             $.modal.alertError("请先上传图片文件。");

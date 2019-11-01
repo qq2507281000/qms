@@ -350,6 +350,9 @@
         $('.summernote').summernote({
             lang: 'zh-CN',
             placeholder: '请输入商家详细信息。',
+            // 对话框显示在body而非summernote
+            dialogsInBody: true,
+            dialogsFade:true,
             height: 300,
             callbacks: {
                 onImageUpload: function(files, editor, welEditable) {
