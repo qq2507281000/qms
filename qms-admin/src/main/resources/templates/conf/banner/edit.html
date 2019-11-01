@@ -83,7 +83,7 @@
             }
 
             if ($.validate.form()) {
-                var data = $("#form-banner-add").serializeArray();
+                var data = $("#form-banner-edit").serializeArray();
                 var cityName = $("#cityId").find("option:selected").text();
                 data.push({"name": "cityName", "value": cityName});
                 $.operate.save(prefix+"/edit",data);
