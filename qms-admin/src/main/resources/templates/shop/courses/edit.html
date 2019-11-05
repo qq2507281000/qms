@@ -74,6 +74,15 @@
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">最近上新：</label>
+                            <div class="col-sm-10">
+                                <div class="radio-box" th:each="dict : ${@dict.getType('latest_new')}">
+                                    <input type="radio" th:id="${dict.dictCode}" name="latestNew" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{latestNew}">
+                                    <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">是否推荐：</label>

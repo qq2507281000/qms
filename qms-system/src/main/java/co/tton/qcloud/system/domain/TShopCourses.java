@@ -96,6 +96,9 @@ public class TShopCourses extends BaseEntity
     @ApiModelProperty("运营区域Id")
     private String regionId;
 
+    @ApiModelProperty("最近上新")
+    private Integer latestNew;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shopName"  column="shopName" />
         <result property="regionName"  column="region_name" />
         <result property="regionId"  column="region_id" />
+        <result property="latestNew" column="latest_new" />
     </resultMap>
 
     <resultMap type="TShopCoursesModel" id="TShopCoursesModelResult">
