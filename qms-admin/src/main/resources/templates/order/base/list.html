@@ -9,6 +9,7 @@
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
                     <input id="shopId" name="shopId" th:value="${shopId}" type="hidden">
+                    <input id="regionId" name="regionId" type="hidden">
                     <div class="select-list">
                         <ul>
                             <li>
@@ -80,10 +81,17 @@
                     <!--<i class="fa fa-eye-slash"></i> 查看-->
                 <!--</a>-->
             </div>
-            <div class="col-sm-12 select-table table-striped">
+            <div class="col-sm-12 select-table table-striped tabs-container">
+                <ul class="nav nav-tabs"  th:with="type=${@dict.getType('operation_city')}" >
+                    <li role="presentation" class="active" ><a href="#" onclick="cityScreening()">全部</a></li>
+                    <li role="presentation"  th:each="dict : ${type}"><a href="#" th:text="${dict.dictLabel}" th:name="${dict.dictValue}" th:value="${dict.dictValue}" onclick="cityScreening(this)">Home</a></li>
+                    <!--<li role="presentation"><a href="#">Profile</a></li>-->
+                    <!--<li role="presentation"><a href="#">Messages</a></li>-->
+                </ul>
                 <table id="bootstrap-table" data-mobile-responsive="true"></table>
             </div>
         </div>
+
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
@@ -238,6 +246,13 @@
                 var url = prefix + "/confirm/" + id;
                 $.modal.open("订单核销--" + subject,url);
             }
+        }
+
+        function cityScreening(row) {
+            $(".active").removeClass();
+            $("#regionId").val($(row).attr("value"));
+            $(row).parent().addClass("active");
+            $.table.search()
         }
 
     </script>
