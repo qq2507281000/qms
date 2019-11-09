@@ -49,14 +49,14 @@
                             </li>
                             <li>
                                 <p>订单状态：</p>
-                                <select name="orderStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_order_status')}">
+                                <select name="billStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_order_status')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
                                 <p>核销状态：</p>
-                                <select name="confirmStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_confirm_status')}">
+                                <select name="verifyStatus" class="form-control m-b" th:with="type=${@dict.getType('thd_confirm_status')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -83,8 +83,8 @@
             </div>
             <div class="col-sm-12 select-table table-striped tabs-container">
                 <ul class="nav nav-tabs"  th:with="type=${@dict.getType('operation_city')}" >
-                    <li role="presentation" class="active" ><a href="#" onclick="cityScreening()">全部</a></li>
-                    <li role="presentation"  th:each="dict : ${type}"><a href="#" th:text="${dict.dictLabel}" th:name="${dict.dictValue}" th:value="${dict.dictValue}" onclick="cityScreening(this)">Home</a></li>
+                    <li role="presentation" th:if="${regionId == null}" class="active" ><a href="#" onclick="cityScreening()">全部</a></li>
+                    <li role="presentation" th:each="dict : ${type}" th:if="${regionId == null || regionId == dict.dictValue}" th:class="${regionId == dict.dictValue}?'active'"><a href="#" th:text="${dict.dictLabel}" th:name="${dict.dictValue}" th:value="${dict.dictValue}" onclick="cityScreening(this)">Home</a></li>
                     <!--<li role="presentation"><a href="#">Profile</a></li>-->
                     <!--<li role="presentation"><a href="#">Messages</a></li>-->
                 </ul>

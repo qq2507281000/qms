@@ -105,6 +105,10 @@ public class TShopCoursesController extends BaseController
                 tShopCourses.setShopId(shopId);
             }
         }
+        //商户推荐状态进入了筛选项,在这清空
+        if(tShopCourses != null) {
+            tShopCourses.setSuggest(null);
+        }
         List<TShopCourses> list = tShopCoursesService.selectTShopCoursesList(tShopCourses);
 
         return getDataTable(list);
@@ -128,7 +132,7 @@ public class TShopCoursesController extends BaseController
      */
     @GetMapping("/add")
     @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
-    public String add(ModelMap mmap)
+    public String add(@RequestParam(value="shop-id",required = false)String shopId,ModelMap mmap)
     {
         TShop shop = new TShop();
         shop.setFlag(Constants.DATA_NORMAL);
@@ -145,6 +149,38 @@ public class TShopCoursesController extends BaseController
         }
         list = tShopService.selectTShopList(shop);
         mmap.put("shop",list);
+        TCategory category = new TCategory();
+        category.setFlag(Constants.DATA_NORMAL);
+        List<TCategory> categories = new ArrayList<>();
+        categories = categoryService.selectTCategoryList(category).stream().filter(d->StringUtils.isNotEmpty(d.getParentId())).collect(Collectors.toList());
+        mmap.put("categories",categories);
+
+        return prefix + "/add";
+    }
+
+    /**
+     * 新增课程基本信息
+     */
+    @GetMapping("/add/{shopId}")
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
+    public String addId(@PathVariable("shopId") String shopId,ModelMap mmap)
+    {
+        TShop shop = new TShop();
+        shop.setFlag(Constants.DATA_NORMAL);
+        SysUser user = ShiroUtils.getSysUser();
+        List<TShop> list = new ArrayList<>();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"ADMIN")){
+
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            shop.setId(user.getBusinessId());
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
+            shop.setRegionId(user.getBusinessId());
+        }
+        list = tShopService.selectTShopList(shop);
+        mmap.put("shop",list);
+        mmap.put("shopId",new String(shopId));
         TCategory category = new TCategory();
         category.setFlag(Constants.DATA_NORMAL);
         List<TCategory> categories = new ArrayList<>();

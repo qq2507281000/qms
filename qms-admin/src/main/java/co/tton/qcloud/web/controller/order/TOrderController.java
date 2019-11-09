@@ -66,6 +66,10 @@ public class TOrderController extends BaseController
                 mmap.put("shopId", shopId);
             }
         }
+        if (StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")) {
+            mmap.put("regionId", user.getBusinessId());
+        }
+
         return prefix + "/list";
     }
 

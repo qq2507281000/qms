@@ -179,6 +179,26 @@
         </div>
     </div>
 
+    <h4 class="form-header h4">课程信息</h4>
+
+    <div class="col-sm-12 ">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" th:onclick="$.operate.addTab([[${tShop.id}]])" shiro:hasPermission="shop:courses:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="shop:courses:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:courses:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+
+
 </div>
 <th:block th:include="include :: footer" />
 <!--<th:block th:include="include :: jasny-bootstrap-js" />-->
@@ -193,16 +213,25 @@
 <!--<script th:src="@{/ajax/libs/datapicker/bootstrap-timepicker.min.js}"></script>-->
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
+    var editFlag = [[${@permission.hasPermi('shop:courses:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
+    var timeFlag = [[${@permission.hasPermi('shop:time:edit')}]];
+    var priceFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
+    var imageFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
 
-//    var htmlContent = '[[${tShop.htmlContent}]]';
-//    console.log("------>>>" + htmlContent);
-
-    /*]]>*/
+    var useDiscount = [[${@dict.getType('useDiscount')}]];
+    var suggest = [[${@dict.getType('suggest')}]];
+    var available = [[${@dict.getType('available')}]];
 </script>
 <script type="text/javascript">
 
+
     var prefix = "/shop";
+    var shopId = $('#id').val();
+    var listUrl = prefix + "/courses/list";
+    if($.common.isNotEmpty(shopId)){
+        listUrl = listUrl + "?shop-id=" + shopId;
+    }
     $("#form-shop-edit").validate({
         focusCleanup: true
     });
@@ -262,7 +291,102 @@
             console.log(code);
             console.log(message);
             console.log(list[0]);
-        })
+        });
+
+        var options = {
+            url: listUrl,
+            createUrl: prefix + "/courses/add/{id}",
+            updateUrl: prefix + "/courses/edit/{id}",
+            removeUrl: prefix + "/courses/remove",
+            exportUrl: prefix + "/courses/export",
+            modalName: "课程基本信息",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field : 'id',
+                    title : 'ID',
+                    visible: false
+                },
+                {
+                    field : 'title',
+                    align: 'center',
+                    title : '课程标题'
+                },
+                // {
+                //     field : 'subTitle',
+                //     title : '副标题'
+                // },
+                // {
+                //         field : 'contentHtml',
+                //         title : '内容HTML'
+                //     },
+                {
+                    field : 'suggest',
+                    align: 'center',
+                    title : '是否推荐',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(suggest, value);
+                    }
+                },
+                {
+                    field : 'salesCount',
+                    align: 'center',
+                    title : '库存数量'
+                },
+                {
+                    field : 'available',
+                    align: 'center',
+                    title : '是否可用',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(available, value);
+                    }
+                },
+                {
+                    field : 'sortKey',
+                    align: 'center',
+                    title : '排序'
+                },
+                // {
+                //     field : 'flag',
+                //     title : '状态'
+                // },
+                // {
+                //     field : 'createBy',
+                //     title : '创建人'
+                // },
+                // {
+                //     field : 'updateBy',
+                //     title : '修改人'
+                // },
+                // {
+                //     field : 'sku',
+                //     title : 'SKU保留字段'
+                // },
+                {
+                    field : 'useDiscount',
+                    align: 'center',
+                    title : '是否允许使用优惠券',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(useDiscount, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        // actions.push('<a class="btn btn-warning btn-xs ' + timeFlag + '" href="javascript:void(0)" onclick="$.operate.timeViewUrl(\'/shop/time\',\'课程时间\',\'' + row.id + '\')"><i class="fa fa-remove"></i>时间</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + priceFlag + '" href="javascript:void(0)" onclick="$.operate.priceViewUrl(\'/shop/price\',\'课程价格\',\'' + row.id + '\')"><i class="fa fa-eye-slash"></i>价格</a> ');
+                        actions.push('<a class="btn btn-info btn-xs ' + imageFlag + '" href="javascript:void(0)" onclick="$.operate.imageViewUrl(\'/shop/images\',\'课程图片\',\'' + row.id + '\')"><i class="fa fa-key"></i>图片</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+
+        $.table.init(options);
     });
 
     function submitHandler() {

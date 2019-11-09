@@ -124,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTOrderList" parameterType="TOrder" resultMap="TOrderResult">
         SELECT
         o.id,
-        order_no,
+        o.order_no,
         o.SUBJECT,
         o.address,
         o.shop_id,

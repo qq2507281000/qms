@@ -236,7 +236,7 @@ public class TShopController extends BaseController
             tShop.setCreateTime(new Date());
             tShop.setCreateBy(user.getUserId().toString());
             int count = tShopService.insertTShop(tShop);
-            return AjaxResult.success("商家信息保存成功。",count);
+            return AjaxResult.success("商家信息保存成功。",tShop);
         }
         catch (Exception ex){
             ex.printStackTrace();
