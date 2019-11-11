@@ -45,10 +45,13 @@ public class LocationController extends BaseController {
     List<Object> list4 = new ArrayList<>();
     Map<String, Object> map2 = new HashMap<>();
     Map<String, Object> map3 = new HashMap<>();
+    Map<String, Object> map8 = new HashMap<>();
     map2.put("code", "H");
     map2.put("city", list4);
     map3.put("name", "哈尔滨");
+    map8.put("name", "杭州");
     list4.add(map3);
+    list4.add(map8);
     list1.add(map2);
 
     List<Object> list6 = new ArrayList<>();

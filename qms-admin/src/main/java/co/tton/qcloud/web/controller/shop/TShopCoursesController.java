@@ -231,7 +231,8 @@ public class TShopCoursesController extends BaseController
                 }
             }
             if(result == 1){
-                return success("保存成功。");
+//                return success("保存成功。");
+                return AjaxResult.success("商家信息保存成功。",tShopCourses);
             }
             else{
                 return error("保存失败。");

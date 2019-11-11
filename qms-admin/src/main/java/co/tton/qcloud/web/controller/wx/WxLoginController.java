@@ -57,7 +57,9 @@ public class WxLoginController extends BaseController {
   public AjaxResult<List> loginInfo(@RequestParam(value = "openId") String openId,
                                     @RequestParam(value = "mobile", required = false) String mobile,
                                     @RequestParam(value = "realName", required = false) String realName,
-                                    @RequestParam(value = "img", required = false) String img
+                                    @RequestParam(value = "img", required = false) String img,
+                                    @RequestParam(value = "city", required = false) String city,
+                                    @RequestParam(value = "operator", required = false) String operator
   ) {
     if (StringUtils.isNotEmpty(openId)) {
       TMember tMember = itMemberService.loginInfo(openId);
@@ -76,6 +78,8 @@ public class WxLoginController extends BaseController {
         tMemberOne.setStar(0.00);
         tMemberOne.setStatus("可用");
         tMemberOne.setRegTime(DateUtils.getNowDate());
+        tMemberOne.setCity(city);
+        tMemberOne.setOperator(operator);
         int number = itMemberService.insertloginInfo(tMemberOne);//插入会员数据
         if (number == 1) {
           return AjaxResult.success("新增用户插入成功。", number);
@@ -90,6 +94,8 @@ public class WxLoginController extends BaseController {
         tMemberOne.setMobile(mobile);
         tMemberOne.setWxName(realName);
         tMemberOne.setImg(img);
+        tMemberOne.setCity(city);
+        tMemberOne.setOperator(operator);
         int number = itMemberService.updateTMemberOpenId(tMemberOne);//修改会员信息
         if (number == 1) {
           return AjaxResult.success("修改信息成功。", tMember);

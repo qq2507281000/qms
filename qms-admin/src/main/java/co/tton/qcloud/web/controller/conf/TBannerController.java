@@ -99,8 +99,24 @@ public class TBannerController extends BaseController
      * 新增首页滚动广告
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        if(StringUtils.isNotEmpty(category)){
+//            if(StringUtils.equalsAnyIgnoreCase(category,"SHOP")){
+//                String shopId = user.getBusinessId();
+//            }
+//            else
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                String regionId = user.getBusinessId();
+                mmap.put("cityId",regionId);
+            }
+//            else{
+//                list = tBannerService.selectTBannerList(tBanner);
+//            }
+        }
         return prefix + "/add";
     }
 
@@ -144,6 +160,21 @@ public class TBannerController extends BaseController
     {
         TBanner tBanner = tBannerService.selectTBannerById(id);
         mmap.put("tBanner", tBanner);
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        if(StringUtils.isNotEmpty(category)){
+//            if(StringUtils.equalsAnyIgnoreCase(category,"SHOP")){
+//                String shopId = user.getBusinessId();
+//            }
+//            else
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                String regionId = user.getBusinessId();
+                mmap.put("cityId",regionId);
+            }
+//            else{
+//                list = tBannerService.selectTBannerList(tBanner);
+//            }
+        }
         return prefix + "/edit";
     }
 

@@ -39,7 +39,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <input  th:if="${cityId != null}" name="cityId" th:value="*{cityId}" class="form-control" type="hidden" required>
+            <div class="form-group" th:if="${cityId == null}" >
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>发布城市：</label>
                 <div class="col-sm-8">
                     <select name="cityId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>

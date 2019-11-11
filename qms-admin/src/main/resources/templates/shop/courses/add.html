@@ -120,6 +120,27 @@
             <button class="btn btn-primary btn-xl" onclick="submitHandler()"><i class="fa fa-save"></i> 保存</button>
             <button class="btn btn-danger btn-xl" onclick="closeItem()"><i class="fa fa-close"></i> 取消</button>
         </div>
+
+        <div class="row" id="courses" style="display:none">
+            <input id="coursesId" name="coursesId" type="hidden">
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="addCourses()" shiro:hasPermission="shop:price:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:price:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:price:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shop:price:export">-->
+                <!--                    <i class="fa fa-download"></i> 导出-->
+                <!--                 </a>-->
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: summernote-js" />
@@ -128,12 +149,19 @@
     <script th:inline="javascript">
         var shopId= [[${shopId}]];
 
+        var editFlag = [[${@permission.hasPermi('shop:price:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('shop:price:remove')}]];
+        var specialPriceLevel = [[${@dict.getType('special_price_level')}]];
+
 
     </script>
     <script type="text/javascript">
 
 
-        var prefix = "/shop/courses"
+        var prefix = "/shop/courses";
+
+        var prefixPrice = "/shop/price";
+
 
         $("#form-courses-add").validate({
             focusCleanup: true
@@ -214,9 +242,92 @@
                 data.push({"name": "contentHtml", "value": note});
                 data.push({"name": "params[img]", "value": $('#img').val()});
                 console.log(JSON.stringify(data));
-                $.operate.saveTab(prefix + "/add", data);
+//                $.operate.saveTab(prefix + "/add", data);
+                $.operate.saveModal(prefix + "/add", data,function (result) {
+                    if (result.code == web_status.SUCCESS) {
+                        $('#coursesId').val(result.data.id);
+                        var coursesId = result.data.id;
+                        var listUrl = prefixPrice + "/list";
+                        if($.common.isNotEmpty(coursesId)){
+                            listUrl = listUrl + "?shop-id=" + coursesId;
+                        }
+                        $(".text-center").hide();
+                        $("#courses").show();
+                        var options = {
+                            url: listUrl,
+                            createUrl: prefixPrice + "/add/{id}",
+                            updateUrl: prefixPrice + "/edit/{id}",
+                            removeUrl: prefixPrice + "/remove",
+                            exportUrl: prefixPrice + "/export",
+                            modalName: "课程价格信息",
+                            columns: [{
+                                checkbox: true
+                            },
+                                {
+                                    field : 'id',
+                                    title : '限制每人购买数量，-1为不限制。',
+                                    visible: false
+                                },
+                                {
+                                    field : 'shopName',
+                                    align: 'center',
+                                    title : '商家名称'
+                                },
+                                {
+                                    field : 'title',
+                                    align: 'center',
+                                    title : '课程名称'
+                                },
+                                {
+                                    field : 'price',
+                                    align: 'center',
+                                    title : '默认基准价格'
+                                },
+                                {
+                                    field : 'subTitleOne',
+                                    align: 'center',
+                                    title : '一级标题',
+                                    formatter: function(value, row, index) {
+                                        return $.table.tooltip(value);
+                                    }
+                                },
+                                {
+                                    field : 'perLimitBuy',
+                                    align: 'center',
+                                    title : '限制每人购买数量'
+                                },
+                                {
+                                    field : 'specialPriceLevel',
+                                    align: 'center',
+                                    title : '是否VIP价格',
+                                    formatter: function(value, row, index) {
+                                        return $.table.selectDictLabel(specialPriceLevel, value);
+                                    }
+                                },
+                                {
+                                    title: '操作',
+                                    align: 'center',
+                                    formatter: function(value, row, index) {
+                                        var actions = [];
+                                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                                        return actions.join('');
+                                    }
+                                }]
+                        };
+                        $.table.init(options);
+                    }
+
+
+                });
+
 
             }
+        }
+
+        function addCourses() {
+            var coursesId =  $('#coursesId').val();
+            $.operate.add(coursesId);
         }
 
         // function addCourses() {

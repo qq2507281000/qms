@@ -35,16 +35,10 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">是否VIP价格：</label>
                 <div class="col-sm-8">
-
-                    <div class="radio check-box">
-                        <label>
-                            <input type="radio" value="0" name="specialPriceLevel"> <i></i> 是</label>
+                    <div class="radio-box" th:each="dict : ${@dict.getType('special_price_level')}">
+                        <input type="radio" th:id="${dict.dictCode}" name="specialPriceLevel" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{specialPriceLevel}">
+                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
                     </div>
-                    <div class="radio check-box">
-                        <label>
-                            <input type="radio" checked="" value="1" name="specialPriceLevel"> <i></i> 否</label>
-                    </div>
-
                 </div>
             </div>
 

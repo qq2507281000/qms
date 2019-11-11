@@ -49,7 +49,7 @@
                     <div class="col-sm-8">
 
                         <select id="regionId" name="regionId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" ></option>
                         </select>
 
                     </div>
@@ -369,6 +369,8 @@
     var timeFlag = [[${@permission.hasPermi('shop:time:edit')}]];
     var priceFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
     var imageFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
+    var  regionId = [[${regionId}]]
+
 
     var useDiscount = [[${@dict.getType('useDiscount')}]];
     var suggest = [[${@dict.getType('suggest')}]];
@@ -387,7 +389,8 @@
             // 对话框显示在body而非summernote
             dialogsInBody: true,
             dialogsFade:true,
-            height: 300,
+            width:360,
+            height: 450,
             callbacks: {
                 onImageUpload: function(files, editor, welEditable) {
                     var files_length = files.length;
@@ -404,6 +407,10 @@
         var userCategory = '[[${@user.getCurrentUserCategory()}]]';
         if($.common.equals(userCategory,"REGION")){
             $('#regionId').attr("disabled","disabled");
+            if (regionId != null) {
+                $("#regionId").val(regionId);
+                $("#regionId").find("option[text=regionId]").attr("selected",true);
+            }
         }
         else if($.common.equals(userCategory,"ADMIN")){
             $('#regionId').removeAttr("disabled");
@@ -517,6 +524,10 @@
             // data.push({"name": "postIds", "value": postIds});
             data.push({"name": "htmlContent", "value": note});
             data.push({"name": "regionName", "value": regionName});
+            if (regionId != null) {
+                data.push({"name": "regionId", "value": regionId});
+            }
+
             console.log(JSON.stringify(data));
 
 //            $.operate.saveTab(prefix + "/add", data);

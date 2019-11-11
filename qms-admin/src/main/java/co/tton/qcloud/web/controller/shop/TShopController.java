@@ -95,8 +95,23 @@ public class TShopController extends BaseController
      * 新增商家信息
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        if(StringUtils.isNotEmpty(category)){
+//            if(StringUtils.equalsAnyIgnoreCase(category,"SHOP")){
+//                String shopId = user.getBusinessId();
+//            }
+//            else
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                String regionId = user.getBusinessId();
+                mmap.put("regionId",regionId);
+            }
+//            else{
+//                list = tBannerService.selectTBannerList(tBanner);
+//            }
+        }
         return prefix + "/add";
     }
 
