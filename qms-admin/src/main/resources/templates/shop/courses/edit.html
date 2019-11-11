@@ -182,6 +182,9 @@
             $('.summernote').summernote({
                 lang: 'zh-CN',
                 placeholder: '请输入课程详细信息。',
+                // 对话框显示在body而非summernote
+                dialogsInBody: true,
+                dialogsFade:true,
                 width:360,
                 height: 450,
                 callbacks: {
