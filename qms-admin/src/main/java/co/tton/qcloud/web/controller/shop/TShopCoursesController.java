@@ -100,10 +100,8 @@ public class TShopCoursesController extends BaseController
         else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
             tShopCourses.setRegionId(user.getBusinessId());
         }
-        else{
-            if(StringUtils.isNotEmpty(shopId)){
+        if(StringUtils.isNotEmpty(shopId)){
                 tShopCourses.setShopId(shopId);
-            }
         }
         //商户推荐状态进入了筛选项,在这清空
         if(tShopCourses != null) {
@@ -272,7 +270,7 @@ public class TShopCoursesController extends BaseController
             shop.setId(user.getBusinessId());
         }
         else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
-            shop.setRegionName(user.getBusinessId());
+            shop.setRegionId(user.getBusinessId());
         }
         list = tShopService.selectTShopList(shop);
         mmap.put("shop",list);

@@ -223,6 +223,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by sh.sort_key
     </select>
 
+
+    <!--首页推荐商家查询，查询所有商家-->
+    <select id="getSuggestShopByCategory" resultMap="TShopAll" parameterType="TShop">
+        select
+        sh.*
+        from t_shop sh
+        left join t_shop_courses tsc on tsc.shop_id = sh.id
+        <where>
+            sh.flag = 0
+            <if test="categoryId != null and addrecategoryIdss != ''">and tsc.category_id = #{categoryId}</if>
+            <if test="suggest != null ">and sh.suggest = #{suggest}</if>
+            <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
+        </where>
+        GROUP BY sh.id
+        order by sh.sort_key
+    </select>
+
+
     <!--查询商家详情-->
     <select id="getShopDetail" parameterType="TShop" resultMap="TShopResult">
         select

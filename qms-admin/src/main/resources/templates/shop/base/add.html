@@ -79,6 +79,18 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">位置区域：</label>
+                    <div class="col-sm-8">
+                        <!--<input name="userName" class="form-control" type="text" maxlength="30" required>-->
+                        <input name="locationRegion" class="form-control" type="text" maxlength="100" required placeholder="请输入位置区域...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="form-group">
@@ -100,12 +112,22 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">商家电话：</label>
+                    <label class="col-sm-4 control-label">商家座机：</label>
                     <div class="col-sm-8">
-                        <input name="mobile" class="form-control" type="text" required>
+                        <input name="telephone" class="form-control" type="text" maxlength="30" required>
                     </div>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">商家手机：</label>
+                    <div class="col-sm-8">
+                        <input name="mobile" type="text" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">联系人姓名：</label>
@@ -496,7 +518,7 @@
             //dataType : "json",
             success: function(result) {//data是返回的hash,key之类的值，key是定义的文件名
                 console.log(result)
-                $('.summernote').summernote('insertImage', "/resource-file/" + result.data);
+                $('.summernote').summernote('insertImage', "https://web.hdpi.ttonservice.com/resource-file/" + result.data);
             },
             error:function(){
                 alert("上传失败");

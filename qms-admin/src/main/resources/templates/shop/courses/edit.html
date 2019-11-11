@@ -182,10 +182,44 @@
             $('.summernote').summernote({
                 lang: 'zh-CN',
                 placeholder: '请输入课程详细信息。',
-                height: 300
+                width:360,
+                height: 450,
+                callbacks: {
+                    onImageUpload: function(files, editor, welEditable) {
+                        var files_length = files.length;
+                        //此处循环上传每一个图片
+                        for(var i=0;i<files_length;i++){
+                            sendFile(files[i], editor, welEditable);
+                        }
+                    },
+                }
             });
             $('.summernote').summernote('code',htmlContent);
         });
+
+        function sendFile(files,editor,welEditable) {
+            var data = new FormData();
+            data.append("file", files);
+            data.append("type", "img");
+
+            $.ajax({
+                data : data,
+                type : "POST",
+                url : "/file/summernote/upload",    // 图片上传出来的url，返回的是图片上传后的路径，http格式
+                cache : false,
+                contentType : false,
+                processData : false,
+                //dataType : "json",
+                success: function(result) {//data是返回的hash,key之类的值，key是定义的文件名
+                    console.log(result)
+                    $('.summernote').summernote('insertImage', "https://web.hdpi.ttonservice.com/resource-file/" + result.data);
+                },
+                error:function(){
+                    alert("上传失败");
+                }
+            });
+        }
+
 
         $(function(){
 

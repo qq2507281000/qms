@@ -70,6 +70,14 @@ public interface TShopMapper
     List<TShop> getSuggestShop(TShop tShop);
 
     /**
+     * 首页推荐商家查询，查询所有商家
+     *
+     * @param
+     * @return 获取推荐商家信息成功。
+     */
+    List<TShop> getSuggestShopByCategory(TShop tShop);
+
+    /**
      * 查询商家详情
      *
      * @param

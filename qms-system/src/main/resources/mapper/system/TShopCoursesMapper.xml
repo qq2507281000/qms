@@ -280,20 +280,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
+    <!--<select id="getAllCoursesCategory"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">-->
+        <!--SELECT-->
+        <!--DISTINCT ca.`name`,-->
+        <!--co.shop_id,-->
+        <!--co.category_id,-->
+        <!--ca.id-->
+        <!--FROM-->
+        <!--t_shop_courses co-->
+        <!--LEFT JOIN t_category ca ON co.category_id = ca.parent_id-->
+        <!--<where>-->
+            <!--<if test="shopId != null  and shopId != ''"> and co.shop_id = #{shopId}</if>-->
+            <!--AND co.flag = 0-->
+        <!--</where>-->
+    <!--</select>-->
+
     <select id="getAllCoursesCategory"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">
         SELECT
-        DISTINCT ca.`name`,
+        ca.`name`,
         co.shop_id,
         co.category_id,
         ca.id
         FROM
         t_shop_courses co
-        LEFT JOIN t_category ca ON co.category_id = ca.parent_id
+        LEFT JOIN t_category ca ON co.category_id = ca.id
         <where>
+            co.flag = 0
             <if test="shopId != null  and shopId != ''"> and co.shop_id = #{shopId}</if>
-            AND co.flag = 0
         </where>
+        GROUP BY co.category_id
     </select>
+
 
     <select id="getMaxSortKeyCourses"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">
         select
