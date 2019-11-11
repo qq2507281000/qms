@@ -2,6 +2,7 @@ package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.model.ShopCoursesListModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -125,4 +126,6 @@ public interface TShopCoursesMapper
      * @return 结果
      */
     List<TShopCoursesModel> getcollectionCourses(@Param("title") String coursesName,@Param("memberId") String memberId);
+
+    List<ShopCoursesListModel> getLatestCourses(@Param("location") String location);
 }

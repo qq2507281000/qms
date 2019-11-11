@@ -237,6 +237,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="suggest != null">and tsc.suggest = #{suggest}</if>
             AND tsc.flag = 0
         </where>
+        ORDER BY sort_key DESC
     </select>
 
     <select id="getNameShopCourses" parameterType="String" resultMap="TShopCoursesModelResult">
@@ -351,5 +352,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="memberId != null  and memberId != ''"> AND tc.member_id = #{memberId}</if>
             <if test="title != null  and title != ''"> AND tsc.title like concat('%', #{title}, '%')</if>
         </where>
+    </select>
+
+
+    <select id="getLatestCourses"  resultType="co.tton.qcloud.system.model.ShopCoursesListModel" parameterType="String">
+        select
+        tsc.shop_id as shopId,
+        tsc.id as coursesId,
+        (select image_url from t_shop_courses_images where courses_id = tsc.id limit 0,1) as coverImage,
+        tsc.title as title,
+        ts.`name` as shopName,
+        tod.saleCount as saleCount,
+        tscp.price as startPrice
+        from
+        t_shop_courses tsc
+        left join t_shop ts on ts.id = tsc.shop_id
+        left join t_shop_courses_price tscp on tscp.courses_id = tsc.id
+        left join (
+        select
+        price_id,
+        sum(id) as saleCount
+        FROM
+        t_order_detail
+        GROUP BY price_id
+        ) tod on tod.price_id = tscp.id
+        <where>
+            tsc.flag = 0
+            <if test="location != null  and location != ''"> and ts.address like concat('%', #{location}, '%')</if>
+        </where>
+        ORDER BY tod.saleCount desc, tsc.create_time DESC
+        LIMIT 0,10
     </select>
 </mapper>

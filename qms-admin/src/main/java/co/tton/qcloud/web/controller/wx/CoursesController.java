@@ -246,17 +246,19 @@ public class CoursesController extends BaseController {
   @ApiOperation("获取月销课程数据")
   @RequestMapping(value = "/latest",method = RequestMethod.GET)
   public AjaxResult<List<ShopCoursesListModel>> getLatestCourses(@ApiParam("城市名称") @RequestParam(value = "loc",required = false) String location){
-    List<ShopCoursesListModel> list = new ArrayList<>();
 
-    ShopCoursesListModel model = new ShopCoursesListModel();
-    model.setShopId("438cfa5de661430a910d04c15ef24360");
-    model.setCoursesId("409c597d36b23d055a34b85751115dc0");
-    model.setCoverImage("42f8484165b34258939f761605efb52620190927.jpg");
-    model.setShopName("大连致纯足球");
-    model.setSaleCount(29);
-    model.setStartPrice(2.99);
-    model.setTitle("攀岩");
-    list.add(model);
+
+    List<ShopCoursesListModel> list = iCoursesService.getLatestCourses(location);
+
+//    ShopCoursesListModel model = new ShopCoursesListModel();
+//    model.setShopId("438cfa5de661430a910d04c15ef24360");
+//    model.setCoursesId("409c597d36b23d055a34b85751115dc0");
+//    model.setCoverImage("42f8484165b34258939f761605efb52620190927.jpg");
+//    model.setShopName("大连致纯足球");
+//    model.setSaleCount(29);
+//    model.setStartPrice(2.99);
+//    model.setTitle("攀岩");
+//    list.add(model);
 
     return AjaxResult.success("获取月销成功。", list);
   }

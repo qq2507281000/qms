@@ -3,6 +3,7 @@ package co.tton.qcloud.system.wxservice;
 import co.tton.qcloud.system.domain.TOrderUseEvaluation;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.model.ShopCoursesListModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -64,4 +65,6 @@ public interface ICoursesService {
      * @return 结果
      */
     List<TShopCoursesModel> getcollectionCourses(@Param("title") String coursesName, @Param("memberId") String memberId);
+
+    List<ShopCoursesListModel> getLatestCourses(String location);
 }
