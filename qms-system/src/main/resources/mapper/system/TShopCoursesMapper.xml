@@ -362,8 +362,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (select image_url from t_shop_courses_images where courses_id = tsc.id limit 0,1) as coverImage,
         tsc.title as title,
         ts.`name` as shopName,
-        tod.saleCount as saleCount,
-        tscp.price as startPrice
+        IFNULL(tod.saleCount,0) as saleCount,
+        IFNULL(tscp.price,0) as startPrice
         from
         t_shop_courses tsc
         left join t_shop ts on ts.id = tsc.shop_id
