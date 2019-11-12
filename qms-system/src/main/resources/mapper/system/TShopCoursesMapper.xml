@@ -237,7 +237,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="suggest != null">and tsc.suggest = #{suggest}</if>
             AND tsc.flag = 0
         </where>
-        ORDER BY sort_key DESC
+        ORDER BY tsc.sort_key DESC
     </select>
 
     <select id="getNameShopCourses" parameterType="String" resultMap="TShopCoursesModelResult">
