@@ -48,7 +48,7 @@ public interface ICoursesService {
      * @param  tShopCourses 查询
      * @return 结果
      */
-    TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
+    TShopCoursesModel getMaxSortKeyCourses(TShopCoursesModel tShopCourses);
 
     /**
      * 获取课程评价

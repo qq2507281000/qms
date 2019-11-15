@@ -102,6 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useDiscount != null "> and tsc.use_discount = #{useDiscount}</if>
             <if test="regionId != null  and regionId != ''"> and ts.region_id = #{regionId}</if>
         </where>
+        order by ts.`name` desc ,tsc.sort_key desc
     </select>
     
     <select id="selectTShopCoursesById" parameterType="String" resultMap="TShopCoursesResult">
@@ -226,8 +227,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tscp.price,
             tsc.title,
             tsc.suggest
-        FROM
-            t_shop_courses tsc
+        FROM t_shop_courses_recommend tscr
+        LEFT JOIN t_shop_courses tsc on tsc.id = tscr.courses_id
             INNER JOIN t_shop ts ON tsc.shop_id = ts.id
             INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         <where>
@@ -237,7 +238,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="suggest != null">and tsc.suggest = #{suggest}</if>
             AND tsc.flag = 0
         </where>
-        ORDER BY tsc.sort_key DESC
+        ORDER BY tscr.sort_key DESC
     </select>
 
     <select id="getNameShopCourses" parameterType="String" resultMap="TShopCoursesModelResult">
@@ -279,6 +280,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
             AND tsc.flag = 0
         </where>
+        order by tsc.sort_key desc
     </select>
 
     <!--<select id="getAllCoursesCategory"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">-->
@@ -313,7 +315,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
-    <select id="getMaxSortKeyCourses"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">
+    <select id="getMaxSortKeyCourses"  resultMap="TShopCoursesModelResult" parameterType="TShopCourses">
         select
             tsc.id,
             ts.`name`,
@@ -324,13 +326,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tsc.category_id,
             tsc.sort_key
         from
-            t_shop_courses tsc
+        t_shop_courses_starting tscs
+        LEFT JOIN t_shop_courses tsc on tsc.id = tscs.courses_id
         inner join t_shop ts on tsc.shop_id = ts.id
         inner join t_shop_courses_price tscp on tsc.id = tscp.courses_id
-        where
-            tsc.flag = 0 and tsc.suggest = 0
-        order by tsc.sort_key
-        limit 1
+       <where>
+            tscs.flag = 0
+           <if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>
+        </where>
     </select>
 
     <select id="getcollectionCourses"  resultMap="TShopCoursesModelResult" parameterType="String">
@@ -365,7 +368,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         IFNULL(tod.saleCount,0) as saleCount,
         IFNULL(tscp.price,0) as startPrice
         from
-        t_shop_courses tsc
+        t_shop_courses_replaced tscr
+        LEFT JOIN t_shop_courses tsc on tsc.id = tscr.courses_id
         left join t_shop ts on ts.id = tsc.shop_id
         left join t_shop_courses_price tscp on tscp.courses_id = tsc.id
         left join (
@@ -377,10 +381,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP BY price_id
         ) tod on tod.price_id = tscp.id
         <where>
-            tsc.flag = 0
+            tscr.flag = 0
             <if test="location != null  and location != ''"> and ts.address like concat('%', #{location}, '%')</if>
         </where>
-        ORDER BY tod.saleCount desc, tsc.create_time DESC
-        LIMIT 0,10
+        ORDER BY tscr.sort_key desc
     </select>
+
+
+    <select id="selectTShopCoursesListByRegionId" parameterType="String" resultMap="TShopCoursesResult">
+        SELECT
+        tsc.*,
+        ts.`name` AS shopName,
+        ts.region_name,
+        ts.region_id
+        FROM
+        t_shop_courses tsc
+        LEFT JOIN t_shop ts ON tsc.shop_id = ts.id
+        <where>
+            tsc.flag = 0
+            and ts.flag = 0
+            <if test="regionId != null  and regionId != ''"> and ts.region_id = #{regionId}</if>
+        </where>
+    </select>
+
 </mapper>

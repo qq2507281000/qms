@@ -216,8 +216,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!--首页推荐商家查询，查询所有商家-->
     <select id="getSuggestShop" resultMap="TShopAll" parameterType="TShop">
-        select sh.*,ca.id as a_id
-        from t_shop sh
+        select
+          sh.*,ca.id as a_id
+        from t_shop_recommend tsr
+        LEFT JOIN t_shop sh on sh.id =tsr.shop_id
         left join t_category ca on sh.category_id = ca.id
         <where>
             sh.flag = 0
@@ -225,7 +227,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="suggest != null ">and sh.suggest = #{suggest}</if>
             <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
         </where>
-        order by sh.sort_key
+        order by tsr.sort_key desc
     </select>
 
 

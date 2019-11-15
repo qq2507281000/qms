@@ -190,4 +190,18 @@ public class TShopCoursesImagesController extends BaseController
     {
         return toAjax(tShopCoursesImagesService.deleteTShopCoursesImagesByIds(ids));
     }
+
+    /**
+     * 删除课程图片
+     */
+    @RequiresPermissions("shop:images:remove")
+    @Log(title = "课程图片", businessType = BusinessType.DELETE)
+    @PostMapping( "/remove/{id}")
+    @ResponseBody
+    @ApiOperation("删除课程图片信息")
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
+    public AjaxResult removeById(@PathVariable("id") String id)
+    {
+        return toAjax(tShopCoursesImagesService.deleteTShopCoursesImagesByIds(id));
+    }
 }

@@ -9,9 +9,11 @@ import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import co.tton.qcloud.system.wxservice.ICoursesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,8 +36,9 @@ public class OperationController extends BaseController {
   //    @RequiresPermissions("wx:operation:popup")
   @RequestMapping(value = "/popup", method = RequestMethod.GET)
   @ApiOperation("获取弹窗")
-  public AjaxResult<TShopCoursesModel> indexPopup() {
-    TShopCourses tShopCourses = new TShopCourses();
+  public AjaxResult<TShopCoursesModel> indexPopup(@ApiParam("城市名称") @RequestParam(value = "loc",required = false) String location) {
+    TShopCoursesModel tShopCourses = new TShopCoursesModel();
+    tShopCourses.setAddress(location);
     //首次进入弹窗，查询课程信息
     TShopCoursesModel tShopCoursesModel1 = iCoursesService.getMaxSortKeyCourses(tShopCourses);
     if (StringUtils.isNotNull(tShopCoursesModel1)) {
@@ -48,7 +51,7 @@ public class OperationController extends BaseController {
         return AjaxResult.error("获取失败");
       }
     } else {
-      return AjaxResult.success("获取失败");
+      return AjaxResult.error("获取失败");
     }
   }
 

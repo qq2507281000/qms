@@ -71,7 +71,7 @@ public class CoursesServiceImpl implements ICoursesService {
      * @return 结果
      */
     @Override
-    public TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses) {
+    public TShopCoursesModel getMaxSortKeyCourses(TShopCoursesModel tShopCourses) {
         return tShopCoursesMapper.getMaxSortKeyCourses(tShopCourses);
     }
 

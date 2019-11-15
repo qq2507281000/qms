@@ -117,7 +117,7 @@ public interface TShopCoursesMapper
      * @param  tShopCourses 查询
      * @return 结果
      */
-    TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
+    TShopCoursesModel getMaxSortKeyCourses(TShopCoursesModel tShopCourses);
 
     /**
      * 小程序搜索框收藏课程
@@ -128,4 +128,12 @@ public interface TShopCoursesMapper
     List<TShopCoursesModel> getcollectionCourses(@Param("title") String coursesName,@Param("memberId") String memberId);
 
     List<ShopCoursesListModel> getLatestCourses(@Param("location") String location);
+
+    /**
+     * 根据地区查课程
+     */
+    public List<TShopCourses> selectTShopCoursesListByRegionId(@Param("regionId") String regionId);
+
+
+
 }

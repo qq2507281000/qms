@@ -10,11 +10,14 @@ import co.tton.qcloud.common.utils.SpringContextHolder;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.file.MimeTypeUtils;
 import lombok.AllArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -56,7 +59,13 @@ public class MinioFileService {
 //            if(minioTemplate == null) {
 ////                minioTemplate = SpringContextHolder.getBean(MinioTemplate.class);
 ////            }
-            minioTemplate.putObject(_DEFAULT_BUCKET_NAME,fileName,file.getInputStream());
+            InputStream inputStream = file.getInputStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            Thumbnails.of(inputStream).scale(0.7f).outputQuality(0.25d).toOutputStream(out);
+            InputStream imgInputStream = new ByteArrayInputStream(out.toByteArray());
+            inputStream = imgInputStream;
+
+            minioTemplate.putObject(_DEFAULT_BUCKET_NAME,fileName,inputStream);
             return fileName;
         }
         catch(Exception ex){

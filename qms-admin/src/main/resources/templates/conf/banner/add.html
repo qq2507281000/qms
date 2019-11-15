@@ -24,17 +24,27 @@
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转类型：</label>
                 <div class="col-sm-8">
                     <div class="input-group" style="width: 100%">
-                        <select name="targetType" class="form-control m-b" th:with="type=${@dict.getType('thd_redirect_type')}">
+                        <select id="targetType" name="targetType" class="form-control m-b" th:with="type=${@dict.getType('thd_redirect_type')}">
                             <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div id="url1" class="form-group" style="display:none">
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转地址：</label>
                 <div class="col-sm-8">
-                    <input name="url" placeholder="请输入跳转地址" class="form-control" type="text" required>
+                    <select class='form-control' id="urlId1" style="width: 100%" required>
+                        <option value="">---请选择---</option>
+                        <option th:each="column : ${courses}" th:text="${column.title}" th:value="${column.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="url2" class="form-group" style="display:none">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转地址：</label>
+                <div class="col-sm-8">
+                    <input id="urlId2" placeholder="请输入跳转地址" class="form-control" type="text" required>
                 </div>
             </div>
 
@@ -82,6 +92,12 @@
             }
             if ($.validate.form()) {
                 var data = $("#form-banner-add").serializeArray();
+                if ($("#targetType").val() == 1) {
+                    data.push({"name": "url", "value": $("#urlId1").val()});
+                } else {
+                    data.push({"name": "url", "value": $("#urlId2").val()});
+                }
+
                 var cityName = $("#cityId").find("option:selected").text();
                 data.push({"name": "cityName", "value": cityName});
                 $.operate.save(prefix+"/add",data);
@@ -115,6 +131,18 @@
                 // console.log(message);
                 // console.log(list[0]);
             })
+            $("#targetType").change(function() {
+                var type = $(this).val();
+                if (type == 1) {
+                    $("#url2").hide();
+                    $("#url1").show();
+                } else {
+                    $("#url1").hide();
+                    $("#url2").show();
+                }
+            });
+
+
         });
 
     </script>

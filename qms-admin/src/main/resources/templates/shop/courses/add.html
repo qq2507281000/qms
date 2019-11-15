@@ -110,6 +110,54 @@
 
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">默认基准价格：</label>
+                                <div class="col-sm-8">
+                                    <input name="price" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">限制每人购买数量：</label>
+                                <div class="col-sm-8">
+                                    <input name="perLimitBuy" class="form-control" type="text">
+                                    <span class="help-block m-b-none">-1为不限制购买数量。</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">是否VIP价格：</label>
+                                <div class="col-sm-8">
+
+                                    <div class="radio check-box">
+                                        <label>
+                                            <input type="radio" value="0" name="specialPriceLevel"> <i></i> 是</label>
+                                    </div>
+                                    <div class="radio check-box">
+                                        <label>
+                                            <input type="radio" checked="" value="1" name="specialPriceLevel"> <i></i> 否</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">一级标题：</label>
+                                <div class="col-sm-8">
+                                    <input name="subTitleOne" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">二级标题：</label>
+                                <div class="col-sm-8">
+                                    <input name="subTitleTwo" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">补充标题：</label>
+                                <div class="col-sm-8">
+                                    <input name="subTitleThree" class="form-control" type="text">
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -121,26 +169,26 @@
             <button class="btn btn-danger btn-xl" onclick="closeItem()"><i class="fa fa-close"></i> 取消</button>
         </div>
 
-        <div class="row" id="courses" style="display:none">
-            <input id="coursesId" name="coursesId" type="hidden">
-            <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="addCourses()" shiro:hasPermission="shop:price:add">
-                    <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:price:edit">
-                    <i class="fa fa-edit"></i> 修改
-                </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:price:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a>
-                <!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shop:price:export">-->
-                <!--                    <i class="fa fa-download"></i> 导出-->
-                <!--                 </a>-->
-            </div>
-            <div class="col-sm-12 select-table table-striped">
-                <table id="bootstrap-table" data-mobile-responsive="true"></table>
-            </div>
-        </div>
+        <!--<div class="row" id="courses" style="display:none">-->
+            <!--<input id="coursesId" name="coursesId" type="hidden">-->
+            <!--<div class="btn-group-sm" id="toolbar" role="group">-->
+                <!--<a class="btn btn-success" onclick="addCourses()" shiro:hasPermission="shop:price:add">-->
+                    <!--<i class="fa fa-plus"></i> 添加-->
+                <!--</a>-->
+                <!--<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:price:edit">-->
+                    <!--<i class="fa fa-edit"></i> 修改-->
+                <!--</a>-->
+                <!--<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:price:remove">-->
+                    <!--<i class="fa fa-remove"></i> 删除-->
+                <!--</a>-->
+                <!--&lt;!&ndash;                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shop:price:export">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <i class="fa fa-download"></i> 导出&ndash;&gt;-->
+                <!--&lt;!&ndash;                 </a>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="col-sm-12 select-table table-striped">-->
+                <!--<table id="bootstrap-table" data-mobile-responsive="true"></table>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: summernote-js" />
@@ -161,7 +209,7 @@
         var prefix = "/shop/courses";
 
         var prefixPrice = "/shop/price";
-
+        var imgList = [];
 
         $("#form-courses-add").validate({
             focusCleanup: true
@@ -177,6 +225,17 @@
                 dialogsFade:true,
                 width:360,
                 height: 450,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'hr']],
+                    ['help', ['help']]
+                ],
                 callbacks: {
                     onImageUpload: function(files, editor, welEditable) {
                         var files_length = files.length;
@@ -233,14 +292,15 @@
                     //文件上传成功。
                     $.modal.alertSuccess(message);
                     var fileName = list[0];
-                    if($.common.isEmpty($('#img').val())){
-                        $("#img").val(fileName);
-                    }
-                    else{
-                        var url = $("#img").val();
-                        url += "|" + fileName;
-                        $("#img").val(url);
-                    }
+//                    imgList.push(fileName);
+//                    if($.common.isEmpty($('#img').val())){
+//                        $("#img").val(fileName);
+//                    }
+//                    else{
+//                        var url = $("#img").val();
+//                        url += "|" + fileName;
+//                        $("#img").val(url);
+//                    }
                 }
                 else if(code == 500){
                     $.modal.alertError(message);
@@ -250,6 +310,14 @@
                 console.log(message);
                 console.log(list[0]);
             })
+
+            $('#imgUpload').on('filesuccessremove', function(event, id, previewId, index) {
+//                console.log(previewId)
+                imgList.splice(previewId,1);
+//                console.log(index)
+//               console.log(event)
+//                console.log(id)
+            });
 
             if (shopId != null) {
                 $("#shopId").attr("name","shopId");
@@ -261,6 +329,18 @@
 
             var note = $('.summernote').summernote('code');
             // var chtml = $.common.encode(note);
+            if (imgList.length != 0) {
+                for (var i = 0; i< imgList.length; i++) {
+                    if($.common.isEmpty($('#img').val())){
+                        $("#img").val(imgList[i]);
+                    }
+                    else{
+                        var url = $("#img").val();
+                        url += "|" + imgList[i];
+                        $("#img").val(url);
+                    }
+                }
+            }
             if($.common.isEmpty($('#img').val())){
                 $.modal.alertError("请先上传图片文件。");
                 return;
@@ -277,93 +357,93 @@
                 data.push({"name": "contentHtml", "value": note});
                 data.push({"name": "params[img]", "value": $('#img').val()});
                 console.log(JSON.stringify(data));
-//                $.operate.saveTab(prefix + "/add", data);
-                $.operate.saveModal(prefix + "/add", data,function (result) {
-                    if (result.code == web_status.SUCCESS) {
-                        $('#coursesId').val(result.data.id);
-                        var coursesId = result.data.id;
-                        var listUrl = prefixPrice + "/list";
-                        if($.common.isNotEmpty(coursesId)){
-                            listUrl = listUrl + "?shop-id=" + coursesId;
-                        }
-                        $(".text-center").hide();
-                        $("#courses").show();
-                        var options = {
-                            url: listUrl,
-                            createUrl: prefixPrice + "/add/{id}",
-                            updateUrl: prefixPrice + "/edit/{id}",
-                            removeUrl: prefixPrice + "/remove",
-                            exportUrl: prefixPrice + "/export",
-                            modalName: "课程价格信息",
-                            columns: [{
-                                checkbox: true
-                            },
-                                {
-                                    field : 'id',
-                                    title : '限制每人购买数量，-1为不限制。',
-                                    visible: false
-                                },
-                                {
-                                    field : 'shopName',
-                                    align: 'center',
-                                    title : '商家名称'
-                                },
-                                {
-                                    field : 'title',
-                                    align: 'center',
-                                    title : '课程名称'
-                                },
-                                {
-                                    field : 'price',
-                                    align: 'center',
-                                    title : '默认基准价格'
-                                },
-                                {
-                                    field : 'subTitleOne',
-                                    align: 'center',
-                                    title : '一级标题',
-                                    formatter: function(value, row, index) {
-                                        return $.table.tooltip(value);
-                                    }
-                                },
-                                {
-                                    field : 'perLimitBuy',
-                                    align: 'center',
-                                    title : '限制每人购买数量'
-                                },
-                                {
-                                    field : 'specialPriceLevel',
-                                    align: 'center',
-                                    title : '是否VIP价格',
-                                    formatter: function(value, row, index) {
-                                        return $.table.selectDictLabel(specialPriceLevel, value);
-                                    }
-                                },
-                                {
-                                    title: '操作',
-                                    align: 'center',
-                                    formatter: function(value, row, index) {
-                                        var actions = [];
-                                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
-                                        return actions.join('');
-                                    }
-                                }]
-                        };
-                        $.table.init(options);
-                    }
-
-
-                });
+                $.operate.saveTab(prefix + "/add", data);
+//                $.operate.saveModal(prefix + "/add", data,function (result) {
+//                    if (result.code == web_status.SUCCESS) {
+//                        $('#coursesId').val(result.data.id);
+//                        var coursesId = result.data.id;
+//                        var listUrl = prefixPrice + "/list";
+//                        if($.common.isNotEmpty(coursesId)){
+//                            listUrl = listUrl + "?shop-id=" + coursesId;
+//                        }
+//                        $(".text-center").hide();
+//                        $("#courses").show();
+//                        var options = {
+//                            url: listUrl,
+//                            createUrl: prefixPrice + "/add/{id}",
+//                            updateUrl: prefixPrice + "/edit/{id}",
+//                            removeUrl: prefixPrice + "/remove",
+//                            exportUrl: prefixPrice + "/export",
+//                            modalName: "课程价格信息",
+//                            columns: [{
+//                                checkbox: true
+//                            },
+//                                {
+//                                    field : 'id',
+//                                    title : '限制每人购买数量，-1为不限制。',
+//                                    visible: false
+//                                },
+//                                {
+//                                    field : 'shopName',
+//                                    align: 'center',
+//                                    title : '商家名称'
+//                                },
+//                                {
+//                                    field : 'title',
+//                                    align: 'center',
+//                                    title : '课程名称'
+//                                },
+//                                {
+//                                    field : 'price',
+//                                    align: 'center',
+//                                    title : '默认基准价格'
+//                                },
+//                                {
+//                                    field : 'subTitleOne',
+//                                    align: 'center',
+//                                    title : '一级标题',
+//                                    formatter: function(value, row, index) {
+//                                        return $.table.tooltip(value);
+//                                    }
+//                                },
+//                                {
+//                                    field : 'perLimitBuy',
+//                                    align: 'center',
+//                                    title : '限制每人购买数量'
+//                                },
+//                                {
+//                                    field : 'specialPriceLevel',
+//                                    align: 'center',
+//                                    title : '是否VIP价格',
+//                                    formatter: function(value, row, index) {
+//                                        return $.table.selectDictLabel(specialPriceLevel, value);
+//                                    }
+//                                },
+//                                {
+//                                    title: '操作',
+//                                    align: 'center',
+//                                    formatter: function(value, row, index) {
+//                                        var actions = [];
+//                                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+//                                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+//                                        return actions.join('');
+//                                    }
+//                                }]
+//                        };
+//                        $.table.init(options);
+//                    }
+//
+//
+//                });
 
 
             }
         }
 
-        function addCourses() {
-            var coursesId =  $('#coursesId').val();
-            $.operate.add(coursesId);
-        }
+//        function addCourses() {
+//            var coursesId =  $('#coursesId').val();
+//            $.operate.add(coursesId);
+//        }
 
         // function addCourses() {
         //     if ($.validate.form()) {

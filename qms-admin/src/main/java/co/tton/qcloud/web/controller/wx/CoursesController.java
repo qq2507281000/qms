@@ -259,8 +259,12 @@ public class CoursesController extends BaseController {
 //    model.setStartPrice(2.99);
 //    model.setTitle("攀岩");
 //    list.add(model);
+    if (StringUtils.isNotNull(list)) {
+      return AjaxResult.success("获取最近上新成功。", list);
+    } else {
+      return AjaxResult.error("获取失败");
+    }
 
-    return AjaxResult.success("获取月销成功。", list);
   }
 
 }

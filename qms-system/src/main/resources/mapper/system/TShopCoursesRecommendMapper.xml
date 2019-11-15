@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.TShopCoursesRecommendMapper">
+
+    <resultMap type="TShopCoursesRecommend" id="TShopCoursesRecommendResult">
+        <result property="id"    column="id"    />
+        <result property="coursesId"    column="courses_id"    />
+        <result property="sortKey"    column="sort_key"    />
+        <result property="flag"    column="flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+    <sql id="selectTShopCoursesRecommendVo">
+        select id, courses_id, sort_key, flag, create_time, create_by, update_time, update_by from t_shop_courses_recommend
+    </sql>
+
+    <select id="selectTShopCoursesRecommendList" parameterType="co.tton.qcloud.system.domain.TShopCoursesRecommendModel" resultType="co.tton.qcloud.system.domain.TShopCoursesRecommendModel">
+        select
+          tscr.id,
+          tscr.courses_id as coursesId,
+          tsc.title as title,
+          ts.region_id as regionId,
+          tscr.sort_key as sortKey,
+          tscr.flag as flag,
+          tscr.create_time as createTime,
+          tscr.create_by as createBy,
+          tscr.update_time as updateTime,
+          tscr.update_by as updateBy
+        from t_shop_courses_recommend tscr
+        LEFT JOIN t_shop_courses tsc on tsc.id = tscr.courses_id
+        LEFT JOIN t_shop ts on ts.id = tsc.shop_id
+        <where>
+            tscr.flag = 0
+            <if test="regionId != null and regionId != ''">and ts.region_id = #{regionId}</if>
+        </where>
+        <if test="regionId != null and regionId != ''">
+            ORDER BY  tscr.sort_key asc
+        </if>
+        <if test="regionId == null || regionId == ''">
+            ORDER BY tsc.title desc, tscr.sort_key asc
+        </if>
+    </select>
+    
+    <select id="selectTShopCoursesRecommendById" parameterType="String" resultMap="TShopCoursesRecommendResult">
+        <include refid="selectTShopCoursesRecommendVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTShopCoursesRecommend" parameterType="TShopCoursesRecommend">
+        insert into t_shop_courses_recommend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="coursesId != null  and coursesId != ''">courses_id,</if>
+            <if test="sortKey != null ">sort_key,</if>
+            <if test="flag != null ">flag,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="coursesId != null  and coursesId != ''">#{coursesId},</if>
+            <if test="sortKey != null ">#{sortKey},</if>
+            <if test="flag != null ">#{flag},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTShopCoursesRecommend" parameterType="TShopCoursesRecommend">
+        update t_shop_courses_recommend
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="coursesId != null  and coursesId != ''">courses_id = #{coursesId},</if>
+            <if test="sortKey != null ">sort_key = #{sortKey},</if>
+            <if test="flag != null ">flag = #{flag},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTShopCoursesRecommendById" parameterType="String">
+        delete from t_shop_courses_recommend where id = #{id}
+    </delete>
+
+    <!--逻辑删除-->
+    <delete id="deleteTShopCoursesRecommendByIds" parameterType="String">
+        update t_shop_courses_recommend
+          <trim prefix="SET" suffixOverrides=",">
+          flag = 1
+          </trim>
+        where id in
+          <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+          </foreach>
+    </delete>
+
+</mapper>

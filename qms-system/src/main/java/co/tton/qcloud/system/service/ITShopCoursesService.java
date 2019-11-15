@@ -76,4 +76,9 @@ public interface ITShopCoursesService
      * @return 获取课程详情
      */
     List<TShopCoursesModel> getNameShopCourses(String name);
+
+    /**
+     * 根据地区查课程
+     */
+    public List<TShopCourses> selectTShopCoursesListByRegionId(String regionId);
 }
