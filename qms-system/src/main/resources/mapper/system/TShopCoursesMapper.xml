@@ -394,7 +394,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join (
         select
         price_id,
-        sum(id) as saleCount
+        count(id) as saleCount
         FROM
         t_order_detail
         GROUP BY price_id

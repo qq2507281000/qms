@@ -154,10 +154,6 @@ public class OrderController extends BaseController {
           order.setUpdateTime(DateUtils.getNowDate());
           int result = orderService.updateTOrder(order);
           if (result == 1) {
-            int count = setCouponStatus(order);//优惠卷逻辑删除
-            if(count == 0) {
-              return AjaxResult.error("销毁失败。");
-            }
             return AjaxResult.success(" ，支付成功。");
           } else {
             return AjaxResult.error("支付失败。");
