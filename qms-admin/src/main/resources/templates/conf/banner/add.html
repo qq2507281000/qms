@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div id="url1" class="form-group" style="display:none">
+            <div id="url1" class="form-group">
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>跳转地址：</label>
                 <div class="col-sm-8">
                     <select class='form-control' id="urlId1" style="width: 100%" required>
@@ -48,8 +48,8 @@
                 </div>
             </div>
 
-            <input  th:if="${cityId != null}" name="cityId" th:value="${cityId}" class="form-control" type="hidden" required>
-            <div class="form-group" th:if="${cityId == null}">
+            <!--<input  th:if="${cityId != null}" name="cityId" th:value="${cityId}" class="form-control" type="hidden" required>-->
+            <div class="form-group" th:style="${cityId != null}?'display:none'">
                 <label class="col-sm-3 control-label"><span style="color: red; ">*</span>发布城市：</label>
                 <div class="col-sm-8">
                     <select id="cityId" name="cityId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
@@ -79,6 +79,9 @@
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: bootstrap-fileinput-js" />
     <th:block th:include="include :: select2-js" />
+    <script th:inline="javascript">
+        var cityId= [[${cityId}]];
+    </script>
     <script type="text/javascript">
         var prefix = "/conf/banner";
         $("#form-banner-add").validate({
@@ -105,6 +108,9 @@
         }
 
         $(function(){
+            if (cityId != null) {
+                $("#cityId").val(cityId)
+            }
             $("#imgUpload").fileinput({
                 // 'theme': 'explorer-fas',
                 uploadUrl: '/file/upload',
