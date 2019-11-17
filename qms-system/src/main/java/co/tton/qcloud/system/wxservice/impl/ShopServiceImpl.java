@@ -32,7 +32,18 @@ public class ShopServiceImpl implements ITShopService
     }
 
     /**
-     * 首页推荐商家查询，查询所有商家
+     * 查询所有商家
+     *
+     * @param
+     * @return 获取商家信息成功。
+     */
+    @Override
+    public List<TShop> getSuggestShopAll(TShop tShop) {
+        return tShopMapper.getSuggestShopAll(tShop);
+    }
+
+    /**
+     * 查询分类所有商家
      *
      * @param
      * @return 获取商家信息成功。

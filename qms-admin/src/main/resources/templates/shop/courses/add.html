@@ -73,16 +73,17 @@
                                     <input id="img" type="hidden" />
                                 </div>
                             </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">是否推荐：</label>
-                                <div class="col-sm-10">
-                                    <div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">
-                                        <input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}">
-                                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                                    </div>
-                                </div>
-                            </div>
+                            <input name="suggest" type="hidden" value="0">
+                            <!--<div class="hr-line-dashed"></div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">是否推荐：</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">-->
+                                        <!--<input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}">-->
+                                        <!--<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否可用：</label>

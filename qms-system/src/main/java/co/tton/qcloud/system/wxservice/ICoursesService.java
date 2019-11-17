@@ -27,6 +27,14 @@ public interface ICoursesService {
     List<TShopCoursesModel> getSuggestCourses(TShopCoursesModel tShopCoursesModel);
 
     /**
+     * 小程序查询所有课程
+     *
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
+    List<TShopCoursesModel> getSuggestCoursesAll(TShopCoursesModel tShopCoursesModel);
+
+    /**
      * 小程序获取某商家某分类下课程接口
      *
      * @param  tShopCoursesModel 根据categoryId查询

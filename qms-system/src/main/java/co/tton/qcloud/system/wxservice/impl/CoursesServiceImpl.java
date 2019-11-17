@@ -43,6 +43,16 @@ public class CoursesServiceImpl implements ICoursesService {
     }
 
     /**
+     * 小程序查询所有课程
+     *
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
+    @Override
+    public List<TShopCoursesModel> getSuggestCoursesAll(TShopCoursesModel tShopCoursesModel) {
+        return tShopCoursesMapper.getSuggestCoursesAll(tShopCoursesModel);
+    }
+    /**
      * 小程序获取某商家某分类下课程接口
      *
      * @param  tShopCoursesModel 查询

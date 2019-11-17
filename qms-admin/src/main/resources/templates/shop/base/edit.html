@@ -16,6 +16,7 @@
     <form class="form-horizontal m" id="form-shop-edit" th:object="${tShop}">
         <input id="htmlContent" th:value="*{htmlContent}" hidden>
         <input name="id" th:field="*{id}" type="hidden">
+        <input name="suggest" type="hidden" value="0">
         <h4 class="form-header h4">基本信息</h4>
         <div class="row">
             <div class="col-sm-6">
@@ -68,19 +69,6 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">是否推荐</label>
-                    <div class="col-sm-8">
-                        <div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">
-                            <input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{suggest}">
-                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
                     <label class="col-sm-4 control-label">位置区域：</label>
                     <div class="col-sm-8">
                         <!--<input name="userName" class="form-control" type="text" maxlength="30" required>-->
@@ -88,6 +76,17 @@
                     </div>
                 </div>
             </div>
+            <!--<div class="col-sm-6">-->
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-4 control-label">是否推荐</label>-->
+                    <!--<div class="col-sm-8">-->
+                        <!--<div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">-->
+                            <!--<input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{suggest}">-->
+                            <!--<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
         <div class="row">

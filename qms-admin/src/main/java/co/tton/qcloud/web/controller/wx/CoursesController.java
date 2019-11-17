@@ -45,7 +45,7 @@ public class CoursesController extends BaseController {
 
   //    @RequiresPermissions("wx:courses:suggest")
   @RequestMapping(value = "suggest", method = RequestMethod.GET)
-  @ApiOperation("获取推荐课程,查询所有课程")
+  @ApiOperation("获取推荐课程")
   public AjaxResult<List<TShopCoursesModel>> getSuggestCourses(@RequestParam(value = "loc", required = false) String location,
                                                                @RequestParam(value = "category", required = false) String categoryId,
                                                                @RequestParam(value = "shopId", required = false) String shopId,
@@ -60,9 +60,15 @@ public class CoursesController extends BaseController {
     if (StringUtils.isNotEmpty(categoryId)) {
       tShopCoursesModel.setCategoryId(categoryId);
     }
-      tShopCoursesModel.setSuggest(suggest);
+    List<TShopCoursesModel> tShopCoursesModels = null;
+    if (suggest !=null && 0 == suggest) {
+      tShopCoursesModel.setSuggest(suggest);//首页推荐商家查询条件
+      tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
+    } else {
+      tShopCoursesModels = iCoursesService.getSuggestCoursesAll(tShopCoursesModel);
+    }
     //查出课程
-    List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
+
     if (StringUtils.isNotEmpty(tShopCoursesModels)) {
       for (TShopCoursesModel tModel : tShopCoursesModels) {
         String id = tModel.getId();
@@ -82,6 +88,46 @@ public class CoursesController extends BaseController {
       return AjaxResult.success("无推荐课程", tShopCoursesModels);
     }
   }
+
+  @RequestMapping(value = "suggestAll", method = RequestMethod.GET)
+  @ApiOperation("查询所有课程")
+  public AjaxResult<List<TShopCoursesModel>> getSuggestCoursesAll(@RequestParam(value = "loc", required = false) String location,
+                                                               @RequestParam(value = "category", required = false) String categoryId,
+                                                               @RequestParam(value = "shopId", required = false) String shopId,
+                                                               @RequestParam(value = "suggest", required = false) Integer suggest) {
+    TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
+    if (StringUtils.isNotEmpty(location)) {
+      tShopCoursesModel.setAddress(location);
+    }
+    if (StringUtils.isNotEmpty(shopId)) {
+      tShopCoursesModel.setShopId(shopId);
+    }
+    if (StringUtils.isNotEmpty(categoryId)) {
+      tShopCoursesModel.setCategoryId(categoryId);
+    }
+    tShopCoursesModel.setSuggest(suggest);
+    //查出课程
+    List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCoursesAll(tShopCoursesModel);
+    if (StringUtils.isNotEmpty(tShopCoursesModels)) {
+      for (TShopCoursesModel tModel : tShopCoursesModels) {
+        String id = tModel.getId();
+        //匹配图片
+        String imageUrl = tShopCoursesImagesService.getSuggestCoursesImages(id);
+        if (imageUrl != null) {
+          tModel.setImageUrl(imageUrl);
+        }
+        //月销
+        String count = tOrderDetailService.getOrderMon(id);
+        if (count != null) {
+          tModel.setCount(count);
+        }
+      }
+      return AjaxResult.success("获取推荐课程成功", tShopCoursesModels);
+    } else {
+      return AjaxResult.success("无推荐课程", tShopCoursesModels);
+    }
+  }
+
 
   //    @RequiresPermissions("wx:courses:detail")
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
