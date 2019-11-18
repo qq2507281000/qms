@@ -209,6 +209,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="salt != null and salt != ''">salt,</if>
  			<if test="status != null and status != ''">status,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
+			<if test="remark != null and remark != ''">remark,</if>
 			<if test="category != null and category != ''">category,</if>
  			<if test="businessId != null and businessId != ''">business_id,</if>
  			create_time
