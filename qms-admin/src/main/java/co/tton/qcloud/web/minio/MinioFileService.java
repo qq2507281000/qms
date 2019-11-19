@@ -59,12 +59,14 @@ public class MinioFileService {
 //            if(minioTemplate == null) {
 ////                minioTemplate = SpringContextHolder.getBean(MinioTemplate.class);
 ////            }
+            long size = file.getSize();
             InputStream inputStream = file.getInputStream();
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Thumbnails.of(inputStream).scale(0.7f).outputQuality(0.25d).toOutputStream(out);
-            InputStream imgInputStream = new ByteArrayInputStream(out.toByteArray());
-            inputStream = imgInputStream;
-
+            if (size >= 1024*1024) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                Thumbnails.of(inputStream).scale(0.25f).outputQuality(0.05d).toOutputStream(out);
+                InputStream imgInputStream = new ByteArrayInputStream(out.toByteArray());
+                inputStream = imgInputStream;
+            }
             minioTemplate.putObject(_DEFAULT_BUCKET_NAME,fileName,inputStream);
             return fileName;
         }
