@@ -177,6 +177,14 @@ public class TShopController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        if(StringUtils.isNotEmpty(category)){
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                String regionId = user.getBusinessId();
+                mmap.put("regionId",regionId);
+            }
+        }
         TShop tShop = tShopService.selectTShopById(id);
         String times = tShop.getShopHoursBegin() + " - " + tShop.getShopHoursEnd();
         Map<String,Object> map = new HashMap<>();

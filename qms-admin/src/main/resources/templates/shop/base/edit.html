@@ -50,8 +50,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">运营城市：</label>
                     <div class="col-sm-8">
-                        <select name="regionName" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{regionName}"></option>
+                        <select id="regionId" name="regionId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{regionId}"></option>
                         </select>
                     </div>
                 </div>
@@ -226,6 +226,8 @@
     var useDiscount = [[${@dict.getType('useDiscount')}]];
     var suggest = [[${@dict.getType('suggest')}]];
     var available = [[${@dict.getType('available')}]];
+
+    var  regionId = [[${regionId}]]
 </script>
 <script type="text/javascript">
 
@@ -277,7 +279,22 @@
         console.log("htmlcontent finished.");
     });
 
+
     $(function(){
+
+        var userCategory = '[[${@user.getCurrentUserCategory()}]]';
+        console.log(userCategory);
+        if($.common.equals(userCategory,"REGION")){
+            $('#regionId').attr("disabled","disabled");
+            if (regionId != null) {
+                $("#regionId").val(regionId);
+                $("#regionId").find("option[text=regionId]").attr("selected",true);
+            }
+        }
+        else if($.common.equals(userCategory,"ADMIN")){
+            $('#regionId').removeAttr("disabled");
+        }
+
         $("#imgUpload").fileinput({
             // 'theme': 'explorer-fas',
             uploadUrl: '/file/upload',
