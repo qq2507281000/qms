@@ -46,7 +46,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTShopVo">
-        select category_id,id, name, subject, summary, region_name, cover_img, suggest, sort_key, sort_weight, address, shop_hours_begin, shop_hours_end, level, stars, html_content, telephone, mobile, contract_name, wechat_no, wechat_platform, wechat_no_img, wechat_platform_img, wechat_show, available, flag, create_time, create_by, update_time, update_by, location_region from t_shop
+        select
+        category_id,
+        id,
+        `name`,
+        subject,
+        summary,
+        region_name,
+        cover_img,
+        suggest,
+        sort_key,
+        sort_weight,
+        address,
+        shop_hours_begin,
+        shop_hours_end,
+        `level`,
+        stars,
+        html_content,
+        telephone,
+        mobile,
+        contract_name,
+        wechat_no,
+        wechat_platform,
+        wechat_no_img,
+        wechat_platform_img,
+        wechat_show,
+        available,
+        flag,
+        create_time,
+        create_by,
+        update_time,
+        update_by,
+        business_region,
+        location_region,
+        region_id
+        from t_shop
     </sql>
 
     <select id="selectTShopList" parameterType="TShop" resultMap="TShopResult">

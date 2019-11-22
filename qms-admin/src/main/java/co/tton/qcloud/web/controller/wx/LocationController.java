@@ -66,11 +66,44 @@ public class LocationController extends BaseController {
     List<Object> list8 = new ArrayList<>();
     Map<String, Object> map6 = new HashMap<>();
     Map<String, Object> map7 = new HashMap<>();
+    Map<String, Object> map9 = new HashMap<>();
     map6.put("code", "C");
     map6.put("city", list8);
     map7.put("name", "重庆");
+    map9.put("name", "长沙");
     list8.add(map7);
+    list8.add(map9);
     list1.add(map6);
+
+    List<Object> list3 = new ArrayList<>();
+    Map<String, Object> map10 = new HashMap<>();
+    Map<String, Object> map11 = new HashMap<>();
+    map10.put("code", "Q");
+    map10.put("city", list3);
+    map11.put("name", "青岛");
+    list3.add(map11);
+    list1.add(map10);
+
+    List<Object> list5 = new ArrayList<>();
+    Map<String, Object> map12 = new HashMap<>();
+    Map<String, Object> map13 = new HashMap<>();
+    map12.put("code", "F");
+    map12.put("city", list5);
+    map13.put("name", "福州");
+    list5.add(map13);
+    list1.add(map12);
+
+    List<Object> list7 = new ArrayList<>();
+    Map<String, Object> map14 = new HashMap<>();
+    Map<String, Object> map15 = new HashMap<>();
+    map14.put("code", "K");
+    map14.put("city", list7);
+    map15.put("name", "昆明");
+    list7.add(map15);
+    list1.add(map14);
+
+
+
 
     return AjaxResult.success("获取所有城市列表信息成功。", list1);
   }
