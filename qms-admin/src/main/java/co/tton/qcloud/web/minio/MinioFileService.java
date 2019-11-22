@@ -63,7 +63,7 @@ public class MinioFileService {
             InputStream inputStream = file.getInputStream();
             if (size >= 1024*1024) {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                Thumbnails.of(inputStream).scale(0.25f).outputQuality(0.05d).toOutputStream(out);
+                Thumbnails.of(inputStream).scale(0.25d).outputQuality(0.05d).toOutputStream(out);
                 InputStream imgInputStream = new ByteArrayInputStream(out.toByteArray());
                 inputStream = imgInputStream;
             }
