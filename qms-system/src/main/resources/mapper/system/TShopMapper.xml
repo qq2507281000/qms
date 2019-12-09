@@ -261,7 +261,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="suggest != null ">and sh.suggest = #{suggest}</if>
             <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
         </where>
-        order by tsr.sort_key desc
+        order by tsr.sort_key asc
     </select>
 
 

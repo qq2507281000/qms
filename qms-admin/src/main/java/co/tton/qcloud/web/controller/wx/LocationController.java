@@ -36,7 +36,7 @@ public class LocationController extends BaseController {
     List<Object> list2 = new ArrayList<>();
     Map<String, Object> map = new HashMap<>();
     Map<String, Object> map1 = new HashMap<>();
-    map.put("code", "A");
+    map.put("code", "D");
     map.put("city", list2);
     map1.put("name", "大连");
     list2.add(map1);
@@ -101,6 +101,15 @@ public class LocationController extends BaseController {
     map15.put("name", "昆明");
     list7.add(map15);
     list1.add(map14);
+
+    List<Object> list9 = new ArrayList<>();
+    Map<String, Object> map16 = new HashMap<>();
+    Map<String, Object> map17 = new HashMap<>();
+    map16.put("code", "S");
+    map16.put("city", list9);
+    map17.put("name", "沈阳");
+    list9.add(map17);
+    list1.add(map16);
 
 
 

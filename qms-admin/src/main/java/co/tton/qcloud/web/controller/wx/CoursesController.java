@@ -285,11 +285,11 @@ public class CoursesController extends BaseController {
   }
 
   /***
-   * 获取月销课程数据
+   * 获取最近上新数据
    * @param location 位置信息
    * @return
    */
-  @ApiOperation("获取月销课程数据")
+  @ApiOperation("获取最近上新数据")
   @RequestMapping(value = "/latest",method = RequestMethod.GET)
   public AjaxResult<List<ShopCoursesListModel>> getLatestCourses(@ApiParam("城市名称") @RequestParam(value = "loc",required = false) String location){
 

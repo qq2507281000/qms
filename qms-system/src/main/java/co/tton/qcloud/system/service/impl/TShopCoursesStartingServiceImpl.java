@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 课程基本信息Service业务层处理
+ * 开机推荐信息Service业务层处理
  * 
  * @author qcloud
  * @date 2019-09-05
@@ -29,7 +29,7 @@ public class TShopCoursesStartingServiceImpl implements ITShopCoursesStartingSer
 
 
     /**
-     * 查询推荐课程列表
+     * 查询开机推荐列表
      * @param tShopCoursesStartingModel
      * @return
      */
@@ -40,9 +40,9 @@ public class TShopCoursesStartingServiceImpl implements ITShopCoursesStartingSer
     }
 
     /**
-     * 新增最近上新
+     * 新增开机推荐
      *
-     * @param tShopCoursesStarting 最近上新
+     * @param tShopCoursesStarting 开机推荐
      * @return 结果
      */
     @Override
@@ -55,7 +55,7 @@ public class TShopCoursesStartingServiceImpl implements ITShopCoursesStartingSer
     }
 
     /**
-     * 查询最近上新
+     * 查询开机推荐
      * @param id
      * @return
      */
@@ -65,7 +65,7 @@ public class TShopCoursesStartingServiceImpl implements ITShopCoursesStartingSer
     }
 
     /**
-     * 修改保存最近上新
+     * 修改保存开机推荐
      * @param tShopCoursesStarting
      * @return
      */
@@ -76,7 +76,7 @@ public class TShopCoursesStartingServiceImpl implements ITShopCoursesStartingSer
     }
 
     /**
-     * 删除最近上新
+     * 删除开机推荐
      * @param ids
      * @return
      */

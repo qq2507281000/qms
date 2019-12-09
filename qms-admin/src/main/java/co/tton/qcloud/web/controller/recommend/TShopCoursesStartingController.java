@@ -65,12 +65,12 @@ public class TShopCoursesStartingController extends BaseController
     }
 
     /**
-     * 查询最近上新列表
+     * 查询开机推荐列表
      */
     @RequiresPermissions("shop:courses:starting:list")
     @PostMapping("/list")
     @ResponseBody
-    @ApiOperation("获取最近上新信息")
+    @ApiOperation("获取开机推荐信息")
     @RoleScope(roleDefined={"ADMIN","REGION"})
     public TableDataInfo list(TShopCoursesStartingModel tShopCoursesStartingModel)
     {
@@ -85,7 +85,7 @@ public class TShopCoursesStartingController extends BaseController
     }
 
     /**
-     * 新增最近上新
+     * 新增开机推荐
      */
     @GetMapping("/add")
     public String add(ModelMap mmap)
@@ -102,13 +102,13 @@ public class TShopCoursesStartingController extends BaseController
     }
 
     /**
-     * 新增保存最近上新
+     * 新增保存开机推荐
      */
     @RequiresPermissions("shop:courses:starting:add")
-    @Log(title = "最近上新", businessType = BusinessType.INSERT)
+    @Log(title = "开机推荐", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    @ApiOperation("新增最近上新信息")
+    @ApiOperation("新增开机推荐信息")
     @RoleScope(roleDefined={"ADMIN","REGION"})
     public AjaxResult addSave(TShopCoursesStarting tShopCoursesStarting)
     {
@@ -122,15 +122,15 @@ public class TShopCoursesStartingController extends BaseController
         }
         int count = tShopCoursesStartingService.insertTShopCoursesStarting(tShopCoursesStarting);
         if (count == 1) {
-            return AjaxResult.success("最近上新成功。",count);
+            return AjaxResult.success("开机推荐成功。",count);
         } else {
-            return AjaxResult.error("最近上新失败。");
+            return AjaxResult.error("开机推荐失败。");
         }
 
     }
 
     /**
-     * 修改最近上新
+     * 修改开机推荐
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") String id, ModelMap mmap)
@@ -149,13 +149,13 @@ public class TShopCoursesStartingController extends BaseController
     }
 
     /**
-     * 修改保存最近上新
+     * 修改保存开机推荐
      */
     @RequiresPermissions("shop:courses:starting:edit")
-    @Log(title = "最近上新", businessType = BusinessType.UPDATE)
+    @Log(title = "开机推荐", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    @ApiOperation("修改最近上新信息")
+    @ApiOperation("修改开机推荐信息")
     @RoleScope(roleDefined={"ADMIN","REGION"})
     public AjaxResult editSave(TShopCoursesStarting tShopCoursesStarting)
     {
@@ -164,13 +164,13 @@ public class TShopCoursesStartingController extends BaseController
 
 
     /**
-     * 删除最近上新
+     * 删除开机推荐
      */
     @RequiresPermissions("shop:courses:starting:remove")
-    @Log(title = "最近上新", businessType = BusinessType.DELETE)
+    @Log(title = "开机推荐", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
-    @ApiOperation("删除最近上新信息")
+    @ApiOperation("删除开机推荐信息")
     @RoleScope(roleDefined={"ADMIN","REGION"})
     public AjaxResult remove(String ids)
     {

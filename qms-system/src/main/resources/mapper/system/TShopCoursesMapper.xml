@@ -238,7 +238,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>
             <if test="suggest != null">and tsc.suggest = #{suggest}</if>
         </where>
-        ORDER BY tscr.sort_key DESC
+        ORDER BY tscr.sort_key asc
     </select>
 
     <select id="getSuggestCoursesAll"  resultMap="TShopCoursesModelResult" parameterType="TShopCoursesModel">
@@ -403,7 +403,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tscr.flag = 0
             <if test="location != null  and location != ''"> and ts.address like concat('%', #{location}, '%')</if>
         </where>
-        ORDER BY tscr.sort_key desc
+        ORDER BY tscr.sort_key ASC
     </select>
 
 

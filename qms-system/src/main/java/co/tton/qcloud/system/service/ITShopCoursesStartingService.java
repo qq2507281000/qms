@@ -8,25 +8,25 @@ import co.tton.qcloud.system.domain.TShopCoursesStartingModel;
 import java.util.List;
 
 /**
- * 课程基本信息Service接口
+ * 开机推荐信息Service接口
  * 
  * @author qcloud
  * @date 2019-09-05
  */
 public interface ITShopCoursesStartingService
 {
-    //查询最近上新列表
+    //查询开机推荐列表
     public List<TShopCoursesStartingModel> selectTShopCoursesStartingList(TShopCoursesStartingModel tShopCoursesStartingModel);
 
-    //新增保存最近上新
+    //新增保存开机推荐
     public int insertTShopCoursesStarting(TShopCoursesStarting tShopCoursesStarting);
 
-    //查询最近上新
+    //查询开机推荐
     public TShopCoursesStarting selectTShopCoursesStartingById(String id);
 
-    //修改保存最近上新
+    //修改保存开机推荐
     public int updateTShopCoursesStarting(TShopCoursesStarting tShopCoursesStarting);
 
-    //删除最近上新
+    //删除开机推荐
     public int deleteTShopCoursesStartingByIds(String ids);
 }
