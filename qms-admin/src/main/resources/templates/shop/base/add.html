@@ -14,6 +14,8 @@
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
     <form class="form-horizontal m" id="form-shop-add">
+        <input id="lng" name="lng" type="hidden">
+        <input id="lat" name="lat" type="hidden">
         <h4 class="form-header h4">基本信息</h4>
         <div class="row">
             <div class="col-sm-6">
@@ -58,15 +60,15 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">详细位置：</label>
-                    <div class="col-sm-8">
-                        <!--<input name="userName" class="form-control" type="text" maxlength="30" required>-->
-                        <input name="address" class="form-control" type="text" maxlength="100" required placeholder="请输入详细地址...">
-                    </div>
-                </div>
-            </div>
+            <!--<div class="col-sm-6">-->
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-4 control-label">详细位置：</label>-->
+                    <!--<div class="col-sm-8">-->
+                        <!--&lt;!&ndash;<input name="userName" class="form-control" type="text" maxlength="30" required>&ndash;&gt;-->
+                        <!--<input name="address" class="form-control" type="text" maxlength="100" required placeholder="请输入详细地址...">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">位置区域：</label>
@@ -335,6 +337,22 @@
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
+        <h4 class="form-header h4">地图位置</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">详细位置：</label>
+                    <div class="col-sm-8">
+                        <input id="keyword" name="address" class="form-control" type="text" maxlength="100" required placeholder="请输入详细地址..." onblur="searchKeyword()">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="container" style="height: 300px;width: 100%"></div>
+            </div>
+        </div>
 
         <h4 class="form-header h4">其他信息</h4>
         <div class="row" style="padding-left:20px;padding-right:20px;">
@@ -380,6 +398,8 @@
 <th:block th:include="include :: summernote-js" />
 <th:block th:include="include :: bootstrap-fileinput-js" />
 <th:block th:include="include :: datetimepicker-js" />
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=HKPBZ-OULYF-4ATJL-NLUF5-WPWB7-ROF5U"></script>
+
 <!--<script type="text/javascript">-->
 <!--<script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.js}"></script>-->
 <!--<script th:src="@{/ajax/libs/datapicker/bootstrap-datetimepicker.zh-CN.js}"></script>-->
@@ -399,6 +419,7 @@
 </script>
 <script type="text/javascript">
 
+    var searchService,map,markers = [];
     var prefix = "/shop";
 
 
@@ -415,8 +436,7 @@
             toolbar: [
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
+            ['fontface', ['fontname','color','fontsize']],//字体
             ['para', ['ul', 'ol', 'paragraph']],
             ['height', ['height']],
             ['table', ['table']],
@@ -447,6 +467,49 @@
         else if($.common.equals(userCategory,"ADMIN")){
             $('#regionId').removeAttr("disabled");
         }
+
+        var center = new qq.maps.LatLng(39.916527,116.397128);
+        map = new qq.maps.Map(document.getElementById('container'),{
+            center: center,
+            zoom: 13,
+            disableDefaultUI: true
+        });
+
+
+        var latlngBounds = new qq.maps.LatLngBounds();
+        //调用Poi检索类
+        searchService = new qq.maps.SearchService({
+            complete : function(results){
+                var pois = results.detail.pois;
+                for(var i = 0,l = pois.length;i < l; i++){
+                    var poi = pois[i];
+                    latlngBounds.extend(poi.latLng);
+                    var marker = new qq.maps.Marker({
+                        map:map,
+                        position: poi.latLng
+                    });
+                    if (i==0) {
+                        $("#lng").val(poi.latLng.lng);
+                        $("#lat").val(poi.latLng.lat);
+                    }
+                    marker.setTitle(i+1);
+                    marker.setClickable(true);
+                    //标记Marker点击事件
+                    qq.maps.event.addListener(marker, 'click', function() {
+                        var markerClick = new qq.maps.Marker({
+                            map:this.getMap(),
+                            position: this.getPosition()
+                        });
+                        clearOverlays(markers);
+                        $("#lng").val(this.getPosition().getLng());
+                        $("#lat").val(this.getPosition().getLat());
+                    });
+
+                    markers.push(marker);
+                }
+                map.fitBounds(latlngBounds);
+            }
+        });
 
     });
 
@@ -534,6 +597,20 @@
                 alert("上传失败");
             }
         });
+    }
+
+    //清除地图上的marker
+    function clearOverlays(overlays){
+        var overlay;
+        while(overlay = overlays.pop()){
+            overlay.setMap(null);
+        }
+    }
+
+    function searchKeyword() {
+        var keyword = $("#keyword").val();
+        clearOverlays(markers);
+        searchService.search(keyword);
     }
 
     function submitHandler() {
