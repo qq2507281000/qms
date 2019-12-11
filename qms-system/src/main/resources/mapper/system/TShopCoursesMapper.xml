@@ -226,6 +226,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ts.`name`,
             tscp.price,
             tsc.title,
+            tsc.sub_title,
             tsc.suggest
         FROM t_shop_courses_recommend tscr
         LEFT JOIN t_shop_courses tsc on tsc.id = tscr.courses_id
@@ -247,6 +248,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ts.`name`,
         tscp.price,
         tsc.title,
+        tsc.sub_title,
         tsc.suggest
         FROM t_shop_courses tsc
         INNER JOIN t_shop ts ON tsc.shop_id = ts.id
