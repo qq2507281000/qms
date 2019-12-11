@@ -181,6 +181,9 @@ public class TShopCoursesModel extends BaseEntity {
     @ApiModelProperty("纬度")
     private String lat;
 
+    @ApiModelProperty("商家副标题")
+    private String subject;
+
     @ApiModelProperty("上课时间和地点列表")
     private List<TShopCoursesTime> coursesTimeList;
 
