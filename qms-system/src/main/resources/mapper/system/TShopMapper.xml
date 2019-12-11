@@ -29,6 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="wechatPlatformImg"    column="wechat_platform_img"    />
         <result property="wechatShow"    column="wechat_show"    />
         <result property="available"    column="available"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
         <result property="flag"    column="flag"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
@@ -72,6 +74,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         wechat_platform_img,
         wechat_show,
         available,
+        lng,
+        lat,
         flag,
         create_time,
         create_by,
@@ -151,6 +155,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatShow != null ">wechat_show,</if>
             <if test="available != null ">available,</if>
             <if test="regionId != null  and regionId != ''">region_id,</if>
+            <if test="lng != null  and lng != ''">lng,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
             <if test="flag != null ">flag,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
@@ -185,6 +191,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatShow != null ">#{wechatShow},</if>
             <if test="available != null ">#{available},</if>
             <if test="regionId != null and regionId != ''">#{regionId},</if>
+            <if test="lng != null and lng != ''">#{lng},</if>
+            <if test="lat != null and lat != ''">#{lat},</if>
             <if test="flag != null ">#{flag},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
@@ -222,6 +230,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatShow != null ">wechat_show = #{wechatShow},</if>
             <if test="available != null ">available = #{available},</if>
             <if test="regionId != null and regionId != ''">region_id = #{regionId},</if>
+            <if test="lng != null and lng != ''">lng = #{lng},</if>
+            <if test="lat != null and lat != ''">lat = #{lat},</if>
             <if test="flag != null ">flag = #{flag},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
