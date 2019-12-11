@@ -175,6 +175,12 @@ public class TShopCoursesModel extends BaseEntity {
     @ApiModelProperty("会员ID")
     private String memberId;
 
+    @ApiModelProperty("经度")
+    private String lng;
+
+    @ApiModelProperty("纬度")
+    private String lat;
+
     @ApiModelProperty("上课时间和地点列表")
     private List<TShopCoursesTime> coursesTimeList;
 

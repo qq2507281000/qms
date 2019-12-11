@@ -66,6 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="summary"    column="summary"    />
         <result property="telephone"    column="telephone"    />
         <result property="mobile"    column="mobile"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
         <result property="contractName"    column="contractName"    />
         <result property="businessRegion"    column="business_region"    />
         <result property="locationRegion"    column="location_region"    />
@@ -207,6 +209,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ts.mobile,
             ts.`name` AS shopName,
             ts.summary,
+            ts.lng,
+            ts.lat,
             tsc.content_html,
             tsc.id,
             tsc.shop_id,
