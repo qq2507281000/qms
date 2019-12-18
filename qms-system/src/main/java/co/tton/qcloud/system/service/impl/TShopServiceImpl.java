@@ -93,6 +93,7 @@ public class TShopServiceImpl implements ITShopService
      * @param id 商家信息ID
      * @return 结果
      */
+    @Override
     public int deleteTShopById(String id)
     {
         return tShopMapper.deleteTShopById(id);
