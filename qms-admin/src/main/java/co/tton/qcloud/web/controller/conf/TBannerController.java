@@ -18,6 +18,8 @@ import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.domain.TShopCourses;
+import co.tton.qcloud.system.service.ITShopCoursesService;
 import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -56,6 +58,9 @@ public class TBannerController extends BaseController
 
     @Autowired
     private MinioFileService minioFileService;
+
+    @Autowired
+    private ITShopCoursesService tShopCoursesService;
 
     @RequiresPermissions("conf:banner:view")
     @GetMapping()
@@ -99,8 +104,20 @@ public class TBannerController extends BaseController
      * 新增首页滚动广告
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        String regionId = null;
+        if(StringUtils.isNotEmpty(category)){
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                regionId = user.getBusinessId();
+                mmap.put("cityId",regionId);
+            }
+        }
+        List<TShopCourses> tShopCourses = tShopCoursesService.selectTShopCoursesListByRegionId(regionId);
+        mmap.put("courses",tShopCourses);
         return prefix + "/add";
     }
 
@@ -144,6 +161,18 @@ public class TBannerController extends BaseController
     {
         TBanner tBanner = tBannerService.selectTBannerById(id);
         mmap.put("tBanner", tBanner);
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        String regionId = null;
+        if(StringUtils.isNotEmpty(category)){
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                regionId = user.getBusinessId();
+                mmap.put("cityId",regionId);
+            }
+        }
+        List<TShopCourses> tShopCourses = tShopCoursesService.selectTShopCoursesListByRegionId(regionId);
+        mmap.put("courses",tShopCourses);
+
         return prefix + "/edit";
     }
 

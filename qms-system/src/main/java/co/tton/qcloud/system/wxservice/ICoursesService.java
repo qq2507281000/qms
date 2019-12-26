@@ -3,6 +3,7 @@ package co.tton.qcloud.system.wxservice;
 import co.tton.qcloud.system.domain.TOrderUseEvaluation;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.model.ShopCoursesListModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,6 +27,14 @@ public interface ICoursesService {
     List<TShopCoursesModel> getSuggestCourses(TShopCoursesModel tShopCoursesModel);
 
     /**
+     * 小程序查询所有课程
+     *
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
+    List<TShopCoursesModel> getSuggestCoursesAll(TShopCoursesModel tShopCoursesModel);
+
+    /**
      * 小程序获取某商家某分类下课程接口
      *
      * @param  tShopCoursesModel 根据categoryId查询
@@ -47,7 +56,7 @@ public interface ICoursesService {
      * @param  tShopCourses 查询
      * @return 结果
      */
-    TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
+    TShopCoursesModel getMaxSortKeyCourses(TShopCoursesModel tShopCourses);
 
     /**
      * 获取课程评价
@@ -64,4 +73,6 @@ public interface ICoursesService {
      * @return 结果
      */
     List<TShopCoursesModel> getcollectionCourses(@Param("title") String coursesName, @Param("memberId") String memberId);
+
+    List<ShopCoursesListModel> getLatestCourses(String location);
 }

@@ -29,6 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="wechatPlatformImg"    column="wechat_platform_img"    />
         <result property="wechatShow"    column="wechat_show"    />
         <result property="available"    column="available"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
         <result property="flag"    column="flag"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
@@ -36,6 +38,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="categoryId"    column="category_id"    />
         <result property="regionId"    column="region_id"    />
+        <result property="locationRegion"    column="location_region"    />
+
     </resultMap>
     <resultMap id="TShopAll" type="co.tton.qcloud.system.domain.TShop" extends="TShopResult">
         <collection property="tCategoryList" ofType="co.tton.qcloud.system.domain.TCategory">
@@ -44,7 +48,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTShopVo">
-        select category_id,id, name, subject, summary, region_name, cover_img, suggest, sort_key, sort_weight, address, shop_hours_begin, shop_hours_end, level, stars, html_content, telephone, mobile, contract_name, wechat_no, wechat_platform, wechat_no_img, wechat_platform_img, wechat_show, available, flag, create_time, create_by, update_time, update_by from t_shop
+        select
+        category_id,
+        id,
+        `name`,
+        subject,
+        summary,
+        region_name,
+        cover_img,
+        suggest,
+        sort_key,
+        sort_weight,
+        address,
+        shop_hours_begin,
+        shop_hours_end,
+        `level`,
+        stars,
+        html_content,
+        telephone,
+        mobile,
+        contract_name,
+        wechat_no,
+        wechat_platform,
+        wechat_no_img,
+        wechat_platform_img,
+        wechat_show,
+        available,
+        lng,
+        lat,
+        flag,
+        create_time,
+        create_by,
+        update_time,
+        update_by,
+        business_region,
+        location_region,
+        region_id
+        from t_shop
     </sql>
 
     <select id="selectTShopList" parameterType="TShop" resultMap="TShopResult">
@@ -115,11 +155,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatShow != null ">wechat_show,</if>
             <if test="available != null ">available,</if>
             <if test="regionId != null  and regionId != ''">region_id,</if>
+            <if test="lng != null  and lng != ''">lng,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
             <if test="flag != null ">flag,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="updateTime != null ">update_time,</if>
             <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="locationRegion != null  and locationRegion != ''">location_region,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="categoryId != null">#{categoryId},</if>
@@ -148,11 +191,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatShow != null ">#{wechatShow},</if>
             <if test="available != null ">#{available},</if>
             <if test="regionId != null and regionId != ''">#{regionId},</if>
+            <if test="lng != null and lng != ''">#{lng},</if>
+            <if test="lat != null and lat != ''">#{lat},</if>
             <if test="flag != null ">#{flag},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="locationRegion != null  and locationRegion != ''">#{locationRegion},</if>
          </trim>
     </insert>
 
@@ -184,11 +230,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="wechatShow != null ">wechat_show = #{wechatShow},</if>
             <if test="available != null ">available = #{available},</if>
             <if test="regionId != null and regionId != ''">region_id = #{regionId},</if>
+            <if test="lng != null and lng != ''">lng = #{lng},</if>
+            <if test="lat != null and lat != ''">lat = #{lat},</if>
             <if test="flag != null ">flag = #{flag},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="locationRegion != null  and locationRegion != ''">location_region = #{locationRegion},</if>
         </trim>
         where id = #{id}
     </update>
@@ -211,7 +260,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!--首页推荐商家查询，查询所有商家-->
     <select id="getSuggestShop" resultMap="TShopAll" parameterType="TShop">
-        select sh.*,ca.id as a_id
+        select
+          sh.*,ca.id as a_id
+        from t_shop_recommend tsr
+        LEFT JOIN t_shop sh on sh.id =tsr.shop_id
+        left join t_category ca on sh.category_id = ca.id
+        <where>
+            sh.flag = 0
+            <if test="categoryId != null and address != ''">and sh.category_id = #{categoryId}</if>
+            <if test="suggest != null ">and sh.suggest = #{suggest}</if>
+            <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
+        </where>
+        order by tsr.sort_key asc
+    </select>
+
+
+    <!--首页推荐商家查询，查询所有商家-->
+    <select id="getSuggestShopAll" resultMap="TShopAll" parameterType="TShop">
+        select
+        sh.*,ca.id as a_id
         from t_shop sh
         left join t_category ca on sh.category_id = ca.id
         <where>
@@ -220,8 +287,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="suggest != null ">and sh.suggest = #{suggest}</if>
             <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
         </where>
+    </select>
+
+
+    <!--首页推荐商家查询，查询所有商家-->
+    <select id="getSuggestShopByCategory" resultMap="TShopAll" parameterType="TShop">
+        select
+        sh.*
+        from t_shop sh
+        left join t_shop_courses tsc on tsc.shop_id = sh.id
+        <where>
+            sh.flag = 0
+            <if test="categoryId != null and categoryId != ''">and tsc.category_id = #{categoryId}</if>
+            <if test="suggest != null ">and sh.suggest = #{suggest}</if>
+            <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
+        </where>
+        GROUP BY sh.id
         order by sh.sort_key
     </select>
+
 
     <!--查询商家详情-->
     <select id="getShopDetail" parameterType="TShop" resultMap="TShopResult">

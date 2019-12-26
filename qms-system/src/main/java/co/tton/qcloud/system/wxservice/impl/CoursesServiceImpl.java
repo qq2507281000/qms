@@ -5,6 +5,7 @@ import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
 import co.tton.qcloud.system.mapper.TOrderUseEvaluationMapper;
 import co.tton.qcloud.system.mapper.TShopCoursesMapper;
+import co.tton.qcloud.system.model.ShopCoursesListModel;
 import co.tton.qcloud.system.wxservice.ICoursesService;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,16 @@ public class CoursesServiceImpl implements ICoursesService {
     }
 
     /**
+     * 小程序查询所有课程
+     *
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
+    @Override
+    public List<TShopCoursesModel> getSuggestCoursesAll(TShopCoursesModel tShopCoursesModel) {
+        return tShopCoursesMapper.getSuggestCoursesAll(tShopCoursesModel);
+    }
+    /**
      * 小程序获取某商家某分类下课程接口
      *
      * @param  tShopCoursesModel 查询
@@ -70,7 +81,7 @@ public class CoursesServiceImpl implements ICoursesService {
      * @return 结果
      */
     @Override
-    public TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses) {
+    public TShopCoursesModel getMaxSortKeyCourses(TShopCoursesModel tShopCourses) {
         return tShopCoursesMapper.getMaxSortKeyCourses(tShopCourses);
     }
 
@@ -94,6 +105,11 @@ public class CoursesServiceImpl implements ICoursesService {
     @Override
     public List<TShopCoursesModel> getcollectionCourses(String coursesName,String memberId) {
         return tShopCoursesMapper.getcollectionCourses(coursesName,memberId);
+    }
+
+    @Override
+    public List<ShopCoursesListModel> getLatestCourses(String location) {
+        return tShopCoursesMapper.getLatestCourses(location);
     }
 
 }

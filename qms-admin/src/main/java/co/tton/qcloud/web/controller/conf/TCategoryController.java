@@ -170,28 +170,26 @@ public class TCategoryController extends BaseController
             SysUser currentUser = ShiroUtils.getSysUser();
 
             if (tCategory.getParams().containsKey("file")){
-                MultipartFile file = (MultipartFile)tCategory.getParams().get("file");
-                if (file != null){
-                    String fileName = minioFileService.upload(file);
-                    tCategory.setIcon(fileName);
-
-                    if (tCategory.getParams().containsKey("availableText")){
-                        String avaiableText = tCategory.getParams().get("availableText").toString();
-                        int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
-                        tCategory.setAvailable(avaiable);
+                if (tCategory.getParams().get("file") != null && !"undefined".equals(tCategory.getParams().get("file"))) {
+                    MultipartFile file = (MultipartFile)tCategory.getParams().get("file");
+                    if (file != null){
+                        String fileName = minioFileService.upload(file);
+                        tCategory.setIcon(fileName);
+                        if (tCategory.getParams().containsKey("availableText")){
+                            String avaiableText = tCategory.getParams().get("availableText").toString();
+                            int avaiable = StrUtil.equalsIgnoreCase(avaiableText,"on")?1:0;
+                            tCategory.setAvailable(avaiable);
+                        }
+                    } else {
+                        return AjaxResult.error("未能获取上传文件内容。");
                     }
-                    tCategory.setUpdateBy(currentUser.getUserId().toString());
-                    tCategory.setUpdateTime(DateUtil.date());
-                    tCategoryService.updateTCategory(tCategory);
-                    return AjaxResult.success("数据修改成功。");
-                }
-                else {
-                    return AjaxResult.error("未能获取上传文件内容。");
+
                 }
             }
-            else {
-                return AjaxResult.error("请选择图片上传。");
-            }
+            tCategory.setUpdateBy(currentUser.getUserId().toString());
+            tCategory.setUpdateTime(DateUtil.date());
+            tCategoryService.updateTCategory(tCategory);
+            return AjaxResult.success("数据修改成功。");
         }
         catch (Exception ex){
             ex.printStackTrace();

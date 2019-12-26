@@ -18,9 +18,7 @@ import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.common.utils.poi.ExcelUtil;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.*;
-import co.tton.qcloud.system.service.ITCategoryService;
-import co.tton.qcloud.system.service.ITShopCoursesImagesService;
-import co.tton.qcloud.system.service.ITShopService;
+import co.tton.qcloud.system.service.*;
 import co.tton.qcloud.web.minio.MinioFileService;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
@@ -33,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import co.tton.qcloud.system.service.ITShopCoursesService;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -63,6 +60,9 @@ public class TShopCoursesController extends BaseController
 
     @Autowired
     private ITCategoryService categoryService;
+
+    @Autowired
+    private ITShopCoursesPriceService tShopCoursesPriceService;
 
     @RequiresPermissions("shop:courses:view")
     @GetMapping()
@@ -100,10 +100,12 @@ public class TShopCoursesController extends BaseController
         else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
             tShopCourses.setRegionId(user.getBusinessId());
         }
-        else{
-            if(StringUtils.isNotEmpty(shopId)){
+        if(StringUtils.isNotEmpty(shopId)){
                 tShopCourses.setShopId(shopId);
-            }
+        }
+        //商户推荐状态进入了筛选项,在这清空
+        if(tShopCourses != null) {
+            tShopCourses.setSuggest(null);
         }
         List<TShopCourses> list = tShopCoursesService.selectTShopCoursesList(tShopCourses);
 
@@ -128,7 +130,7 @@ public class TShopCoursesController extends BaseController
      */
     @GetMapping("/add")
     @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
-    public String add(ModelMap mmap)
+    public String add(@RequestParam(value="shop-id",required = false)String shopId,ModelMap mmap)
     {
         TShop shop = new TShop();
         shop.setFlag(Constants.DATA_NORMAL);
@@ -155,6 +157,92 @@ public class TShopCoursesController extends BaseController
     }
 
     /**
+     * 新增课程基本信息
+     */
+    @GetMapping("/add/{shopId}")
+    @RoleScope(roleDefined={"ADMIN","REGION","SHOP"})
+    public String addId(@PathVariable("shopId") String shopId,ModelMap mmap)
+    {
+        TShop shop = new TShop();
+        shop.setFlag(Constants.DATA_NORMAL);
+        SysUser user = ShiroUtils.getSysUser();
+        List<TShop> list = new ArrayList<>();
+        if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"ADMIN")){
+
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+            shop.setId(user.getBusinessId());
+        }
+        else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
+            shop.setRegionId(user.getBusinessId());
+        }
+        list = tShopService.selectTShopList(shop);
+        mmap.put("shop",list);
+        mmap.put("shopId",new String(shopId));
+        TCategory category = new TCategory();
+        category.setFlag(Constants.DATA_NORMAL);
+        List<TCategory> categories = new ArrayList<>();
+        categories = categoryService.selectTCategoryList(category).stream().filter(d->StringUtils.isNotEmpty(d.getParentId())).collect(Collectors.toList());
+        mmap.put("categories",categories);
+
+        return prefix + "/add";
+    }
+
+//    /**
+//     * 新增保存课程基本信息
+//     */
+//    @RequiresPermissions("shop:courses:add")
+//    @Log(title = "课程基本信息", businessType = BusinessType.INSERT)
+//    @PostMapping("/add")
+//    @ResponseBody
+//    @ApiOperation("新增课程基本信息")
+//    @RoleScope(roleDefined={"ADMIN","SHOP"})
+//    public AjaxResult addSave(TShopCourses tShopCourses) throws IOException {
+//        try {
+//            SysUser user = ShiroUtils.getSysUser();
+//            String id = StringUtils.genericId();
+//            tShopCourses.setId(id);
+//            if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
+//                tShopCourses.setShopId(user.getBusinessId());
+//            }
+//            String shopId = tShopCourses.getShopId();
+////            tShopCourses.setShopId(shopId);
+////            tShopCourses.setShopName(shopName);
+//            tShopCourses.setFlag(Constants.DATA_NORMAL);
+//            tShopCourses.setCreateTime(new Date());
+//            tShopCourses.setCreateBy(user.getUserId().toString());
+//            int result = tShopCoursesService.insertTShopCourses(tShopCourses);
+//            if(tShopCourses.getParams().containsKey("img")){
+//                String img = tShopCourses.getParams().get("img").toString();
+//                String[] imgs = StringUtils.split(img,"|");
+//                for (String im:imgs) {
+//                    TShopCoursesImages cimg = new TShopCoursesImages();
+//                    cimg.setId(StringUtils.genericId());
+//                    cimg.setCoursesId(tShopCourses.getId());
+//                    cimg.setShopId(shopId);
+//                    cimg.setImageUrl(im);
+//                    cimg.setFlag(Constants.DATA_NORMAL);
+//                    cimg.setSortKey(0);
+//                    cimg.setCreateTime(DateUtils.getNowDate());
+//                    cimg.setCreateBy(user.getUserId().toString());
+//                    shopCoursesImagesService.insertTShopCoursesImages(cimg);
+//                }
+//            }
+//            if(result == 1){
+////                return success("保存成功。");
+//                return AjaxResult.success("保存成功。",tShopCourses);
+//            }
+//            else{
+//                return error("保存失败。");
+//            }
+//        }
+//        catch (Exception ex){
+//            ex.printStackTrace();
+//            logger.error("保存课程图片时发生异常。",ex);
+//            return AjaxResult.error("保存课程图片时发生异常。");
+//        }
+//    }
+    /**
      * 新增保存课程基本信息
      */
     @RequiresPermissions("shop:courses:add")
@@ -163,23 +251,38 @@ public class TShopCoursesController extends BaseController
     @ResponseBody
     @ApiOperation("新增课程基本信息")
     @RoleScope(roleDefined={"ADMIN","SHOP"})
-    public AjaxResult addSave(TShopCourses tShopCourses) throws IOException {
+    public AjaxResult addSave(TShopCoursesPriceModel tShopCoursesPriceModel) throws IOException {
         try {
             SysUser user = ShiroUtils.getSysUser();
             String id = StringUtils.genericId();
+            TShopCourses tShopCourses = new TShopCourses();
             tShopCourses.setId(id);
             if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
-                tShopCourses.setShopId(user.getBusinessId());
+                tShopCoursesPriceModel.setShopId(user.getBusinessId());
             }
-            String shopId = tShopCourses.getShopId();
+            String shopId = tShopCoursesPriceModel.getShopId();
 //            tShopCourses.setShopId(shopId);
 //            tShopCourses.setShopName(shopName);
+            tShopCourses.setShopId(shopId);
+            tShopCourses.setTitle(tShopCoursesPriceModel.getTitle());
+            tShopCourses.setSubTitle(tShopCoursesPriceModel.getSubTitle());
+            tShopCourses.setContentHtml(tShopCoursesPriceModel.getContentHtml());
+            tShopCourses.setSuggest(tShopCoursesPriceModel.getSuggest());
+            tShopCourses.setSalesCount(tShopCoursesPriceModel.getSalesCount());
+            tShopCourses.setAvailable(tShopCoursesPriceModel.getAvailable());
+            tShopCourses.setSortKey(tShopCoursesPriceModel.getSortKey());
+            tShopCourses.setSku(tShopCoursesPriceModel.getSku());
+            tShopCourses.setUseDiscount(tShopCoursesPriceModel.getUseDiscount());
+            tShopCourses.setShopName(tShopCoursesPriceModel.getShopName());
+            tShopCourses.setCategoryId(tShopCoursesPriceModel.getCategoryId());
+            tShopCourses.setRegionName(tShopCoursesPriceModel.getRegionName());
+            tShopCourses.setRegionId(tShopCoursesPriceModel.getRegionId());
             tShopCourses.setFlag(Constants.DATA_NORMAL);
             tShopCourses.setCreateTime(new Date());
             tShopCourses.setCreateBy(user.getUserId().toString());
             int result = tShopCoursesService.insertTShopCourses(tShopCourses);
-            if(tShopCourses.getParams().containsKey("img")){
-                String img = tShopCourses.getParams().get("img").toString();
+            if(tShopCoursesPriceModel.getParams().containsKey("img")){
+                String img = tShopCoursesPriceModel.getParams().get("img").toString();
                 String[] imgs = StringUtils.split(img,"|");
                 for (String im:imgs) {
                     TShopCoursesImages cimg = new TShopCoursesImages();
@@ -194,8 +297,23 @@ public class TShopCoursesController extends BaseController
                     shopCoursesImagesService.insertTShopCoursesImages(cimg);
                 }
             }
+            TShopCoursesPrice tShopCoursesPrice = new TShopCoursesPrice();
+            tShopCoursesPrice.setId(StringUtils.genericId());
+            tShopCoursesPrice.setShopId(tShopCourses.getShopId());
+            tShopCoursesPrice.setCoursesId(tShopCourses.getId());
+            tShopCoursesPrice.setPrice(tShopCoursesPriceModel.getPrice());
+            tShopCoursesPrice.setPerLimitBuy(tShopCoursesPriceModel.getPerLimitBuy());
+            tShopCoursesPrice.setSpecialPriceLevel(tShopCoursesPriceModel.getSpecialPriceLevel());
+            tShopCoursesPrice.setSubTitleOne(tShopCoursesPriceModel.getSubTitleOne());
+            tShopCoursesPrice.setSubTitleTwo(tShopCoursesPriceModel.getSubTitleTwo());
+            tShopCoursesPrice.setSubTitleThree(tShopCoursesPriceModel.getSubTitleThree());
+            tShopCoursesPrice.setFlag(Constants.DATA_NORMAL);
+            tShopCoursesPrice.setCreateTime(new Date());
+            tShopCoursesPrice.setCreateBy(user.getUserId().toString());
+            tShopCoursesPriceService.insertTShopCoursesPrice(tShopCoursesPrice);
             if(result == 1){
-                return success("保存成功。");
+//                return success("保存成功。");
+                return AjaxResult.success("保存成功。",tShopCourses);
             }
             else{
                 return error("保存失败。");
@@ -208,6 +326,7 @@ public class TShopCoursesController extends BaseController
         }
     }
 
+
     /**
      * 修改课程基本信息
      */
@@ -217,13 +336,39 @@ public class TShopCoursesController extends BaseController
     {
         TShopCourses tShopCourses = tShopCoursesService.selectTShopCoursesById(id);
         mmap.put("tShopCourses", tShopCourses);
-
         TShopCoursesImages query = new TShopCoursesImages();
         query.setCoursesId(id);
 
         List<TShopCoursesImages> images = shopCoursesImagesService.selectTShopCoursesImagesList(query);
         mmap.put("coursesImages", JSON.toJSON(images));
 
+
+        List<TShopCoursesPrice> tShopCoursesPriceList = tShopCoursesPriceService.getCoursesPriceById(id);
+        TShopCoursesPrice tShopCoursesPrice = null;
+        if (tShopCoursesPriceList != null) {
+            tShopCoursesPrice = tShopCoursesPriceList.get(0);
+        }
+
+        TShopCoursesPriceModel tShopCoursesPriceModel = new TShopCoursesPriceModel();
+        tShopCoursesPriceModel.setId(tShopCourses.getId());
+        tShopCoursesPriceModel.setShopId(tShopCourses.getShopId());
+        tShopCoursesPriceModel.setTitle(tShopCourses.getTitle());
+        tShopCoursesPriceModel.setSubTitle(tShopCourses.getSubTitle());
+        tShopCoursesPriceModel.setCategoryId(tShopCourses.getCategoryId());
+        tShopCoursesPriceModel.setSalesCount(tShopCourses.getSalesCount());
+        tShopCoursesPriceModel.setSortKey(tShopCourses.getSortKey());
+        tShopCoursesPriceModel.setSuggest(tShopCourses.getSuggest());
+        tShopCoursesPriceModel.setAvailable(tShopCourses.getAvailable());
+        tShopCoursesPriceModel.setUseDiscount(tShopCourses.getUseDiscount());
+        tShopCoursesPriceModel.setContentHtml(tShopCourses.getContentHtml());
+        tShopCoursesPriceModel.setPriceId(tShopCoursesPrice.getId());
+        tShopCoursesPriceModel.setPrice(tShopCoursesPrice.getPrice());
+        tShopCoursesPriceModel.setPerLimitBuy(tShopCoursesPrice.getPerLimitBuy());
+        tShopCoursesPriceModel.setSpecialPriceLevel(tShopCoursesPrice.getSpecialPriceLevel());
+        tShopCoursesPriceModel.setSubTitleOne(tShopCoursesPrice.getSubTitleOne());
+        tShopCoursesPriceModel.setSubTitleTwo(tShopCoursesPrice.getSubTitleTwo());
+        tShopCoursesPriceModel.setSubTitleThree(tShopCoursesPrice.getSubTitleThree());
+        mmap.put("tShopCoursesPriceModel", tShopCoursesPriceModel);
         TShop shop = new TShop();
         shop.setFlag(Constants.DATA_NORMAL);
         SysUser user = ShiroUtils.getSysUser();
@@ -235,7 +380,7 @@ public class TShopCoursesController extends BaseController
             shop.setId(user.getBusinessId());
         }
         else if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")){
-            shop.setRegionName(user.getBusinessId());
+            shop.setRegionId(user.getBusinessId());
         }
         list = tShopService.selectTShopList(shop);
         mmap.put("shop",list);
@@ -249,6 +394,20 @@ public class TShopCoursesController extends BaseController
         return prefix + "/edit";
     }
 
+//    /**
+//     * 修改保存课程基本信息
+//     */
+//    @RequiresPermissions("shop:courses:edit")
+//    @Log(title = "课程基本信息", businessType = BusinessType.UPDATE)
+//    @PostMapping("/edit")
+//    @ResponseBody
+//    @ApiOperation("修改课程基本信息")
+//    @RoleScope(roleDefined={"ADMIN","SHOP"})
+//    public AjaxResult editSave(TShopCourses tShopCourses)
+//    {
+//        return toAjax(tShopCoursesService.updateTShopCourses(tShopCourses));
+//    }
+
     /**
      * 修改保存课程基本信息
      */
@@ -258,9 +417,66 @@ public class TShopCoursesController extends BaseController
     @ResponseBody
     @ApiOperation("修改课程基本信息")
     @RoleScope(roleDefined={"ADMIN","SHOP"})
-    public AjaxResult editSave(TShopCourses tShopCourses)
+    public AjaxResult editSave(TShopCoursesPriceModel tShopCoursesPriceModel)
     {
-        return toAjax(tShopCoursesService.updateTShopCourses(tShopCourses));
+        TShopCourses tShopCourses = new TShopCourses();
+        tShopCourses.setId(tShopCoursesPriceModel.getId());
+        String shopId = tShopCoursesPriceModel.getShopId();
+//            tShopCourses.setShopId(shopId);
+//            tShopCourses.setShopName(shopName);
+        tShopCourses.setShopId(shopId);
+        tShopCourses.setTitle(tShopCoursesPriceModel.getTitle());
+        tShopCourses.setSubTitle(tShopCoursesPriceModel.getSubTitle());
+        tShopCourses.setContentHtml(tShopCoursesPriceModel.getContentHtml());
+        tShopCourses.setSuggest(tShopCoursesPriceModel.getSuggest());
+        tShopCourses.setSalesCount(tShopCoursesPriceModel.getSalesCount());
+        tShopCourses.setAvailable(tShopCoursesPriceModel.getAvailable());
+        tShopCourses.setSortKey(tShopCoursesPriceModel.getSortKey());
+        tShopCourses.setSku(tShopCoursesPriceModel.getSku());
+        tShopCourses.setUseDiscount(tShopCoursesPriceModel.getUseDiscount());
+        tShopCourses.setShopName(tShopCoursesPriceModel.getShopName());
+        tShopCourses.setCategoryId(tShopCoursesPriceModel.getCategoryId());
+        tShopCourses.setRegionName(tShopCoursesPriceModel.getRegionName());
+        tShopCourses.setRegionId(tShopCoursesPriceModel.getRegionId());
+        tShopCourses.setFlag(Constants.DATA_NORMAL);
+        tShopCourses.setUpdateTime(new Date());
+        int result = tShopCoursesService.updateTShopCourses(tShopCourses);
+        if(tShopCoursesPriceModel.getParams().containsKey("img")){
+            String img = tShopCoursesPriceModel.getParams().get("img").toString();
+            String[] imgs = StringUtils.split(img,"|");
+            for (String im:imgs) {
+                TShopCoursesImages cimg = new TShopCoursesImages();
+                cimg.setId(StringUtils.genericId());
+                cimg.setCoursesId(tShopCourses.getId());
+                cimg.setShopId(shopId);
+                cimg.setImageUrl(im);
+                cimg.setFlag(Constants.DATA_NORMAL);
+                cimg.setSortKey(0);
+                cimg.setCreateTime(DateUtils.getNowDate());
+                shopCoursesImagesService.insertTShopCoursesImages(cimg);
+            }
+        }
+        TShopCoursesPrice tShopCoursesPrice = new TShopCoursesPrice();
+        tShopCoursesPrice.setId(tShopCoursesPriceModel.getPriceId());
+        tShopCoursesPrice.setShopId(tShopCourses.getShopId());
+        tShopCoursesPrice.setCoursesId(tShopCourses.getId());
+        tShopCoursesPrice.setPrice(tShopCoursesPriceModel.getPrice());
+        tShopCoursesPrice.setPerLimitBuy(tShopCoursesPriceModel.getPerLimitBuy());
+        tShopCoursesPrice.setSpecialPriceLevel(tShopCoursesPriceModel.getSpecialPriceLevel());
+        tShopCoursesPrice.setSubTitleOne(tShopCoursesPriceModel.getSubTitleOne());
+        tShopCoursesPrice.setSubTitleTwo(tShopCoursesPriceModel.getSubTitleTwo());
+        tShopCoursesPrice.setSubTitleThree(tShopCoursesPriceModel.getSubTitleThree());
+        tShopCoursesPrice.setFlag(Constants.DATA_NORMAL);
+        tShopCoursesPrice.setUpdateTime(new Date());
+        tShopCoursesPriceService.updateTShopCoursesPrice(tShopCoursesPrice);
+        if(result == 1){
+//                return success("保存成功。");
+            return AjaxResult.success("修改成功。",tShopCourses);
+        }
+        else{
+            return error("修改失败。");
+        }
+//        return toAjax(tShopCoursesService.updateTShopCourses(tShopCourses));
     }
 
     /**

@@ -8,17 +8,21 @@ import java.util.Map;
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.constant.Constants;
+import co.tton.qcloud.common.constant.UserConstants;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.core.page.TableDataInfo;
 import co.tton.qcloud.common.enums.BusinessType;
 import co.tton.qcloud.common.utils.DateUtils;
 import co.tton.qcloud.common.utils.StringUtils;
+import co.tton.qcloud.framework.shiro.service.SysPasswordService;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.service.ISysUserService;
 import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -55,7 +59,10 @@ public class TShopController extends BaseController
     @Autowired
     private ITShopService tShopService;
     @Autowired
-    private MinioFileService minioFileService;
+    private ISysUserService userService;
+
+    @Autowired
+    private SysPasswordService passwordService;
 
     @RequiresPermissions("shop:view")
     @GetMapping()
@@ -95,8 +102,23 @@ public class TShopController extends BaseController
      * 新增商家信息
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        if(StringUtils.isNotEmpty(category)){
+//            if(StringUtils.equalsAnyIgnoreCase(category,"SHOP")){
+//                String shopId = user.getBusinessId();
+//            }
+//            else
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                String regionId = user.getBusinessId();
+                mmap.put("regionId",regionId);
+            }
+//            else{
+//                list = tBannerService.selectTBannerList(tBanner);
+//            }
+        }
         return prefix + "/add";
     }
 
@@ -155,6 +177,14 @@ public class TShopController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") String id, ModelMap mmap)
     {
+        SysUser user = ShiroUtils.getSysUser();
+        String category = user.getCategory();
+        if(StringUtils.isNotEmpty(category)){
+            if(StringUtils.equalsAnyIgnoreCase(category,"REGION")){
+                String regionId = user.getBusinessId();
+                mmap.put("regionId",regionId);
+            }
+        }
         TShop tShop = tShopService.selectTShopById(id);
         String times = tShop.getShopHoursBegin() + " - " + tShop.getShopHoursEnd();
         Map<String,Object> map = new HashMap<>();
@@ -235,8 +265,29 @@ public class TShopController extends BaseController
             tShop.setFlag(Constants.DATA_NORMAL);
             tShop.setCreateTime(new Date());
             tShop.setCreateBy(user.getUserId().toString());
-            int count = tShopService.insertTShop(tShop);
-            return AjaxResult.success("商家信息保存成功。",count);
+            //创建商家用户
+            SysUser sysUser = new SysUser();
+            sysUser.setLoginName(RandomStringUtils.randomAlphanumeric(6));
+            sysUser.setUserName(tShop.getName());
+            sysUser.setPhonenumber(tShop.getMobile());
+            sysUser.setPassword(String.valueOf((int)((Math.random()*9+1)*100000)));
+            if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(sysUser)))
+            {
+                return error("新增商家'" + sysUser.getUserName() + "'失败，手机号码已存在");
+            }
+            sysUser.setSalt(ShiroUtils.randomSalt());
+            sysUser.setPassword(passwordService.encryptPassword(sysUser.getLoginName(), sysUser.getPassword(), sysUser.getSalt()));
+            sysUser.setCreateBy(ShiroUtils.getLoginName());
+            sysUser.setSex("0");
+            sysUser.setBusinessId(tShop.getId());
+            sysUser.setCategory("SHOP");
+            //保存用户
+            userService.insertUser(sysUser);
+            //保存商家
+            tShopService.insertTShop(tShop);
+
+
+            return AjaxResult.success("商家信息保存成功。",tShop);
         }
         catch (Exception ex){
             ex.printStackTrace();

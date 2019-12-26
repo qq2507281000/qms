@@ -2,6 +2,7 @@ package co.tton.qcloud.system.mapper;
 
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.model.ShopCoursesListModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -87,6 +88,14 @@ public interface TShopCoursesMapper
     List<TShopCoursesModel> getSuggestCourses(TShopCoursesModel tShopCoursesModel);
 
     /**
+     * 小程序查询所有课程
+     *
+     * @param  tShopCoursesModel 根据categoryId查询有关推荐课程
+     * @return 结果
+     */
+    List<TShopCoursesModel> getSuggestCoursesAll(TShopCoursesModel tShopCoursesModel);
+
+    /**
      * 模糊查询课程
      *
      * @param
@@ -116,7 +125,7 @@ public interface TShopCoursesMapper
      * @param  tShopCourses 查询
      * @return 结果
      */
-    TShopCoursesModel getMaxSortKeyCourses(TShopCourses tShopCourses);
+    TShopCoursesModel getMaxSortKeyCourses(TShopCoursesModel tShopCourses);
 
     /**
      * 小程序搜索框收藏课程
@@ -125,4 +134,14 @@ public interface TShopCoursesMapper
      * @return 结果
      */
     List<TShopCoursesModel> getcollectionCourses(@Param("title") String coursesName,@Param("memberId") String memberId);
+
+    List<ShopCoursesListModel> getLatestCourses(@Param("location") String location);
+
+    /**
+     * 根据地区查课程
+     */
+    public List<TShopCourses> selectTShopCoursesListByRegionId(@Param("regionId") String regionId);
+
+
+
 }

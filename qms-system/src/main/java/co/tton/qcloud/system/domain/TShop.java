@@ -175,6 +175,12 @@ public class TShop extends BaseEntity
     @ApiModelProperty("运营区域Id")
     private String regionId;
 
+    @ApiModelProperty("经度")
+    private String lng;
+
+    @ApiModelProperty("纬度")
+    private String lat;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

@@ -130,6 +130,45 @@ public class OrderController extends BaseController {
     }
   }
 
+  @ApiOperation("提交订单免费")
+  @RequestMapping(value = "/free", method = RequestMethod.POST)
+  public AjaxResult submitFreeOrder(@RequestBody OrderModel model) {
+    try {
+      if (model == null) {
+        return AjaxResult.error("参数不允许为空。");
+      } else {
+        OrderResponseModel responseModel = tOrderService.submitOrder(model);
+        String orderNo = responseModel.getOrder().getOrderNo();
+//        String transactionId = notifyResult.getTransactionId();
+//        Date date = DateUtil.parse(payTime, "yyyyMMddHHmmss");
+        TOrder order = orderService.selectTOrderByNo(orderNo);
+        if (order != null) {
+          order.setPayStatus("PAID");
+          order.setUseStatus("UNUSED");
+          order.setBillStatus("EXECUTING");
+          order.setVerifyStatus("UNCONFIRM");
+//          order.setSerialNo(transactionId);
+//          order.setPayTime(date);
+          order.setPayTime(new Date());
+          order.setUpdateBy(order.getMemberId());
+          order.setUpdateTime(DateUtils.getNowDate());
+          int result = orderService.updateTOrder(order);
+          if (result == 1) {
+            return AjaxResult.success(" ，支付成功。");
+          } else {
+            return AjaxResult.error("支付失败。");
+          }
+        } else {
+          return AjaxResult.error("未能找到订单信息。");
+        }
+      }
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      logger.error("提交订单时发生异常。", ex);
+      return AjaxResult.error("提交订单时发生异常。", ex);
+    }
+  }
+
   @RequestMapping(value = "/pay", method = RequestMethod.POST)
   @ApiOperation("订单支付")
   public AjaxResult orderPay(@RequestParam("orderId") String orderId, @RequestParam("openId") String openId) {

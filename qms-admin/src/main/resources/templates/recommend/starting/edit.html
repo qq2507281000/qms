@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改最近上新')" />
+    <th:block th:include="include :: summernote-css" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>修改最近上新</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <form class="form-horizontal m" id="form-shop-courses-starting-edit" th:object="${tShopCoursesStarting}">
+                            <input name="id" th:field="*{id}" type="hidden">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">课程名称</label>
+                                <div class="col-sm-10">
+                                    <select class='form-control' id="coursesId" name='coursesId' style="width: 100%" required>
+                                        <option value="">---请选择---</option>
+                                        <option th:each="column : ${courses}" th:text="${column.title}" th:value="${column.id}" th:field="*{coursesId}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: summernote-js" />
+    <th:block th:include="include :: select2-js" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+
+    <script type="text/javascript">
+        var prefix = "/shop/courses/starting";
+
+        $("#form-shop-courses-starting-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-shop-courses-starting-edit').serialize());
+            }
+        }
+
+    </script>
+</body>
+</html>

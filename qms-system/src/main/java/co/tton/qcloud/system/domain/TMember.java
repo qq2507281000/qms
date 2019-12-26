@@ -104,6 +104,12 @@ public class TMember extends BaseEntity
     @ApiModelProperty("微信端返回的JSON信息")
     private String wxJson;
 
+    @ApiModelProperty("城市")
+    private String city;
+
+    @ApiModelProperty("运营商")
+    private String operator;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -125,6 +131,8 @@ public class TMember extends BaseEntity
             .append("img", getImg())
             .append("avatar", getAvatar())
             .append("wxJson", getWxJson())
+            .append("city", getCity())
+            .append("operator", getOperator())
             .toString();
     }
 }

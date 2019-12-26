@@ -21,6 +21,24 @@ public interface ITShopService
     List<TShop> getSuggestShop(TShop tShop);
 
     /**
+     * 查询所有商家
+     *
+     * @param
+     * @return 获取商家信息成功。
+     */
+    List<TShop> getSuggestShopAll(TShop tShop);
+
+    /**
+     * 查询分类所有商家
+     *
+     * @param
+     * @return 获取推荐商家信息成功。
+     */
+    List<TShop> getSuggestShopByCategory(TShop tShop);
+
+
+
+    /**
      * 查询商家详情
      *
      * @param

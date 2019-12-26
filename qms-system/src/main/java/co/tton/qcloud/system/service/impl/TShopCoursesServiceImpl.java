@@ -142,4 +142,13 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService {
         }
         return tShopCoursesList;
     }
+
+
+    /**
+     * 根据地区查课程
+     */
+    @Override
+    public List<TShopCourses> selectTShopCoursesListByRegionId(String regionId) {
+        return tShopCoursesMapper.selectTShopCoursesListByRegionId(regionId);
+    }
 }

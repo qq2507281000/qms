@@ -49,14 +49,57 @@ public class ShopController extends BaseController {
     TShop tShop = new TShop();
     tShop.setAddress(location);//查询本地区所有商家条件
     tShop.setCategoryId(categoryId);//根据分类查商家条件
-    tShop.setSuggest(suggest);//首页推荐商家查询条件
-    List<TShop> listTShop = tShopService.getSuggestShop(tShop);
+    List<TShop> listTShop = null;
+    if (suggest !=null && 0 == suggest) {
+      tShop.setSuggest(suggest);//首页推荐商家查询条件
+      listTShop = tShopService.getSuggestShop(tShop);
+    } else {
+      listTShop = tShopService.getSuggestShopAll(tShop);
+    }
+
     if (StringUtils.isNotNull(listTShop) && (listTShop.size() != 0)) {
       return AjaxResult.success("获取商家信息成功。", listTShop);
     } else {
       return AjaxResult.error("获取商家信息失败。");
     }
   }
+
+  @ApiOperation("查询所有商家")
+//    @RequiresPermissions("wx:shop:suggest")
+  @RequestMapping(value = "/suggestAll", method = RequestMethod.GET)
+  public AjaxResult<List<TShop>> getSuggestShopAll(@RequestParam(value = "loc", required = false) String location,
+                                                @RequestParam(value = "category", required = false) String categoryId,
+                                                @RequestParam(value = "suggest", required = false) Integer suggest) {
+    TShop tShop = new TShop();
+    tShop.setAddress(location);//查询本地区所有商家条件
+    tShop.setCategoryId(categoryId);//根据分类查商家条件
+    tShop.setSuggest(suggest);//首页商家查询条件
+    List<TShop> listTShop = tShopService.getSuggestShopAll(tShop);
+    if (StringUtils.isNotNull(listTShop) && (listTShop.size() != 0)) {
+      return AjaxResult.success("获取商家信息成功。", listTShop);
+    } else {
+      return AjaxResult.error("获取商家信息失败。");
+    }
+  }
+
+  @ApiOperation("根据分类查商家")
+//    @RequiresPermissions("wx:shop:suggest")
+  @RequestMapping(value = "/getSuggestShopByCategory", method = RequestMethod.GET)
+  public AjaxResult<List<TShop>> getSuggestShopByCategory(@RequestParam(value = "loc", required = false) String location,
+                                                @RequestParam(value = "category", required = false) String categoryId,
+                                                @RequestParam(value = "suggest", required = false) Integer suggest) {
+    TShop tShop = new TShop();
+    tShop.setAddress(location);//查询本地区所有商家条件
+    tShop.setCategoryId(categoryId);//根据分类查商家条件
+    tShop.setSuggest(suggest);//首页推荐商家查询条件
+    List<TShop> listTShop = tShopService.getSuggestShopByCategory(tShop);
+    if (StringUtils.isNotNull(listTShop) && (listTShop.size() != 0)) {
+      return AjaxResult.success("获取商家信息成功。", listTShop);
+    } else {
+      return AjaxResult.error("获取商家信息失败。");
+    }
+  }
+
 
   @ApiOperation("查询商家详情")
 //    @RequiresPermissions("wx:shop:detail")
