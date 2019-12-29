@@ -78,18 +78,18 @@
                     </div>
                 </div>
             </div>
-            <input name="suggest" type="hidden" value="0">
-            <!--<div class="col-sm-6" >-->
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-4 control-label">是否推荐</label>-->
-                    <!--<div class="col-sm-8">-->
-                        <!--<div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">-->
-                            <!--<input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}">-->
-                            <!--<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <!--<input name="suggest" type="hidden" value="0">-->
+            <div class="col-sm-6" >
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否推荐</label>
+                    <div class="col-sm-8">
+                        <div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">
+                            <input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}">
+                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -410,8 +410,7 @@
     var timeFlag = [[${@permission.hasPermi('shop:time:edit')}]];
     var priceFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
     var imageFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
-    var  regionId = [[${regionId}]]
-
+    var regionId = [[${regionId}]]
 
     var useDiscount = [[${@dict.getType('useDiscount')}]];
     var suggest = [[${@dict.getType('suggest')}]];
@@ -631,6 +630,9 @@
             // data.push({"name": "status", "value": status});
             // data.push({"name": "roleIds", "value": roleIds});
             // data.push({"name": "postIds", "value": postIds});
+            var suggest = $('input:radio[name=suggest]:checked').val();
+            // console.log("suggest-->"+suggest);
+            data.push({"name": "params[suggest]", "value": suggest});
             data.push({"name": "htmlContent", "value": note});
             data.push({"name": "regionName", "value": regionName});
             if (regionId != null) {

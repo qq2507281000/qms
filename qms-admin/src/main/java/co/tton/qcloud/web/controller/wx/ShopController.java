@@ -47,7 +47,8 @@ public class ShopController extends BaseController {
                                                 @RequestParam(value = "category", required = false) String categoryId,
                                                 @RequestParam(value = "suggest", required = false) Integer suggest) {
     TShop tShop = new TShop();
-    tShop.setAddress(location);//查询本地区所有商家条件
+    //tShop.setAddress(location);//查询本地区所有商家条件
+    tShop.setRegionId(location);
     tShop.setCategoryId(categoryId);//根据分类查商家条件
     List<TShop> listTShop = null;
     if (suggest !=null && 0 == suggest) {
@@ -71,7 +72,8 @@ public class ShopController extends BaseController {
                                                 @RequestParam(value = "category", required = false) String categoryId,
                                                 @RequestParam(value = "suggest", required = false) Integer suggest) {
     TShop tShop = new TShop();
-    tShop.setAddress(location);//查询本地区所有商家条件
+//    tShop.setAddress(location);//查询本地区所有商家条件
+    tShop.setRegionId(location);
     tShop.setCategoryId(categoryId);//根据分类查商家条件
     tShop.setSuggest(suggest);//首页商家查询条件
     List<TShop> listTShop = tShopService.getSuggestShopAll(tShop);
@@ -89,7 +91,8 @@ public class ShopController extends BaseController {
                                                 @RequestParam(value = "category", required = false) String categoryId,
                                                 @RequestParam(value = "suggest", required = false) Integer suggest) {
     TShop tShop = new TShop();
-    tShop.setAddress(location);//查询本地区所有商家条件
+//    tShop.setAddress(location);//查询本地区所有商家条件
+    tShop.setRegionId(location);
     tShop.setCategoryId(categoryId);//根据分类查商家条件
     tShop.setSuggest(suggest);//首页推荐商家查询条件
     List<TShop> listTShop = tShopService.getSuggestShopByCategory(tShop);
@@ -109,7 +112,8 @@ public class ShopController extends BaseController {
     if (StringUtils.isNotEmpty(shopId)) {
       TShop tShop = new TShop();
       tShop.setId(shopId);
-      tShop.setAddress(location);
+//      tShop.setAddress(location);
+      tShop.setRegionId(location);
       List list = tShopService.getShopDetail(tShop);//查询商家详情
       if (StringUtils.isNotEmpty(list)) {
         return AjaxResult.success("获取商家详情成功。", list);

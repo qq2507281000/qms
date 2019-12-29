@@ -92,21 +92,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t_shop_courses tsc
         LEFT JOIN t_shop ts ON tsc.shop_id = ts.id
         <where>
+            tsc.flag = 0
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
-            <if test="title != null  and title != ''"> and tsc.title = #{title}</if>
-            <if test="subTitle != null  and subTitle != ''"> and tsc.sub_title = #{subTitle}</if>
-            <if test="suggest != null "> and tsc.suggest = #{suggest}</if>
-            <if test="salesCount != null "> and tsc.sales_count = #{salesCount}</if>
-            <if test="available != null "> and tsc.available = #{available}</if>
-            <if test="sortKey != null "> and tsc.sort_key = #{sortKey}</if>
-            <if test="flag != null "> and tsc.flag = #{flag}</if>
-            <if test="createBy != null  and createBy != ''"> and tsc.create_by = #{createBy}</if>
-            <if test="updateBy != null  and updateBy != ''"> and tsc.update_by = #{updateBy}</if>
-            <if test="sku != null  and sku != ''"> and tsc.sku = #{sku}</if>
-            <if test="useDiscount != null "> and tsc.use_discount = #{useDiscount}</if>
+            <if test="title != null  and title != ''"> and tsc.title like concat('%', #{title}, '%')</if>
+            <if test="subTitle != null  and subTitle != ''"> and tsc.sub_title like concat('%', #{subTitle}, '%')</if>
+            <!--<if test="suggest != null "> and tsc.suggest = #{suggest}</if>-->
+            <!--<if test="salesCount != null "> and tsc.sales_count = #{salesCount}</if>-->
+            <!--<if test="available != null "> and tsc.available = #{available}</if>-->
+            <!--<if test="sortKey != null "> and tsc.sort_key = #{sortKey}</if>-->
+            <!--<if test="flag != null "> and tsc.flag = #{flag}</if>-->
+            <!--<if test="createBy != null  and createBy != ''"> and tsc.create_by = #{createBy}</if>-->
+            <!--<if test="updateBy != null  and updateBy != ''"> and tsc.update_by = #{updateBy}</if>-->
+            <!--<if test="sku != null  and sku != ''"> and tsc.sku = #{sku}</if>-->
+            <!--<if test="useDiscount != null "> and tsc.use_discount = #{useDiscount}</if>-->
             <if test="regionId != null  and regionId != ''"> and ts.region_id = #{regionId}</if>
         </where>
-        order by ts.`name` desc ,tsc.sort_key desc
+        order by tsc.update_time desc, tsc.sort_key asc
     </select>
     
     <select id="selectTShopCoursesById" parameterType="String" resultMap="TShopCoursesResult">

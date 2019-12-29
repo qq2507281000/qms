@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.tton.qcloud.system.mapper.TShopMapper">
 
-    <resultMap type="TShop" id="TShopResult">
+    <resultMap type="co.tton.qcloud.system.domain.TShop" id="TShopResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="subject"    column="subject"    />
@@ -259,51 +259,126 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <!--首页推荐商家查询，查询所有商家-->
-    <select id="getSuggestShop" resultMap="TShopAll" parameterType="TShop">
+    <select id="getSuggestShop" resultMap="TShopResult" parameterType="TShop">
         select
-          sh.*,ca.id as a_id
-        from t_shop_recommend tsr
-        LEFT JOIN t_shop sh on sh.id =tsr.shop_id
-        left join t_category ca on sh.category_id = ca.id
-        <where>
-            sh.flag = 0
-            <if test="categoryId != null and address != ''">and sh.category_id = #{categoryId}</if>
-            <if test="suggest != null ">and sh.suggest = #{suggest}</if>
-            <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
-        </where>
-        order by tsr.sort_key asc
-    </select>
+          <!--sh.*,sh.category_id as a_id-->
+        <!--from t_shop_recommend tsr-->
+        <!--LEFT JOIN t_shop sh on sh.id =tsr.shop_id-->
+        <!--left join t_category ca on sh.category_id = ca.id-->
+        <!--<where>-->
+            <!--sh.flag = 0-->
+            <!--<if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>-->
+            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
+            <!--<if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>-->
+        <!--</where>-->
+        <!--order by tsr.sort_key asc-->
+        <!--select *-->
+        <!--from t_shop sh-->
+        <!--<where>-->
+            <!--sh.flag = 0-->
+            <!--<if test="categoryId != null and address != ''">and sh.category_id = #{categoryId}</if>-->
+            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
+            <!--<if test="region_id != null and region_id != ''">and sh.region_id = #{regionId}</if>-->
+        <!--</where>-->
+        <!--order by sh.sort_key asc-->
 
-
-    <!--首页推荐商家查询，查询所有商家-->
-    <select id="getSuggestShopAll" resultMap="TShopAll" parameterType="TShop">
-        select
-        sh.*,ca.id as a_id
-        from t_shop sh
-        left join t_category ca on sh.category_id = ca.id
-        <where>
-            sh.flag = 0
-            <if test="categoryId != null and address != ''">and sh.category_id = #{categoryId}</if>
-            <if test="suggest != null ">and sh.suggest = #{suggest}</if>
-            <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
-        </where>
-    </select>
-
-
-    <!--首页推荐商家查询，查询所有商家-->
-    <select id="getSuggestShopByCategory" resultMap="TShopAll" parameterType="TShop">
-        select
+        SELECT
         sh.*
-        from t_shop sh
-        left join t_shop_courses tsc on tsc.shop_id = sh.id
+        FROM
+        t_shop_recommend shr
+        LEFT JOIN t_shop sh ON shr.shop_id = sh.id
         <where>
             sh.flag = 0
-            <if test="categoryId != null and categoryId != ''">and tsc.category_id = #{categoryId}</if>
-            <if test="suggest != null ">and sh.suggest = #{suggest}</if>
-            <if test="address != null and address != ''">and sh.address like concat('%', #{address}, '%')</if>
+            and shr.flag = 0
+            <if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>
+            <if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>
         </where>
-        GROUP BY sh.id
-        order by sh.sort_key
+        ORDER BY
+        shr.sort_key ASC
+    </select>
+
+    <!--首页推荐商家查询，查询所有商家-->
+    <select id="getSuggestShopAll" resultMap="TShopResult" parameterType="TShop">
+        <!--select-->
+        <!--sh.*,ca.id as a_id-->
+        <!--from t_shop sh-->
+        <!--left join t_category ca on sh.category_id = ca.id-->
+        <!--<where>-->
+            <!--sh.flag = 0-->
+            <!--<if test="categoryId != null and address != ''">and sh.category_id = #{categoryId}</if>-->
+            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
+            <!--<if test="region_id != null and region_id != ''">and sh.region_id = #{regionId}</if>-->
+        <!--</where>-->
+
+        <!--select-->
+        <!--sh.*,sh.category_id as a_id-->
+        <!--from t_shop_recommend tsr-->
+        <!--LEFT JOIN t_shop sh on sh.id = tsr.shop_id-->
+         <!--left join t_category ca on sh.category_id = ca.id-->
+        <!--<where>-->
+            <!--sh.flag = 0-->
+            <!--<if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>-->
+            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
+            <!--<if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>-->
+        <!--</where>-->
+        <!--order by tsr.sort_key asc-->
+
+        SELECT
+        sh.*
+        FROM
+        t_shop_recommend shr
+        LEFT JOIN t_shop sh ON shr.shop_id = sh.id
+        <where>
+            sh.flag = 0
+            and shr.flag = 0
+            <if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>
+            <if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>
+        </where>
+        ORDER BY
+        shr.sort_key ASC
+
+    </select>
+
+
+    <!--首页推荐商家查询，查询所有商家-->
+    <select id="getSuggestShopByCategory" resultMap="TShopResult" parameterType="TShop">
+        <!--select-->
+        <!--sh.*-->
+        <!--from t_shop sh-->
+        <!--left join t_shop_courses tsc on tsc.shop_id = sh.id-->
+        <!--<where>-->
+            <!--sh.flag = 0-->
+            <!--<if test="categoryId != null and categoryId != ''">and tsc.category_id = #{categoryId}</if>-->
+            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
+            <!--<if test="region_id != null and region_id != ''">and sh.region_id = #{regionId}</if>-->
+        <!--</where>-->
+        <!--GROUP BY sh.id-->
+        <!--order by sh.sort_key-->
+        <!--select-->
+        <!--sh.*,sh.category_id as a_id-->
+        <!--from t_shop_recommend tsr-->
+        <!--LEFT JOIN t_shop sh on sh.id =tsr.shop_id-->
+        <!--left join t_category ca on sh.category_id = ca.id-->
+        <!--<where>-->
+            <!--sh.flag = 0-->
+            <!--<if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>-->
+            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
+            <!--<if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>-->
+        <!--</where>-->
+        <!--order by tsr.sort_key asc-->
+        SELECT
+        sh.*
+        FROM
+        t_shop_recommend shr
+        LEFT JOIN t_shop sh ON shr.shop_id = sh.id
+        <where>
+            sh.flag = 0
+            and shr.flag = 0
+            <if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>
+            <if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>
+        </where>
+        ORDER BY
+        shr.sort_key ASC
     </select>
 
 
@@ -320,7 +395,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             shop.flag = 0
             <if test="id != null  and id != ''">and shop.id = #{id}</if>
-            <if test="address != null and address != ''">and shop.address like concat('%', #{address}, '%')</if>
+            <if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>
         </where>
         group by
         ca. name

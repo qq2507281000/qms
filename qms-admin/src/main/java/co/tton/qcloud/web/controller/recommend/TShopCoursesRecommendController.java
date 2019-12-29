@@ -109,7 +109,6 @@ public class TShopCoursesRecommendController extends BaseController
     @RoleScope(roleDefined={"ADMIN","REGION"})
     public AjaxResult addSave(TShopCoursesRecommend tShopCoursesRecommend)
     {
-
         int count = tShopCoursesRecommendService.insertTShopCoursesRecommend(tShopCoursesRecommend);
         if (count == 1) {
             return AjaxResult.success("推荐课程成功。",count);

@@ -47,6 +47,11 @@ public class TShopServiceImpl implements ITShopService
     {
         tShop.setFlag(0);
         tShop.setAvailable(0);
+        if(tShop.getSuggest() != null) {
+            if (tShop.getSuggest() == 99) {
+                tShop.setSuggest(null);
+            }
+        }
         return tShopMapper.selectTShopList(tShop);
     }
 

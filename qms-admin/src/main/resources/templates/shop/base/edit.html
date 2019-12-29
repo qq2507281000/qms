@@ -71,17 +71,17 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="col-sm-6">-->
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-4 control-label">是否推荐</label>-->
-                    <!--<div class="col-sm-8">-->
-                        <!--<div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">-->
-                            <!--<input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{suggest}">-->
-                            <!--<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">是否推荐</label>
+                    <div class="col-sm-8">
+                        <div class="radio-box" th:each="dict : ${@dict.getType('suggest')}">
+                            <input type="radio" th:id="${dict.dictCode}" name="suggest" th:value="${dict.dictValue}" th:checked="${dict.default}" th:field="*{suggest}">
+                            <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -504,6 +504,9 @@
         if ($.validate.form()) {
             // $.operate.save(prefix+"/add", $('#form-shop-add').serialize());
             var data = $("#form-shop-edit").serializeArray();
+            var suggest = $('input:radio[name=suggest]:checked').val();
+            console.log("suggest-->"+suggest);
+            data.push({"name": "params[suggest]", "value": suggest});
             // var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
             // var roleIds = $.form.selectCheckeds("role");
             // var postIds = $.form.selectSelects("post");

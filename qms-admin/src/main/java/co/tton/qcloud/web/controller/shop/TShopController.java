@@ -207,11 +207,13 @@ public class TShopController extends BaseController
     {
         SysUser user = ShiroUtils.getSysUser();
         String times = tShop.getParams().get("times").toString();
+        int suggest = Integer.parseInt(tShop.getParams().getOrDefault("suggest",0).toString());
         if(StringUtils.isNotEmpty(times)){
             String[] ts = StringUtils.split(times,"-");
             tShop.setShopHoursBegin(ts[0].trim());
             tShop.setShopHoursEnd(ts[1].trim());
         }
+        tShop.setSuggest(suggest);
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
             if(user.getBusinessId().equals(tShop.getId())){
                 return toAjax(tShopService.updateTShop(tShop));
@@ -265,6 +267,8 @@ public class TShopController extends BaseController
             tShop.setFlag(Constants.DATA_NORMAL);
             tShop.setCreateTime(new Date());
             tShop.setCreateBy(user.getUserId().toString());
+            int suggest = Integer.parseInt(tShop.getParams().getOrDefault("suggest",0).toString());
+            tShop.setSuggest(suggest);
             //创建商家用户
             SysUser sysUser = new SysUser();
             sysUser.setLoginName(RandomStringUtils.randomAlphanumeric(6));

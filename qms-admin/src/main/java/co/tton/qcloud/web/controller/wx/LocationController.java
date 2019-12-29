@@ -1,9 +1,15 @@
 package co.tton.qcloud.web.controller.wx;
 
+import cn.hutool.core.util.StrUtil;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
+import co.tton.qcloud.system.domain.SysDictData;
+import co.tton.qcloud.system.model.CityModel;
+import co.tton.qcloud.system.model.CitySectionModel;
+import co.tton.qcloud.system.service.ISysDictDataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @program: qms
@@ -25,96 +32,139 @@ import java.util.Map;
 @RequestMapping("/api/v1.0/location")
 public class LocationController extends BaseController {
 
+  @Autowired
+  private ISysDictDataService dictDataService;
+
   //    @RequiresPermissions("wx:location")
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   @ApiOperation("获取城市")
   public AjaxResult getLocaltions() {
-    //TODO:获取所有城市列表信息
+
+    List<SysDictData> list = dictDataService.selectDictDataByType("operation_city");
+    if(list != null){
+      List<String> codeList = new ArrayList<>();
+      list.forEach(d->{
+        String prefix = StrUtil.sub(d.getDictValue(),0,1).toUpperCase();
+        codeList.add(prefix);
+      });
+      List<String> cl = codeList.stream().distinct().sorted().collect(Collectors.toList());
+
+      List<CitySectionModel> citySectionModels = new ArrayList<>();
+
+      cl.stream().forEach(d->{
+        CitySectionModel citySectionModel = new CitySectionModel();
+        citySectionModel.setCode(d);
+
+        List<CityModel> cityModels = new ArrayList<>();
+
+        list.stream().filter(l->StrUtil.equalsIgnoreCase(StrUtil.sub(l.getDictValue(),0,1),d)).forEach(
+                m->{
+                  CityModel cityModel = new CityModel();
+                  cityModel.setId(m.getDictCode());
+                  cityModel.setName(m.getDictLabel());
+                  cityModel.setLocation(m.getDictValue());
+                  cityModels.add(cityModel);
+                }
+        );
+        citySectionModel.setCity(cityModels);
+
+        citySectionModels.add(citySectionModel);
+
+      });
+
+      return AjaxResult.success("获取所有城市列表信息成功。", citySectionModels);
+
+    }
+    else{
+      return AjaxResult.error("未能获取运营城市列表。");
+    }
+
+    //TODO: 获取所有城市列表信息
     //大连，哈尔滨，厦门，重庆
-    List<Object> list1 = new ArrayList<>();//最外层
-
-    List<Object> list2 = new ArrayList<>();
-    Map<String, Object> map = new HashMap<>();
-    Map<String, Object> map1 = new HashMap<>();
-    map.put("code", "D");
-    map.put("city", list2);
-    map1.put("name", "大连");
-    list2.add(map1);
-    list1.add(map);
-
-    List<Object> list4 = new ArrayList<>();
-    Map<String, Object> map2 = new HashMap<>();
-    Map<String, Object> map3 = new HashMap<>();
-    Map<String, Object> map8 = new HashMap<>();
-    map2.put("code", "H");
-    map2.put("city", list4);
-    map3.put("name", "哈尔滨");
-    map8.put("name", "杭州");
-    list4.add(map3);
-    list4.add(map8);
-    list1.add(map2);
-
-    List<Object> list6 = new ArrayList<>();
-    Map<String, Object> map4 = new HashMap<>();
-    Map<String, Object> map5 = new HashMap<>();
-    map4.put("code", "X");
-    map4.put("city", list6);
-    map5.put("name", "厦门");
-    list6.add(map5);
-    list1.add(map4);
-
-    List<Object> list8 = new ArrayList<>();
-    Map<String, Object> map6 = new HashMap<>();
-    Map<String, Object> map7 = new HashMap<>();
-    Map<String, Object> map9 = new HashMap<>();
-    map6.put("code", "C");
-    map6.put("city", list8);
-    map7.put("name", "重庆");
-    map9.put("name", "长沙");
-    list8.add(map7);
-    list8.add(map9);
-    list1.add(map6);
-
-    List<Object> list3 = new ArrayList<>();
-    Map<String, Object> map10 = new HashMap<>();
-    Map<String, Object> map11 = new HashMap<>();
-    map10.put("code", "Q");
-    map10.put("city", list3);
-    map11.put("name", "青岛");
-    list3.add(map11);
-    list1.add(map10);
-
-    List<Object> list5 = new ArrayList<>();
-    Map<String, Object> map12 = new HashMap<>();
-    Map<String, Object> map13 = new HashMap<>();
-    map12.put("code", "F");
-    map12.put("city", list5);
-    map13.put("name", "福州");
-    list5.add(map13);
-    list1.add(map12);
-
-    List<Object> list7 = new ArrayList<>();
-    Map<String, Object> map14 = new HashMap<>();
-    Map<String, Object> map15 = new HashMap<>();
-    map14.put("code", "K");
-    map14.put("city", list7);
-    map15.put("name", "昆明");
-    list7.add(map15);
-    list1.add(map14);
-
-    List<Object> list9 = new ArrayList<>();
-    Map<String, Object> map16 = new HashMap<>();
-    Map<String, Object> map17 = new HashMap<>();
-    map16.put("code", "S");
-    map16.put("city", list9);
-    map17.put("name", "沈阳");
-    list9.add(map17);
-    list1.add(map16);
-
-
-
-
-    return AjaxResult.success("获取所有城市列表信息成功。", list1);
+//    List<Object> list1 = new ArrayList<>();//最外层
+//
+//    List<Object> list2 = new ArrayList<>();
+//    Map<String, Object> map = new HashMap<>();
+//    Map<String, Object> map1 = new HashMap<>();
+//    map.put("code", "D");
+//    map.put("city", list2);
+//    map1.put("name", "大连");
+//    list2.add(map1);
+//    list1.add(map);
+//
+//    List<Object> list4 = new ArrayList<>();
+//    Map<String, Object> map2 = new HashMap<>();
+//    Map<String, Object> map3 = new HashMap<>();
+//    Map<String, Object> map8 = new HashMap<>();
+//    map2.put("code", "H");
+//    map2.put("city", list4);
+//    map3.put("name", "哈尔滨");
+//    map8.put("name", "杭州");
+//    list4.add(map3);
+//    list4.add(map8);
+//    list1.add(map2);
+//
+//    List<Object> list6 = new ArrayList<>();
+//    Map<String, Object> map4 = new HashMap<>();
+//    Map<String, Object> map5 = new HashMap<>();
+//    map4.put("code", "X");
+//    map4.put("city", list6);
+//    map5.put("name", "厦门");
+//    list6.add(map5);
+//    list1.add(map4);
+//
+//    List<Object> list8 = new ArrayList<>();
+//    Map<String, Object> map6 = new HashMap<>();
+//    Map<String, Object> map7 = new HashMap<>();
+//    Map<String, Object> map9 = new HashMap<>();
+//    map6.put("code", "C");
+//    map6.put("city", list8);
+//    map7.put("name", "重庆");
+//    map9.put("name", "长沙");
+//    list8.add(map7);
+//    list8.add(map9);
+//    list1.add(map6);
+//
+//    List<Object> list3 = new ArrayList<>();
+//    Map<String, Object> map10 = new HashMap<>();
+//    Map<String, Object> map11 = new HashMap<>();
+//    map10.put("code", "Q");
+//    map10.put("city", list3);
+//    map11.put("name", "青岛");
+//    list3.add(map11);
+//    list1.add(map10);
+//
+//    List<Object> list5 = new ArrayList<>();
+//    Map<String, Object> map12 = new HashMap<>();
+//    Map<String, Object> map13 = new HashMap<>();
+//    map12.put("code", "F");
+//    map12.put("city", list5);
+//    map13.put("name", "福州");
+//    list5.add(map13);
+//    list1.add(map12);
+//
+//    List<Object> list7 = new ArrayList<>();
+//    Map<String, Object> map14 = new HashMap<>();
+//    Map<String, Object> map15 = new HashMap<>();
+//    map14.put("code", "K");
+//    map14.put("city", list7);
+//    map15.put("name", "昆明");
+//    list7.add(map15);
+//    list1.add(map14);
+//
+//    List<Object> list9 = new ArrayList<>();
+//    Map<String, Object> map16 = new HashMap<>();
+//    Map<String, Object> map17 = new HashMap<>();
+//    map16.put("code", "S");
+//    map16.put("city", list9);
+//    map17.put("name", "沈阳");
+//    list9.add(map17);
+//    list1.add(map16);
+//
+//
+//
+//
+//    return AjaxResult.success("获取所有城市列表信息成功。", list1);
   }
 
   //暂时保留的城市信息

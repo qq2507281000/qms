@@ -117,8 +117,8 @@ public class TShopCoursesReplacedController extends BaseController
         TShopCoursesReplacedModel tShopCoursesReplacedModel = new TShopCoursesReplacedModel();
         tShopCoursesReplacedModel.setRegionId(tShop.getRegionId());
         List<TShopCoursesReplacedModel> list = tShopCoursesReplacedService.selectTShopCoursesReplacedList(tShopCoursesReplacedModel);
-        if(list != null && list.size()>=10){
-            return AjaxResult.error("该地区推荐商家已满10个。");
+        if(list != null && list.size()>=Constants.MAX_RECOMMAND_COUNT){
+            return AjaxResult.error("该地区推荐商家已满"+Constants.MAX_RECOMMAND_COUNT+"个。");
         }
         int count = tShopCoursesReplacedService.insertTShopCoursesReplaced(tShopCoursesReplaced);
         if (count == 1) {

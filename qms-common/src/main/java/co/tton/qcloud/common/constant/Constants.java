@@ -76,4 +76,7 @@ public class Constants
      * 数据库数据已删除
      */
     public static final int DATA_DELETED = 1;
+
+
+    public static final int MAX_RECOMMAND_COUNT = 40;
 }

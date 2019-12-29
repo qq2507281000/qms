@@ -110,11 +110,19 @@ public class TShopRecommendController extends BaseController
     public AjaxResult addSave(TShopRecommend tShopRecommend)
     {
         TShop tShop = tShopService.selectTShopById(tShopRecommend.getShopId());
+        TShopRecommendModel t2 = new TShopRecommendModel();
+        t2.setShopId(tShopRecommend.getShopId());
+        List<TShopRecommendModel> l2 = tShopRecommendService.selectTShopRecommendList(t2);
+        if(l2 != null){
+            if(l2.size() > 0){
+                return AjaxResult.error("该商家已经被推荐。");
+            }
+        }
         TShopRecommendModel tShopRecommendModel = new TShopRecommendModel();
         tShopRecommendModel.setRegionId(tShop.getRegionId());
         List<TShopRecommendModel> list = tShopRecommendService.selectTShopRecommendList(tShopRecommendModel);
-        if(list != null && list.size()>=10){
-            return AjaxResult.error("该地区推荐商家已满10个。");
+        if(list != null && list.size()>=Constants.MAX_RECOMMAND_COUNT){
+            return AjaxResult.error("该地区推荐商家已满"+Constants.MAX_RECOMMAND_COUNT+"个。");
         }
         int count = tShopRecommendService.insertTShopRecommend(tShopRecommend);
         if (count == 1) {

@@ -117,7 +117,7 @@ public class TShopCoursesStartingController extends BaseController
         TShopCoursesStartingModel tShopCoursesStartingModel = new TShopCoursesStartingModel();
         tShopCoursesStartingModel.setRegionId(tShop.getRegionId());
         List<TShopCoursesStartingModel> list = tShopCoursesStartingService.selectTShopCoursesStartingList(tShopCoursesStartingModel);
-        if(list != null && list.size()> 0){
+        if(list != null && list.size() > 0){
             return AjaxResult.error("该地区已有推荐。");
         }
         int count = tShopCoursesStartingService.insertTShopCoursesStarting(tShopCoursesStarting);

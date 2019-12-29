@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from t_shop_recommend tsr
         LEFT JOIN t_shop ts on ts.id = tsr.shop_id
         <where>
-            tsr.flag = 0
+            tsr.flag = 0 and ts.flag = 0
             <if test="regionId != null and regionId != ''">and ts.region_id = #{regionId}</if>
         </where>
         <if test="regionId != null and regionId != ''">
