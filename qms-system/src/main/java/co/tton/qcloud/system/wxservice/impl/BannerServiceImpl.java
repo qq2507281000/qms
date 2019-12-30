@@ -29,6 +29,8 @@ public class BannerServiceImpl implements ITBannerService {
    */
   @Override
   public List<TBanner> getBanner(String location) {
-    return tBannerMapper.getBanner(location);
+    TBanner banner = new TBanner();
+    banner.setCityId(location);
+    return tBannerMapper.selectTBannerList(banner);
   }
 }

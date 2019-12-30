@@ -42,7 +42,7 @@ public class BannerController extends BaseController {
     if (StringUtils.isNotEmpty(location)) {
       String dictValue = dictService.selectDictValue("operation_city",location);
       if(StrUtil.isNotEmpty(dictValue)) {
-        List<TBanner> listTBanner = tBannerService.getBanner(location);
+        List<TBanner> listTBanner = tBannerService.getBanner(dictValue);
         if (StringUtils.isNotEmpty(listTBanner)) {
           return AjaxResult.success("获取广告成功。", listTBanner);
         } else {

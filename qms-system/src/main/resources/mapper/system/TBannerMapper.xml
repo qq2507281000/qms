@@ -30,8 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             flag = 0
             <if test="cityId != null  and cityId != ''"> and city_id = #{cityId}</if>
             <if test="available != null "> and available = #{available}</if>
-            <if test="sortKey != null "> and sort_key = #{sortKey}</if>
         </where>
+        order by sort_key asc
     </select>
     
     <select id="selectTBannerById" parameterType="String" resultMap="TBannerResult">
@@ -106,11 +106,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <select id="getBanner" resultMap="TBannerResult">
-        select id, img, url, target_type, available, sort_key,city_name,city_id
-        from t_banner
-        where flag = 0
-        <if test="location != null  and location != ''"> and city_id = #{location}</if>
-        order by sort_key
-    </select>
+    <!--<select id="getBanner" parameterType="String" resultMap="TBannerResult">-->
+        <!--select id, img, url, target_type, available, sort_key,city_name,city_id-->
+        <!--from t_banner-->
+        <!--where flag = 0-->
+        <!--<if test="cityId != null  and cityId != ''"> and city_id = #{cityId}</if>-->
+        <!--order by sort_key-->
+    <!--</select>-->
 </mapper>

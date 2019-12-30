@@ -66,6 +66,6 @@ public interface TBannerMapper
      * @param
      * @return 首页滚动广告
      */
-    List<TBanner> getBanner(String location);
+//    List<TBanner> getBanner(String location);
 
 }
