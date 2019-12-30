@@ -5,14 +5,12 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.*;
 import co.tton.qcloud.system.model.ShopCoursesListModel;
-import co.tton.qcloud.system.service.ITOrderDetailService;
-import co.tton.qcloud.system.service.ITShopCoursesImagesService;
-import co.tton.qcloud.system.service.ITShopCoursesPriceService;
-import co.tton.qcloud.system.service.ITShopCoursesTimeService;
+import co.tton.qcloud.system.service.*;
 import co.tton.qcloud.system.wxservice.ICoursesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +41,9 @@ public class CoursesController extends BaseController {
   @Autowired
   private ITShopCoursesTimeService shopCoursesTimeService;
 
+  @Autowired
+  private ISysDictDataService dictService;
+
   //    @RequiresPermissions("wx:courses:suggest")
   @RequestMapping(value = "suggest", method = RequestMethod.GET)
   @ApiOperation("获取推荐课程")
@@ -50,9 +51,17 @@ public class CoursesController extends BaseController {
                                                                @RequestParam(value = "category", required = false) String categoryId,
                                                                @RequestParam(value = "shopId", required = false) String shopId,
                                                                @RequestParam(value = "suggest", required = false) Integer suggest) {
+
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
     TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
     if (StringUtils.isNotEmpty(location)) {
-      tShopCoursesModel.setAddress(location);
+      tShopCoursesModel.setAddress(regionId);
+//      tShopCoursesModel.setLocationRegion();
     }
     if (StringUtils.isNotEmpty(shopId)) {
       tShopCoursesModel.setShopId(shopId);
@@ -61,12 +70,15 @@ public class CoursesController extends BaseController {
       tShopCoursesModel.setCategoryId(categoryId);
     }
     List<TShopCoursesModel> tShopCoursesModels = null;
-    if (suggest !=null && 0 == suggest) {
-      tShopCoursesModel.setSuggest(suggest);//首页推荐商家查询条件
-      tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
-    } else {
-      tShopCoursesModels = iCoursesService.getSuggestCoursesAll(tShopCoursesModel);
-    }
+
+    tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
+
+//    if (suggest !=null && 0 == suggest) {
+//      tShopCoursesModel.setSuggest(suggest);//首页推荐商家查询条件
+//      tShopCoursesModels = iCoursesService.getSuggestCourses(tShopCoursesModel);
+//    } else {
+//      tShopCoursesModels = iCoursesService.getSuggestCoursesAll(tShopCoursesModel);
+//    }
     //查出课程
 
     if (StringUtils.isNotEmpty(tShopCoursesModels)) {
@@ -95,9 +107,16 @@ public class CoursesController extends BaseController {
                                                                @RequestParam(value = "category", required = false) String categoryId,
                                                                @RequestParam(value = "shopId", required = false) String shopId,
                                                                @RequestParam(value = "suggest", required = false) Integer suggest) {
+
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
     TShopCoursesModel tShopCoursesModel = new TShopCoursesModel();
     if (StringUtils.isNotEmpty(location)) {
-      tShopCoursesModel.setAddress(location);
+      tShopCoursesModel.setAddress(regionId);
     }
     if (StringUtils.isNotEmpty(shopId)) {
       tShopCoursesModel.setShopId(shopId);
@@ -105,7 +124,7 @@ public class CoursesController extends BaseController {
     if (StringUtils.isNotEmpty(categoryId)) {
       tShopCoursesModel.setCategoryId(categoryId);
     }
-    tShopCoursesModel.setSuggest(suggest);
+//    tShopCoursesModel.setSuggest(suggest);
     //查出课程
     List<TShopCoursesModel> tShopCoursesModels = iCoursesService.getSuggestCoursesAll(tShopCoursesModel);
     if (StringUtils.isNotEmpty(tShopCoursesModels)) {
@@ -294,7 +313,13 @@ public class CoursesController extends BaseController {
   public AjaxResult<List<ShopCoursesListModel>> getLatestCourses(@ApiParam("城市名称") @RequestParam(value = "loc",required = false) String location){
 
 
-    List<ShopCoursesListModel> list = iCoursesService.getLatestCourses(location);
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
+    List<ShopCoursesListModel> list = iCoursesService.getLatestCourses(regionId);
 
 //    ShopCoursesListModel model = new ShopCoursesListModel();
 //    model.setShopId("438cfa5de661430a910d04c15ef24360");

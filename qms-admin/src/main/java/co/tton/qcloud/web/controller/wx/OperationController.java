@@ -5,6 +5,7 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.service.ISysDictDataService;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import co.tton.qcloud.system.wxservice.ICoursesService;
 import io.swagger.annotations.Api;
@@ -33,12 +34,22 @@ public class OperationController extends BaseController {
   @Autowired
   private ITShopCoursesImagesService tShopCoursesImagesService;
 
+  @Autowired
+  private ISysDictDataService dictService;
+
   //    @RequiresPermissions("wx:operation:popup")
   @RequestMapping(value = "/popup", method = RequestMethod.GET)
   @ApiOperation("获取弹窗")
   public AjaxResult<TShopCoursesModel> indexPopup(@ApiParam("城市名称") @RequestParam(value = "loc",required = false) String location) {
+
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
     TShopCoursesModel tShopCourses = new TShopCoursesModel();
-    tShopCourses.setAddress(location);
+    tShopCourses.setAddress(regionId);
     //首次进入弹窗，查询课程信息
     TShopCoursesModel tShopCoursesModel1 = iCoursesService.getMaxSortKeyCourses(tShopCourses);
     if (StringUtils.isNotNull(tShopCoursesModel1)) {

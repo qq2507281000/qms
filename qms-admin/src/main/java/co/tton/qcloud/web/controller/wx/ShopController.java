@@ -5,6 +5,7 @@ import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TShop;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
+import co.tton.qcloud.system.service.ISysDictDataService;
 import co.tton.qcloud.system.service.ITOrderDetailService;
 import co.tton.qcloud.system.service.ITShopCoursesImagesService;
 import co.tton.qcloud.system.service.ITShopCoursesService;
@@ -40,15 +41,25 @@ public class ShopController extends BaseController {
   @Autowired
   private ITOrderDetailService tOrderDetailService;
 
+  @Autowired
+  private ISysDictDataService dictService;
+
   @ApiOperation("首页推荐商家查询，查询所有商家，根据分类查商家")
 //    @RequiresPermissions("wx:shop:suggest")
   @RequestMapping(value = "/suggest", method = RequestMethod.GET)
   public AjaxResult<List<TShop>> getSuggestShop(@RequestParam(value = "loc", required = false) String location,
                                                 @RequestParam(value = "category", required = false) String categoryId,
                                                 @RequestParam(value = "suggest", required = false) Integer suggest) {
+
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
     TShop tShop = new TShop();
     //tShop.setAddress(location);//查询本地区所有商家条件
-    tShop.setRegionId(location);
+    tShop.setRegionId(regionId);
     tShop.setCategoryId(categoryId);//根据分类查商家条件
     List<TShop> listTShop = null;
     if (suggest !=null && 0 == suggest) {
@@ -71,9 +82,16 @@ public class ShopController extends BaseController {
   public AjaxResult<List<TShop>> getSuggestShopAll(@RequestParam(value = "loc", required = false) String location,
                                                 @RequestParam(value = "category", required = false) String categoryId,
                                                 @RequestParam(value = "suggest", required = false) Integer suggest) {
+
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
     TShop tShop = new TShop();
 //    tShop.setAddress(location);//查询本地区所有商家条件
-    tShop.setRegionId(location);
+    tShop.setRegionId(regionId);
     tShop.setCategoryId(categoryId);//根据分类查商家条件
     tShop.setSuggest(suggest);//首页商家查询条件
     List<TShop> listTShop = tShopService.getSuggestShopAll(tShop);
@@ -90,9 +108,16 @@ public class ShopController extends BaseController {
   public AjaxResult<List<TShop>> getSuggestShopByCategory(@RequestParam(value = "loc", required = false) String location,
                                                 @RequestParam(value = "category", required = false) String categoryId,
                                                 @RequestParam(value = "suggest", required = false) Integer suggest) {
+
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
     TShop tShop = new TShop();
 //    tShop.setAddress(location);//查询本地区所有商家条件
-    tShop.setRegionId(location);
+    tShop.setRegionId(regionId);
     tShop.setCategoryId(categoryId);//根据分类查商家条件
     tShop.setSuggest(suggest);//首页推荐商家查询条件
     List<TShop> listTShop = tShopService.getSuggestShopByCategory(tShop);
@@ -109,11 +134,18 @@ public class ShopController extends BaseController {
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public AjaxResult<List<TShop>> getShopDetail(@PathVariable("id") String shopId,
                                                @RequestParam(value = "loc", required = false) String location) {
+
+    String regionId = "";
+
+    if(StringUtils.isNotEmpty(location)){
+      regionId = dictService.selectDictValue("operation_city",location);
+    }
+
     if (StringUtils.isNotEmpty(shopId)) {
       TShop tShop = new TShop();
       tShop.setId(shopId);
 //      tShop.setAddress(location);
-      tShop.setRegionId(location);
+      tShop.setRegionId(regionId);
       List list = tShopService.getShopDetail(tShop);//查询商家详情
       if (StringUtils.isNotEmpty(list)) {
         return AjaxResult.success("获取商家详情成功。", list);

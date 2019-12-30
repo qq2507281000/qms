@@ -1,9 +1,11 @@
 package co.tton.qcloud.web.controller.wx;
 
+import cn.hutool.core.util.StrUtil;
 import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TBanner;
+import co.tton.qcloud.system.service.ISysDictDataService;
 import co.tton.qcloud.system.wxservice.ITBannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,15 +32,24 @@ public class BannerController extends BaseController {
   @Autowired
   private ITBannerService tBannerService;
 
+  @Autowired
+  private ISysDictDataService dictService;
+
   @ApiOperation("查询首页滚动广告")
 //    @RequiresPermissions("wx:banner")0
   @RequestMapping(value = "", method = RequestMethod.GET)
   public AjaxResult<List<TBanner>> getBanner(@RequestParam(value = "loc", required = false) String location) {
     if (StringUtils.isNotEmpty(location)) {
-      List<TBanner> listTBanner = tBannerService.getBanner(location);
-      if (StringUtils.isNotEmpty(listTBanner)) {
-        return AjaxResult.success("获取广告成功。", listTBanner);
-      } else {
+      String dictValue = dictService.selectDictValue("operation_city",location);
+      if(StrUtil.isNotEmpty(dictValue)) {
+        List<TBanner> listTBanner = tBannerService.getBanner(location);
+        if (StringUtils.isNotEmpty(listTBanner)) {
+          return AjaxResult.success("获取广告成功。", listTBanner);
+        } else {
+          return AjaxResult.error("无此地点数据。");
+        }
+      }
+      else{
         return AjaxResult.error("无此地点数据。");
       }
     } else {

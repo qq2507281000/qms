@@ -244,8 +244,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tscr.flag = 0
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
             <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
-            <if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>
-            <if test="suggest != null">and tsc.suggest = #{suggest}</if>
+            <if test="address != null and address != ''">and ts.region_id = #{address}</if>
+            <!--<if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>-->
+            <!--<if test="suggest != null">and tsc.suggest = #{suggest}</if>-->
         </where>
         ORDER BY tscr.sort_key asc
     </select>
@@ -258,16 +259,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         tsc.title,
         tsc.sub_title,
         tsc.suggest
-        FROM t_shop_courses tsc
+        FROM t_shop_courses_recommend tscr
+        LEFT JOIN t_shop_courses tsc on tsc.id = tscr.courses_id
         INNER JOIN t_shop ts ON tsc.shop_id = ts.id
         INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         <where>
+            tscr.flag = 0
             <if test="shopId != null  and shopId != ''"> and tsc.shop_id = #{shopId}</if>
             <if test="categoryId != null  and categoryId != ''"> and tsc.category_id = #{categoryId}</if>
-            <if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>
-            <if test="suggest != null">and tsc.suggest = #{suggest}</if>
-            AND tsc.flag = 0
+            <if test="address != null and address != ''">and ts.region_id = #{address}</if>
+            <!--<if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>-->
+            <!--<if test="suggest != null">and tsc.suggest = #{suggest}</if>-->
         </where>
+        ORDER BY tscr.sort_key asc
     </select>
 
     <select id="getNameShopCourses" parameterType="String" resultMap="TShopCoursesModelResult">
@@ -361,7 +365,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         inner join t_shop_courses_price tscp on tsc.id = tscp.courses_id
        <where>
             tscs.flag = 0
-           <if test="address != null and address != ''">and ts.address like concat('%', #{address}, '%')</if>
+           <if test="address != null and address != ''">and ts.region_id = #{address}</if>
         </where>
     </select>
 
@@ -411,7 +415,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ) tod on tod.price_id = tscp.id
         <where>
             tscr.flag = 0
-            <if test="location != null  and location != ''"> and ts.address like concat('%', #{location}, '%')</if>
+            <if test="location != null  and location != ''"> and ts.region_id = #{location}</if>
         </where>
         ORDER BY tscr.sort_key ASC
     </select>

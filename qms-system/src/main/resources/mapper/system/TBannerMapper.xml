@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, img, url, target_type, available, sort_key,city_name,city_id
         from t_banner
         where flag = 0
-        <if test="_parameter != null  and _parameter != ''"> and city_name = #{cityName}</if>
+        <if test="location != null  and location != ''"> and city_id = #{location}</if>
         order by sort_key
     </select>
 </mapper>
