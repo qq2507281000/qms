@@ -260,7 +260,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!--首页推荐商家查询，查询所有商家-->
     <select id="getSuggestShop" resultMap="TShopResult" parameterType="TShop">
-        select
+        <!--select-->
           <!--sh.*,sh.category_id as a_id-->
         <!--from t_shop_recommend tsr-->
         <!--LEFT JOIN t_shop sh on sh.id =tsr.shop_id-->
