@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             tscr.flag = 0
             <if test="regionId != null and regionId != ''">and ts.region_id = #{regionId}</if>
+            <if test="coursesId != null and coursesId != ''">and tscr.courses_id = #{coursesId}</if>
         </where>
         <if test="regionId != null and regionId != ''">
             ORDER BY  tscr.sort_key asc

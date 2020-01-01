@@ -35,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             tsr.flag = 0 and ts.flag = 0
             <if test="regionId != null and regionId != ''">and ts.region_id = #{regionId}</if>
+            <if test="shopId != null and shopId != ''">and tsr.shop_id = #{shopId}</if>
         </where>
         <if test="regionId != null and regionId != ''">
             ORDER BY  tsr.sort_key asc
