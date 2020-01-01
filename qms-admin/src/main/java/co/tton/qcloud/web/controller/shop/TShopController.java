@@ -1,9 +1,7 @@
 package co.tton.qcloud.web.controller.shop;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
@@ -18,7 +16,9 @@ import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.framework.shiro.service.SysPasswordService;
 import co.tton.qcloud.framework.util.ShiroUtils;
 import co.tton.qcloud.system.domain.SysUser;
+import co.tton.qcloud.system.domain.TCategory;
 import co.tton.qcloud.system.service.ISysUserService;
+import co.tton.qcloud.system.service.ITCategoryService;
 import co.tton.qcloud.web.minio.MinioFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,6 +63,9 @@ public class TShopController extends BaseController
 
     @Autowired
     private SysPasswordService passwordService;
+
+    @Autowired
+    private ITCategoryService categoryService;
 
     @RequiresPermissions("shop:view")
     @GetMapping()
@@ -119,6 +122,16 @@ public class TShopController extends BaseController
 //                list = tBannerService.selectTBannerList(tBanner);
 //            }
         }
+
+        TCategory cate = new TCategory();
+        cate.setFlag(Constants.DATA_NORMAL);
+        List<TCategory> categories = new ArrayList<>();
+        categories = categoryService.selectTCategoryList(cate).stream()
+                .filter(d->StringUtils.isNotEmpty(d.getParentId()))
+                .sorted(Comparator.comparing(TCategory::getName))
+                .collect(Collectors.toList());
+        mmap.put("categories",categories);
+
         return prefix + "/add";
     }
 
@@ -191,6 +204,16 @@ public class TShopController extends BaseController
         map.put("times",times);
         tShop.setParams(map);
         mmap.put("tShop", tShop);
+
+        TCategory cate = new TCategory();
+        cate.setFlag(Constants.DATA_NORMAL);
+        List<TCategory> categories = new ArrayList<>();
+        categories = categoryService.selectTCategoryList(cate).stream()
+                .filter(d->StringUtils.isNotEmpty(d.getParentId()))
+                .sorted(Comparator.comparing(TCategory::getName))
+                .collect(Collectors.toList());
+        mmap.put("categories",categories);
+
         return prefix + "/edit";
     }
 
@@ -207,7 +230,8 @@ public class TShopController extends BaseController
     {
         SysUser user = ShiroUtils.getSysUser();
         String times = tShop.getParams().get("times").toString();
-        int suggest = Integer.parseInt(tShop.getParams().getOrDefault("suggest",0).toString());
+//        int suggest = Integer.parseInt(tShop.getParams().getOrDefault("suggest",0).toString());
+        int suggest = 0;
         if(StringUtils.isNotEmpty(times)){
             String[] ts = StringUtils.split(times,"-");
             tShop.setShopHoursBegin(ts[0].trim());
@@ -267,7 +291,8 @@ public class TShopController extends BaseController
             tShop.setFlag(Constants.DATA_NORMAL);
             tShop.setCreateTime(new Date());
             tShop.setCreateBy(user.getUserId().toString());
-            int suggest = Integer.parseInt(tShop.getParams().getOrDefault("suggest",0).toString());
+//            int suggest = Integer.parseInt(tShop.getParams().getOrDefault("suggest",0).toString());
+            int suggest = 0;
             tShop.setSuggest(suggest);
             //创建商家用户
             SysUser sysUser = new SysUser();

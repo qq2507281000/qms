@@ -119,6 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
             <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
         </where>
+        order by create_time,update_time desc
     </select>
     
     <select id="selectTShopById" parameterType="String" resultMap="TShopResult">
@@ -342,18 +343,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!--首页推荐商家查询，查询所有商家-->
     <select id="getSuggestShopByCategory" resultMap="TShopResult" parameterType="TShop">
-        <!--select-->
-        <!--sh.*-->
-        <!--from t_shop sh-->
-        <!--left join t_shop_courses tsc on tsc.shop_id = sh.id-->
-        <!--<where>-->
-            <!--sh.flag = 0-->
-            <!--<if test="categoryId != null and categoryId != ''">and tsc.category_id = #{categoryId}</if>-->
-            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
-            <!--<if test="region_id != null and region_id != ''">and sh.region_id = #{regionId}</if>-->
-        <!--</where>-->
-        <!--GROUP BY sh.id-->
-        <!--order by sh.sort_key-->
+        select
+        sh.*
+        from t_shop sh
+        left join t_shop_courses tsc on tsc.shop_id = sh.id
+        <where>
+            sh.flag = 0
+            <if test="categoryId != null and categoryId != ''">and tsc.category_id IN (select id from t_category where id = #{categoryId} or parent_id = #{categoryId}) </if>
+            <if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>
+        </where>
+        GROUP BY sh.id
+        ORDER BY sh.sort_key
         <!--select-->
         <!--sh.*,sh.category_id as a_id-->
         <!--from t_shop_recommend tsr-->
@@ -362,23 +362,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <!--<where>-->
             <!--sh.flag = 0-->
             <!--<if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>-->
-            <!--<if test="suggest != null ">and sh.suggest = #{suggest}</if>-->
+            <!--&lt;!&ndash;<if test="suggest != null ">and sh.suggest = #{suggest}</if>&ndash;&gt;-->
             <!--<if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>-->
         <!--</where>-->
         <!--order by tsr.sort_key asc-->
-        SELECT
-        sh.*
-        FROM
-        t_shop_recommend shr
-        LEFT JOIN t_shop sh ON shr.shop_id = sh.id
-        <where>
-            sh.flag = 0
-            and shr.flag = 0
-            <if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>
-            <if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>
-        </where>
-        ORDER BY
-        shr.sort_key ASC
+        <!--SELECT-->
+        <!--sh.*-->
+        <!--FROM-->
+        <!--t_shop_recommend shr-->
+        <!--LEFT JOIN t_shop sh ON shr.shop_id = sh.id-->
+        <!--<where>-->
+            <!--sh.flag = 0-->
+            <!--and shr.flag = 0-->
+            <!--<if test="categoryId != null and categoryId != ''">and sh.category_id = #{categoryId}</if>-->
+            <!--<if test="regionId != null and regionId != ''">and sh.region_id = #{regionId}</if>-->
+        <!--</where>-->
+        <!--ORDER BY-->
+        <!--shr.sort_key ASC-->
     </select>
 
 

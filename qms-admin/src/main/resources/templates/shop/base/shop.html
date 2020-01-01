@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('商家信息列表')" />
+    <!--<th:block th:include="include :: select2-css" />-->
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -19,8 +20,8 @@
                                 <input type="text" name="regionName"/>
                             </li>
                             <li>
-                                <p>是否推荐</p>
-                                <select id="suggest" name="suggest" class="form-control m-b" th:with="type=${@dict.getType('suggest')}" required>
+                                <p>是否推荐：</p>
+                                <select id="suggest" name="suggest" style="width:100px;" class="form-control m-b" th:with="type=${@dict.getType('suggest')}" required>
                                     <option value="99" selected>全部</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" ></option>
                                 </select>
@@ -50,6 +51,7 @@
         </div>
     </div>
     <th:block th:include="include :: footer" />
+     <!--<th:block th:include="include :: select2-js" />-->
     <script th:inline="javascript">
 
         var editFlag = [[${@permission.hasPermi('system:base:edit')}]];
@@ -85,13 +87,21 @@
                     }
                 },
                 {
-                    field : 'suggest',
-                    title : '是否推荐',
+                    field : 'subject',
+                    title : '商家副标题',
                     align : 'center',
                     formatter: function(value, row, index) {
-                        return $.table.selectDictLabel(shop_suggest, value);
+                        return $.table.tooltip(value,10);
                     }
                 },
+                // {
+                //     field : 'suggest',
+                //     title : '是否推荐',
+                //     align : 'center',
+                //     formatter: function(value, row, index) {
+                //         return $.table.selectDictLabel(shop_suggest, value);
+                //     }
+                // },
                 {
                     field : 'shopHoursBegin',
                     title : '开始营业时间',
@@ -105,24 +115,24 @@
                 {
                     field : 'telephone',
                     title : '商家座机',
-                    align : 'center',
+                    align : 'left',
                 },
-                {
-                    field : 'wechatNo',
-                    title : '微信号',
-                    align : 'center',
-                    formatter: function(value, row, index) {
-                        return $.table.tooltip(value,8);
-                    }
-                },
-                {
-                    field : 'wechatPlatform',
-                    title : '微信公众平台',
-                    align : 'center',
-                    formatter: function(value, row, index) {
-                        return $.table.tooltip(value,8);
-                    }
-                },
+                // {
+                //     field : 'wechatNo',
+                //     title : '微信号',
+                //     align : 'center',
+                //     formatter: function(value, row, index) {
+                //         return $.table.tooltip(value,8);
+                //     }
+                // },
+                // {
+                //     field : 'wechatPlatform',
+                //     title : '微信公众平台',
+                //     align : 'center',
+                //     formatter: function(value, row, index) {
+                //         return $.table.tooltip(value,8);
+                //     }
+                // },
                 {
                     field : 'available',
                     title : '是否可用',

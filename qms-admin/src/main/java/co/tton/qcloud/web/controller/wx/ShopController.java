@@ -119,7 +119,7 @@ public class ShopController extends BaseController {
 //    tShop.setAddress(location);//查询本地区所有商家条件
     tShop.setRegionId(regionId);
     tShop.setCategoryId(categoryId);//根据分类查商家条件
-    tShop.setSuggest(suggest);//首页推荐商家查询条件
+//    tShop.setSuggest(suggest);//首页推荐商家查询条件
     List<TShop> listTShop = tShopService.getSuggestShopByCategory(tShop);
     if (StringUtils.isNotNull(listTShop) && (listTShop.size() != 0)) {
       return AjaxResult.success("获取商家信息成功。", listTShop);
