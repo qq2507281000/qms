@@ -173,7 +173,7 @@ wx:
 
 # 文件系统 (提供测试环境，不要乱传)
 minio:
-  url: http://119.3.244.42:9001
+  url: https://minio.hdpi.ttonservice.com
   accessKey: admin
   secretKey: admin123456
   bucket: teamhdpi

@@ -94,7 +94,18 @@ public class MinioFileService {
      * @return
      */
     public InputStream show(String fileName){
-        return minioTemplate.getObject(_DEFAULT_BUCKET_NAME,fileName);
+        try {
+            return minioTemplate.getObject(_DEFAULT_BUCKET_NAME, fileName);
+        }
+        catch(Exception ex){
+            try{
+                return minioTemplate.getObject("data",_DEFAULT_BUCKET_NAME + "/" + fileName);
+            }
+            catch(Exception e){
+                logger.error("未能找到文件，"+e.getMessage());
+                return null;
+            }
+        }
     }
 
     private final void assertAllowed(MultipartFile file, String[] allowedExtension)
