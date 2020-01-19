@@ -75,7 +75,7 @@ public interface ITShopCoursesService
      * @param
      * @return 获取课程详情
      */
-    List<TShopCoursesModel> getNameShopCourses(String name);
+    List<TShopCoursesModel> getNameShopCourses(TShopCourses tShopCourses);
 
     /**
      * 根据地区查课程

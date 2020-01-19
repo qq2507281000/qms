@@ -65,6 +65,13 @@ public interface ISysUserService
      */
     public SysUser selectUserByEmail(String email);
 
+    /***
+     * 根据BusinessId获取用户信息
+     * @param businessId
+     * @return
+     */
+    public SysUser selectUserByBusinessId(String businessId);
+
     /**
      * 通过用户ID查询用户
      * 

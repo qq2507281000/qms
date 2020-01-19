@@ -129,6 +129,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where u.login_name = #{userName}
 	</select>
 
+	<select id="selectUserByBusinessId" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.business_id = #{businessId}
+	</select>
+
 	<select id="selectUserByOpenId" parameterType="String" resultMap="SysUserResult">
 		<include refid="selectUserVo"/>
 		where u.open_id = #{openId}

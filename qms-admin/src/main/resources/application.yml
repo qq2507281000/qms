@@ -15,8 +15,8 @@ qcloud:
   # 获取ip地址开关
   addressEnabled: true
   #短信接口
-  sms-accessKey: LTAIVBUBSmF5xENU
-  sms-accessSecret: 2zBjUTiMhq4CHBB3EZjrMzUuIZxqzI
+  sms-accessKey: LTAI4FiGCU84wV3d9dJ3o6en
+  sms-accessSecret: zcfdie7eMa9XwyhCFdaKXRYH6uHRHx
   order-pay-notifyUrl: https://web.hdpi.ttonservice.com/api/v1.0/order/pay/notify
   charging-pay-notifyUrl: https://web.hdpi.ttonservice.com/api/v1.0/member/vip/charging/notify
   active-miniapp-appId: wx979a25003d5b4c1b

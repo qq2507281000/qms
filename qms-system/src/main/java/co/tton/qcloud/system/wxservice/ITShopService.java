@@ -52,5 +52,5 @@ public interface ITShopService
      * @param
      * @return 获取商家详情
      */
-    List<TShop> getNameShop(String name);
+    List<TShop> getNameShop(TShop tShop);
 }

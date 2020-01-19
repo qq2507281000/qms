@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 AND  parent_id is null or parent_id = ''
             </if>
         </where>
-        ORDER BY sort_key
+        ORDER BY sort_key ASC
     </select>
 
     <select id="getChildList" parameterType="java.lang.String" resultMap="TCategoryResult">
@@ -55,11 +55,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 parent_id = #{_parameter}
             </if>
         </where>
+        ORDER BY sort_key ASC
     </select>
 
     <select id="selectTCategoryById" parameterType="String" resultMap="TCategoryResult">
         <include refid="selectTCategoryVo"/>
         where id = #{id}
+        order by sort_key ASC
     </select>
         
     <insert id="insertTCategory" parameterType="TCategory">
@@ -144,6 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t_category
         WHERE
             parent_id = #{parentId} AND flag = 0
+        ORDER BY sort_key ASC
     </select>
 
     <select id="searchCategory" resultMap="TCategoryResult">
@@ -154,5 +157,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             `name` LIKE "%"#{name}"%"
             AND parent_id IS NOT NULL AND flag = 0
+        ORDER BY sort_key ASC
     </select>
 </mapper>

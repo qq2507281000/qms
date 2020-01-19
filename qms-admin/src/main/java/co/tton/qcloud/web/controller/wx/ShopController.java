@@ -4,6 +4,7 @@ import co.tton.qcloud.common.core.controller.BaseController;
 import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.common.utils.StringUtils;
 import co.tton.qcloud.system.domain.TShop;
+import co.tton.qcloud.system.domain.TShopCourses;
 import co.tton.qcloud.system.domain.TShopCoursesModel;
 import co.tton.qcloud.system.service.ISysDictDataService;
 import co.tton.qcloud.system.service.ITOrderDetailService;
@@ -112,7 +113,7 @@ public class ShopController extends BaseController {
     String regionId = "";
 
     if(StringUtils.isNotEmpty(location)){
-      regionId = dictService.selectDictValue("operation_city",location);
+      regionId = dictService.selectDictValue("operation_city", location);
     }
 
     TShop tShop = new TShop();
@@ -160,17 +161,28 @@ public class ShopController extends BaseController {
   @ApiOperation("搜索框课程商家查询")
 //  @RequiresPermissions("wx:name")
   @RequestMapping(value = "/getName", method = RequestMethod.GET)
-  public AjaxResult<List> getName(@RequestParam(value = "name") String name) {
+  public AjaxResult<List> getName(@RequestParam(value = "name") String name,
+                                  @RequestParam(value = "loc", required = false) String location) {
     if (StringUtils.isNotEmpty(name)) {
+      String regionId = "";
+      TShop shop = new TShop();
+      if(StringUtils.isNotEmpty(location)){
+        regionId = dictService.selectDictValue("operation_city", location);
+        shop.setRegionId(regionId);
+      }
+      shop.setName(name);
       //查询商家表
-      List listTShop = tShopService.getNameShop(name);
+      List listTShop = tShopService.getNameShop(shop);
       List list = new ArrayList();
       Map<String,List> map = new HashMap();
       if (StringUtils.isNotEmpty(listTShop)) {
         map.put("shop",listTShop);
       }
       //查询课程表
-      List<TShopCoursesModel> listTShopCourses = tShopCoursesService.getNameShopCourses(name);
+      TShopCourses shopCourses = new TShopCourses();
+      shopCourses.setTitle(name);
+      shopCourses.setRegionId(regionId);
+      List<TShopCoursesModel> listTShopCourses = tShopCoursesService.getNameShopCourses(shopCourses);
       if (StringUtils.isNotEmpty(listTShopCourses)) {
         for (TShopCoursesModel tModel : listTShopCourses) {
           String id = tModel.getId();

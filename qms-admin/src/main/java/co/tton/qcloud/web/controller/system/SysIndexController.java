@@ -61,6 +61,9 @@ public class SysIndexController extends BaseController
     {
         // 取身份信息
         SysUser user = ShiroUtils.getSysUser();
+        if(user == null){
+            return "login";
+        }
         // 根据用户id取出菜单
         List<SysMenu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);

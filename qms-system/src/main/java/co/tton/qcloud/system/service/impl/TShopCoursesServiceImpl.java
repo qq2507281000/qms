@@ -24,6 +24,7 @@ import co.tton.qcloud.system.service.ITShopCoursesService;
  */
 @Service
 public class TShopCoursesServiceImpl implements ITShopCoursesService {
+
     @Autowired
     private TShopCoursesMapper tShopCoursesMapper;
     @Autowired
@@ -118,8 +119,8 @@ public class TShopCoursesServiceImpl implements ITShopCoursesService {
      * @return 获取课程详情
      */
     @Override
-    public List<TShopCoursesModel> getNameShopCourses(String name) {
-        List<TShopCoursesModel> tShopCoursesList = tShopCoursesMapper.getNameShopCourses(name);
+    public List<TShopCoursesModel> getNameShopCourses(TShopCourses tShopCourses) {
+        List<TShopCoursesModel> tShopCoursesList = tShopCoursesMapper.getNameShopCourses(tShopCourses);
         if (StringUtils.isNotEmpty(tShopCoursesList)) {
             for (int i = 0; i < tShopCoursesList.size(); i++) {
                 //月销

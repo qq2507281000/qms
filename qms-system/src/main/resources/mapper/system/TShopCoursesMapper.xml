@@ -274,7 +274,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY tscr.sort_key asc
     </select>
 
-    <select id="getNameShopCourses" parameterType="String" resultMap="TShopCoursesModelResult">
+    <select id="getNameShopCourses" parameterType="TShopCourses" resultMap="TShopCoursesModelResult">
         SELECT
             tsc.title,
             tscp.price,
@@ -292,6 +292,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             INNER JOIN t_shop_courses_price tscp ON tsc.id = tscp.courses_id
         WHERE
             tsc.title like concat('%', #{title}, '%')
+            AND
+            ts.region_id = #{regionId}
             AND tsc.flag = 0
     </select>
 

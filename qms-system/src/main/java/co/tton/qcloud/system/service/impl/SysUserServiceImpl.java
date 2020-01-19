@@ -481,4 +481,14 @@ public class SysUserServiceImpl implements ISysUserService
         }
         return userMapper.updateUser(user);
     }
+
+    /***
+     * 根据BusinessId获取用户信息
+     * @param businessId
+     * @return
+     */
+    @Override
+    public SysUser selectUserByBusinessId(String businessId) {
+        return null;
+    }
 }

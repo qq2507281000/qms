@@ -73,7 +73,7 @@ public class ShopServiceImpl implements ITShopService
      * @return 获取商家详情
      */
     @Override
-    public List<TShop> getNameShop(String name) {
-        return tShopMapper.getNameShop(name);
+    public List<TShop> getNameShop(TShop tShop) {
+        return tShopMapper.getNameShop(tShop);
     }
 }

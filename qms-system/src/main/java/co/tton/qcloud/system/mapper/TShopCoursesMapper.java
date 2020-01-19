@@ -101,7 +101,7 @@ public interface TShopCoursesMapper
      * @param
      * @return 获取课程详情
      */
-    List<TShopCoursesModel> getNameShopCourses(String name);
+    List<TShopCoursesModel> getNameShopCourses(TShopCourses tShopCourses);
 
     /**
      * 小程序获取某商家某分类下课程接口

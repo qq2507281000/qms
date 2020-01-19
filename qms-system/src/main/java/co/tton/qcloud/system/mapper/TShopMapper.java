@@ -99,7 +99,7 @@ public interface TShopMapper
      * @param
      * @return 获取商家详情
      */
-    List<TShop> getNameShop(String name);
+    List<TShop> getNameShop(TShop tShop);
 
     /**
      * 微信公众号查询商户信息

@@ -35,10 +35,10 @@ public class SmsUtils {
         request.setAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
         request.putQueryParameter("PhoneNumbers", mobile);
-        request.putQueryParameter("SignName", "身份验证");
-        request.putQueryParameter("TemplateCode", "SMS_16865010");
+        request.putQueryParameter("SignName", "爱课工厂商家认证");
+        request.putQueryParameter("TemplateCode", "THDPI_BIZ_001");
         String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);//生成短信验证码
-        request.putQueryParameter("TemplateParam", String.format("{     \"code\": \"%s\",     \"product\": \"【互动派】\" }",verifyCode));
+        request.putQueryParameter("TemplateParam", String.format("{     \"code\": \"%s\",     \"product\": \"【爱课工厂】\" }",verifyCode));
         try {
             CommonResponse response = client.getCommonResponse(request);
             System.out.println(response.getData());

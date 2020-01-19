@@ -402,11 +402,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by shop.sort_key
     </select>
 
-    <select id="getNameShop" parameterType="String" resultMap="TShopResult">
+    <select id="getNameShop" parameterType="TShop" resultMap="TShopResult">
         <include refid="selectTShopVo"/>
         <where>
             flag = 0
-            <if test="_parameter != null  and _parameter  != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="name != null  and name  != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="regionId != null and regionId != ''">and region_id = #{regionId}</if>
         </where>
         order by sort_key
     </select>

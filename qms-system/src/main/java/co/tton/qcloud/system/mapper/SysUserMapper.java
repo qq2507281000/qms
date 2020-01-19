@@ -128,4 +128,11 @@ public interface SysUserMapper
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+
+    /***
+     * 根据BusinessId获取用户信息
+     * @param businessId
+     * @return
+     */
+    public SysUser selectUserByBusinessId(String businessId);
 }

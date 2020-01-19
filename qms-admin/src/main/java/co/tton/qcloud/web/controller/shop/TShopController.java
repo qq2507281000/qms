@@ -3,6 +3,7 @@ package co.tton.qcloud.web.controller.shop;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import cn.hutool.core.util.StrUtil;
 import co.tton.qcloud.common.annotation.Log;
 import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.constant.Constants;
@@ -238,6 +239,17 @@ public class TShopController extends BaseController
             tShop.setShopHoursEnd(ts[1].trim());
         }
         tShop.setSuggest(suggest);
+
+        SysUser shopUser = userService.selectUserByBusinessId(tShop.getId());
+        if(shopUser != null){
+            if(!StrUtil.equals(shopUser.getPhonenumber(),tShop.getMobile())){
+                shopUser.setPhonenumber(tShop.getMobile());
+                shopUser.setStatus("1"); // 未认证
+                shopUser.setOpenId("");  // 清空OpenId
+                userService.updateUser(shopUser);
+            }
+        }
+
         if(StringUtils.equalsAnyIgnoreCase(user.getCategory(),"SHOP")){
             if(user.getBusinessId().equals(tShop.getId())){
                 return toAjax(tShopService.updateTShop(tShop));
@@ -310,11 +322,11 @@ public class TShopController extends BaseController
             sysUser.setSex("0");
             sysUser.setBusinessId(tShop.getId());
             sysUser.setCategory("SHOP");
+            sysUser.setStatus("1");
             //保存用户
             userService.insertUser(sysUser);
             //保存商家
             tShopService.insertTShop(tShop);
-
 
             return AjaxResult.success("商家信息保存成功。",tShop);
         }

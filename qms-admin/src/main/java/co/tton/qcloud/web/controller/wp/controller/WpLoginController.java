@@ -1,5 +1,6 @@
 package co.tton.qcloud.web.controller.wp.controller;
 
+import cn.hutool.core.util.StrUtil;
 import co.tton.qcloud.common.config.Global;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.controller.BaseController;
@@ -114,21 +115,27 @@ public class WpLoginController extends BaseController {
             } else {
                 String openId = model.getOpenId();
                 String mobile = model.getMobile();
-
                 SysUser user = userService.selectUserByPhoneNumber(mobile);
                 if(user == null){
                     return error("未能找到用户对象信息。");
                 } else {
-                    user.setOpenId(openId);
-                    user.setUpdateTime(DateUtils.getNowDate());
-                    int result = userService.updateUser(user);
-                    if (result == 1) {
-                        //去数据库查询OpenId对应的Shop是否已经绑定
-                        SysUser sysUser = userService.selectUserByOpenId(openId);
-                        getSession().setAttribute("sysUser",sysUser);
-                        return success("商家认证成功。");
-                    }else{
-                        return error("商家认证失败。");
+                    if(StrUtil.equals(user.getStatus(),"0")){
+                        return error("商家已经认证。");
+                    }
+                    else{
+                        user.setOpenId(openId);
+                        user.setStatus("0");
+                        user.setUpdateTime(DateUtils.getNowDate());
+                        int result = userService.updateUser(user);
+                        if (result == 1) {
+                            //去数据库查询OpenId对应的Shop是否已经绑定
+//                            SysUser sysUser = userService.selectUserByOpenId(openId);
+//                            getSession().setAttribute("sysUser",sysUser);
+                            getSession().setAttribute("sysUser",user);
+                            return success("商家认证成功。");
+                        }else{
+                            return error("商家认证失败。");
+                        }
                     }
                 }
             }
