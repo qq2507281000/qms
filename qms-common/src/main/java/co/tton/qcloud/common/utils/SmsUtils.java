@@ -36,9 +36,9 @@ public class SmsUtils {
         request.putQueryParameter("RegionId", "cn-hangzhou");
         request.putQueryParameter("PhoneNumbers", mobile);
         request.putQueryParameter("SignName", "爱课工厂商家认证");
-        request.putQueryParameter("TemplateCode", "THDPI_BIZ_001");
+        request.putQueryParameter("TemplateCode", "SMS_182667885");
         String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);//生成短信验证码
-        request.putQueryParameter("TemplateParam", String.format("{     \"code\": \"%s\",     \"product\": \"【爱课工厂】\" }",verifyCode));
+        request.putQueryParameter("TemplateParam", String.format("{     \"code\": \"%s\" }", verifyCode));
         try {
             CommonResponse response = client.getCommonResponse(request);
             System.out.println(response.getData());
