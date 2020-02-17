@@ -15,6 +15,8 @@ import co.tton.qcloud.system.model.ShopCenterModel;
 import co.tton.qcloud.system.model.ShopCertModel;
 import co.tton.qcloud.system.model.ShopOrderModel;
 import co.tton.qcloud.system.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -38,6 +40,7 @@ import java.util.List;
 @AllArgsConstructor
 @Controller
 @RequestMapping("/wp")
+@Api("微信公众号接口")
 public class WpLoginController extends BaseController {
 
     private final WxMpService wxService;
@@ -54,6 +57,7 @@ public class WpLoginController extends BaseController {
 
     private ITOrderUseLogService orderUseLogService;
 
+    @ApiOperation("商家授权")
     @RequestMapping(value = "/shop/journey",method = RequestMethod.GET)
     public void redirectUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String appId = Global.getConfig("qcloud.active-wp-appId");
@@ -108,6 +112,7 @@ public class WpLoginController extends BaseController {
 //    @RequestMapping(value = "/shop/attestation",method = RequestMethod.POST)
     @PostMapping("/shop/attestation")
     @ResponseBody
+    @ApiOperation("商家认证接口")
     public AjaxResult saveShopAdminCert(ShopCertModel model){
         try{
             if(model == null){
