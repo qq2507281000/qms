@@ -6,6 +6,7 @@ import java.util.Map;
 import co.tton.qcloud.common.constant.Constants;
 import co.tton.qcloud.common.core.text.Convert;
 import co.tton.qcloud.common.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.tton.qcloud.system.mapper.TCategoryMapper;
@@ -83,6 +84,7 @@ public class TCategoryServiceImpl implements ITCategoryService
     @Override
     public int deleteTCategoryByIds(String id)
     {
+
         return tCategoryMapper.deleteTCategoryByIds(Convert.toStrArray(id));
     }
 

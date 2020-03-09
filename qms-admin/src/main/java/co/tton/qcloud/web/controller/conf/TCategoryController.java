@@ -204,11 +204,11 @@ public class TCategoryController extends BaseController
      */
     @RequiresPermissions("conf:category:remove")
     @Log(title = "分类基础", businessType = BusinessType.DELETE)
-    @GetMapping( "/remove/{ids}")
+    @GetMapping( "/remove/{id}")
     @ResponseBody
     @ApiOperation("删除课程分类信息")
-    public AjaxResult remove(String ids)
+    public AjaxResult remove(@PathVariable("id") String id)
     {
-        return toAjax(tCategoryService.deleteTCategoryByIds(ids));
+        return toAjax(tCategoryService.deleteTCategoryByIds(id));
     }
 }

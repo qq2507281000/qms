@@ -87,6 +87,13 @@ public class SysIndexController extends BaseController
     public String main(ModelMap mmap)
     {
         mmap.put("version", Global.getVersion());
+
+        //TODO: 获取首页数据
+        //获取当前登录用户
+        SysUser user = ShiroUtils.getSysUser();
+
+
+
         return "main_v1";
     }
 }

@@ -158,15 +158,15 @@ public class TShopCoursesRecommendController extends BaseController
     @RoleScope(roleDefined={"ADMIN","REGION"})
     public AjaxResult editSave(TShopCoursesRecommend tShopCoursesRecommend)
     {
-        String coursesId = tShopCoursesRecommend.getCoursesId();
-        TShopCoursesRecommendModel recommendModel = new TShopCoursesRecommendModel();
-        recommendModel.setCoursesId(coursesId);
-        List<TShopCoursesRecommendModel> list = tShopCoursesRecommendService.selectTShopCoursesRecommendList(recommendModel);
-        if(list != null){
-            if(list.size() > 0){
-                return AjaxResult.error("该课程已经被推荐");
-            }
-        }
+//        String coursesId = tShopCoursesRecommend.getCoursesId();
+//        TShopCoursesRecommendModel recommendModel = new TShopCoursesRecommendModel();
+//        recommendModel.setCoursesId(coursesId);
+//        List<TShopCoursesRecommendModel> list = tShopCoursesRecommendService.selectTShopCoursesRecommendList(recommendModel);
+//        if(list != null){
+//            if(list.size() > 0){
+//                return AjaxResult.error("该课程已经被推荐");
+//            }
+//        }
 
         return toAjax(tShopCoursesRecommendService.updateTShopCoursesRecommend(tShopCoursesRecommend));
     }

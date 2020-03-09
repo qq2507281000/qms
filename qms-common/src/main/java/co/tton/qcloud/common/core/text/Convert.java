@@ -376,7 +376,14 @@ public class Convert
      */
     public static String[] toStrArray(String split, String str)
     {
-        return str.split(split);
+        if(StringUtils.isNotEmpty(str)) {
+            if (str.indexOf(split) >= 0) {
+                return str.split(split);
+            } else {
+                return new String[]{str};
+            }
+        }
+        return null;
     }
 
     /**

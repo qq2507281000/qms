@@ -135,4 +135,12 @@ public interface SysUserMapper
      * @return
      */
     public SysUser selectUserByBusinessId(String businessId);
+
+
+    /***
+     * 根据用户Id获取用户授权范围内的店铺ID
+     * @param userId
+     * @return
+     */
+    List<String> getShopIdsByUserId(Long userId);
 }
