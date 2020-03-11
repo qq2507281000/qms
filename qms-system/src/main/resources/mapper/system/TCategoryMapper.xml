@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             flag = 0
             <if test="parent != null">
-                AND  parent_id is null or parent_id = ''
+                AND parent_id is null or parent_id = ''
             </if>
         </where>
         ORDER BY sort_key ASC
@@ -51,8 +51,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getChildList" parameterType="java.lang.String" resultMap="TCategoryResult">
         <include refid="selectTCategoryVo"/>
         <where>
-            <if test="_parameter != null">
-                parent_id = #{_parameter}
+            flag = 0
+            <if test="_parameter != null">and parent_id = #{_parameter}
+
             </if>
         </where>
         ORDER BY sort_key ASC
@@ -61,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTCategoryById" parameterType="String" resultMap="TCategoryResult">
         <include refid="selectTCategoryVo"/>
         where id = #{id}
+        and flag = 0
         order by sort_key ASC
     </select>
         
@@ -112,7 +114,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteTCategoryById" parameterType="String">
-        delete from t_category where id = #{id}
+        update t_category
+        <trim prefix="SET" suffixOverrides=",">
+            flag = 1
+        </trim>
+        where id = #{id}
     </delete>
 
     <delete id="deleteTCategoryByIds" parameterType="String">
@@ -135,7 +141,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM
             t_category
             WHERE
-            1=1
+            flag = 0
             <if test="_parameter != null  and _parameter != ''">and parent_id = #{parentId}</if>
     </select>
 
