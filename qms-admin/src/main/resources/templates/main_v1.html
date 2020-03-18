@@ -20,13 +20,11 @@
                 <div class="ibox float-e-margins" style="background:linear-gradient(-125deg, #57bdbf, #2f9de2);color:#ffffff;">
                     <div class="ibox-title" style="background: transparent">
                         <span class="label label-success pull-right">全部</span>
-                        <h5>课程总量</h5>
+                        <h5>商家总量</h5>
                     </div>
                     <div class="ibox-content" style="background: transparent">
-                        <h1 class="no-margins">40 886,200</h1>
-                        <div class="stat-percent font-bold text-success" style="color:white;">98% <i class="fa fa-bolt"></i>
-                        </div>
-                        <small>总数量</small>
+                        <h1 class="no-margins"><span class="shopCount"></span></h1>
+
                     </div>
                 </div>
             </div>
@@ -37,10 +35,8 @@
                         <h5>用户总量</h5>
                     </div>
                     <div class="ibox-content" style="background: transparent;">
-                        <h1 class="no-margins">275,800</h1>
-                        <div class="stat-percent font-bold text-info" style="color:white;">20% <i class="fa fa-level-up"></i>
-                        </div>
-                        <small>总数量</small>
+                        <h1 class="no-margins"><span class="userCount"></span></h1>
+
                     </div>
                 </div>
             </div>
@@ -51,10 +47,8 @@
                         <h5>订单总量</h5>
                     </div>
                     <div class="ibox-content" style="background: transparent;">
-                        <h1 class="no-margins">106,120</h1>
-                        <div class="stat-percent font-bold text-navy" style="color:white;">44% <i class="fa fa-level-up"></i>
-                        </div>
-                        <small>总数量</small>
+                        <h1 class="no-margins"><span class="orderCount"></span></h1>
+
                     </div>
                 </div>
             </div>
@@ -62,13 +56,11 @@
                 <div class="ibox float-e-margins" style="background: linear-gradient(-141deg, #ecca1b, #f39526);color:#ffffff;">
                     <div class="ibox-title" style="background: transparent;">
                         <span class="label label-danger pull-right">全部</span>
-                        <h5>评价总量</h5>
+                        <h5>核销订单总量</h5>
                     </div>
                     <div class="ibox-content" style="background: transparent;">
-                        <h1 class="no-margins">80,600</h1>
-                        <div class="stat-percent font-bold text-danger" style="color:white;">38% <i class="fa fa-level-down"></i>
-                        </div>
-                        <small>总数量</small>
+                        <h1 class="no-margins"><span class="cancelOrderCount"></span></h1>
+
                     </div>
                 </div>
             </div>
@@ -93,31 +85,31 @@
                             <div class="col-md-3 dashboard-show">
                                 <img style="width:58px;float:left;margin-top:10px;" src="data:image/png;base64,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" alt="销售额" />
                                 <ul>
-                                    <li class="dashboard-title">销售额（元）</li>
-                                    <li class="dashboard-number">1351.00</li>
-                                    <li class="dashboard-yestoday">昨日：974.00</li>
+                                    <li class="dashboard-title">今日订单金额</li>
+                                    <li class="dashboard-number"><span class="orderMoney"></span></li>
+                                    <li class="dashboard-yestoday">昨日:<span class="yesterdayOrderMoney"></span></li>
                                 </ul>
                             </div>
                             <div class="col-md-3 dashboard-show">
                                 <ul>
-                                    <li class="dashboard-title">支付订单数</li>
-                                    <li class="dashboard-number">106</li>
-                                    <li class="dashboard-yestoday">昨日：76</li>
+                                    <li class="dashboard-title">今日核销金额</li>
+                                    <li class="dashboard-number"><span class="cancelMoney"></span></li>
+                                    <li class="dashboard-yestoday">昨日：<span class="yesterdayCancelMoney"></span></li>
                                 </ul>
                             </div>
                             <div class="col-md-3 dashboard-show">
                                 <img style="width:58px;float:left;margin-top:10px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI4AAACMCAMAAACd62ExAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAzUExURUdwTPn///D4/+/2//T6//D3//H3//D3//D3//H5/2aq/7DT/5HC/3az/8Ld/9zs/53I/+kzVBAAAAAKdFJOUwAOY/8hooXE4kIJnP2wAAADmUlEQVR42u2ca3fCIAyGLeFqW+j//7XTOWedbUkgYHaO784+6p6FJNxCTqdyDVpZY5zz3gN475wzVoXh1F9DsO7CsCnvjNJ9USAn3wdpUHmUu5xtTBQM0ORUM1carIcCmdACRlsolWMH0gZqxAtUCcMMpIBDhifMggcmKYZwMsCn6hHjM81NtorGArdcuQdpB/zyQchA1Q2YglZygwS3qeEx0FJevy/bVPMMDlqLEmDtaSj2MQCCeCz0ES6+etHgeBT0k8nPU9BT6v0h/qQgIahW4TVIcZy8+2joL/XebPwiLWeovrPPXlT5t+DsRRciqmIcqYqxLLpCFmY8F2lOJYvnrB/P50LNBd6cNc50LtZITz4548Tv/3NakHqCX8jmQRkn6wV3peUxUpffiZybUZ6DpIm/ppnHFDE4f82TD6vrt6MMM/66/BR/BjmPY6nTAw5nZZgl/fpcHgcG4tyJwfljGAqOIq6Pszgr913Sc0ROxJnLV+PE+eG+LwkCgbN25gCVOFujRMSxtL3MEc70iOvN9InB8aSxOsIZdwxDwnmsMzBjdYQzreK6HMeQ9p0HOIcJG43jSUvk5jj32BpABo4iuE4HHEM5smiP4ym7q/Y4P84DUnAUYSc8t8exeE++pt6xMY6hHL6lBI1xHM+RDhcO8BxbsOFo5HTeCSeg47wLjsLOWN1w9AfnIA+GD85BWv7gfHBKXVl/cP7PJCFsCpW2wBC2/EIuTuM8xx6LU4s2wdxj6Y7Mgx22fYaw7Tt32vYJ2xRLOzIQdqAi7LhJ2GGcsKNKaQe5QQSO4boE4MEJXFckLDiedoF08DdZcCztem3a/1oWHE27fLxd6y9bVR9nBhxHLWs6LnpIu6u2gqtZTCZMMxknLbfPUC+ucalnoeE87tQjyZHRE0WK47Lxs4WTDm5rM45MWKIiI+thmPOSSBmZoSruL864d6eONk6VeZ5wVsUGmFHaMU6NeVY4T7Uy6C/QRaVoOZx7XFMMsxVWleWvN5zXWhmkdspgi8sYrziFhnleWfAUea6nD5phXmYrDm9O1LjO+nFdgXC8GSaWfFY1KJ9Ol6kiFX3S/KPicmml98IeJkh7tiHtUYu0Jz/SHkRJey4m7TGdsKeG0h5iinumKu0Rr7QnztIegEt7Hi+ueQBLC4yVaRiaYYhqPCGuLYe4piXSWrqIa3gjrh2QuGZJ5FZS3nZpbiWo0Za8NmQbTdqAq0nbF7i46IS8tSAEAAAAAElFTkSuQmCC" alt="用户数" />
                                 <ul>
-                                    <li class="dashboard-title" >新增用户数</li>
-                                    <li class="dashboard-number">327</li>
-                                    <li class="dashboard-yestoday">昨日：238</li>
+                                    <li class="dashboard-title" >今日新增用户数</li>
+                                    <li class="dashboard-number"><span class="newUserCount"></span></li>
+                                    <li class="dashboard-yestoday">昨日：<span class="yesterdayNewUserCount"></span></li>
                                 </ul>
                             </div>
                             <div class="col-md-3 dashboard-show">
                                 <ul>
-                                    <li class="dashboard-title">下单用户数</li>
-                                    <li class="dashboard-number">69</li>
-                                    <li class="dashboard-yestoday">昨日：34</li>
+                                    <li class="dashboard-title">今日下单用户数</li>
+                                    <li class="dashboard-number"><span class="buyCount"></span></li>
+                                    <li class="dashboard-yestoday">昨日：<span class="yesterdayBuyCount"></span></li>
                                 </ul>
                             </div>
                         </div>
@@ -150,30 +142,33 @@
                             <div class="col-sm-3">
                                 <ul class="stat-list">
                                     <li>
-                                        <h2 class="no-margins">2,346</h2>
-                                        <small>订单总数</small>
-                                        <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i>
+                                        <h2 class="no-margins"><span class="monthUsers"></span></h2>
+                                        <small>最近一个月增长用户数</small>
+                                        <div class="stat-percent"><span class="monthUsersPercent"></span>
+                                            <i class="fa fa-level-up text-navy"></i>
                                         </div>
                                         <div class="progress progress-mini">
-                                            <div style="width: 48%;" class="progress-bar"></div>
+                                            <div id="monthUsersPercentWidth" style="width: 20.37%;" class="progress-bar"></div>
                                         </div>
                                     </li>
                                     <li>
-                                        <h2 class="no-margins ">4,422</h2>
+                                        <h2 class="no-margins "><span class="monthOrders"></span></h2>
                                         <small>最近一个月订单</small>
-                                        <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i>
+                                        <div class="stat-percent"><span class="monthOrdersPercent"></span>
+                                            <i class="fa fa-level-up text-navy"></i>
                                         </div>
                                         <div class="progress progress-mini">
-                                            <div style="width: 60%;" class="progress-bar"></div>
+                                            <div id="monthOrdersPercentWidth" style="width: 0%" class="progress-bar"></div>
                                         </div>
                                     </li>
                                     <li>
-                                        <h2 class="no-margins ">9,180</h2>
+                                        <h2 class="no-margins "><span class="monthSolds"></span></h2>
                                         <small>最近一个月销售额</small>
-                                        <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i>
+                                        <div class="stat-percent"><span class="monthSoldsPercent"></span>
+                                            <i class="fa fa-level-up text-navy"></i>
                                         </div>
                                         <div class="progress progress-mini">
-                                            <div style="width: 22%;" class="progress-bar"></div>
+                                            <div id="monthSoldsPercentWidth" style="width: 0%;" class="progress-bar"></div>
                                         </div>
                                     </li>
                                  </ul>
@@ -191,28 +186,71 @@
     
     <th:block th:include="include :: sparkline-js" />
     <script type="text/javascript">
+
+        var data2= '';
+        var data3= '';
+
+        $.ajax({
+            type: "GET",
+            url: "/homePage",
+            data: {
+
+            },
+            async: false,
+            success : function(data) {
+
+                $(".shopCount").text(data.shopCount);
+                $(".userCount").text(data.userCount);
+                $(".orderCount").text(data.orderCount);
+                $(".cancelOrderCount").text(data.cancelOrderCount);
+                $(".orderMoney").text(data.orderMoney);
+                $(".yesterdayOrderMoney").text(data.yesterdayOrderMoney);
+                $(".cancelMoney").text(data.cancelMoney);
+                $(".yesterdayCancelMoney").text(data.yesterdayCancelMoney);
+                $(".newUserCount").text(data.newUserCount);
+                $(".yesterdayNewUserCount").text(data.yesterdayNewUserCount);
+                $(".buyCount").text(data.buyCount);
+                $(".yesterdayBuyCount").text(data.yesterdayBuyCount);
+
+                $(".monthUsers").text(data.monthUsers);
+                $(".monthOrders").text(data.monthOrders);
+                $(".monthSolds").text(data.monthSolds);
+
+                $(".monthUsersPercent").text(data.monthUsersPercent);
+                $(".monthOrdersPercent").text(data.monthOrdersPercent);
+                $(".monthSoldsPercent").text(data.monthSoldsPercent);
+
+                $('#monthUsersPercentWidth').css('width', data.monthUsersPercent);
+                $('#monthOrdersPercentWidth').css('width', data.monthOrdersPercent);
+                $('#monthSoldsPercentWidth').css('width', data.monthSoldsPercent);
+
+                data2 = data.orderEcharts;
+                data3 = data.salesEcharts;
+
+
+            },
+            //请求失败，包含具体的错误信息
+            error : function(e){
+                console.log("====>>>" + new Date(2012, 1 - 1, 1).getTime());
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        })
 	    $(document).ready(function () {
-	        var data2 = [
-	            [gd(2012, 1, 1), 20], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
-	            [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
-	            [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
-	            [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
-	            [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
-	            [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
-	            [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
-	            [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
-	        ];
+
+	        // var data2 = [
+            //     [1583942400000, 900], [1584028800000, 500], [1584115200000, 600], [1584201600000, 700],
+            //     [1584288000000, 500], [1584374400000, 456], [1584460800000, 800]
+	        // ];
+
 	
-	        var data3 = [
-	            [gd(2012, 1, 1), 900], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
-	            [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
-	            [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
-	            [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
-	            [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
-	            [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
-	            [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
-	            [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
-	        ];
+	        // var data3 = [
+            //     [1583942400000, 900], [1584028800000, 500], [1584115200000, 600], [1584201600000, 700],
+            //     [1584288000000, 500], [1584374400000, 456], [1584460800000, 800]
+	        // ];
+
+
+
 	
 	
 	        var dataset = [
@@ -257,7 +295,7 @@
 	        var options = {
 	            xaxis: {
 	                mode: "time",
-	                tickSize: [3, "day"],
+	                tickSize: [1, "day"],
 	                tickLength: 0,
 	                axisLabel: "Date",
 	                axisLabelUseCanvas: true,
@@ -266,15 +304,17 @@
 	                axisLabelPadding: 10,
 	                color: "#838383"
 	            },
-	            yaxes: [{
+	            yaxes: [
+	            {
 	                    position: "left",
-	                    max: 1070,
+	                    max: 500,
 	                    color: "#838383",
 	                    axisLabelUseCanvas: true,
 	                    axisLabelFontSizePixels: 12,
 	                    axisLabelFontFamily: 'Arial',
 	                    axisLabelPadding: 3
-	            }, {
+	            },
+                {
 	                    position: "right",
 	                    clolor: "#838383",
 	                    axisLabelUseCanvas: true,
@@ -297,13 +337,19 @@
 	
 	        function gd(year, month, day) {
 	            return new Date(year, month - 1, day).getTime();
+
 	        }
 	
 	        var previousPoint = null,
 	            previousLabel = null;
 	
 	        $.plot($("#flot-dashboard-chart"), dataset, options);
+
+
+
+
 	    });
+
     </script>
 </body>
 </html>

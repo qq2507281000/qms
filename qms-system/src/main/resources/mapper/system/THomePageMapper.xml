@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.tton.qcloud.system.mapper.HomePageMapper">
+
+
+    <select id="getShopCount" resultType="java.lang.String">
+        SELECT count(id) FROM t_shop
+    </select>
+
+    <select id="getUserCount" resultType="java.lang.String">
+        SELECT count(id) FROM t_member
+    </select>
+
+    <select id="getOrderCount" resultType="java.lang.String">
+        SELECT count(id) FROM t_order
+    </select>
+
+    <select id="getCancelOrderCount" resultType="java.lang.String">
+        SELECT count(id) FROM t_order WHERE verify_status = 'CONFIRMED'
+    </select>
+
+    <select id="getOrderMoney" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( pay_price ) > 0 THEN sum( pay_price ) ELSE '0' END ) AS orderMoney
+        FROM
+            t_order
+        WHERE
+            pay_status = 'PAID'
+            AND to_days( create_time ) = to_days( now( ) );
+    </select>
+
+    <select id="getYesterdayOrderMoney" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( pay_price ) > 0 THEN sum( pay_price ) ELSE '0' END ) AS yesterdayOrderMoney
+        FROM
+            t_order
+        WHERE
+            pay_status = 'PAID' AND
+            TO_DAYS( NOW( ) ) - create_time = 1
+    </select>
+
+    <select id="getCancelMoney" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( pay_price ) > 0 THEN sum( pay_price ) ELSE '0' END ) AS cancelMoney
+        FROM
+            t_order
+        WHERE
+            verify_status = 'CONFIRMED' AND to_days(create_time) = to_days(now());
+    </select>
+
+    <select id="getYesterdayCancelMoney" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( pay_price ) > 0 THEN sum( pay_price ) ELSE '0' END ) AS yesterdayCancelMoney
+        FROM
+            t_order
+        WHERE
+            TO_DAYS( NOW( ) ) - create_time = 1 AND verify_status = 'CONFIRMED'
+    </select>
+
+    <select id="getNewUserCount" resultType="java.lang.String">
+        select count(id) from t_member where to_days(create_time) = to_days(now());
+    </select>
+
+    <select id="getYesterdayNewUserCount" resultType="java.lang.String">
+        select count(id) AS yesterdayNewUserCount from t_member WHERE TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
+    </select>
+
+    <select id="getBuyCount" resultType="java.lang.String">
+        SELECT count(DISTINCT member_id) AS buyCount FROM t_order where to_days(create_time) = to_days(now());
+    </select>
+
+    <select id="getYesterdayBuyCount" resultType="java.lang.String">
+        SELECT count(DISTINCT member_id) AS yesterdayBuyCount FROM t_order WHERE TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
+    </select>
+
+    <select id="getMonthUsers" resultType="java.lang.String">
+        SELECT count(id) AS monthUsers FROM t_member where date_format(create_time, '%Y%m') = date_format(curdate() , '%Y%m');
+    </select>
+
+    <select id="getMonthOrders" resultType="java.lang.String">
+        SELECT count(id) AS monthOrders FROM t_order where date_format(create_time, '%Y%m') = date_format(curdate() , '%Y%m');
+    </select>
+
+    <select id="getMonthSolds" resultType="java.lang.String">
+       SELECT
+            ( CASE WHEN sum( pay_price ) > 0 THEN sum( pay_price ) ELSE '0' END ) AS monthSolds
+        FROM
+            t_order
+        WHERE
+            pay_status = 'PAID'
+            AND date_format( create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' );
+    </select>
+
+    <select id="getNearSevenDays" resultType="java.lang.String">
+        SELECT
+            @date := DATE_ADD( @date, INTERVAL + 1 DAY ) days
+        FROM
+            ( SELECT @date := DATE_ADD( #{dayday}, INTERVAL - 7 DAY ) FROM t_order LIMIT 7 ) time
+    </select>
+
+    <select id="getNearSevenDaysOrderCount" resultType="java.lang.String">
+        SELECT count(id) FROM t_order WHERE create_time LIKE concat('%',#{date},'%')
+    </select>
+
+    <select id="getNearSevenDaysSalesCount" resultType="java.lang.String">
+        SELECT
+            count( id )
+        FROM
+            t_order
+        WHERE
+            pay_status = 'PAID'
+            AND create_time LIKE concat('%',#{date},'%')
+    </select>
+
+    <select id="getBeforeMonthUsers" resultType="java.lang.String">
+        SELECT
+            count(id) AS beforeMonthUsers
+        FROM
+            t_member
+        WHERE
+            id NOT IN ( SELECT id AS lastMonthUsers FROM t_member WHERE date_format( create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' ) )
+    </select>
+
+    <select id="getBeforeMonthOrders" resultType="java.lang.String">
+        SELECT
+            count(id)
+        FROM
+            t_order
+        WHERE
+            id NOT IN ( SELECT id FROM t_order WHERE date_format( create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' ) )
+    </select>
+
+    <select id="getBeforeMonthSolds" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( pay_price ) > 0 THEN sum( pay_price ) ELSE '0' END ) AS beforeMonthSolds
+        FROM
+            t_order
+        WHERE
+            pay_status = 'PAID'
+            AND id NOT IN ( SELECT id FROM t_order WHERE pay_status = 'PAID' AND date_format( create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' ) )
+    </select>
+
+
+</mapper>
