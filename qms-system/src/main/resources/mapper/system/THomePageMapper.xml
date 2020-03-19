@@ -7,6 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getShopCount" resultType="java.lang.String">
         SELECT count(id) FROM t_shop
+        <where>
+            <if test="_parameter !=null and _parameter != ''">
+                region_id = #{regionId}
+            </if>
+        </where>
     </select>
 
     <select id="getUserCount" resultType="java.lang.String">
@@ -14,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="getOrderCount" resultType="java.lang.String">
-        SELECT count(id) FROM t_order
+        SELECT count(id) AS orderCount FROM t_order
     </select>
 
     <select id="getCancelOrderCount" resultType="java.lang.String">
@@ -68,11 +73,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="getBuyCount" resultType="java.lang.String">
-        SELECT count(DISTINCT member_id) AS buyCount FROM t_order where to_days(create_time) = to_days(now());
+        SELECT count(DISTINCT member_id) AS buyCount FROM t_order where to_days(create_time) = to_days(now()) AND pay_status = 'PAID';
     </select>
 
     <select id="getYesterdayBuyCount" resultType="java.lang.String">
-        SELECT count(DISTINCT member_id) AS yesterdayBuyCount FROM t_order WHERE TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1
+        SELECT count(DISTINCT member_id) AS yesterdayBuyCount FROM t_order WHERE TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = 1 AND pay_status = 'PAID';
     </select>
 
     <select id="getMonthUsers" resultType="java.lang.String">
@@ -115,12 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="getBeforeMonthUsers" resultType="java.lang.String">
-        SELECT
-            count(id) AS beforeMonthUsers
-        FROM
-            t_member
-        WHERE
-            id NOT IN ( SELECT id AS lastMonthUsers FROM t_member WHERE date_format( create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' ) )
+        SELECT count(id) FROM t_member WHERE id not in (SELECT id FROM t_member WHERE date_format(create_time, '%Y%m') = date_format(curdate() , '%Y%m'))
     </select>
 
     <select id="getBeforeMonthOrders" resultType="java.lang.String">
@@ -140,6 +140,243 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             pay_status = 'PAID'
             AND id NOT IN ( SELECT id FROM t_order WHERE pay_status = 'PAID' AND date_format( create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' ) )
+    </select>
+
+    <select id="getUserCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.member_id ) AS userCount
+        FROM
+            t_shop ts
+            INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+            ts.region_id = #{regionId}
+    </select>
+
+    <select id="getOrderCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.id ) AS orderCount
+        FROM
+            t_shop ts
+            INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+            ts.region_id = #{regionId}
+    </select>
+
+    <select id="getCancelOrderCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.id ) AS cancelOrderCount
+        FROM
+            t_shop ts
+            INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+            tor.verify_status = 'CONFIRMED' AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getOrderMoneyByRegionId" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( tor.pay_price ) > 0 THEN sum( tor.pay_price ) ELSE '0' END ) AS orderMoney
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            tor.pay_status = 'PAID'
+            AND to_days( tor.create_time ) = to_days( now( ) )
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getYesterdayOrderMoneyByRegionId" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( tor.pay_price ) > 0 THEN sum( tor.pay_price ) ELSE '0' END ) AS yesterdayOrderMoney
+        FROM
+            t_order tor INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            tor.pay_status = 'PAID'
+            AND TO_DAYS( NOW( ) ) - tor.create_time = 1
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getCancelMoneyByRegionId" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( tor.pay_price ) > 0 THEN sum( tor.pay_price ) ELSE '0' END ) AS cancelMoney
+        FROM
+            t_order tor INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            tor.verify_status = 'CONFIRMED'
+            AND to_days( tor.create_time ) = to_days( now( ) )
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getYesterdayCancelMoneyByRegionId" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( tor.pay_price ) > 0 THEN sum( tor.pay_price ) ELSE '0' END ) AS yesterdayCancelMoney
+        FROM
+            t_order tor INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            TO_DAYS( NOW( ) ) - tor.create_time = 1
+            AND tor.verify_status = 'CONFIRMED'
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getNewUserCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.member_id ) AS userCount
+        FROM
+            t_shop ts
+            INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+            to_days( ts.create_time ) = to_days( now( ) )
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getYesterdayNewUserCountByRegionId" resultType="java.lang.String">
+        SELECT
+                count( DISTINCT tor.member_id ) AS userCount
+        FROM
+                t_shop ts
+                INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+                TO_DAYS( NOW( ) ) - TO_DAYS( ts.create_time) = 1
+                AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getBuyCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.member_id ) AS buyCount
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            to_days( tor.create_time ) = to_days( now( ) )
+            AND tor.pay_status = 'PAID'
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getYesterdayBuyCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.member_id ) AS yesterdayBuyCount
+        FROM
+            t_order tor INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            TO_DAYS( NOW( ) ) - TO_DAYS( tor.create_time ) = 1
+            AND tor.pay_status = 'PAID'
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getMonthUsersByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.member_id ) AS userCount
+        FROM
+            t_shop ts
+            INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+            date_format( tor.create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' )
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getBeforeMonthUsersByRegionId" resultType="java.lang.String">
+        SELECT
+            count( DISTINCT tor.member_id ) AS beforeMonthUsers
+        FROM
+            t_shop ts
+            INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+            ts.region_id = #{regionId}
+            AND tor.member_id NOT IN (
+        SELECT
+            tor.member_id AS lastMonthUsers
+        FROM
+            t_shop ts
+            INNER JOIN t_order tor ON ts.id = tor.shop_id
+        WHERE
+            date_format( tor.create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' )
+            AND ts.region_id = #{regionId}
+            )
+    </select>
+
+    <select id="getMonthOrdersByRegionId" resultType="java.lang.String">
+        SELECT
+            count( tor.member_id ) AS monthOrders
+        FROM
+            t_order tor INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            date_format( tor.create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' ) AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getBeforeMonthOrdersByRegionId" resultType="java.lang.String">
+        SELECT
+            count( tor.member_id )
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            ts.region_id = #{regionId}
+            AND tor.member_id NOT IN (
+        SELECT
+            tor.member_id
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            date_format( tor.create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' )
+            AND ts.region_id = #{regionId}
+            )
+    </select>
+
+    <select id="getMonthSoldsByRegionId" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( tor.pay_price ) > 0 THEN sum( tor.pay_price ) ELSE '0' END ) AS monthSolds
+        FROM
+            t_order tor INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            tor.pay_status = 'PAID'
+            AND date_format( tor.create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' )
+            AND ts.region_id = #{regionId}
+    </select>
+
+    <select id="getBeforeMonthSoldsByRegionId" resultType="java.lang.String">
+        SELECT
+            ( CASE WHEN sum( tor.pay_price ) > 0 THEN sum( tor.pay_price ) ELSE '0' END ) AS beforeMonthSolds
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            tor.pay_status = 'PAID'
+            AND ts.region_id = #{regionId}
+            AND tor.id NOT IN (
+        SELECT
+            tor.id
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            tor.pay_status = 'PAID'
+            AND ts.region_id = #{regionId}
+            AND date_format( tor.create_time, '%Y%m' ) = date_format( curdate( ), '%Y%m' )
+            )
+    </select>
+
+    <select id="getNearSevenDaysOrderCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( tor.id )
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            ts.region_id = #{arg0}
+            AND
+            tor.create_time LIKE concat('%',#{arg1},'%')
+    </select>
+
+    <select id="getNearSevenDaysSalesCountByRegionId" resultType="java.lang.String">
+        SELECT
+            count( tor.id )
+        FROM
+            t_order tor
+            INNER JOIN t_shop ts ON tor.shop_id = ts.id
+        WHERE
+            tor.pay_status = 'PAID'
+            AND ts.region_id = #{arg0}
+            AND tor.create_time LIKE concat('%',#{arg1},'%')
     </select>
 
 

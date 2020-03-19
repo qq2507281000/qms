@@ -14,7 +14,13 @@
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content">
-
+        <ul class="nav nav-tabs"  th:with="type=${@dict.getType('operation_city')}" >
+            <li role="presentation" th:if="${regionId == null}" class="active" ><a href="#" onclick="cityScreening()">全部</a></li>
+            <li role="presentation" th:each="dict : ${type}" th:if="${regionId == null || regionId == dict.dictValue}" th:class="${regionId == dict.dictValue}?'active'"><a href="#" th:text="${dict.dictLabel}" th:name="${dict.dictValue}" th:value="${dict.dictValue}" onclick="cityScreening(this)">Home</a></li>
+            <!--<li role="presentation"><a href="#">Profile</a></li>-->
+            <!--<li role="presentation"><a href="#">Messages</a></li>-->
+        </ul>
+        <br/>
         <div class="row">
             <div class="col-sm-3">
                 <div class="ibox float-e-margins" style="background:linear-gradient(-125deg, #57bdbf, #2f9de2);color:#ffffff;">
@@ -187,15 +193,13 @@
     <th:block th:include="include :: sparkline-js" />
     <script type="text/javascript">
 
-        var data2= '';
-        var data3= '';
+        var data2= '';  //付款数
+        var data3= '';  //订单数
+        var regionId = '';  //区域Id
 
         $.ajax({
             type: "GET",
-            url: "/homePage",
-            data: {
-
-            },
+            url: "/homePage?regionId=" + regionId,
             async: false,
             success : function(data) {
 
@@ -227,31 +231,17 @@
                 data2 = data.orderEcharts;
                 data3 = data.salesEcharts;
 
-
             },
             //请求失败，包含具体的错误信息
             error : function(e){
-                console.log("====>>>" + new Date(2012, 1 - 1, 1).getTime());
                 console.log(e.status);
                 console.log(e.responseText);
             }
         })
+
+
 	    $(document).ready(function () {
 
-	        // var data2 = [
-            //     [1583942400000, 900], [1584028800000, 500], [1584115200000, 600], [1584201600000, 700],
-            //     [1584288000000, 500], [1584374400000, 456], [1584460800000, 800]
-	        // ];
-
-	
-	        // var data3 = [
-            //     [1583942400000, 900], [1584028800000, 500], [1584115200000, 600], [1584201600000, 700],
-            //     [1584288000000, 500], [1584374400000, 456], [1584460800000, 800]
-	        // ];
-
-
-
-	
 	
 	        var dataset = [
 	            {
@@ -339,16 +329,70 @@
 	            return new Date(year, month - 1, day).getTime();
 
 	        }
+
 	
 	        var previousPoint = null,
 	            previousLabel = null;
 	
 	        $.plot($("#flot-dashboard-chart"), dataset, options);
 
-
-
-
 	    });
+
+        function cityScreening(row) {
+
+            $(".active").removeClass();
+            $("#regionId").val($(row).attr("value"));
+            $(row).parent().addClass("active");
+            regionId = $(row).attr("value");
+            console.log("=======>>>>"+regionId);
+            if(regionId == undefined){
+                regionId = '';
+            }
+
+            $.ajax({
+                type: "GET",
+                // url: "/homePage",
+                url: "/homePage?regionId=" + regionId,
+                async: false,
+                success : function(data) {
+
+                    $(".shopCount").text(data.shopCount);
+                    $(".userCount").text(data.userCount);
+                    $(".orderCount").text(data.orderCount);
+                    $(".cancelOrderCount").text(data.cancelOrderCount);
+                    $(".orderMoney").text(data.orderMoney);
+                    $(".yesterdayOrderMoney").text(data.yesterdayOrderMoney);
+                    $(".cancelMoney").text(data.cancelMoney);
+                    $(".yesterdayCancelMoney").text(data.yesterdayCancelMoney);
+                    $(".newUserCount").text(data.newUserCount);
+                    $(".yesterdayNewUserCount").text(data.yesterdayNewUserCount);
+                    $(".buyCount").text(data.buyCount);
+                    $(".yesterdayBuyCount").text(data.yesterdayBuyCount);
+
+                    $(".monthUsers").text(data.monthUsers);
+                    $(".monthOrders").text(data.monthOrders);
+                    $(".monthSolds").text(data.monthSolds);
+
+                    $(".monthUsersPercent").text(data.monthUsersPercent);
+                    $(".monthOrdersPercent").text(data.monthOrdersPercent);
+                    $(".monthSoldsPercent").text(data.monthSoldsPercent);
+
+                    $('#monthUsersPercentWidth').css('width', data.monthUsersPercent);
+                    $('#monthOrdersPercentWidth').css('width', data.monthOrdersPercent);
+                    $('#monthSoldsPercentWidth').css('width', data.monthSoldsPercent);
+
+                    data2 = data.orderEcharts;
+                    data3 = data.salesEcharts;
+
+
+                },
+                //请求失败，包含具体的错误信息
+                error : function(e){
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            })
+        }
 
     </script>
 </body>
