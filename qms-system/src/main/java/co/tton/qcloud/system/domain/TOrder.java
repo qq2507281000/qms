@@ -134,6 +134,18 @@ public class TOrder extends BaseEntity
     @ApiModelProperty("区域名称")
     private String regionName;
 
+    @ApiModelProperty("下单开始时间")
+    private String beginBookingTime;
+
+    @ApiModelProperty("下单结束时间")
+    private String endBookingTime;
+
+    @ApiModelProperty("支付开始时间")
+    private String beginPayTime;
+
+    @ApiModelProperty("支付结束时间")
+    private String endPayTime;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
