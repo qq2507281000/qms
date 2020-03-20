@@ -52,7 +52,7 @@
                     <div class="col-sm-8">
 
                         <select id="regionId" name="regionId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" ></option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                         </select>
 
                     </div>
@@ -422,11 +422,12 @@
     var timeFlag = [[${@permission.hasPermi('shop:time:edit')}]];
     var priceFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
     var imageFlag = [[${@permission.hasPermi('shop:courses:remove')}]];
-    var regionId = [[${regionId}]]
+
 
     var useDiscount = [[${@dict.getType('useDiscount')}]];
     var suggest = [[${@dict.getType('suggest')}]];
     var available = [[${@dict.getType('available')}]];
+    var regionId = [[${regionId}]]
 </script>
 <script type="text/javascript">
 
@@ -469,11 +470,17 @@
     $(function () {
         var userCategory = '[[${@user.getCurrentUserCategory()}]]';
         if($.common.equals(userCategory,"REGION")){
-            $('#regionId').attr("disabled","disabled");
+            console.log("REGION-->"+regionId);
+
+            var $selRegion = $("#regionId").select2();
+
             if (regionId != null) {
-                $("#regionId").val(regionId);
-                $("#regionId").find("option[text=regionId]").attr("selected",true);
+                // $("#regionId").val(regionId);
+                // $("#regionId").find("option[value='" + regionId + "']").attr("selected",true);
+                $selRegion.val(regionId).trigger("change");
             }
+            // $('#regionId').attr("disabled","disabled");
+            $selRegion.prop("disabled", true);
         }
         else if($.common.equals(userCategory,"ADMIN")){
             $('#regionId').removeAttr("disabled");
