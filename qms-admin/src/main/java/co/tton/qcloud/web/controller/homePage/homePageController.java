@@ -1,14 +1,10 @@
 package co.tton.qcloud.web.controller.homePage;
 
-import co.tton.qcloud.common.annotation.RoleScope;
 import co.tton.qcloud.common.core.controller.BaseController;
-import co.tton.qcloud.common.core.domain.AjaxResult;
 import co.tton.qcloud.system.domain.HomePageModel;
-import co.tton.qcloud.system.domain.HomePageRegionIdModel;
 import co.tton.qcloud.system.service.IHomePageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
