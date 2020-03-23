@@ -1,6 +1,7 @@
 package co.tton.qcloud.web.controller.homePage;
 
 import co.tton.qcloud.common.core.controller.BaseController;
+import co.tton.qcloud.framework.web.domain.server.Sys;
 import co.tton.qcloud.system.domain.HomePageModel;
 import co.tton.qcloud.system.service.IHomePageService;
 import io.swagger.annotations.Api;
@@ -32,6 +33,9 @@ public class homePageController extends BaseController {
     @ResponseBody
    public HomePageModel getHomePage(@RequestParam("regionId") String regionId)
     {
+        if(regionId.equals("null")){
+            regionId = "";
+        }
         return iHomePageService.getHomePage(regionId);
     }
 }

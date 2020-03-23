@@ -4,6 +4,7 @@ import java.util.List;
 
 import co.tton.qcloud.common.annotation.AllowAdmin;
 import co.tton.qcloud.common.annotation.RoleScope;
+import co.tton.qcloud.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -91,7 +92,9 @@ public class SysIndexController extends BaseController
         //TODO: 获取首页数据
         //获取当前登录用户
         SysUser user = ShiroUtils.getSysUser();
-
+        if (StringUtils.equalsAnyIgnoreCase(user.getCategory(),"REGION")) {
+            mmap.put("regionId",user.getBusinessId());
+        }
 
 
         return "main_v1";

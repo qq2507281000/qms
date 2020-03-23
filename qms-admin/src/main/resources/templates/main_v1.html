@@ -191,15 +191,17 @@
     <script th:src="@{/ajax/libs/flot/jquery.flot.js}"></script>
     
     <th:block th:include="include :: sparkline-js" />
-    <script type="text/javascript">
-
+<!--    <script type="text/javascript">-->
+    <script th:inline="javascript">
         var data2= '';  //付款数
         var data3= '';  //订单数
-        var regionId = '';  //区域Id
+        /*<![CDATA[*/
+        var regionId =[[${regionId}]] ;
+        /*]]>*/
 
         $.ajax({
             type: "GET",
-            url: "/homePage?regionId=" + regionId,
+            url: "/homePage?regionId=" +regionId,
             async: false,
             success : function(data) {
 
