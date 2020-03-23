@@ -135,7 +135,8 @@ public class HomePageServiceImpl implements IHomePageService {
             float floatBeforeMonthSolds = Float.parseFloat(beforeMonthSolds);
             //最近一个月销售额百分比
             if(beforeMonthSolds.equals("0")){
-                String monthSoldsPercent = df.format((float)Integer.parseInt(monthSolds)*100) + "%"; //计算最近一个月增长用户数百分比
+                //String monthSoldsPercent = df.format((float)Integer.parseInt(monthSolds)*100) + "%"; //计算最近一个月增长用户数百分比
+                String monthSoldsPercent = df.format(Math.round(Float.parseFloat(monthSolds)*100)) + "%";
                 homePageModel.setMonthSoldsPercent(monthSoldsPercent);
             }else {
                 String monthSoldsPercent =  df.format(floatMonthSolds / floatBeforeMonthSolds * 100) + "%";
