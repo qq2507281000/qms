@@ -52,7 +52,7 @@ public class SwaggerConfig
                 // 设置标题
                 .title("QCLOUD接口文档")
                 // 描述
-                .description("QCLOUD For 互动派")
+                .description("QCLOUD For 爱课工厂")
                 // 作者信息
                 .contact(new Contact(Global.getName(), null, null))
                 // 版本

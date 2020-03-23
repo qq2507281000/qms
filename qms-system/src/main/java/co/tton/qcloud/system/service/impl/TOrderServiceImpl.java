@@ -278,7 +278,7 @@ public class TOrderServiceImpl implements ITOrderService
             String orderNo = StringUtils.genericOrderNo();
             order.setId(orderId);
             order.setOrderNo(orderNo);
-            order.setSubject("互动派课程订单-" + courses.getTitle());
+            order.setSubject("爱课工厂课程订单-" + courses.getTitle());
             order.setAddress(shop.getAddress());
             order.setShopId(shopId);
             order.setShopName(shop.getName());

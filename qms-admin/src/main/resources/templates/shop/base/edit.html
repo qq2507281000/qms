@@ -54,7 +54,7 @@
                     <label class="col-sm-4 control-label">运营城市：</label>
                     <div class="col-sm-8">
                         <select id="regionId" name="regionId" class="form-control m-b" th:with="type=${@dict.getType('operation_city')}" required>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{regionId}"></option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                         </select>
                     </div>
                 </div>
@@ -301,11 +301,14 @@
         var userCategory = '[[${@user.getCurrentUserCategory()}]]';
         console.log(userCategory);
         if($.common.equals(userCategory,"REGION")){
-            $('#regionId').attr("disabled","disabled");
+            console.log("REGION-AREA");
             if (regionId != null) {
+                console.log("RegionId-->"+regionId);
                 $("#regionId").val(regionId);
-                $("#regionId").find("option[text=regionId]").attr("selected",true);
+                $("#regionId").find("option[text='" + regionId + "']").attr("selected",true);
+
             }
+            $('#regionId').attr("disabled","disabled");
         }
         else if($.common.equals(userCategory,"ADMIN")){
             $('#regionId').removeAttr("disabled");

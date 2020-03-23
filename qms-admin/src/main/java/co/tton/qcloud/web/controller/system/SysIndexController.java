@@ -42,10 +42,10 @@ public class SysIndexController extends BaseController
             mmap.put("user", user);
             mmap.put("copyrightYear", Global.getCopyrightYear());
             mmap.put("demoEnabled", Global.isDemoEnabled());
-            String title = "Team互动派";
+            String title = "爱课工厂";
             if(user != null) {
                 if (user.getCategory() == "SHOP") {
-                    title = "Team互动派-商家";
+                    title = "爱课工厂-商家";
                 }
             }
             mmap.put("title",title);
@@ -70,10 +70,10 @@ public class SysIndexController extends BaseController
         mmap.put("user", user);
         mmap.put("copyrightYear", Global.getCopyrightYear());
         mmap.put("demoEnabled", Global.isDemoEnabled());
-        String title = "Team互动派";
+        String title = "爱课工厂";
         if(user != null) {
             if (user.getCategory() == "SHOP") {
-                title = "Team互动派-商家";
+                title = "爱课工厂-商家";
             }
         }
         mmap.put("title",title);
